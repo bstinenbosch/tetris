@@ -4,33 +4,33 @@ public class ShapeZ implements IShape {
 
 	public static int[][] shape0 = 
 		{
-			{1,1,0},
-			{0,1,1},
+			{7,7,0},
+			{0,7,7},
 			{0,0,0}
 		};
 	
 
 	public static int[][] shape1 = 
 		{
-			{0,0,1},
-			{0,1,1},
-			{0,1,0}
+			{0,0,7},
+			{0,7,7},
+			{0,7,0}
 		};
 	
 
 	public static int[][] shape2 = 
 		{
 			{0,0,0},
-			{1,1,0},
-			{0,1,1}
+			{7,7,0},
+			{0,7,7}
 		};
 	
 
 	public static int[][] shape3 = 
 		{
-			{0,1,0},
-			{1,1,0},
-			{1,0,0}
+			{0,7,0},
+			{7,7,0},
+			{7,0,0}
 		};
 
 	public int[][] getShape(int rotation) {

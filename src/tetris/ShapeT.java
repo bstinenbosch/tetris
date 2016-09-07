@@ -4,33 +4,33 @@ public class ShapeT implements IShape {
 
 	public static int[][] shape0 = 
 		{
-			{0,1,0},
-			{1,1,1},
+			{0,6,0},
+			{6,6,6},
 			{0,0,0}
 		};
 	
 
 	public static int[][] shape1 = 
 		{
-			{0,1,0},
-			{0,1,1},
-			{0,1,0}
+			{0,6,0},
+			{0,6,6},
+			{0,6,0}
 		};
 	
 
 	public static int[][] shape2 = 
 		{
 			{0,0,0},
-			{1,1,1},
-			{0,1,0}
+			{6,6,6},
+			{0,6,0}
 		};
 	
 
 	public static int[][] shape3 = 
 		{
-			{0,1,0},
-			{1,1,0},
-			{0,1,0}
+			{0,6,0},
+			{6,6,0},
+			{0,6,0}
 		};
 
 	public int[][] getShape(int rotation) {
