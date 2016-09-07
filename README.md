@@ -51,7 +51,7 @@
 - [ ] The player shall be able to choose at which level to start the game
 - [ ] The player shall be able to pause the game
 
-### Non Functional requirements
+## Non Functional requirements
 
 - The game shall be playable on: Windows 7 or higher, Mac OS X 10.8 or higher and Linux
 - The game shall be developed in Java
