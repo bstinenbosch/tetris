@@ -7,6 +7,7 @@ public class Grid {
 		for(int i=0; i< board[0].length; i++){
 			for(int j=0; j< board.length;j++){
 				System.out.print(".");
-			}System.out.println("");
+			}
+		System.out.println("");
 	}
 }
