@@ -2,9 +2,9 @@ package tetris;
 
 public class Grid {
 
-    private static int[][] board = new int[24][10];
+    private int[][] board = new int[24][10];
 
-    public static void init() {
+    public void init() {
         for (int[] boardRow : board) {
             for (int i = 0; i < boardRow.length; i++) {
                 boardRow[i] = 0;
@@ -12,18 +12,7 @@ public class Grid {
         }
     }
 
-    public static void drawBoard() {
-        String row = "";
-        for (int[] boardRow : board) {
-            row = "";
-            for (int aBoardRow : boardRow) {
-                row += Integer.toString(aBoardRow);
-            }
-            System.out.println(row);
-        }
-    }
-
-    public static int clearLine() {
+    public int clearLine() {
         int clearedLines = 0;
         for (int i = 23; i >= 0; i--) {
             int[] boardRow = board[i];
@@ -40,10 +29,15 @@ public class Grid {
                         board[k][j] = board[k - 1][j];
                     }
                 }
-                board[0] = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};//empty top row
+                board[0] = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //empty top row
                 i++;
             }
         }
         return clearedLines;
+    }
+
+    public int[][] getBoard()
+    {
+        return this.board;
     }
 }
