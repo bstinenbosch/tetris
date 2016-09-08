@@ -13,6 +13,11 @@ public class Controller extends Canvas implements Runnable{
 	public static final int WIDTH = 400, HEIGHT = 565;
 	
 	public static void main(String args[]){
+		SetFrameAndKey();
+		
+			}
+	
+	public static void SetFrameAndKey(){
 		final JFrame frame = new JFrame("Tetris");
 		frame.setSize(WIDTH,HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,6 +29,7 @@ public class Controller extends Canvas implements Runnable{
 		tm.start();
 		
 		tm.addKeyListener(new TetrisKeyListener()); //Hiermee laad je de KeyListener in!!
+
 	}
 	
 	public void start(){
