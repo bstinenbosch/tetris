@@ -1,7 +1,7 @@
-package tests;
+package test.java;
 
 import org.junit.Test;
-import tetris.Grid;
+import main.java.Grid;
 
 import static org.junit.Assert.assertTrue;
 

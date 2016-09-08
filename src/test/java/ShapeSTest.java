@@ -1,7 +1,7 @@
-package tests;
+package test.java;
 
 import org.junit.Test;
-import tetris.ShapeS;
+import main.java.ShapeS;
 
 import java.util.Arrays;
 
