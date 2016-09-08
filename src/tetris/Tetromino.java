@@ -1,57 +1,34 @@
 package tetris;
 
-import java.util.Iterator;
 
-public class Tetromino implements Iterable<Coordinate>{	
-
-	private class CoordinateIterator implements Iterator<Coordinate>{
-		private int index;
-		private Coordinate[] coordinates;
-		private int rotation;
-		private Coordinate topLeft;
-		
-		public CoordinateIterator(Coordinate[] coordinates, int rotation, int x, int y){
-			index = 0;
-			this.coordinates = coordinates;
-			this.rotation = rotation;
-			topLeft = new Coordinate(x, y);
-		}
-		
-		@Override
-		public boolean hasNext() {
-			// TODO is this off-by-one?
-			return ( index < coordinates.length );
-		}
-
-		@Override
-		public Coordinate next() {
-			// TODO dit laten afhangen van de rotatie
-			return coordinates[index++].plus(topLeft);
-		}		
-	}
-
-	private Coordinate[] coordinates;
+public class Tetromino{	
+	private int[] x, y;
 	private int rotation;
+	public int X, Y;
 	
-	public Tetromino (){
-		// TODO random tetromino maken
-		coordinates = new int[][] {{0,1,2,3},{0,0,0,0}};
+	public Tetromino(){
+		// TODO random tetromino maken		
 		rotation = 0;
+		x = new int[] {0, 1, 2, 3};
+		y = new int[] {0, 0, 0, 0};
+		X = 0;
+		Y = 0;
 	}
 	
-	public Tetromino(String shape){
-		this(0, 0, shape, 0);
-	}
-	
-	public Tetromino(String shape, int rotation){
-		this(0, 0, shape, rotation);
-	}
-	public Tetromino(int x, int y, String shape, int rotation) {
-		// TODO create tetromino
-	}
-	
-	@Override
-	public Iterator<tetris.Coordinate> iterator() {
-		return new CoordinateIterator(coordinates, rotation);
+	public int[] get(int i){
+		if( i<0 || i>=x.length)
+			throw new IndexOutOfBoundsException("you are trying to access a block in a tetromino that doesn't exist.");
+		switch(rotation % 4){
+		case 0:
+			return new int[] {X + x[i], Y + y[i]};
+		case 1:
+			return new int[] {X + y[i], Y - x[i]};
+		case 2:
+			return new int[] {X - x[i], Y + y[i]};
+		case 3:
+			return new int[] {X - y[i], Y - x[i]};
+		default:
+			throw new IllegalArgumentException("You broke Java, big time.");
+		}
 	}
 }

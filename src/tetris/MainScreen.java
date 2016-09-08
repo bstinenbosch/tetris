@@ -1,7 +1,5 @@
 package tetris;
 
-
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,7 +10,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.canvas.Canvas;
@@ -87,28 +84,24 @@ public class MainScreen extends Application{
      rootGameScreen.getChildren().addAll(pane, exitButton);
 
      GraphicsContext board = canvas.getGraphicsContext2D();
-     drawRectangle(board);
+     drawShape(board, new Tetromino());
 
      Scene gameScreen = new Scene(rootGameScreen);
      primaryStage.setScene(gameScreen);
  }
  
- public static void drawRectangle(GraphicsContext board){
-	 drawRectangle(board, new Coordinate(0,0));
- }
- 
- public static void drawRectangle(GraphicsContext board, Coordinate coordinate){
+ public static void drawRectangle(GraphicsContext board, int[] coordinate){
+	 // TODO kleur random maken of juist iets anders mee doen
      board.setFill(Color.AQUA);
      board.setStroke(Color.BLUE);
      board.setLineWidth(BLOCK_SIZE/10.);
-	 board.fillRoundRect(coordinate.getX(), coordinate.getY(), BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
-	 board.strokeRoundRect(coordinate.getX(), coordinate.getY(), BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);	 
+	 board.fillRoundRect(coordinate[0]*BLOCK_SIZE, coordinate[1]*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
+	 board.strokeRoundRect(coordinate[0]*BLOCK_SIZE, coordinate[1]*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);	 
  }
  
- public static void drawShape(Tetromino tetromino){
-	 //TODO aan board komen
-	 for(Coordinate block: tetromino){
-		 drawRectangle(board, block);
+ public static void drawShape(GraphicsContext board, Tetromino tetromino){
+	 for(int i = 0; i<4; i++){
+		 drawRectangle(board, tetromino.get(i));
 	 }	 
  }
     
