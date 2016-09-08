@@ -18,24 +18,22 @@ public class Controller extends Canvas implements Runnable{
 			}
 	
 	public static void SetFrameAndKey(){
-		final JFrame frame = new JFrame("Tetris");
-		frame.setSize(WIDTH,HEIGHT);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-		Controller tm = new Controller();
-		frame.add(tm);
-		frame.setVisible(true);
-		tm.start();
-		
-		tm.addKeyListener(new TetrisKeyListener()); //Hiermee laad je de KeyListener in!!
-
+		final JFrame frame = new JFrame("Tetris");              	//makes frame
+		frame.setSize(WIDTH,HEIGHT);                             	//sets frame dimensions
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    	//makes sure program will close when you press the X
+		frame.setLocationRelativeTo(null);							//puts the program in the middle of the screen
+		frame.setResizable(false);									//makes sure the user cannot resize the program
+		Controller con = new Controller();							//makes the object controller
+		frame.add(con);												//adds the controller to the frame					
+		frame.setVisible(true);										//makes the frame visible
+		con.start();												//starts the controller	
+		con.addKeyListener(new TetrisKeyListener()); 				//Adds the KeyListener
 	}
 	
-	public void start(){
-		Thread t = new Thread(this);
-		t.setPriority(Thread.MAX_PRIORITY);
-		t.start();
+	public void start(){											//method to make the game start
+		Thread t = new Thread(this);								//implements runnable
+		t.setPriority(Thread.MAX_PRIORITY);							//
+		t.start();													//calls the method whatever you pass into the thread
 	}
 	
 	public void run(){
