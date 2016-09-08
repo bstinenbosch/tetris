@@ -2,7 +2,7 @@ package tetris;
 
 public class ShapeO implements IShape {
 
-    public static int[][] shape =
+    private static int[][] shape =
             {
                     {4, 4},
                     {4, 4}

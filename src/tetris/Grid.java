@@ -16,8 +16,8 @@ public class Grid {
         String row = "";
         for (int[] boardRow : board) {
             row = "";
-            for (int i = 0; i < boardRow.length; i++) {
-                row += Integer.toString(boardRow[i]);
+            for (int aBoardRow : boardRow) {
+                row += Integer.toString(aBoardRow);
             }
             System.out.println(row);
         }
@@ -25,17 +25,15 @@ public class Grid {
 
     public static int clearLine() {
         int clearedLines = 0;
-        Boolean full = true;
         for (int i = 23; i >= 0; i--) {
             int[] boardRow = board[i];
-            full = true;
-            for (int j = 0; j < boardRow.length; j++) {
-                if (boardRow[j] == 0) {
+            Boolean full = true;
+            for (int aBoardRow : boardRow) {
+                if (aBoardRow == 0) {
                     full = false;
                 }
-                ;
             }
-            if (full == true) {//move row's down
+            if (full) { //move row's down
                 clearedLines++;
                 for (int k = i; k > 0; k--) {
                     for (int j = 0; j < 10; j++) {
