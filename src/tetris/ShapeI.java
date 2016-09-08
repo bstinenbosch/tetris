@@ -2,7 +2,7 @@ package tetris;
 
 public class ShapeI implements IShape {
 
-    public static int[][] shape0 =
+    private static int[][] shape0 =
             {
                     {0, 0, 0, 0},
                     {1, 1, 1, 1},
@@ -11,7 +11,7 @@ public class ShapeI implements IShape {
             };
 
 
-    public static int[][] shape1 =
+    private static int[][] shape1 =
             {
                     {0, 0, 1, 0},
                     {0, 0, 1, 0},
@@ -20,7 +20,7 @@ public class ShapeI implements IShape {
             };
 
 
-    public static int[][] shape2 =
+    private static int[][] shape2 =
             {
                     {0, 0, 0, 0},
                     {0, 0, 0, 0},
@@ -29,7 +29,7 @@ public class ShapeI implements IShape {
             };
 
 
-    public static int[][] shape3 =
+    private static int[][] shape3 =
             {
                     {0, 1, 0, 0},
                     {0, 1, 0, 0},
@@ -38,7 +38,7 @@ public class ShapeI implements IShape {
             };
 
     public int[][] getShape(int rotation) {
-        int[][] shape = new int[4][4];
+        int[][] shape;
 
         switch (rotation) {
             case 0:

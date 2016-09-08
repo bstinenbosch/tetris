@@ -34,7 +34,7 @@ public class ShapeJ implements IShape {
             };
 
     public int[][] getShape(int rotation) {
-        int[][] shape = new int[3][3];
+        int[][] shape;
 
         switch (rotation) {
             case 0:

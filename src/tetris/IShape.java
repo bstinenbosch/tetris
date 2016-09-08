@@ -1,7 +1,7 @@
 package tetris;
 
-public interface IShape {
+interface IShape {
 
-    public int[][] getShape(int rotation);
+    int[][] getShape(int rotation);
 
 }
