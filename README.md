@@ -1,5 +1,6 @@
-# Tetris
+[![Build Status](https://travis-ci.org/pascal08/tetris.svg?branch=master)](https://travis-ci.org/pascal08/tetris)
 
+# Tetris
 
 ## Functional requirements
 
