@@ -1,65 +1,39 @@
 package main.java;
 
-import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.lang.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import tetris.View;
 
-import javax.swing.*;
-
-public class Controller extends Canvas implements Runnable {
-
-    private static final int WIDTH = 400, HEIGHT = 565;
-
-    public static void main(String args[]) {
-        SetFrameAndKey();
-
-    }
-    
-    private static void SetFrameAndKey() {
-        final JFrame frame = new JFrame("Tetris");					        //makes frame
-        frame.setSize(WIDTH, HEIGHT);                             	        //sets
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);    	//makes sure program will close when you press the X
-        frame.setLocationRelativeTo(null);							        //puts the program in the middle of the screen
-        frame.setResizable(false);									        //makes sure the user cannot resize the program
-        Controller tm = new Controller();							        //makes the object controller
-        frame.add(tm);												        //adds the controller to the frame
-        frame.setVisible(true);										        //makes the frame visible
-        tm.start();											 		        //starts the controller
-        tm.addKeyListener(new TetrisKeyListener()); 				        //Adds the KeyListener
-
-    }
-
-    private void start() {											//method to make the game start
-        Thread t = new Thread(this);								//implements runnable								
-        t.setPriority(Thread.MAX_PRIORITY);
-        t.start();													//calls the method whatever you pass into the thread
-    }
-    
-
-    public void run() {
-        boolean running = true;
-        while (running) {
-            update();
-            BufferStrategy buf = getBufferStrategy();
-            if (buf == null) {
-                createBufferStrategy(3);
-                continue;
-            }
-            Graphics2D g = (Graphics2D) buf.getDrawGraphics();
-            render(g);
-            buf.show();
-        }
-    }
-
-
-    private void update() {
-
-    }
-
-    private void render(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
-        g.setColor(Color.WHITE);
-        g.drawString("TETRIS", 170, 50);
-    }
+public class Controller {
+	
+	private View ui;
+	
+	public Controller(View ui){
+		this.ui = ui;
+	}
+	
+	public void startGame(int speed){
+		Tick timer = new Tick(2/speed, new EventHandler<ActionEvent>(){
+			@Override
+			public  void handle(ActionEvent e){
+				lowerTetromino();
+			}
+		});
+		boolean alive = true;
+		while(alive){
+			// TODO game logic
+		}
+	}
+	
+	private void lowerTetromino(){
+		// check if current tetromino can be lowered
+		// if so, lower it
+		// else, create new tetromino
+	}
+	
+	private void dropNewTetromino(){
+		// check if there is room
+		// if not, end game
+		// else, pick random new tetromino and drop tetromino
+	}
 }

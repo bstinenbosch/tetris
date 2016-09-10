@@ -1,23 +1,28 @@
 package main.java;
 
-import java.awt.event.KeyEvent;
+//import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 
 public class TetrisKeyListener implements KeyListener {
+
+	private EventHandler<KeyEvent> onKeyDown;
+	private EventHandler<KeyEvent> onKeyUp;
+	private EventHandler<KeyEvent> onKeyLeft;
+	private EventHandler<KeyEvent> onKeyRight;
 
     public void keyTyped(KeyEvent e) {
         //nothing will happen
     }
 
     public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_D) {
-            System.out.println("Hoppa het werkt");
-        } else if (keyCode == KeyEvent.VK_E) {
-            System.out.println("Hoppa het werkt");
-        } else if (keyCode == KeyEvent.VK_C) {
-            System.out.println("Hoppa het werkt");
-        }
+    	switch(e.getKeyCode()){
+    	case KeyEvent.VK_UP:
+    		onKeyUp.handle(e);
+    	}
+
     }
 
     public void keyReleased(KeyEvent e) {

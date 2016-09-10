@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import main.java.Controller;
 import javafx.scene.paint.Color;
 
 /**
@@ -23,7 +24,7 @@ import javafx.scene.paint.Color;
  *
  */
 
-public class MainScreen extends Application{
+public class View extends Application{
 	private static final int BLOCK_SIZE = 20;
 	private static final int BOARD_WIDTH = 10;
 	private static final int BOARD_HEIGHT = 20;
@@ -35,23 +36,29 @@ public class MainScreen extends Application{
 	 */
     @Override
     public void start(Stage primaryStage) {
+    	Label titleLabel = new Label("TETRIS");
+    	titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
         Button startNewGameButton = new Button("Start new game");
         startNewGameButton.setOnAction(new EventHandler<ActionEvent>() { 
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Nu zou ik een spel moeten starten"); // debugging purposes
                 gotoGameScreen(primaryStage);
             }
         });
+        startNewGameButton.setStyle("-fx-background-color: red");
         
         Slider speedSlider = new Slider();
         Label annotationLabel = new Label("de level slider is er als voorbeeld/filler.");
+        annotationLabel.setStyle("-fx-text-fill:white");
         
         TilePane rootStartScreen = new TilePane(Orientation.VERTICAL);    
         rootStartScreen.setTileAlignment(Pos.CENTER);
-        rootStartScreen.getChildren().addAll(startNewGameButton, speedSlider, annotationLabel);
+        rootStartScreen.getChildren().addAll(titleLabel, startNewGameButton, speedSlider, annotationLabel);
+        rootStartScreen.setStyle("-fx-background-color: black");
 
         Scene startScreen = new Scene(rootStartScreen);
+        //startScreen.getStylesheets().add("tetris/stylesheet.css");
+        
 
         primaryStage.setTitle("Tetris");
         primaryStage.setScene(startScreen);
@@ -62,7 +69,7 @@ public class MainScreen extends Application{
      * gotoGameScreen inits the game screen
      * @param primaryStage
      */
- public static void gotoGameScreen(Stage primaryStage){     
+ public void gotoGameScreen(Stage primaryStage){     
      Canvas canvas = new Canvas(BLOCK_SIZE*BOARD_WIDTH, BLOCK_SIZE*(BOARD_HEIGHT+4));
      
      Pane pane = new Pane();    
@@ -79,6 +86,7 @@ public class MainScreen extends Application{
      });
           
      GridPane rootGameScreen = new GridPane();
+     rootGameScreen.setHgap(10);
      GridPane.setConstraints(pane, 0, 0);
      GridPane.setConstraints(exitButton, 1, 0);
      rootGameScreen.getChildren().addAll(pane, exitButton);
@@ -88,6 +96,8 @@ public class MainScreen extends Application{
 
      Scene gameScreen = new Scene(rootGameScreen);
      primaryStage.setScene(gameScreen);
+     Controller game = new Controller(this);
+     
  }
  
  public static void drawRectangle(GraphicsContext board, int[] coordinate){
