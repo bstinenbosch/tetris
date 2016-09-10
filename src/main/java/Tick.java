@@ -5,13 +5,11 @@ import javafx.event.EventHandler;
 
 public class Tick extends Thread {
 
-    private long time = 0;
-
-    private boolean ticking = true;
+    private long time = 500;
     private EventHandler<ActionEvent> onTick;
+    public volatile boolean running;
     
-    public Tick(long time, EventHandler<ActionEvent> event) {
-        this.time = time;
+    public Tick(EventHandler<ActionEvent> event) {
         this.onTick = event;
     }
     
@@ -20,16 +18,19 @@ public class Tick extends Thread {
     }
     
     public void run() {
-        while (this.ticking) {
+        while (running) {
             try {
-                sleep(this.time);
-                System.out.println("tick");
                 onTick.handle(new ActionEvent());
+                System.out.println("tick");
+                sleep(this.time);
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
-                this.ticking = false;
             }
         }
+    }
+    
+    public void requestStop(){
+    	running = false;
     }
 
     public long getTime() {

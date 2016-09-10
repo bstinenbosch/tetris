@@ -1,15 +1,41 @@
 package main.java;
 
+import tetris.Tetromino;
+
 public class Grid {
 
-    private int[][] board = new int[24][10];
+    private int[][] board;
+    
+    public Grid(int height, int width){
+    	board = new int[height][width];
+    }
+    
+    public int height(){
+    	return board.length;
+    }
+    
+    public int width(){
+    	return board[0].length;
+    }
 
+    public boolean isFree(int[] coord){
+    	return (board[coord[0]][coord[1]] == 0);
+    }
+    
     public void init() {
         for (int[] boardRow : board) {
             for (int i = 0; i < boardRow.length; i++) {
                 boardRow[i] = 0;
             }
         }
+    }
+    
+    public void registerTetromino(Tetromino tetromino){
+    	for(int i=0; i<4; i++){
+    		// TODO teken tetromino
+    		int[] coords = tetromino.get(i);
+    		board[coords[0]][coords[1]] = tetromino.getColor();
+    	}
     }
 
     public int clearLine() {

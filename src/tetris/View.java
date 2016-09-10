@@ -27,7 +27,7 @@ import javafx.scene.paint.Color;
 public class View extends Application{
 	private static final int BLOCK_SIZE = 20;
 	private static final int BOARD_WIDTH = 10;
-	private static final int BOARD_HEIGHT = 20;
+	private static final int BOARD_HEIGHT = 24;
 	private static final int CORNER = 3;
 		    
 	/**
@@ -92,11 +92,13 @@ public class View extends Application{
      rootGameScreen.getChildren().addAll(pane, exitButton);
 
      GraphicsContext board = canvas.getGraphicsContext2D();
-     drawShape(board, new Tetromino());
+     //drawShape(board, new Tetromino());
 
      Scene gameScreen = new Scene(rootGameScreen);
      primaryStage.setScene(gameScreen);
-     Controller game = new Controller(this);
+     
+     Controller controller = new Controller(this, BOARD_WIDTH, BOARD_HEIGHT);
+     controller.start();
      
  }
  
@@ -109,7 +111,7 @@ public class View extends Application{
 	 board.strokeRoundRect(coordinate[0]*BLOCK_SIZE, coordinate[1]*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);	 
  }
  
- public static void drawShape(GraphicsContext board, Tetromino tetromino){
+ public static void drawTetromino(GraphicsContext board, Tetromino tetromino){
 	 for(int i = 0; i<4; i++){
 		 drawRectangle(board, tetromino.get(i));
 	 }	 
