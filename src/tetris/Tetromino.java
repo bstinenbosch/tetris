@@ -37,7 +37,7 @@ public class Tetromino{
 	public int[] get(int i){
 		if( i<0 || i>=x.length)
 			throw new IndexOutOfBoundsException("you are trying to access a block in a tetromino that doesn't exist.");
-		switch(rotation % 4){
+		switch(Math.floorMod(rotation, 4)){
 		case 0:
 			return new int[] {X + x[i], Y + y[i]};
 		case 1:
@@ -118,11 +118,12 @@ public class Tetromino{
 	public void moveRight(){
 		X++;
 	}
-	
-	/**
-	 * rotate the tetromino clockwise
-	 */
-	public void rotate(){
+
+	public void rotateRight(){
 		rotation++;
+	}
+	
+	public void rotateLeft(){
+		rotation--;
 	}
 }
