@@ -24,7 +24,7 @@ public class Controller{
 		public void handle(KeyEvent event) {
 			switch(event.getCode()){
 			case DOWN:
-				// tetromino.rotateLeft();
+				tetromino.rotateRight();
 				lowerTetromino();
 				break;
 			case LEFT:
@@ -38,7 +38,7 @@ public class Controller{
 				}
 				break;
 			case UP:
-				tetromino.rotateRight();
+				tetromino.rotateLeft();
 				break;
 			default:
 				break;				
