@@ -1,65 +1,148 @@
 package main.java;
 
-import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.lang.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
+import tetris.Tetromino;
+import tetris.View;
 
-import javax.swing.*;
-
-public class Controller extends Canvas implements Runnable {
-
-    private static final int WIDTH = 400, HEIGHT = 565;
-
-    public static void main(String args[]) {
-        SetFrameAndKey();
-
-    }
-    
-    private static void SetFrameAndKey() {
-        final JFrame frame = new JFrame("Tetris");					        //makes frame
-        frame.setSize(WIDTH, HEIGHT);                             	        //sets
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);    	//makes sure program will close when you press the X
-        frame.setLocationRelativeTo(null);							        //puts the program in the middle of the screen
-        frame.setResizable(false);									        //makes sure the user cannot resize the program
-        Controller tm = new Controller();							        //makes the object controller
-        frame.add(tm);												        //adds the controller to the frame
-        frame.setVisible(true);										        //makes the frame visible
-        tm.start();											 		        //starts the controller
-        tm.addKeyListener(new TetrisKeyListener()); 				        //Adds the KeyListener
-
-    }
-
-    private void start() {											//method to make the game start
-        Thread t = new Thread(this);								//implements runnable								
-        t.setPriority(Thread.MAX_PRIORITY);
-        t.start();													//calls the method whatever you pass into the thread
-    }
-    
-
-    public void run() {
-        boolean running = true;
-        while (running) {
-            update();
-            BufferStrategy buf = getBufferStrategy();
-            if (buf == null) {
-                createBufferStrategy(3);
-                continue;
-            }
-            Graphics2D g = (Graphics2D) buf.getDrawGraphics();
-            render(g);
-            buf.show();
-        }
-    }
-
-
-    private void update() {
-
-    }
-
-    private void render(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
-        g.setColor(Color.WHITE);
-        g.drawString("TETRIS", 170, 50);
-    }
+public class Controller{
+	
+	private View ui;
+	private Grid grid;
+	private GraphicsContext board;
+	private Tetromino tetromino;
+	private Tick timer = new Tick(new EventHandler<ActionEvent>(){
+		@Override
+		public  void handle(ActionEvent e){
+			lowerTetromino();
+		}
+	});
+	private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>(){
+		@Override
+		public void handle(KeyEvent event) {
+			switch(event.getCode()){
+			case DOWN:
+				// tetromino.rotateLeft();
+				lowerTetromino();
+				break;
+			case LEFT:
+				if(tetromino.left()>0){
+					tetromino.moveLeft();
+				}
+				break;
+			case RIGHT:
+				if(tetromino.right()<grid.width()-1){
+					tetromino.moveRight();
+				}
+				break;
+			case UP:
+				tetromino.rotateRight();
+				break;
+			default:
+				break;				
+			}
+			redraw();
+		}    	 
+     };
+	
+    /**
+     * the Controller class determines the game flow and does the actual event handling.
+     * @param ui the application in which the game is running
+     * @param board the canvas on which we paint the gameboard
+     * @param width the width of the gameboard
+     * @param height the height of the gameboard
+     */
+	public Controller(View ui, GraphicsContext board, int width, int height){
+		this.ui = ui;
+		this.grid = new Grid(width, height);	
+		this.board = board;
+	}
+	
+	/**
+	 * starts the game
+	 */
+	public void startGame(){
+		dropNewTetromino();
+		timer.start();
+		System.out.println("started running");
+	}
+	
+	/**
+	 * public accessor for the key handle event object.
+	 * @return
+	 */
+	public EventHandler<KeyEvent> getOnKeyPressed(){
+		return onKeyPressed;
+	}
+	
+	/**
+	 * tries to lower a tetromino. If this is not possible, a new tetromino is launched or the game is over.
+	 */
+	private void lowerTetromino(){
+		// check if current tetromino can be lowered
+		if(tryToLower()){
+		// if so, lower it	
+			redraw();		
+		} else if(tetromino.top() >= grid.height()-1 ){
+			// tetromino is in top position and cannot be lowered, so game over
+			gameOver();
+		} else {
+		// else, register tetromino on grid and create new tetromino
+			grid.registerTetromino(tetromino);
+			dropNewTetromino();
+		}
+	}
+	
+	/**
+	 * drops a new tetromino and makes sure that it is drawn on the canvas.
+	 */
+	private void dropNewTetromino(){
+		grid.clearLines();
+		tetromino = new Tetromino(grid.width()/2,grid.height());
+		redraw();
+		// pick random new tetromino and drop tetromino
+	}
+	
+	/**
+	 * tryToLower checks the lowerability of the tetromino and if possible lowers it.
+	 * @return true on succes, false on failure to load.
+	 */
+	private boolean tryToLower(){
+		tetromino.moveDown();
+		//check lowerability
+		for(int i=0; i<4; i++){
+			if(!grid.isFree(tetromino.get(i))){
+				tetromino.moveUp();
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * redraw empties the canvas and redraws the gameboard and the current active tetromino
+	 */
+	private void redraw(){
+		ui.clearBoard(board);
+		ui.drawGrid(board, grid);
+		ui.drawTetromino(board, tetromino);
+	}
+	
+	/**
+	 * gameOver handles the end of the game
+	 */
+	private void gameOver(){
+		timer.requestStop();
+		System.out.println("game over");
+		ui.gameOver(board);
+	}
+	
+	/**
+	 * stop handles asynchronous threads when the application is closed.
+	 */
+	public void stop(){
+		timer.requestStop();
+	}
 }
