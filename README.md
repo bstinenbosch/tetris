@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pascal08/tetris.svg?branch=master)](https://travis-ci.org/pascal08/tetris)
+[![Build Status](https://travis-ci.org/bstinenbosch/tetris.svg?branch=master)](https://travis-ci.org/bstinenbosch/tetris)
 
 # Tetris
 
