@@ -1,7 +1,5 @@
 package main.java;
 
-import tetris.Tetromino;
-
 public class Grid {
 
     private int[][] board;
