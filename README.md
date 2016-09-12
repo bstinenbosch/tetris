@@ -54,6 +54,8 @@
 
 ## Non Functional requirements
 
+- Travis CI shall be used for continuous integration
+- Maven (or Gradle) shall be used as build system
 - The game shall be playable on: Windows 7 or higher, Mac OS X 10.8 or higher and Linux
 - The game shall be developed in Java
 - A first build shall be delivered the 16th of September
