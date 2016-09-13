@@ -1,5 +1,3 @@
-package main.java;
-
 public class ShapeO implements IShape {
 
     private static int[][] shape =
