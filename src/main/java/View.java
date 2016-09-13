@@ -41,6 +41,16 @@ public class View extends Application{
 	 */
     @Override
     public void start(Stage primaryStage) {
+    	gotoLauncher(primaryStage);
+        primaryStage.setTitle("Tetris");
+        primaryStage.show();        
+    }
+    
+    /**
+     * gotoLauncher navigates to the launcher and contains its definition.
+     * @param primaryStage
+     */
+    private void gotoLauncher(Stage primaryStage){
     	Label titleLabel = new Label("TETRIS");
     	titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
         Button startNewGameButton = new Button("Start new game");
@@ -63,16 +73,14 @@ public class View extends Application{
 
         Scene startScreen = new Scene(rootStartScreen);
 
-        primaryStage.setTitle("Tetris");
         primaryStage.setScene(startScreen);
-        primaryStage.show();        
     }
     
     /**
-     * gotoGameScreen inits the game screen, hooks the key events and fires up the game controller.
+     * gotoGameScreen inits and shows the game screen, hooks the key events and fires up the game controller.
      * @param primaryStage
      */
- public void gotoGameScreen(Stage primaryStage){     
+ private void gotoGameScreen(Stage primaryStage){     
      Canvas canvas = new Canvas(BLOCK_SIZE*BOARD_WIDTH, BLOCK_SIZE*BOARD_HEIGHT);
      GraphicsContext board = canvas.getGraphicsContext2D();
      controller = new Controller(this, board, BOARD_WIDTH, BOARD_HEIGHT);

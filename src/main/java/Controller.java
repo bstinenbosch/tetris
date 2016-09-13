@@ -59,23 +59,6 @@ public class Controller{
 	}
 	
 	/**
-	 * starts the game
-	 */
-	public void startGame(){
-		dropNewTetromino();
-		timer.start();
-		System.out.println("started running");
-	}
-	
-	/**
-	 * public accessor for the key handle event object.
-	 * @return
-	 */
-	public EventHandler<KeyEvent> getOnKeyPressed(){
-		return onKeyPressed;
-	}
-	
-	/**
 	 * tries to lower a tetromino. If this is not possible, a new tetromino is launched or the game is over.
 	 */
 	private void lowerTetromino(){
@@ -142,5 +125,22 @@ public class Controller{
 	 */
 	public void stop(){
 		timer.requestStop();
+	}
+	
+	/**
+	 * starts the game
+	 */
+	public void startGame(){
+		dropNewTetromino();
+		timer.start();
+		System.out.println("started running");
+	}
+	
+	/**
+	 * public accessor for the key handle event object.
+	 * @return
+	 */
+	public EventHandler<KeyEvent> getOnKeyPressed(){
+		return onKeyPressed;
 	}
 }

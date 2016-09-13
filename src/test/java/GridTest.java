@@ -2,7 +2,6 @@ package test.java;
 
 import org.junit.Test;
 import main.java.Grid;
-
 import static org.junit.Assert.assertTrue;
 
 public class GridTest {
