@@ -1,3 +1,5 @@
+package main.java;
+
 public class Grid {
 
     private int[][] board;

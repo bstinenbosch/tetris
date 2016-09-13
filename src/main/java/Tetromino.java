@@ -1,4 +1,6 @@
-public class Tetromino{
+package main.java;
+
+public class Tetromino{	
 	private int[] x, y;
 	private int rotation;
 	private int X, Y;
