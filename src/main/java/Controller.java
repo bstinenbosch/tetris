@@ -52,10 +52,8 @@ public class Controller{
      * @param width the width of the gameboard
      * @param height the height of the gameboard
      */
-	public Controller(View ui, GraphicsContext board, int width, int height){
+	public Controller(View ui){
 		this.ui = ui;
-		this.grid = new Grid(width, height);	
-		this.board = board;
 	}
 	
 	/**
@@ -125,15 +123,37 @@ public class Controller{
 	 */
 	public void stop(){
 		timer.requestStop();
+		try {
+			timer.join();
+		} catch (InterruptedException e) {
+			System.out.println("The controller thread got interrupted while waiting for the tick thread.");
+			e.printStackTrace();
+		}
+		ui.stop();
 	}
 	
 	/**
 	 * starts the game
+	 * @param width the width of the game board
+	 * @param height the height of the game board
 	 */
-	public void startGame(){
+	public void startGame(int width, int height){
+		grid = new Grid(width, height);	
+		board = ui.gotoGameScreen();
 		dropNewTetromino();
 		timer.start();
 		System.out.println("started running");
+	}
+	
+	/**
+	 * restarts the game
+	 */
+	public void restartGame(){
+		grid.clearBoard();	
+		dropNewTetromino();
+		timer.start();
+		System.out.println("restarted.");
+		
 	}
 	
 	/**
