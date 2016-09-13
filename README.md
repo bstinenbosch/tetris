@@ -6,21 +6,21 @@
 
 ### Must haves:
 
-- [ ] The game board shall have a grid of 10 cells wide and 24 cells high
-- [ ] The topmost 4 rows are visually hidden
-- [ ]	A tetromino shall be placed at the top (center) of the grid when the game starts
-- [ ]	A tetromino shall be placed at the top (center) of the grid when the previous tetromino has landed on top of the other tetrominoes or on the bottom
-- [ ]	The tetromino can be rotated by 90 degrees to both sides by the player
-- [ ]	The game will consist of 5 different tetrominoes, each containing 4 blocks
-- [ ]	A row of blocks shall be cleared when it is filled with 10 blocks
-- [ ]	All blocks will move down 1 row when 1 row of 10 blocks has been cleared
-- [ ]	The tetromino is not allowed to be moved outside of the board
-- [ ]	The tetromino is not allowed to be rotated outside of the board
-- [ ]	The tetromino is not allowed to overlap with other blocks already fixed on the grid
-- [ ]	The tetromino will move down one block every X milliseconds
-- [ ]	If a tetromino falls down onto the bottom of the grid, the tetromino will be fixed
-- [ ]	if a tetromino falls down onto a fixed block the tetromino will be fixed
-- [ ]	The player will lose the game if a new tetromino is fixed outside of the board
+- [x] The game board shall have a grid of 10 cells wide and 24 cells high
+- [x] The topmost 4 rows of the grid are visually hidden
+- [x] A tetromino shall be placed at the top (center) of the grid when the game starts
+- [x] A tetromino shall be placed at the top (center) of the grid when the previous tetromino has landed on top of the other tetrominoes or on the bottom
+- [ ] The tetromino can be rotated by 90 degrees to both sides by the player
+- [ ] The game will consist of 7 different tetrominoes, each containing 4 blocks
+- [x] A row of blocks shall be cleared when it is filled with 10 blocks
+- [x] All blocks will move down 1 row when 1 row of 10 blocks has been cleared
+- [x] The tetromino is not allowed to be moved outside of the board
+- [ ] The tetromino is not allowed to be rotated outside of the board
+- [ ] The tetromino is not allowed to overlap with other blocks already fixed on the grid
+- [x] The tetromino will move down one block every X milliseconds
+- [x] If a tetromino falls down onto the bottom of the grid, the tetromino will be fixed
+- [x] If a tetromino falls down onto a fixed block the tetromino will be fixed
+- [x] The player will lose the game if a new tetromino is fixed outside of the visible board
 
 ### Should haves:
 
@@ -54,8 +54,11 @@
 
 ## Non Functional requirements
 
+- Travis CI shall be used for continuous integration
+- Maven (or Gradle) shall be used as build system
 - The game shall be playable on: Windows 7 or higher, Mac OS X 10.8 or higher and Linux
 - The game shall be developed in Java
 - A first build shall be delivered the 16th of September
 - A fully working version shall be delivered the 4th of November
 - Every week there will be a deliverable, working with the Scrum Methodology
+- The implementation of the game shall have at least 75% of meaningful line test coverage (where meaningful means that the tests actually test the functionalities of the game and for example do not just execute the methods involved)

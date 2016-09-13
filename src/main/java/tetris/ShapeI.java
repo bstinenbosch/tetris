@@ -1,4 +1,4 @@
-package main.java;
+package tetris;
 
 public class ShapeI implements IShape {
 
