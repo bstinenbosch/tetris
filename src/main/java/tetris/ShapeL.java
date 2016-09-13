@@ -1,36 +1,36 @@
-package main.java;
+package tetris;
 
-public class ShapeT implements IShape {
+public class ShapeL implements IShape {
 
     private static int[][] shape0 =
             {
-                    {0, 6, 0},
-                    {6, 6, 6},
+                    {0, 0, 3},
+                    {3, 3, 3},
                     {0, 0, 0}
             };
 
 
     private static int[][] shape1 =
             {
-                    {0, 6, 0},
-                    {0, 6, 6},
-                    {0, 6, 0}
+                    {0, 3, 0},
+                    {0, 3, 0},
+                    {0, 3, 3}
             };
 
 
     private static int[][] shape2 =
             {
                     {0, 0, 0},
-                    {6, 6, 6},
-                    {0, 6, 0}
+                    {3, 3, 3},
+                    {3, 0, 0}
             };
 
 
     private static int[][] shape3 =
             {
-                    {0, 6, 0},
-                    {6, 6, 0},
-                    {0, 6, 0}
+                    {3, 3, 0},
+                    {0, 3, 0},
+                    {0, 3, 0}
             };
 
     public int[][] getShape(int rotation) {
@@ -38,16 +38,16 @@ public class ShapeT implements IShape {
 
         switch (rotation) {
             case 0:
-                shape = ShapeT.shape0;
+                shape = ShapeL.shape0;
                 break;
             case 1:
-                shape = ShapeT.shape1;
+                shape = ShapeL.shape1;
                 break;
             case 2:
-                shape = ShapeT.shape2;
+                shape = ShapeL.shape2;
                 break;
             case 3:
-                shape = ShapeT.shape3;
+                shape = ShapeL.shape3;
                 break;
             default:
                 throw new IllegalArgumentException();
@@ -55,4 +55,5 @@ public class ShapeT implements IShape {
 
         return shape;
     }
+
 }

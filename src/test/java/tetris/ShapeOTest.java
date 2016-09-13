@@ -1,22 +1,20 @@
-package test.java;
+package tetris;
 
 import org.junit.Test;
-import main.java.ShapeT;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
-public class ShapeTTest {
+public class ShapeOTest {
 
-    private ShapeT shape = new ShapeT();
+    private ShapeO shape = new ShapeO();
 
     @Test
     public void testShapeWithoutRotation() {
         int[][] expectedShape = {
-                {0, 6, 0},
-                {6, 6, 6},
-                {0, 0, 0}
+                {4, 4},
+                {4, 4}
         };
 
         int[][] actualShape = shape.getShape(0);
@@ -32,9 +30,8 @@ public class ShapeTTest {
     @Test
     public void testShapeWith90DegreesRotation() {
         int[][] expectedShape = {
-                {0, 6, 0},
-                {0, 6, 6},
-                {0, 6, 0}
+                {4, 4},
+                {4, 4}
         };
 
         int[][] actualShape = shape.getShape(1);
@@ -50,9 +47,8 @@ public class ShapeTTest {
     @Test
     public void testShapeWith180DegreesRotation() {
         int[][] expectedShape = {
-                {0, 0, 0},
-                {6, 6, 6},
-                {0, 6, 0}
+                {4, 4},
+                {4, 4}
         };
 
         int[][] actualShape = shape.getShape(2);
@@ -68,9 +64,8 @@ public class ShapeTTest {
     @Test
     public void testShapeWith270DegreesRotation() {
         int[][] expectedShape = {
-                {0, 6, 0},
-                {6, 6, 0},
-                {0, 6, 0}
+                {4, 4},
+                {4, 4}
         };
 
         int[][] actualShape = shape.getShape(3);
