@@ -1,4 +1,4 @@
-package main.java;
+package tetris;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

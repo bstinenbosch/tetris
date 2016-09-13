@@ -1,4 +1,4 @@
-package main.java;
+package tetris;
 
 public class Tetromino{	
 	private int[] x, y;
