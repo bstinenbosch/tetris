@@ -11,6 +11,7 @@ public class Controller{
 	private Grid grid;
 	private GraphicsContext board;
 	private Tetromino tetromino;
+	private boolean gameOver = false;
 	private Tick timer = new Tick(new EventHandler<ActionEvent>(){
 		@Override
 		public  void handle(ActionEvent e){
@@ -20,42 +21,47 @@ public class Controller{
 	private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>(){
 		@Override
 		public void handle(KeyEvent event) {
-			switch(event.getCode()){
-			case DOWN:
-                checkRotateRight();
-				lowerTetromino();
-				break;
+			
+			if (!gameOver){
+				switch(event.getCode()){
 				
 	//Nu kan die naar links, maar niet als er een ander blokje is			
-			case LEFT:
-				if(tetromino.left()>0){
-					  tetromino.moveLeft();
-				}
-				for(int i=0; i<4; i++){
-			           if(!grid.isFree(tetromino.get(i))){
-			        	   tetromino.moveRight(); break;
-			           }
-				  }
-				break;
+				case LEFT:
+					if(tetromino.left()>0){
+						  tetromino.moveLeft();
+					}
+					for(int i=0; i<4; i++){
+				           if(!grid.isFree(tetromino.get(i))){
+				        	   tetromino.moveRight(); break;
+				           }
+					  }
+					break;
 	//Nu kan die naar rechts, maar niet als er een ander blokje is			
-			case RIGHT:
-				if(tetromino.right()<grid.width()-1){
-					 tetromino.moveRight();
+				case RIGHT:
+					if(tetromino.right()<grid.width()-1){
+						 tetromino.moveRight();
+					}
+					for(int i=0; i<4; i++){
+				           if(!grid.isFree(tetromino.get(i))){
+				        	   tetromino.moveLeft(); break;
+				           }
+					  }
+					break;
+				case DOWN:
+	                checkRotateLeft();
+					lowerTetromino();
+					break;
+					
+				case UP:
+	                checkRotateRight();
+					lowerTetromino();
+					break;
+				default:
+					break;				
 				}
-				for(int i=0; i<4; i++){
-			           if(!grid.isFree(tetromino.get(i))){
-			        	   tetromino.moveLeft(); break;
-			           }
-				  }
-				break;
-				
-			case UP:
-                checkRotateLeft();
-				break;
-			default:
-				break;				
+	
+				redraw();
 			}
-			redraw();
 		}    	 
      };
      
@@ -160,6 +166,7 @@ public class Controller{
 	 */
 	private void gameOver(){
 		timer.requestStop();
+		gameOver = true;
 		System.out.println("game over");
 		ui.gameOver(board);
 	}
@@ -175,6 +182,7 @@ public class Controller{
 	 * starts the game
 	 */
 	public void startGame(){
+		gameOver = false;
 		dropNewTetromino();
 		timer.start();
 		System.out.println("started running");
