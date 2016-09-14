@@ -1,4 +1,4 @@
-package tetris;
+package main.java.tetris;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +11,7 @@ public class Controller{
 	private Grid grid;
 	private GraphicsContext board;
 	private Tetromino tetromino;
+	private boolean gameOver = false;
 	private Tick timer = new Tick(new EventHandler<ActionEvent>(){
 		@Override
 		public  void handle(ActionEvent e){
@@ -20,28 +21,30 @@ public class Controller{
 	private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>(){
 		@Override
 		public void handle(KeyEvent event) {
-			switch(event.getCode()){
-			case DOWN:
-				tetromino.rotateRight();
-				lowerTetromino();
-				break;
-			case LEFT:
-				if(tetromino.left()>0){
-					tetromino.moveLeft();
+			if (!gameOver){
+				switch(event.getCode()){
+				case DOWN:
+					tetromino.rotateRight();
+					lowerTetromino();
+					break;
+				case LEFT:
+					if(tetromino.left()>0){
+						tetromino.moveLeft();
+					}
+					break;
+				case RIGHT:
+					if(tetromino.right()<grid.width()-1){
+						tetromino.moveRight();
+					}
+					break;
+				case UP:
+					tetromino.rotateLeft();
+					break;
+				default:
+					break;				
 				}
-				break;
-			case RIGHT:
-				if(tetromino.right()<grid.width()-1){
-					tetromino.moveRight();
-				}
-				break;
-			case UP:
-				tetromino.rotateLeft();
-				break;
-			default:
-				break;				
+				redraw();
 			}
-			redraw();
 		}    	 
      };
 	
@@ -116,6 +119,7 @@ public class Controller{
 	 */
 	private void gameOver(){
 		timer.requestStop();
+		gameOver = true;
 		System.out.println("game over");
 		ui.gameOver(board);
 	}
@@ -131,6 +135,7 @@ public class Controller{
 	 * starts the game
 	 */
 	public void startGame(){
+		gameOver = false;
 		dropNewTetromino();
 		timer.start();
 		System.out.println("started running");
