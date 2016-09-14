@@ -1,59 +1,16 @@
 package tetris;
 
-public class ShapeL implements IShape {
+public class ShapeL extends AbstractShape {
 
-    private static int[][] shape0 =
-            {
-                    {0, 0, 3},
-                    {3, 3, 3},
-                    {0, 0, 0}
-            };
+	private static final int[] x = new int[] {-1, 0, 1, 1};
+	private static final int[] y = new int[] {0, 0, 0, 1};
 
-
-    private static int[][] shape1 =
-            {
-                    {0, 3, 0},
-                    {0, 3, 0},
-                    {0, 3, 3}
-            };
-
-
-    private static int[][] shape2 =
-            {
-                    {0, 0, 0},
-                    {3, 3, 3},
-                    {3, 0, 0}
-            };
-
-
-    private static int[][] shape3 =
-            {
-                    {3, 3, 0},
-                    {0, 3, 0},
-                    {0, 3, 0}
-            };
-
-    public int[][] getShape(int rotation) {
-        int[][] shape;
-
-        switch (rotation) {
-            case 0:
-                shape = ShapeL.shape0;
-                break;
-            case 1:
-                shape = ShapeL.shape1;
-                break;
-            case 2:
-                shape = ShapeL.shape2;
-                break;
-            case 3:
-                shape = ShapeL.shape3;
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-
-        return shape;
-    }
-
+	/**
+	 * ShapeL is the figure that is dropped on the gameboard.
+	 * @param X the x coordinate of the tetromino
+	 * @param Y the y coordinate of the tetromino
+	 */
+	public ShapeL(int X, int Y) {
+		super(X, Y, x, y);
+	}
 }

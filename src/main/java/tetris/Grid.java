@@ -38,7 +38,7 @@ public class Grid {
     	return (coord[0] >= 0 && 
     			coord[1] >= 0 && 
     			coord[0] < width() &&
-    			coord[1] < height() &&
+    			coord[1] < height()+3 && //Ik speel vals #error
     			board[coord[0]][coord[1]] == 0);
     }
     
@@ -46,10 +46,10 @@ public class Grid {
      * registerTetromino adds a tetromino to the static part of the gameboard
      * @param tetromino the tetromino to add
      */
-    public void registerTetromino(Tetromino tetromino){
+    public void registerTetromino(AbstractShape shape){
     	for(int i=0; i<4; i++){
-    		int[] coords = tetromino.get(i);
-    		board[coords[0]][coords[1]] = tetromino.getColor();
+    		int[] coords = shape.get(i);
+    		board[coords[0]][coords[1]] = shape.getColor();
     	}
     }
     

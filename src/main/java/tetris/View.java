@@ -163,11 +163,11 @@ public class View extends Application{
  /**
   * drawTetromino employs the structure of a tetromino to draw it on a gameboard.
   * @param board the gameboard to draw the tetromino on
-  * @param tetromino the tetromino to draw
+  * @param shape the tetromino to draw
   */
- public void drawTetromino(GraphicsContext board, Tetromino tetromino){	 
+ public void drawTetromino(GraphicsContext board, AbstractShape shape){
 	 for(int i = 0; i<4; i++){
-		 drawRectangle(board, tetromino.getColor(), tetromino.get(i));
+		 drawRectangle(board, shape.getColor(), shape.get(i));
 	 }	 
  }
  

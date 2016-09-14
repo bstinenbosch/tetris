@@ -10,7 +10,7 @@ public class Controller{
 	private View ui;
 	private Grid grid;
 	private GraphicsContext board;
-	private Tetromino tetromino;
+	private AbstractShape tetromino;
 	private boolean gameOver = false;
 	private Tick timer = new Tick(new EventHandler<ActionEvent>(){
 		@Override
@@ -41,7 +41,7 @@ public class Controller{
 					tetromino.rotateLeft();
 					break;
 				default:
-					break;				
+					break;
 				}
 				redraw();
 			}
@@ -60,7 +60,7 @@ public class Controller{
 		this.grid = new Grid(width, height);	
 		this.board = board;
 	}
-	
+
 	/**
 	 * tries to lower a tetromino. If this is not possible, a new tetromino is launched or the game is over.
 	 */
@@ -68,7 +68,7 @@ public class Controller{
 		// check if current tetromino can be lowered
 		if(tryToLower()){
 		// if so, lower it	
-			redraw();		
+			redraw();
 		} else if(tetromino.top() >= grid.height()-1 ){
 			// tetromino is in top position and cannot be lowered, so game over
 			gameOver();
@@ -84,7 +84,7 @@ public class Controller{
 	 */
 	private void dropNewTetromino(){
 		grid.clearLines();
-		tetromino = new Tetromino(grid.width()/2,grid.height());
+		tetromino = TetrominoFactory.createRandom(grid.width()/2, grid.height());
 		redraw();
 		// pick random new tetromino and drop tetromino
 	}
@@ -130,7 +130,7 @@ public class Controller{
 	public void stop(){
 		timer.requestStop();
 	}
-	
+
 	/**
 	 * starts the game
 	 */
@@ -140,7 +140,7 @@ public class Controller{
 		timer.start();
 		System.out.println("started running");
 	}
-	
+
 	/**
 	 * public accessor for the key handle event object.
 	 * @return
