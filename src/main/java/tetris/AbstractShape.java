@@ -5,7 +5,7 @@ public abstract class AbstractShape {
     protected int[] x, y;
     private int rotation = 0;
     protected int X, Y;
-    private int color = 1;
+    private int color = 1+(int)(Math.random()*6);
 
     public AbstractShape(int X, int Y, int[] x, int[] y) {
         this.X = X;

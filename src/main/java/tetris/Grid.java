@@ -46,10 +46,10 @@ public class Grid {
      * registerTetromino adds a tetromino to the static part of the gameboard
      * @param tetromino the tetromino to add
      */
-    public void registerTetromino(AbstractShape shape){
+    public void registerTetromino(AbstractShape tetromino){
     	for(int i=0; i<4; i++){
-    		int[] coords = shape.get(i);
-    		board[coords[0]][coords[1]] = shape.getColor();
+    		int[] coords = tetromino.get(i);
+    		board[coords[0]][coords[1]] = tetromino.getColor();
     	}
     }
     
