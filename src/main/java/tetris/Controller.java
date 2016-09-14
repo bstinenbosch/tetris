@@ -1,4 +1,4 @@
-package tetris;
+package main.java.tetris;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,21 +22,35 @@ public class Controller{
 		public void handle(KeyEvent event) {
 			switch(event.getCode()){
 			case DOWN:
-				tetromino.rotateRight();
+                checkRotateRight();
 				lowerTetromino();
 				break;
+				
+	//Nu kan die naar links, maar niet als er een ander blokje is			
 			case LEFT:
 				if(tetromino.left()>0){
-					tetromino.moveLeft();
+					  tetromino.moveLeft();
 				}
+				for(int i=0; i<4; i++){
+			           if(!grid.isFree(tetromino.get(i))){
+			        	   tetromino.moveRight(); break;
+			           }
+				  }
 				break;
+	//Nu kan die naar rechts, maar niet als er een ander blokje is			
 			case RIGHT:
 				if(tetromino.right()<grid.width()-1){
-					tetromino.moveRight();
+					 tetromino.moveRight();
 				}
+				for(int i=0; i<4; i++){
+			           if(!grid.isFree(tetromino.get(i))){
+			        	   tetromino.moveLeft(); break;
+			           }
+				  }
 				break;
+				
 			case UP:
-				tetromino.rotateLeft();
+                checkRotateLeft();
 				break;
 			default:
 				break;				
@@ -44,6 +58,8 @@ public class Controller{
 			redraw();
 		}    	 
      };
+     
+     
 	
     /**
      * the Controller class determines the game flow and does the actual event handling.
@@ -101,6 +117,34 @@ public class Controller{
 		}
 		return true;
 	}
+	
+    /**
+     * Checks if there is space to rotate
+     * @return
+     */
+    public boolean checkRotateRight(){
+        tetromino.rotateRight();
+        for(int i=0; i<4; i++){
+           if(!grid.isFree(tetromino.get(i))){
+               tetromino.rotateLeft();
+               return false;
+           }
+        }
+        
+       return true;
+   }
+    public boolean checkRotateLeft(){
+        tetromino.rotateLeft();
+        for(int i=0; i<4; i++){
+           if(!grid.isFree(tetromino.get(i))){
+               tetromino.rotateRight();
+               return false;
+           }
+        }
+        
+       return true;
+   }
+
 	
 	/**
 	 * redraw empties the canvas and redraws the gameboard and the current active tetromino

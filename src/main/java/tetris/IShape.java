@@ -1,4 +1,4 @@
-package tetris;
+package main.java.tetris;
 
 interface IShape {
 
