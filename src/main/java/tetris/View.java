@@ -25,7 +25,6 @@ import javafx.scene.text.TextAlignment;
  * @author ms
  *
  */
-
 public class View extends Application{
 	private static final int BLOCK_SIZE = 20;
 	private static final int BOARD_WIDTH = 10;
