@@ -11,6 +11,7 @@ public class Controller{
 	private Grid grid;
 	private GraphicsContext board;
 	private Tetromino tetromino;
+	private boolean gameOver = true;
 	private Tick timer = new Tick(new EventHandler<ActionEvent>(){
 		@Override
 		public  void handle(ActionEvent e){
@@ -115,6 +116,7 @@ public class Controller{
 	 */
 	private void gameOver(){
 		timer.requestStop();
+		gameOver = true;
 		System.out.println("game over");
 		ui.gameOver(board);
 	}
@@ -139,6 +141,7 @@ public class Controller{
 	 * @param height the height of the game board
 	 */
 	public void startGame(int width, int height){
+		gameOver = false;
 		grid = new Grid(width, height);	
 		board = ui.gotoGameScreen();
 		dropNewTetromino();
@@ -170,11 +173,6 @@ public class Controller{
 	 * @return true if the game is over, else false
 	 */
 	public boolean isGameOver(){
-		for(int x=0; x<grid.width(); x++){
-			if(grid.get(x, grid.height())!=0){
-				return true;
-			}
-		}
-		return false;
+		return gameOver;
 	}
 }
