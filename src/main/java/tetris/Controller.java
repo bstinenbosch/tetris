@@ -1,4 +1,4 @@
-package main.java.tetris;
+package tetris;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,7 +11,7 @@ public class Controller{
 	private Grid grid;
 	private GraphicsContext board;
 	private Tetromino tetromino;
-	private boolean gameOver = true;
+	private boolean gameOver = false;
 	private Tick timer = new Tick(new EventHandler<ActionEvent>(){
 		@Override
 		public  void handle(ActionEvent e){
@@ -21,28 +21,30 @@ public class Controller{
 	private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>(){
 		@Override
 		public void handle(KeyEvent event) {
-			switch(event.getCode()){
-			case DOWN:
-				tetromino.rotateRight();
-				lowerTetromino();
-				break;
-			case LEFT:
-				if(tetromino.left()>0){
-					tetromino.moveLeft();
+			if (!gameOver){
+				switch(event.getCode()){
+				case DOWN:
+					tetromino.rotateRight();
+					lowerTetromino();
+					break;
+				case LEFT:
+					if(tetromino.left()>0){
+						tetromino.moveLeft();
+					}
+					break;
+				case RIGHT:
+					if(tetromino.right()<grid.width()-1){
+						tetromino.moveRight();
+					}
+					break;
+				case UP:
+					tetromino.rotateLeft();
+					break;
+				default:
+					break;				
 				}
-				break;
-			case RIGHT:
-				if(tetromino.right()<grid.width()-1){
-					tetromino.moveRight();
-				}
-				break;
-			case UP:
-				tetromino.rotateLeft();
-				break;
-			default:
-				break;				
+				redraw();
 			}
-			redraw();
 		}    	 
      };
 	
@@ -53,8 +55,10 @@ public class Controller{
      * @param width the width of the gameboard
      * @param height the height of the gameboard
      */
-	public Controller(View ui){
+	public Controller(View ui, GraphicsContext board, int width, int height){
 		this.ui = ui;
+		this.grid = new Grid(width, height);	
+		this.board = board;
 	}
 	
 	/**
@@ -67,7 +71,6 @@ public class Controller{
 			redraw();		
 		} else if(tetromino.top() >= grid.height()-1 ){
 			// tetromino is in top position and cannot be lowered, so game over
-			grid.registerTetromino(tetromino);
 			gameOver();
 		} else {
 		// else, register tetromino on grid and create new tetromino
@@ -126,38 +129,16 @@ public class Controller{
 	 */
 	public void stop(){
 		timer.requestStop();
-		try {
-			timer.join();
-		} catch (InterruptedException e) {
-			System.out.println("The controller thread got interrupted while waiting for the tick thread.");
-			e.printStackTrace();
-		}
-		ui.stop();
 	}
 	
 	/**
 	 * starts the game
-	 * @param width the width of the game board
-	 * @param height the height of the game board
 	 */
-	public void startGame(int width, int height){
+	public void startGame(){
 		gameOver = false;
-		grid = new Grid(width, height);	
-		board = ui.gotoGameScreen();
 		dropNewTetromino();
 		timer.start();
 		System.out.println("started running");
-	}
-	
-	/**
-	 * restarts the game
-	 */
-	public void restartGame(){
-		grid.clearBoard();	
-		dropNewTetromino();
-		timer.start();
-		System.out.println("restarted.");
-		
 	}
 	
 	/**
@@ -166,13 +147,5 @@ public class Controller{
 	 */
 	public EventHandler<KeyEvent> getOnKeyPressed(){
 		return onKeyPressed;
-	}
-	
-	/**
-	 * returns true if the game is over
-	 * @return true if the game is over, else false
-	 */
-	public boolean isGameOver(){
-		return gameOver;
 	}
 }
