@@ -1,4 +1,4 @@
-package tetris;
+package main.java.tetris;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -66,6 +66,7 @@ public class Controller{
 			redraw();		
 		} else if(tetromino.top() >= grid.height()-1 ){
 			// tetromino is in top position and cannot be lowered, so game over
+			grid.registerTetromino(tetromino);
 			gameOver();
 		} else {
 		// else, register tetromino on grid and create new tetromino
@@ -162,5 +163,18 @@ public class Controller{
 	 */
 	public EventHandler<KeyEvent> getOnKeyPressed(){
 		return onKeyPressed;
+	}
+	
+	/**
+	 * returns true if the game is over
+	 * @return true if the game is over, else false
+	 */
+	public boolean isGameOver(){
+		for(int x=0; x<grid.width(); x++){
+			if(grid.get(x, grid.height())!=0){
+				return true;
+			}
+		}
+		return false;
 	}
 }

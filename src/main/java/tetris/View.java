@@ -1,4 +1,4 @@
-package tetris;
+package main.java.tetris;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -151,12 +151,20 @@ public class View extends Application{
 	 private void setColor(GraphicsContext board, int color){
 		 switch(color){
 		 case 1:
-		     board.setFill(Color.AQUA);
+		     board.setFill(Color.LIGHTBLUE);
 		     board.setStroke(Color.BLUE);
 		     break;
 		 case 2:
-		     board.setFill(Color.ORANGE);
-		     board.setStroke(Color.RED);
+		     board.setFill(Color.LIGHTCORAL);
+		     board.setStroke(Color.CORAL);
+		     break;
+		 case 3:
+		     board.setFill(Color.LIGHTPINK);
+		     board.setStroke(Color.PINK);
+		     break;
+		 case 4:
+		     board.setFill(Color.LIGHTGREEN);
+		     board.setStroke(Color.GREEN);
 		     break;
 		 default:
 			 throw new IllegalArgumentException(String.format("Color %d is not a valid color number.", color));

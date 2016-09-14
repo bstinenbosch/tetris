@@ -1,4 +1,4 @@
-package tetris;
+package main.java.tetris;
 
 public class Tetromino{	
 	private int[] x, y;
@@ -13,7 +13,7 @@ public class Tetromino{
 	 */
 	public Tetromino(int x, int y){
 		// TODO random tetromino maken		
-		color = 1 + (int)Math.round(Math.random()*1);
+		color = 1 + (int)Math.round(Math.random()*3);
 		rotation = 0;
 		this.x = new int[] {-1, 0, 1, 2};
 		this.y = new int[] {0, 0, 0, 0};
