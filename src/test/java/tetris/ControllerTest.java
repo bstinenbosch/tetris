@@ -1,12 +1,12 @@
-package test.java;
+package tetris;
 
 import org.junit.Test;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
-import main.java.tetris.Controller;
-import main.java.tetris.View;
+import tetris.Controller;
+import tetris.View;
 
 import static org.junit.Assert.assertTrue;
 

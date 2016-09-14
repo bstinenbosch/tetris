@@ -12,12 +12,13 @@ public class Controller{
 	private GraphicsContext board;
 	private Tetromino tetromino;
 	private boolean gameOver = false;
-	private Tick timer = new Tick(new EventHandler<ActionEvent>(){
+	private EventHandler<ActionEvent> onTick = new EventHandler<ActionEvent>(){
 		@Override
 		public  void handle(ActionEvent e){
 			lowerTetromino();
 		}
-	});
+	};
+	private Tick timer = new Tick(onTick);
 	private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>(){
 		@Override
 		public void handle(KeyEvent event) {
@@ -55,10 +56,8 @@ public class Controller{
      * @param width the width of the gameboard
      * @param height the height of the gameboard
      */
-	public Controller(View ui, GraphicsContext board, int width, int height){
+	public Controller(View ui){
 		this.ui = ui;
-		this.grid = new Grid(width, height);	
-		this.board = board;
 	}
 	
 	/**
@@ -120,6 +119,7 @@ public class Controller{
 	private void gameOver(){
 		timer.requestStop();
 		gameOver = true;
+		board = null;
 		System.out.println("game over");
 		ui.gameOver(board);
 	}
@@ -129,16 +129,25 @@ public class Controller{
 	 */
 	public void stop(){
 		timer.requestStop();
+		ui.stop();
 	}
 	
 	/**
 	 * starts the game
 	 */
-	public void startGame(){
+	public void startGame(int width, int height){
 		gameOver = false;
+		board = ui.gotoGameScreen();
+		grid = new Grid(width, height);
 		dropNewTetromino();
 		timer.start();
 		System.out.println("started running");
+	}
+	
+	public void restartGame(){
+		grid.clearBoard();
+		dropNewTetromino();
+		System.out.println("started running again");		
 	}
 	
 	/**
@@ -147,5 +156,9 @@ public class Controller{
 	 */
 	public EventHandler<KeyEvent> getOnKeyPressed(){
 		return onKeyPressed;
+	}
+	
+	public boolean isGameOver(){
+		return gameOver;
 	}
 }

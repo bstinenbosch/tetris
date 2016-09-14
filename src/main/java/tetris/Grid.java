@@ -1,4 +1,4 @@
-package main.java.tetris;
+package tetris;
 
 public class Grid {
 
