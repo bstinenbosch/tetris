@@ -24,21 +24,33 @@ public class Controller{
 			if (!gameOver){
 				switch(event.getCode()){
 				case DOWN:
-					tetromino.rotateRight();
+	                checkRotateRight();
 					lowerTetromino();
 					break;
 				case LEFT:
-					if(tetromino.left()>0){
-						tetromino.moveLeft();
-					}
-					break;
+                    if(tetromino.left()>0){
+                        tetromino.moveLeft();
+                  }
+                  for(int i=0; i<4; i++){
+                         if(!grid.isFree(tetromino.get(i))){
+                             tetromino.moveRight(); break;
+                         }
+                    }
+                  break;
+
 				case RIGHT:
-					if(tetromino.right()<grid.width()-1){
-						tetromino.moveRight();
-					}
-					break;
+                    if(tetromino.right()<grid.width()-1){
+                        tetromino.moveRight();
+                   }
+                   for(int i=0; i<4; i++){
+                          if(!grid.isFree(tetromino.get(i))){
+                              tetromino.moveLeft(); break;
+                          }
+                     }
+                   break;
+
 				case UP:
-					tetromino.rotateLeft();
+	                checkRotateLeft();
 					break;
 				default:
 					break;
@@ -148,4 +160,31 @@ public class Controller{
 	public EventHandler<KeyEvent> getOnKeyPressed(){
 		return onKeyPressed;
 	}
+	
+    
+    public boolean checkRotateRight(){
+        tetromino.rotateRight();
+        for(int i=0; i<4; i++){
+           if(!grid.isFree(tetromino.get(i))){
+               tetromino.rotateLeft();
+               return false;
+           }
+        }
+        
+       return true;
+   }
+    public boolean checkRotateLeft(){
+        tetromino.rotateLeft();
+        for(int i=0; i<4; i++){
+           if(!grid.isFree(tetromino.get(i))){
+               tetromino.rotateRight();
+               return false;
+           }
+        }
+        
+       return true;
+   
+
+	
+    }
 }
