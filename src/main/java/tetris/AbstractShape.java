@@ -24,7 +24,7 @@ public abstract class AbstractShape {
     }
 
     /**
-     * @param i block index (0<=i<=3)
+     * @param i mino index (0<=i<=3)
      * @return array containing x- and y-coordinate of mino
      */
     public int[] get(int i) {
