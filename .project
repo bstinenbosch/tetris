@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Tetris</name>
-	<comment>Project Tetris created by Buildship.</comment>
+	<name>tetris</name>
+	<comment>Project tetris created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>

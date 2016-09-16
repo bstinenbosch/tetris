@@ -10,7 +10,7 @@ public class Controller{
 	private View ui;
 	private Grid grid;
 	private GraphicsContext board;
-	private Tetromino tetromino;
+	private AbstractShape tetromino;
 	private boolean gameOver = false;
 	private EventHandler<ActionEvent> onTick = new EventHandler<ActionEvent>(){
 		@Override
@@ -25,24 +25,36 @@ public class Controller{
 			if (!gameOver){
 				switch(event.getCode()){
 				case DOWN:
-					tetromino.rotateRight();
+	                checkRotateRight();
 					lowerTetromino();
 					break;
 				case LEFT:
-					if(tetromino.left()>0){
-						tetromino.moveLeft();
-					}
-					break;
+                    if(tetromino.left()>0){
+                        tetromino.moveLeft();
+                  }
+                  for(int i=0; i<4; i++){
+                         if(!grid.isFree(tetromino.get(i))){
+                             tetromino.moveRight(); break;
+                         }
+                    }
+                  break;
+
 				case RIGHT:
-					if(tetromino.right()<grid.width()-1){
-						tetromino.moveRight();
-					}
-					break;
+                    if(tetromino.right()<grid.width()-1){
+                        tetromino.moveRight();
+                   }
+                   for(int i=0; i<4; i++){
+                          if(!grid.isFree(tetromino.get(i))){
+                              tetromino.moveLeft(); break;
+                          }
+                     }
+                   break;
+
 				case UP:
-					tetromino.rotateLeft();
+	                checkRotateLeft();
 					break;
 				default:
-					break;				
+					break;
 				}
 				redraw();
 			}
@@ -56,10 +68,10 @@ public class Controller{
      * @param width the width of the gameboard
      * @param height the height of the gameboard
      */
-	public Controller(View ui){
+	public Controller(View ui){//, GraphicsContext board, int width, int height){
 		this.ui = ui;
 	}
-	
+
 	/**
 	 * tries to lower a tetromino. If this is not possible, a new tetromino is launched or the game is over.
 	 */
@@ -67,7 +79,7 @@ public class Controller{
 		// check if current tetromino can be lowered
 		if(tryToLower()){
 		// if so, lower it	
-			redraw();		
+			redraw();
 		} else if(tetromino.top() >= grid.height()-1 ){
 			// tetromino is in top position and cannot be lowered, so game over
 			gameOver();
@@ -83,7 +95,7 @@ public class Controller{
 	 */
 	private void dropNewTetromino(){
 		grid.clearLines();
-		tetromino = new Tetromino(grid.width()/2,grid.height());
+		tetromino = TetrominoFactory.createRandom(grid.width()/2, grid.height());
 		redraw();
 		// pick random new tetromino and drop tetromino
 	}
@@ -131,7 +143,7 @@ public class Controller{
 		timer.requestStop();
 		ui.stop();
 	}
-	
+
 	/**
 	 * starts the game
 	 */
@@ -158,7 +170,30 @@ public class Controller{
 		return onKeyPressed;
 	}
 	
-	public boolean isGameOver(){
-		return gameOver;
-	}
+    
+    public boolean checkRotateRight(){
+        tetromino.rotateRight();
+        for(int i=0; i<4; i++){
+           if(!grid.isFree(tetromino.get(i))){
+               tetromino.rotateLeft();
+               return false;
+           }
+        }
+        
+       return true;
+   }
+    public boolean checkRotateLeft(){
+        tetromino.rotateLeft();
+        for(int i=0; i<4; i++){
+           if(!grid.isFree(tetromino.get(i))){
+               tetromino.rotateRight();
+               return false;
+           }
+        }
+        
+       return true;
+   
+
+	
+    }
 }

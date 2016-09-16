@@ -126,61 +126,44 @@ public class View extends Application{
 	     
 	     return board;
 	 }
-	 
-	 /**
-	  * drawRectangle draws one cube on the game grid.
-	  * @param board specifies the gameboard(canvas) to draw on
-	  * @param color specifies the color pair to draw in (color pairs provided by setColor)
-	  * @param coordinate the cube in the grid that is to be drawn.
-	  */
-	 private void drawRectangle(GraphicsContext board, int color, int[] coordinate){
-		 if(color>0){
-			 setColor(board, color);
-		     board.setLineWidth(BLOCK_SIZE/10.);
-			 board.fillRoundRect(coordinate[0]*BLOCK_SIZE, (BOARD_HEIGHT-1-coordinate[1])*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
-			 board.strokeRoundRect(coordinate[0]*BLOCK_SIZE, (BOARD_HEIGHT-1-coordinate[1])*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
-		 }
-	 }
-	 
-	 /**
-	  * setColor sets the draw color pairs of the board according to predefined pairs. 
-	  * @param board the gameboard on which to set the colors
-	  * @param color the color pair ID
-	  */
-	 private void setColor(GraphicsContext board, int color){
-		 switch(color){
-		 case 1:
-		     board.setFill(Color.LIGHTBLUE);
-		     board.setStroke(Color.BLUE);
-		     break;
-		 case 2:
-		     board.setFill(Color.LIGHTCORAL);
-		     board.setStroke(Color.CORAL);
-		     break;
-		 case 3:
-		     board.setFill(Color.LIGHTPINK);
-		     board.setStroke(Color.PINK);
-		     break;
-		 case 4:
-		     board.setFill(Color.LIGHTGREEN);
-		     board.setStroke(Color.GREEN);
-		     break;
-		 default:
-			 throw new IllegalArgumentException(String.format("Color %d is not a valid color number.", color));
-		 } 
-	 }
-	 
-	 /**
-	  * drawTetromino employs the structure of a tetromino to draw it on a gameboard.
-	  * @param board the gameboard to draw the tetromino on
-	  * @param tetromino the tetromino to draw
-	  */
-	 public void drawTetromino(GraphicsContext board, Tetromino tetromino){	 
-		 for(int i = 0; i<4; i++){
-			 drawRectangle(board, tetromino.getColor(), tetromino.get(i));
-		 }	 
-	 }
-	 
+ 
+ 
+ /**
+  * setColor sets the draw color pairs of the board according to predefined pairs. 
+  * @param board the gameboard on which to set the colors
+  * @param color the color pair ID
+  */
+ private void setColor(GraphicsContext board, int color){
+	 switch(color){
+	 case 1:
+	     board.setFill(Color.LIGHTBLUE);
+	     board.setStroke(Color.BLUE);
+	     break;
+	 case 2:
+	     board.setFill(Color.LIGHTCORAL);
+	     board.setStroke(Color.CORAL);
+	     break;
+	 case 3:
+	     board.setFill(Color.LIGHTYELLOW);
+	     board.setStroke(Color.YELLOW);
+	     break;
+	 case 4:
+	     board.setFill(Color.LIGHTGREEN);
+	     board.setStroke(Color.GREEN);
+	     break;
+	 case 5:
+	     board.setFill(Color.LIGHTPINK);
+	     board.setStroke(Color.PINK);
+	     break;
+	 case 6:
+	     board.setFill(Color.LIGHTSALMON);
+	     board.setStroke(Color.SALMON);
+	     break;
+	 default:
+		 throw new IllegalArgumentException(String.format("Color %d is not a valid color number.", color));
+	 } 
+ }
+ 
 	 /**
 	  * drawGrid draws the entire gameboard. As tetrominos reach their final place, 
 	  * they are registered on the grid to be drawn by this function.
@@ -193,6 +176,22 @@ public class View extends Application{
 				 drawRectangle(board,grid.get(x, y), new int[] {x,y});
 			 }
 		 }
+	 }
+	 
+	 /**
+	  * drawTetromino employs the structure of a tetromino to draw it on a gameboard.
+	  * @param board the gameboard to draw the tetromino on
+	  * @param tetromino the tetromino to draw
+	  */
+	 public void drawTetromino(GraphicsContext board, AbstractShape tetromino){	 
+		 for(int i = 0; i<4; i++){
+			 drawRectangle(board, tetromino.getColor(), tetromino.get(i));
+		 }	 
+	 }
+	 
+	 private void drawRectangle(GraphicsContext board, int color, int[] loc){
+		 setColor(board, color);
+		 board.fillRect(loc[0]*BLOCK_SIZE, loc[1]*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
 	 }
 	 
 	 /**
