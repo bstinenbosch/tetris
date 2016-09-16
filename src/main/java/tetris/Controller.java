@@ -131,7 +131,6 @@ public class Controller{
 	private void gameOver(){
 		timer.requestStop();
 		gameOver = true;
-		board = null;
 		System.out.println("game over");
 		ui.gameOver(board);
 	}

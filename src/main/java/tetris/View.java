@@ -189,9 +189,19 @@ public class View extends Application{
 		 }	 
 	 }
 	 
-	 private void drawRectangle(GraphicsContext board, int color, int[] loc){
-		 setColor(board, color);
-		 board.fillRect(loc[0]*BLOCK_SIZE, loc[1]*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+	 /**
+	  * drawRectangle draws one cube on the game grid.
+	  * @param board specifies the gameboard(canvas) to draw on
+	  * @param color specifies the color pair to draw in (color pairs provided by setColor)
+	  * @param coordinate the cube in the grid that is to be drawn.
+	  */
+	 private void drawRectangle(GraphicsContext board, int color, int[] coordinate){
+		 if(color>0){
+			 setColor(board, color);
+		     board.setLineWidth(BLOCK_SIZE/10.);
+			 board.fillRoundRect(coordinate[0]*BLOCK_SIZE, (BOARD_HEIGHT-1-coordinate[1])*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
+			 board.strokeRoundRect(coordinate[0]*BLOCK_SIZE, (BOARD_HEIGHT-1-coordinate[1])*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
+		 }
 	 }
 	 
 	 /**
