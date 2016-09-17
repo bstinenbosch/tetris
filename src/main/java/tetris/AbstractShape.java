@@ -38,9 +38,9 @@ public abstract class AbstractShape {
             case 1:
                 return new int[]{X + y[i], Y - x[i]};
             case 2:
-                return new int[]{X - x[i], Y + y[i]};
+                return new int[]{X - x[i], Y - y[i]};
             case 3:
-                return new int[]{X - y[i], Y - x[i]};
+                return new int[]{X - y[i], Y + x[i]};
             default:
                 throw new IndexOutOfBoundsException("This exception should be unreachable.");
         }
