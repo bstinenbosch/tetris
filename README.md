@@ -11,12 +11,12 @@
 - [x] A tetromino shall be placed at the top (center) of the grid when the game starts
 - [x] A tetromino shall be placed at the top (center) of the grid when the previous tetromino has landed on top of the other tetrominoes or on the bottom
 - [ ] The tetromino can be rotated by 90 degrees to both sides by the player
-- [ ] The game will consist of 7 different tetrominoes, each containing 4 blocks
+- [x] The game will consist of 7 different tetrominoes, each containing 4 blocks
 - [x] A row of blocks shall be cleared when it is filled with 10 blocks
 - [x] All blocks will move down 1 row when 1 row of 10 blocks has been cleared
 - [x] The tetromino is not allowed to be moved outside of the board
-- [ ] The tetromino is not allowed to be rotated outside of the board
-- [ ] The tetromino is not allowed to overlap with other blocks already fixed on the grid
+- [x] The tetromino is not allowed to be rotated outside of the board
+- [x] The tetromino is not allowed to overlap with other blocks already fixed on the grid
 - [x] The tetromino will move down one block every X milliseconds
 - [x] If a tetromino falls down onto the bottom of the grid, the tetromino will be fixed
 - [x] If a tetromino falls down onto a fixed block the tetromino will be fixed
@@ -26,7 +26,7 @@
 
 - [ ] A new game can be started by the player
 - [ ] A new game will start when the previous game has ended
-- [ ] Each tetromino shall have a different colour
+- [x] Each tetromino shall have a different colour
 - [ ] There shall be a preview pane showing the next Tetromino to be placed in the grid
 
 ### Could haves:
