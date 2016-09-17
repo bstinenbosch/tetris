@@ -2,16 +2,14 @@ package tetris;
 
 public abstract class AbstractShape {
 
-    protected int[] x, y;
+    private Coordinate[] minos;
     private int rotation = 0;
-    protected int X, Y;
+    private Coordinate position;
     private int color = 1+(int)(Math.random()*6);
 
-    public AbstractShape(int X, int Y, int[] x, int[] y) {
-        this.X = X;
-        this.Y = Y;
-        this.x = x;
-        this.y = y;
+    public AbstractShape(Coordinate position, Coordinate[] minos) {
+        this.position = position;
+        this.minos = minos;
     }
 
     /**
@@ -30,17 +28,23 @@ public abstract class AbstractShape {
      * @return an array with the coordinates
      */
     public int[] get(int i) {
-        if (i < 0 || i >= x.length)
+        if (i < 0 || i >= minos.length)
             throw new IndexOutOfBoundsException("you are trying to access a block in a tetromino that doesn't exist.");
+
+        int minoX = minos[i].getX();
+        int minoY = minos[i].getY();
+        int positionX = position.getX();
+        int positionY = position.getY();
+
         switch (Math.floorMod(rotation, 4)) {
             case 0:
-                return new int[]{X + x[i], Y + y[i]};
+                return new int[]{positionX + minoX, positionY + minoY};
             case 1:
-                return new int[]{X + y[i], Y - x[i]};
+                return new int[]{positionX + minoY, positionY - minoX};
             case 2:
-                return new int[]{X - x[i], Y + y[i]};
+                return new int[]{positionX - minoX, positionY + minoY};
             case 3:
-                return new int[]{X - y[i], Y - x[i]};
+                return new int[]{positionX - minoY, positionY - minoX};
             default:
                 throw new IndexOutOfBoundsException("This exception should be unreachable.");
         }
@@ -95,19 +99,19 @@ public abstract class AbstractShape {
     }
 
     public void moveDown() {
-        Y--;
+        position.translateY(-1);
     }
 
     public void moveUp() {
-        Y++;
+        position.translateY(1);
     }
 
     public void moveLeft() {
-        X--;
+        position.translateX(-1);
     }
 
     public void moveRight() {
-        X++;
+        position.translateX(1);
     }
 
     public void rotateRight() {

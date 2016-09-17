@@ -2,15 +2,18 @@ package tetris;
 
 public class ShapeL extends AbstractShape {
 
-	private static final int[] x = new int[] {-1, 0, 1, 1};
-	private static final int[] y = new int[] {0, 0, 0, 1};
+	private static final Coordinate[] minos = new Coordinate[]{
+			new Coordinate(-1, 0),
+			new Coordinate(0, 0),
+			new Coordinate(1, 0),
+			new Coordinate(1, 1)
+	};
 
 	/**
 	 * ShapeL is the figure that is dropped on the gameboard.
-	 * @param X the x coordinate of the tetromino
-	 * @param Y the y coordinate of the tetromino
+	 * @param   position        Position of shape in grid
 	 */
-	public ShapeL(int X, int Y) {
-		super(X, Y, x, y);
+	public ShapeL(Coordinate position) {
+		super(position, minos);
 	}
 }

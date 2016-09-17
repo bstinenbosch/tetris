@@ -2,10 +2,16 @@ package tetris;
 
 public class DummyShape extends AbstractShape {
 
-    private static final int[] x = new int[] {-1, 0, 0, 1};
-    private static final int[] y = new int[] {0, 0, 1, 1};
+    private static final Coordinate[] minos = new Coordinate[]{
+            new Coordinate(-1, 0),
+            new Coordinate(0, 0),
+            new Coordinate(0, 1),
+            new Coordinate(1, 1)
+    };
 
-    public DummyShape(int X, int Y) {
-        super(X, Y, x, y);
+    public DummyShape(Coordinate position) {
+        super(position, minos);
     }
+
+
 }

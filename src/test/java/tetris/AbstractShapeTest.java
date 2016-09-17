@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class AbstractShapeTest {
 
-    private AbstractShape shape = new DummyShape(0, 0);
+    private AbstractShape shape = new DummyShape(new Coordinate(0, 0));
 
     @Test
     public void test_topmost_coordinate() {
