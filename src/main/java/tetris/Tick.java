@@ -28,6 +28,7 @@ public class Tick extends Thread {
      * run is the code that is executed once the thread is started.
      */
     public void run() {
+    	running = true;
         while (running) {
             try {
                 onTick.handle(new ActionEvent());

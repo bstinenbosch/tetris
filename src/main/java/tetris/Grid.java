@@ -89,4 +89,8 @@ public class Grid {
     public int get(int x, int y){
     	return board[x][y];
     }
+    
+    public void clearBoard(){
+    	board = new int[board.length][board[0].length];
+    }
 }

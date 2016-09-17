@@ -2,6 +2,8 @@ package tetris;
 
 import org.junit.Test;
 
+import tetris.Grid;
+
 import static org.junit.Assert.assertTrue;
 
 public class GridTest {
