@@ -173,7 +173,7 @@ public class View extends Application{
 	 public void drawGrid(GraphicsContext board, Grid grid){
 		 for(int x = 0; x<BOARD_WIDTH; x++){
 			 for(int y = 0; y<BOARD_HEIGHT; y++){
-				 drawRectangle(board,grid.get(x, y), new int[] {x,y});
+				 drawRectangle(board,grid.get(x, y), new Coordinate(x,y));
 			 }
 		 }
 	 }
@@ -195,12 +195,12 @@ public class View extends Application{
 	  * @param color specifies the color pair to draw in (color pairs provided by setColor)
 	  * @param coordinate the cube in the grid that is to be drawn.
 	  */
-	 private void drawRectangle(GraphicsContext board, int color, int[] coordinate){
+	 private void drawRectangle(GraphicsContext board, int color, Coordinate coordinate){
 		 if(color>0){
 			 setColor(board, color);
 		     board.setLineWidth(BLOCK_SIZE/10.);
-			 board.fillRoundRect(coordinate[0]*BLOCK_SIZE, (BOARD_HEIGHT-1-coordinate[1])*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
-			 board.strokeRoundRect(coordinate[0]*BLOCK_SIZE, (BOARD_HEIGHT-1-coordinate[1])*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
+			 board.fillRoundRect(coordinate.getX()*BLOCK_SIZE, (BOARD_HEIGHT-1-coordinate.getY())*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
+			 board.strokeRoundRect(coordinate.getX()*BLOCK_SIZE, (BOARD_HEIGHT-1-coordinate.getY())*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER, CORNER);
 		 }
 	 }
 	 

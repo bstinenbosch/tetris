@@ -27,7 +27,7 @@ public abstract class AbstractShape {
      * @param i block index (0<=i<=3)
      * @return an array with the coordinates
      */
-    public int[] get(int i) {
+    public Coordinate get(int i) {
         if (i < 0 || i >= minos.length)
             throw new IndexOutOfBoundsException("you are trying to access a block in a tetromino that doesn't exist.");
 
@@ -38,13 +38,13 @@ public abstract class AbstractShape {
 
         switch (Math.floorMod(rotation, 4)) {
             case 0:
-                return new int[]{positionX + minoX, positionY + minoY};
+                return new Coordinate(positionX + minoX, positionY + minoY);
             case 1:
-                return new int[]{positionX + minoY, positionY - minoX};
+                return new Coordinate(positionX + minoY, positionY - minoX);
             case 2:
-                return new int[]{positionX - minoX, positionY + minoY};
+                return new Coordinate(positionX - minoX, positionY + minoY);
             case 3:
-                return new int[]{positionX - minoY, positionY - minoX};
+                return new Coordinate(positionX - minoY, positionY - minoX);
             default:
                 throw new IndexOutOfBoundsException("This exception should be unreachable.");
         }
@@ -56,8 +56,8 @@ public abstract class AbstractShape {
     public int top() {
         int top = 0;
         for (int i = 0; i < 4; i++) {
-            int[] block = get(i);
-            top = Math.max(top, block[1]);
+            Coordinate block = get(i);
+            top = Math.max(top, block.getY());
         }
         return top;
     }
@@ -68,8 +68,8 @@ public abstract class AbstractShape {
     public int bottom() {
         int bottom = Integer.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
-            int[] block = get(i);
-            bottom = Math.min(bottom, block[1]);
+            Coordinate block = get(i);
+            bottom = Math.min(bottom, block.getY());
         }
         return bottom;
     }
@@ -80,8 +80,8 @@ public abstract class AbstractShape {
     public int left() {
         int left = Integer.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
-            int[] block = get(i);
-            left = Math.min(left, block[0]);
+            Coordinate block = get(i);
+            left = Math.min(left, block.getX());
         }
         return left;
     }
@@ -92,8 +92,8 @@ public abstract class AbstractShape {
     public int right() {
         int right = 0;
         for (int i = 0; i < 4; i++) {
-            int[] block = get(i);
-            right = Math.max(right, block[0]);
+            Coordinate block = get(i);
+            right = Math.max(right, block.getX());
         }
         return right;
     }
