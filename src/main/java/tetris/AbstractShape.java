@@ -2,16 +2,14 @@ package tetris;
 
 public abstract class AbstractShape {
 
-    protected int[] x, y;
+    private Coordinate[] minos;
     private int rotation = 0;
-    protected int X, Y;
+    private Coordinate position;
     private int color = 1+(int)(Math.random()*6);
 
-    public AbstractShape(int X, int Y, int[] x, int[] y) {
-        this.X = X;
-        this.Y = Y;
-        this.x = x;
-        this.y = y;
+    public AbstractShape(Coordinate position, Coordinate[] minos) {
+        this.position = position;
+        this.minos = minos;
     }
 
     /**
@@ -27,18 +25,24 @@ public abstract class AbstractShape {
      * @param i mino index (0<=i<=3)
      * @return array containing x- and y-coordinate of mino
      */
-    public int[] get(int i) {
-        if (i < 0 || i >= x.length)
+    public Coordinate get(int i) {
+        if (i < 0 || i >= minos.length)
             throw new IndexOutOfBoundsException("you are trying to access a block in a tetromino that doesn't exist.");
+
+        int minoX = minos[i].getX();
+        int minoY = minos[i].getY();
+        int positionX = position.getX();
+        int positionY = position.getY();
+
         switch (Math.floorMod(rotation, 4)) {
             case 0:
-                return new int[]{X + x[i], Y + y[i]};
+                return new Coordinate(positionX + minoX, positionY + minoY);
             case 1:
-                return new int[]{X + y[i], Y - x[i]};
+                return new Coordinate(positionX + minoY, positionY - minoX);
             case 2:
-                return new int[]{X - x[i], Y + y[i]};
+                return new Coordinate(positionX - minoX, positionY + minoY);
             case 3:
-                return new int[]{X - y[i], Y - x[i]};
+                return new Coordinate(positionX - minoY, positionY - minoX);
             default:
                 throw new IndexOutOfBoundsException("This exception should be unreachable.");
         }
@@ -50,8 +54,8 @@ public abstract class AbstractShape {
     public int top() {
         int top = 0;
         for (int i = 0; i < 4; i++) {
-            int[] block = get(i);
-            top = Math.max(top, block[1]);
+            Coordinate block = get(i);
+            top = Math.max(top, block.getY());
         }
         return top;
     }
@@ -62,8 +66,8 @@ public abstract class AbstractShape {
     public int bottom() {
         int bottom = Integer.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
-            int[] block = get(i);
-            bottom = Math.min(bottom, block[1]);
+            Coordinate block = get(i);
+            bottom = Math.min(bottom, block.getY());
         }
         return bottom;
     }
@@ -74,8 +78,8 @@ public abstract class AbstractShape {
     public int left() {
         int left = Integer.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
-            int[] block = get(i);
-            left = Math.min(left, block[0]);
+            Coordinate block = get(i);
+            left = Math.min(left, block.getX());
         }
         return left;
     }
@@ -86,8 +90,8 @@ public abstract class AbstractShape {
     public int right() {
         int right = 0;
         for (int i = 0; i < 4; i++) {
-            int[] block = get(i);
-            right = Math.max(right, block[0]);
+            Coordinate block = get(i);
+            right = Math.max(right, block.getX());
         }
         return right;
     }
@@ -96,28 +100,28 @@ public abstract class AbstractShape {
      * Moves the tetromino down one row in the grid
      */
     public void moveDown() {
-        Y--;
+        position.translateY(-1);
     }
 
     /**
      * Moves the tetromino up one row down in the grid
      */
     public void moveUp() {
-        Y++;
+        position.translateY(1);
     }
 
     /**
      * Moves the tetromino left one column in the grid
      */
     public void moveLeft() {
-        X--;
+        position.translateX(-1);
     }
 
     /**
      * Moves the tetromino right one column in the grid
      */
     public void moveRight() {
-        X++;
+        position.translateX(1);
     }
 
     /**

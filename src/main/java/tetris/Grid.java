@@ -34,12 +34,12 @@ public class Grid {
      * @param coord the location on the board to check
      * @return true if the location on the board is free, otherwise false.
      */
-    public boolean isFree(int[] coord){
-    	return (coord[0] >= 0 && 
-    			coord[1] >= 0 && 
-    			coord[0] < width() &&
-    			coord[1] < height()+3 && //Ik speel vals #error
-    			board[coord[0]][coord[1]] == 0);
+    public boolean isFree(Coordinate coord){
+    	return (coord.getX() >= 0 &&
+    			coord.getY() >= 0 &&
+    			coord.getX() < width() &&
+    			coord.getY() < height()+3 && //Ik speel vals #error
+    			board[coord.getX()][coord.getY()] == 0);
     }
     
     /**
@@ -48,8 +48,8 @@ public class Grid {
      */
     public void registerTetromino(AbstractShape tetromino){
     	for(int i=0; i<4; i++){
-    		int[] coords = tetromino.get(i);
-    		board[coords[0]][coords[1]] = tetromino.getColor();
+            Coordinate coords = tetromino.get(i);
+    		board[coords.getX()][coords.getY()] = tetromino.getColor();
     	}
     }
     

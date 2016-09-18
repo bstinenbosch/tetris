@@ -6,39 +6,37 @@ public class TetrominoFactory {
      * Creates a Tetromino
      *
      * @param   type            Type of Tetromino to create
-     * @param   x               X-coordinate of shape in grid
-     * @param   y               Y-coordinate of shape in grid
+     * @param   position        Position of shape in grid
      * @return  AbstractShape   Tetromino
      */
-    public static AbstractShape create(ShapeType type, int x, int y) {
+    public static AbstractShape create(ShapeType type, Coordinate position) {
         switch(type) {
             case I:
-                return new ShapeI(x, y);
+                return new ShapeI(position);
             case J:
-                return new ShapeJ(x, y);
+                return new ShapeJ(position);
             case L:
-                return new ShapeL(x, y);
+                return new ShapeL(position);
             case O:
-                return new ShapeO(x, y);
+                return new ShapeO(position);
             case S:
-                return new ShapeS(x, y);
+                return new ShapeS(position);
             case T:
-                return new ShapeT(x, y);
+                return new ShapeT(position);
             case Z:
-                return new ShapeZ(x, y);
+                return new ShapeZ(position);
             default:
-                return new ShapeI(x, y);
+                return new ShapeI(position);
         }
     }
 
     /**
      * Creates a random Tetromino
      *
-     * @param   x               X-coordinate of shape in grid
-     * @param   y               Y-coordinate of shape in grid
+     * @param   position        Position of shape in grid
      * @return  AbstractShape   Tetromino
      */
-    public static AbstractShape createRandom(int x, int y) {
-        return create(ShapeType.random(), x, y);
+    public static AbstractShape createRandom(Coordinate position) {
+        return create(ShapeType.random(), position);
     }
 }

@@ -95,7 +95,8 @@ public class Controller{
 	 */
 	private void dropNewTetromino(){
 		grid.clearLines();
-		tetromino = TetrominoFactory.createRandom(grid.width()/2, grid.height());
+		Coordinate position = new Coordinate(grid.width()/2, grid.height());
+		tetromino = TetrominoFactory.createRandom(position);
 		redraw();
 		// pick random new tetromino and drop tetromino
 	}
