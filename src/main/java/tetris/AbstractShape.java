@@ -15,7 +15,7 @@ public abstract class AbstractShape {
     }
 
     /**
-     * getColor returns the color ID of the tetromino
+     * Returns the color ID of the tetromino
      *
      * @return color ID
      */
@@ -24,10 +24,8 @@ public abstract class AbstractShape {
     }
 
     /**
-     * get returns the i-th block coordinate of the tetromino
-     *
-     * @param i block index (0<=i<=3)
-     * @return an array with the coordinates
+     * @param i mino index (0<=i<=3)
+     * @return array containing x- and y-coordinate of mino
      */
     public int[] get(int i) {
         if (i < 0 || i >= x.length)
@@ -47,7 +45,7 @@ public abstract class AbstractShape {
     }
 
     /**
-     * @return the y-position of the highest block of the tetromino
+     * @return the y-position of the highest mino of the tetromino
      */
     public int top() {
         int top = 0;
@@ -59,7 +57,7 @@ public abstract class AbstractShape {
     }
 
     /**
-     * @return the y-position of the lowest block of the tetromino
+     * @return the y-position of the lowest mino of the tetromino
      */
     public int bottom() {
         int bottom = Integer.MAX_VALUE;
@@ -71,7 +69,7 @@ public abstract class AbstractShape {
     }
 
     /**
-     * @return the x-position of the leftmost block of the tetromino
+     * @return the x-position of the leftmost mino of the tetromino
      */
     public int left() {
         int left = Integer.MAX_VALUE;
@@ -83,7 +81,7 @@ public abstract class AbstractShape {
     }
 
     /**
-     * @return the x-position of the rightmost block of the tetromino
+     * @return the x-position of the rightmost mino of the tetromino
      */
     public int right() {
         int right = 0;
@@ -94,26 +92,44 @@ public abstract class AbstractShape {
         return right;
     }
 
+    /**
+     * Moves the tetromino down one row in the grid
+     */
     public void moveDown() {
         Y--;
     }
 
+    /**
+     * Moves the tetromino up one row down in the grid
+     */
     public void moveUp() {
         Y++;
     }
 
+    /**
+     * Moves the tetromino left one column in the grid
+     */
     public void moveLeft() {
         X--;
     }
 
+    /**
+     * Moves the tetromino right one column in the grid
+     */
     public void moveRight() {
         X++;
     }
 
+    /**
+     * Rotates the tetromino clockwise in the grid
+     */
     public void rotateRight() {
         rotation++;
     }
 
+    /**
+     * Rotates the tetromino clockwise in the grid
+     */
     public void rotateLeft() {
         rotation--;
     }
