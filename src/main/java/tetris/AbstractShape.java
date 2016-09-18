@@ -5,11 +5,12 @@ public abstract class AbstractShape {
     private Coordinate[] minos;
     private int rotation = 0;
     private Coordinate position;
-    private int color = 1+(int)(Math.random()*6);
+    private int color;
 
-    public AbstractShape(Coordinate position, Coordinate[] minos) {
+    public AbstractShape(Coordinate position, Coordinate[] minos, int color) {
         this.position = position;
         this.minos = minos;
+        this.color = color;
     }
 
     /**

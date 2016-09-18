@@ -134,31 +134,29 @@ public class View extends Application{
   * @param color the color pair ID
   */
  private void setColor(GraphicsContext board, int color){
+     board.setStroke(Color.BLACK);
 	 switch(color){
 	 case 1:
-	     board.setFill(Color.LIGHTBLUE);
-	     board.setStroke(Color.BLUE);
+	     board.setFill(Color.CYAN);
 	     break;
 	 case 2:
-	     board.setFill(Color.LIGHTCORAL);
-	     board.setStroke(Color.CORAL);
+	     board.setFill(Color.BLUE);
 	     break;
 	 case 3:
-	     board.setFill(Color.LIGHTYELLOW);
-	     board.setStroke(Color.YELLOW);
+	     board.setFill(Color.ORANGE);
 	     break;
 	 case 4:
-	     board.setFill(Color.LIGHTGREEN);
-	     board.setStroke(Color.GREEN);
+	     board.setFill(Color.YELLOW);
 	     break;
 	 case 5:
-	     board.setFill(Color.LIGHTPINK);
-	     board.setStroke(Color.PINK);
+	     board.setFill(Color.LIME);
 	     break;
 	 case 6:
-	     board.setFill(Color.LIGHTSALMON);
-	     board.setStroke(Color.SALMON);
+	     board.setFill(Color.PURPLE);
 	     break;
+	 case 7:
+		 board.setFill(Color.ORANGERED);
+		 break;
 	 default:
 		 throw new IllegalArgumentException(String.format("Color %d is not a valid color number.", color));
 	 } 

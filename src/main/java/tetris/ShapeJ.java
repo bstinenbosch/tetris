@@ -2,6 +2,8 @@ package tetris;
 
 public class ShapeJ extends AbstractShape {
 
+	private static int color = 2;
+
 	private static final Coordinate[] minos = new Coordinate[]{
 			new Coordinate(-1, 1),
 			new Coordinate(-1, 0),
@@ -14,7 +16,7 @@ public class ShapeJ extends AbstractShape {
 	 * @param   position        Position of shape in grid
 	 */
 	public ShapeJ(Coordinate position) {
-		super(position, minos);
+		super(position, minos, color);
 	}
 
 }
