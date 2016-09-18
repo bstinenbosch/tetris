@@ -104,7 +104,7 @@ public abstract class AbstractShape {
     }
 
     /**
-     * Moves the tetromino up one row down in the grid
+     * Moves the tetromino up one row in the grid
      */
     public void moveUp() {
         position.translateY(1);
