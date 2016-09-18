@@ -40,9 +40,9 @@ public abstract class AbstractShape {
             case 1:
                 return new Coordinate(positionX + minoY, positionY - minoX);
             case 2:
-                return new Coordinate(positionX - minoX, positionY + minoY);
+                return new Coordinate(positionX - minoX, positionY - minoY);
             case 3:
-                return new Coordinate(positionX - minoY, positionY - minoX);
+                return new Coordinate(positionX - minoY, positionY + minoX);
             default:
                 throw new IndexOutOfBoundsException("This exception should be unreachable.");
         }

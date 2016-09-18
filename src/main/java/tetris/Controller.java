@@ -26,7 +26,6 @@ public class Controller{
 				switch(event.getCode()){
 				case DOWN:
 	                checkRotateRight();
-					lowerTetromino();
 					break;
 				case LEFT:
                     if(tetromino.left()>0){
