@@ -2,6 +2,8 @@ package tetris;
 
 public class ShapeT extends AbstractShape {
 
+	private static int color = 6;
+
 	private static final Coordinate[] minos = new Coordinate[]{
 			new Coordinate(-1, 0),
 			new Coordinate(0, 0),
@@ -14,6 +16,6 @@ public class ShapeT extends AbstractShape {
 	 * @param   position        Position of shape in grid
 	 */
 	public ShapeT(Coordinate position) {
-		super(position, minos);
+		super(position, minos, color);
 	}
 }

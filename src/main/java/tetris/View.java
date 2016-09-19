@@ -159,6 +159,10 @@ public class View extends Application{
 	     board.setFill(Color.LIGHTSALMON);
 	     board.setStroke(Color.SALMON);
 	     break;
+	 case 7:
+		 board.setFill(Color.LIGHTGOLDENRODYELLOW);
+		 board.setStroke(Color.GOLDENROD);
+		 break;
 	 default:
 		 throw new IllegalArgumentException(String.format("Color %d is not a valid color number.", color));
 	 } 
