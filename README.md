@@ -11,7 +11,7 @@
 - [x] The topmost 4 rows of the grid are visually hidden
 - [x] A tetromino shall be placed at the top (center) of the grid when the game starts
 - [x] A tetromino shall be placed at the top (center) of the grid when the previous tetromino has landed on top of the other tetrominoes or on the bottom
-- [ ] The tetromino can be rotated by 90 degrees to both sides by the player
+- [X] The tetromino can be rotated by 90 degrees to both sides by the player
 - [x] The game will consist of 7 different tetrominoes, each containing 4 blocks
 - [x] A row of blocks shall be cleared when it is filled with 10 blocks
 - [x] All blocks will move down 1 row when 1 row of 10 blocks has been cleared
