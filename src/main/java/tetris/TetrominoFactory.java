@@ -1,16 +1,16 @@
 package tetris;
 
-public class TetrominoFactory {
+class TetrominoFactory {
 
     /**
-     * Creates a Tetromino
+     * Creates a Tetromino.
      *
      * @param   type            Type of Tetromino to create
      * @param   position        Position of shape in grid
      * @return  AbstractShape   Tetromino
      */
-    public static AbstractShape create(ShapeType type, Coordinate position) {
-        switch(type) {
+    private static AbstractShape create(ShapeType type, Coordinate position) {
+        switch (type) {
             case I:
                 return new ShapeI(position);
             case J:
@@ -31,12 +31,12 @@ public class TetrominoFactory {
     }
 
     /**
-     * Creates a random Tetromino
+     * Creates a random Tetromino.
      *
      * @param   position        Position of shape in grid
      * @return  AbstractShape   Tetromino
      */
-    public static AbstractShape createRandom(Coordinate position) {
+    static AbstractShape createRandom(Coordinate position) {
         return create(ShapeType.random(), position);
     }
 }

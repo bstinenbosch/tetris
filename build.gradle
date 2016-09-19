@@ -33,7 +33,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '3.0'
 }
 
 jacocoTestReport {
@@ -46,8 +46,7 @@ jacocoTestReport {
 check.dependsOn jacocoTestReport
 
 checkstyle {
-//    configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
-    toolVersion = '5.5'
+    toolVersion = '7.1.1'
 }
 
 

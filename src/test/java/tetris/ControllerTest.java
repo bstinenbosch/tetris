@@ -6,7 +6,6 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import tetris.Controller;
-import tetris.View;
 
 import static org.junit.Assert.assertTrue;
 
@@ -38,7 +37,7 @@ public class ControllerTest {
 
 	private void randomKeyStroke(Controller c){
 		EventHandler<KeyEvent> eventhandler = c.getOnKeyPressed();
-		switch((int)Math.random()*4){
+		switch((int) (Math.random() * 4)){
 		case 0:	
 			eventhandler.handle(new KeyEvent(null, null, null, KeyCode.DOWN, false, false, false, false));
 			break;
