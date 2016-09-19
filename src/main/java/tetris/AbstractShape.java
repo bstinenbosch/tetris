@@ -31,7 +31,7 @@ public abstract class AbstractShape {
      * Default constructor to set Tetromino structure and position.
      *
      * @param position Position in grid relative to pivot point
-     * @param minos Coordinates of each Mino
+     * @param minos    Coordinates of each Mino
      */
     public AbstractShape(final Coordinate position, final Coordinate[] minos) {
         this.position = position;
@@ -54,7 +54,7 @@ public abstract class AbstractShape {
     Coordinate get(int index) {
         if (index < 0 || index >= minos.length) {
             throw new IndexOutOfBoundsException(
-                    "you are trying to access a block in a tetromino that doesn't exist.");
+                "you are trying to access a block in a tetromino that doesn't exist.");
         }
 
         int minoX = minos[index].getX();

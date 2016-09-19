@@ -10,7 +10,7 @@ enum ShapeType {
     private static final int SIZE = VALUES.length;
     private static final Random RANDOM = new Random();
 
-    public static ShapeType random()  {
+    public static ShapeType random() {
         return VALUES[RANDOM.nextInt(SIZE)];
     }
 }

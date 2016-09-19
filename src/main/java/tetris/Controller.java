@@ -60,7 +60,7 @@ class Controller {
     /**
      * the Controller class determines the game flow and does the actual event handling.
      *
-     * @param ui     the application in which the game is running
+     * @param ui the application in which the game is running
      */
     Controller(View ui) {
         this.ui = ui;

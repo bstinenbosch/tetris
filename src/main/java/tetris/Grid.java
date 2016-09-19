@@ -40,10 +40,10 @@ class Grid {
      */
     boolean isFree(Coordinate coord) {
         return (coord.getX() >= 0
-                && coord.getY() >= 0
-                && coord.getX() < width()
-                && coord.getY() < height() + 3 && //Ik speel vals #error
-                board[coord.getX()][coord.getY()] == 0);
+            && coord.getY() >= 0
+            && coord.getX() < width()
+            && coord.getY() < height() + 3 && //Ik speel vals #error
+            board[coord.getX()][coord.getY()] == 0);
     }
 
     /**

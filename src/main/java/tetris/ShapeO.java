@@ -2,7 +2,7 @@ package tetris;
 
 class ShapeO extends AbstractShape {
 
-    private static final Coordinate[] minos = new Coordinate[]{
+    private static final Coordinate[] minos = new Coordinate[] {
         new Coordinate(0, 0),
         new Coordinate(0, 1),
         new Coordinate(1, 1),

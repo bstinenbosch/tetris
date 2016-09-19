@@ -65,8 +65,8 @@ public class View extends Application {
         TilePane rootStartScreen = new TilePane(Orientation.VERTICAL);
         rootStartScreen.setTileAlignment(Pos.CENTER);
         rootStartScreen
-                .getChildren()
-                .addAll(titleLabel, startNewGameButton, speedSlider, annotationLabel);
+            .getChildren()
+            .addAll(titleLabel, startNewGameButton, speedSlider, annotationLabel);
         rootStartScreen.setStyle("-fx-background-color: black");
 
         Scene startScreen = new Scene(rootStartScreen);
@@ -151,7 +151,7 @@ public class View extends Application {
                 break;
             default:
                 throw new IllegalArgumentException(
-                        String.format("Color %d is not a valid color number.", color));
+                    String.format("Color %d is not a valid color number.", color));
         }
     }
 
@@ -194,19 +194,19 @@ public class View extends Application {
             setColor(board, color);
             board.setLineWidth(BLOCK_SIZE / 10.);
             board.fillRoundRect(
-                    coordinate.getX() * BLOCK_SIZE,
-                    (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE,
-                    BLOCK_SIZE,
-                    BLOCK_SIZE,
-                    CORNER,
-                    CORNER);
+                coordinate.getX() * BLOCK_SIZE,
+                (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE,
+                BLOCK_SIZE,
+                BLOCK_SIZE,
+                CORNER,
+                CORNER);
             board.strokeRoundRect(
-                    coordinate.getX() * BLOCK_SIZE,
-                    (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE,
-                    BLOCK_SIZE,
-                    BLOCK_SIZE,
-                    CORNER,
-                    CORNER);
+                coordinate.getX() * BLOCK_SIZE,
+                (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE,
+                BLOCK_SIZE,
+                BLOCK_SIZE,
+                CORNER,
+                CORNER);
         }
     }
 

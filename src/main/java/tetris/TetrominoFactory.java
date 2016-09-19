@@ -5,9 +5,9 @@ class TetrominoFactory {
     /**
      * Creates a Tetromino.
      *
-     * @param   type            Type of Tetromino to create
-     * @param   position        Position of shape in grid
-     * @return  AbstractShape   Tetromino
+     * @param type     Type of Tetromino to create
+     * @param position Position of shape in grid
+     * @return AbstractShape   Tetromino
      */
     private static AbstractShape create(ShapeType type, Coordinate position) {
         switch (type) {
@@ -33,8 +33,8 @@ class TetrominoFactory {
     /**
      * Creates a random Tetromino.
      *
-     * @param   position        Position of shape in grid
-     * @return  AbstractShape   Tetromino
+     * @param position Position of shape in grid
+     * @return AbstractShape   Tetromino
      */
     static AbstractShape createRandom(Coordinate position) {
         return create(ShapeType.random(), position);
