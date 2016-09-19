@@ -178,7 +178,6 @@ public class Controller{
                return false;
            }
         }
-        
        return true;
    }
     public boolean checkRotateLeft(){
@@ -189,10 +188,6 @@ public class Controller{
                return false;
            }
         }
-        
        return true;
-   
-
-	
     }
 }
