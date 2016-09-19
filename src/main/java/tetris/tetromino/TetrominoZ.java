@@ -1,6 +1,8 @@
-package tetris;
+package tetris.tetromino;
 
-public class ShapeZ extends AbstractShape {
+import tetris.Coordinate;
+
+public class TetrominoZ extends AbstractTetromino {
 
 	private static final Coordinate[] minos = new Coordinate[]{
 			new Coordinate(-1, 1),
@@ -13,7 +15,7 @@ public class ShapeZ extends AbstractShape {
 	 * ShapeZ is the figure that is dropped on the gameboard.
 	 * @param   position        Position of shape in grid
 	 */
-	public ShapeZ(Coordinate position) {
+	public TetrominoZ(Coordinate position) {
 		super(position, minos);
 	}
 

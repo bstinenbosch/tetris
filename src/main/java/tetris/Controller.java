@@ -4,13 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.TetrominoFactory;
 
 public class Controller{
 	
 	private View ui;
 	private Grid grid;
 	private GraphicsContext board;
-	private AbstractShape tetromino;
+	private AbstractTetromino tetromino;
 	private boolean gameOver = false;
 	private EventHandler<ActionEvent> onTick = new EventHandler<ActionEvent>(){
 		@Override

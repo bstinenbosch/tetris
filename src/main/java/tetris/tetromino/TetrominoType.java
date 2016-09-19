@@ -1,16 +1,16 @@
-package tetris;
+package tetris.tetromino;
 
 import java.util.Random;
 
-enum ShapeType {
+enum TetrominoType {
 
     I, J, L, O, S, T, Z;
 
-    private static final ShapeType[] VALUES = values();
+    private static final TetrominoType[] VALUES = values();
     private static final int SIZE = VALUES.length;
     private static final Random RANDOM = new Random();
 
-    public static ShapeType random()  {
+    public static TetrominoType random()  {
         return VALUES[RANDOM.nextInt(SIZE)];
     }
 }

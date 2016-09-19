@@ -1,19 +1,21 @@
-package tetris;
+package tetris.tetromino;
 
-public class ShapeL extends AbstractShape {
+import tetris.Coordinate;
+
+public class TetrominoI extends AbstractTetromino {
 
 	private static final Coordinate[] minos = new Coordinate[]{
 			new Coordinate(-1, 0),
 			new Coordinate(0, 0),
 			new Coordinate(1, 0),
-			new Coordinate(1, 1)
+			new Coordinate(2, 0)
 	};
 
 	/**
-	 * ShapeL is the figure that is dropped on the gameboard.
+	 * ShapeI is the figure that is dropped on the gameboard.
 	 * @param   position        Position of shape in grid
 	 */
-	public ShapeL(Coordinate position) {
+	public TetrominoI(Coordinate position) {
 		super(position, minos);
 	}
 }

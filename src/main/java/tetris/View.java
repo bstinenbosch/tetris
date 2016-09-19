@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import tetris.tetromino.AbstractTetromino;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -183,7 +184,7 @@ public class View extends Application{
 	  * @param board the gameboard to draw the tetromino on
 	  * @param tetromino the tetromino to draw
 	  */
-	 public void drawTetromino(GraphicsContext board, AbstractShape tetromino){	 
+	 public void drawTetromino(GraphicsContext board, AbstractTetromino tetromino){	 
 		 for(int i = 0; i<4; i++){
 			 drawRectangle(board, tetromino.getColor(), tetromino.get(i));
 		 }	 

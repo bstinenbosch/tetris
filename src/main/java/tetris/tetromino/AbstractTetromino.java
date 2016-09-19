@@ -1,13 +1,15 @@
-package tetris;
+package tetris.tetromino;
 
-public abstract class AbstractShape {
+import tetris.Coordinate;
+
+public abstract class AbstractTetromino {
 
     private Coordinate[] minos;
     private int rotation = 0;
     private Coordinate position;
     private int color = 1+(int)(Math.random()*6);
 
-    public AbstractShape(Coordinate position, Coordinate[] minos) {
+    public AbstractTetromino(Coordinate position, Coordinate[] minos) {
         this.position = position;
         this.minos = minos;
     }
