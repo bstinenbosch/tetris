@@ -2,10 +2,10 @@ package logging;
 
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
 
 import org.junit.Assert;
 	
@@ -38,8 +38,8 @@ public class LoggerTest {
 	public void test_debugMode(){
 		String testloc = "test.log";
 		Logger.setLogDir(testloc);
-		Logger.clearLog();
 		Logger.setDebugOff();
+		Logger.clearLog();
 		Logger.Log(this, Logger.LogType.ERROR, "test 1");
 		
 		Assert.assertFalse(new File(testloc).exists());		
@@ -56,12 +56,14 @@ public class LoggerTest {
 			Logger.Log(this, Logger.LogType.ERROR, "test 1");
 		}
 		Logger.setDebugOff();
-		LineNumberReader  lnr = new LineNumberReader(new FileReader(new File(testloc)));
-		lnr.skip(Long.MAX_VALUE);
-		Assert.assertEquals(10, lnr.getLineNumber()+1);
-		lnr.close();
 		
-		Assert.assertFalse(new File(testloc).exists());		
+		int count = 0;
+	    BufferedReader reader = new BufferedReader(new FileReader(testloc));
+	    while(reader.readLine() != null){
+	    	++count;
+	    }
+	    reader.close();
+		Assert.assertEquals(10, count);	
 		
 	}
 }

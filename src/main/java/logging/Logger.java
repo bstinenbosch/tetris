@@ -2,18 +2,15 @@ package logging;
 
 import java.lang.StringBuilder;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 
-public final class Logger {
+public final class Logger{
 	private static boolean debug = false;
 	private static StringBuilder queue = new StringBuilder();
 	private static File file = new File("./logging/log.txt");
@@ -36,24 +33,24 @@ public final class Logger {
 	private static void capFileSize() throws IOException {
 		int fileLength = countLines();
 		if(fileLength>logLength){
-			File tempFile = File.createTempFile("TETRIS_LOG", ".log");
+			String line;
+			File tempFile = File.createTempFile("TETRIS_LOG_", ".log");
 			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(file));
 				try {
 					skipLines(fileLength - logLength, reader);
-					char[] buf = new char[1024];
-					while(reader.read(buf)>0){
-						writer.write(buf);
+					while((line = reader.readLine()) != null){
+						writer.write(line);
+						writer.newLine();
 					}
 				} finally {
 					reader.close();
 				} 
 			} finally {
 				writer.close();
-				file.delete();
-				Files.move(tempFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			}
+			Files.move(tempFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 	
@@ -121,7 +118,11 @@ public final class Logger {
 	}
 	
 	public static void clearLog(){
-		file.delete();
+		try {
+			Files.deleteIfExists(file.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static int getLogLength(){
