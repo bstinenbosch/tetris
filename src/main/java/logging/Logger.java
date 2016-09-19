@@ -81,6 +81,58 @@ public final class Logger{
 	    }
 	}
 	
+	/**
+	 * Log lets you log a line in the log file, conditional on the debug mode being on.
+	 * @param sender the object invoking the log statement
+	 * @param logtype the log type, for homogeneity constrained in the LogType enum
+	 * @param message the message that is logged
+	 * @return true if the log was successfully registered, else false
+	 */
+	public static boolean Log(Object sender, LogType logtype, String message){
+		if(debug){
+			String msg = String.format("[%s] message from object %s: %s\n", logtype.toString(), sender.toString(), message);
+			queue.append(msg);
+			if(queue.length()>Math.min(logLength, 100)){
+				try {
+					writeToFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * clearLog truncates the log, in case you accidentally logged a nude picture or something.
+	 */
+	public static void clearLog(){
+		try {
+			Files.deleteIfExists(file.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* getters / setters */
+	public static int getLogLength(){
+		return logLength;
+	}
+	
+	public static void setLogLength(int length){
+		logLength = length;
+	}
+	
+	public static void setLogDir(String path){
+		file = new File(path);
+	}
+	
+	
+	public static String getLogDir(){
+		return file.toString();
+	}
+	
 	public static void setDebugOn(){
 		debug = true;
 	}
@@ -92,44 +144,5 @@ public final class Logger{
 			e.printStackTrace();
 		}
 		debug = false;
-	}
-	
-	public static boolean Log(Object T, LogType logtype, String message){
-		if(debug){
-			String msg = String.format("[%s] message from object %s: %s\n", logtype.toString(), T.toString(), message);
-			queue.append(msg);
-			if(queue.length()>Math.min(logLength, 100)){
-				try {
-					writeToFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return true;
-	}
-	
-	public static void setLogDir(String path){
-		file = new File(path);
-	}
-	
-	public static String getLogDir(){
-		return file.toString();
-	}
-	
-	public static void clearLog(){
-		try {
-			Files.deleteIfExists(file.toPath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static int getLogLength(){
-		return logLength;
-	}
-	
-	public static void setLogLength(int length){
-		logLength = length;
 	}
 }
