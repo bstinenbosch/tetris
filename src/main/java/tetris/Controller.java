@@ -128,7 +128,7 @@ public class Controller{
      * gameOver handles the end of the game.
      */
     private void gameOver() {
-        timer.requestStop();
+        timer.pause();
         gameOver = true;
         System.out.println("game over");
         ui.gameOver();
@@ -159,6 +159,7 @@ public class Controller{
      */
     void restartGame() {
         grid.clearBoard();
+        timer.unpause();
         dropNewTetromino();
         System.out.println("started running again");
     }
