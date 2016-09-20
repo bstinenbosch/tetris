@@ -2,7 +2,6 @@ package tetris;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
@@ -11,7 +10,6 @@ public class Controller{
 	
 	private View ui;
 	private Grid grid;
-	private GraphicsContext board;
 	private AbstractTetromino tetromino;
 	private boolean gameOver = false;
 	private EventHandler<ActionEvent> onTick = new EventHandler<ActionEvent>(){
@@ -121,9 +119,9 @@ public class Controller{
      * redraw empties the canvas and redraws the gameboard and the current active tetromino.
      */
     private void redraw() {
-        ui.clearBoard(board);
-        ui.drawGrid(board, grid);
-        ui.drawTetromino(board, tetromino);
+        ui.clearBoard();
+        ui.drawGrid( grid);
+        ui.drawTetromino(tetromino);
     }
 
     /**
@@ -133,7 +131,7 @@ public class Controller{
         timer.requestStop();
         gameOver = true;
         System.out.println("game over");
-        ui.gameOver(board);
+        ui.gameOver();
     }
 
     /**
@@ -149,7 +147,7 @@ public class Controller{
      */
     void startGame(int width, int height) {
         gameOver = false;
-        board = ui.gotoGameScreen();
+        ui.gotoGameScreen();
         grid = new Grid(width, height);
         dropNewTetromino();
         timer.start();
