@@ -129,7 +129,7 @@ public class Controller{
 	 * gameOver handles the end of the game
 	 */
 	private void gameOver(){
-		timer.requestStop();
+		timer.pause();
 		gameOver = true;
 		System.out.println("game over");
 		ui.gameOver();
@@ -147,17 +147,22 @@ public class Controller{
 	 * starts the game
 	 */
 	public void startGame(int width, int height){
-		gameOver = false;
 		ui.gotoGameScreen();
+		gameOver = false;
 		grid = new Grid(width, height);
 		dropNewTetromino();
 		timer.start();
 		System.out.println("started running");
 	}
 	
+	/**
+	 * restartGame should only be called after startgame has been called once
+	 */
 	public void restartGame(){
+		gameOver = false;
 		grid.clearBoard();
 		dropNewTetromino();
+		timer.unpause();
 		System.out.println("started running again");		
 	}
 	
