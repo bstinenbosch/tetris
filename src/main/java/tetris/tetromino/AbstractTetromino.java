@@ -1,10 +1,8 @@
-package tetris;
+package tetris.tetromino;
 
-/**
- * This class shares common logic between distinct Tetromino shapes
- * and thus every Tetromino should inherit from this class.
- */
-public abstract class AbstractShape {
+import tetris.Coordinate;
+
+public abstract class AbstractTetromino {
 
     /**
      * Coordinates of every Mino in a Tetromino.
@@ -33,7 +31,7 @@ public abstract class AbstractShape {
      * @param position Position in grid relative to pivot point
      * @param minos    Coordinates of each Mino
      */
-    public AbstractShape(final Coordinate position, final Coordinate[] minos) {
+    public AbstractTetromino(final Coordinate position, final Coordinate[] minos) {
         this.position = position;
         this.minos = minos;
     }
@@ -43,7 +41,7 @@ public abstract class AbstractShape {
      *
      * @return color ID
      */
-    int getColor() {
+    public int getColor() {
         return this.color;
     }
 
@@ -51,7 +49,7 @@ public abstract class AbstractShape {
      * @param index mino index (0<=i<=3).
      * @return array containing x- and y-coordinate of mino
      */
-    Coordinate get(int index) {
+    public Coordinate get(int index) {
         if (index < 0 || index >= minos.length) {
             throw new IndexOutOfBoundsException(
                 "you are trying to access a block in a tetromino that doesn't exist.");
@@ -81,7 +79,7 @@ public abstract class AbstractShape {
      *
      * @return the y-position of the highest mino of the tetromino
      */
-    int top() {
+    public int top() {
         int top = 0;
         for (int i = 0; i < 4; i++) {
             Coordinate block = get(i);
@@ -95,7 +93,7 @@ public abstract class AbstractShape {
      *
      * @return the y-position of the lowest mino of the tetromino
      */
-    int bottom() {
+    public int bottom() {
         int bottom = Integer.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
             Coordinate block = get(i);
@@ -109,7 +107,7 @@ public abstract class AbstractShape {
      *
      * @return the x-position of the leftmost mino of the tetromino
      */
-    int left() {
+    public int left() {
         int left = Integer.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
             Coordinate block = get(i);
@@ -123,7 +121,7 @@ public abstract class AbstractShape {
      *
      * @return the x-position of the rightmost mino of the tetromino
      */
-    int right() {
+    public int right() {
         int right = 0;
         for (int i = 0; i < 4; i++) {
             Coordinate block = get(i);
@@ -135,42 +133,42 @@ public abstract class AbstractShape {
     /**
      * Moves the tetromino down one row in the grid.
      */
-    void moveDown() {
+    public void moveDown() {
         position.translateY(-1);
     }
 
     /**
      * Moves the tetromino up one row in the grid.
      */
-    void moveUp() {
+    public void moveUp() {
         position.translateY(1);
     }
 
     /**
      * Moves the tetromino left one column in the grid.
      */
-    void moveLeft() {
+    public void moveLeft() {
         position.translateX(-1);
     }
 
     /**
      * Moves the tetromino right one column in the grid.
      */
-    void moveRight() {
+    public void moveRight() {
         position.translateX(1);
     }
 
     /**
      * Rotates the tetromino clockwise in the grid.
      */
-    void rotateRight() {
+    public void rotateRight() {
         rotation++;
     }
 
     /**
      * Rotates the tetromino clockwise in the grid.
      */
-    void rotateLeft() {
+    public void rotateLeft() {
         rotation--;
     }
 }
