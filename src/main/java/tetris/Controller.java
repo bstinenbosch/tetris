@@ -49,13 +49,10 @@ public class Controller{
     /**
      * the Controller class determines the game flow and does the actual event handling.
      * @param ui the application in which the game is running
-     * @param board the canvas on which we paint the gameboard
-     * @param width the width of the gameboard
-     * @param height the height of the gameboard
      */
-	public Controller(View ui){//, GraphicsContext board, int width, int height){
-		this.ui = ui;
-	}
+    Controller(View ui) {
+        this.ui = ui;
+    }
 
 	/**
 	 * tries to lower a tetromino. If this is not possible, a new tetromino is launched or the game is over.

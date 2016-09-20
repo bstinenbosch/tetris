@@ -21,9 +21,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 
 /**
- * MainScreen is the class containing all the GUI-related stuff. Here we draw up the different screens and hook the key events.
- * @author ms
- *
+ * MainScreen is the class containing all the GUI-related stuff.
+ * Here we draw up the different screens and hook the key events.
  */
 public class View extends Application{
 	private static final int BLOCK_SIZE = 20;
@@ -40,20 +39,19 @@ public class View extends Application{
 	 */
     @Override
     public void start(Stage primaryStage) {
- 		controller = new Controller(this);
- 		this.primaryStage = primaryStage;
-    	gotoLauncher(); 
+        controller = new Controller(this);
+        this.primaryStage = primaryStage;
+        gotoLauncher();
         primaryStage.setTitle("Tetris");
-        primaryStage.show();        
+        primaryStage.show();
     }
-    
+
     /**
      * gotoLauncher navigates to the launcher and contains its definition.
-     * @param primaryStage
      */
-    public void gotoLauncher(){
-    	Label titleLabel = new Label("TETRIS");
-    	titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
+    private void gotoLauncher() {
+        Label titleLabel = new Label("TETRIS");
+        titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
         Button startNewGameButton = new Button("Start new game");
         startNewGameButton.setStyle("-fx-background-color: red");
         hookLauncherEvents(startNewGameButton);
@@ -78,8 +76,8 @@ public class View extends Application{
 	}
     
     /**
-     * gotoGameScreen inits and shows the game screen, hooks the key events and fires up the game controller.
-     * @param primaryStage
+     * gotoGameScreen inits and shows the game screen,
+     * hooks the key events and fires up the game controller.
      */
 	 public void gotoGameScreen(){     
 	     Pane leftPane = setUpLeftPaneGameScreen();	
