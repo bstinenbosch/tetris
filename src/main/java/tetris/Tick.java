@@ -7,22 +7,24 @@ class Tick extends Thread {
 
     private long time;
     private EventHandler<ActionEvent> onTick;
-    private volatile boolean running;
-
+    public volatile boolean running;
+    public volatile boolean waiting;
+    
     /**
      * Tick is a timer class. No clue why this isn't a default Java library dingetje.
      *
      * @param event the event that is fired at the moment of tick
      * @param time  the time in milliseconds between each tick
      */
-    private Tick(EventHandler<ActionEvent> event, long time) {
+    public Tick(EventHandler<ActionEvent> event, long time) {
         this.onTick = event;
         running = true;
+        waiting = false;
         this.time = time;
     }
 
-    Tick(EventHandler<ActionEvent> event) {
-        this(event, 170);
+    public Tick(EventHandler<ActionEvent> event) {
+    	this(event, 100);
     }
 
     /**
@@ -32,8 +34,9 @@ class Tick extends Thread {
         running = true;
         while (running) {
             try {
-                onTick.handle(new ActionEvent());
-                //System.out.println("tick");
+            	if(!waiting){
+            		onTick.handle(new ActionEvent());
+            	}
                 sleep(this.time);
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
@@ -46,6 +49,20 @@ class Tick extends Thread {
      */
     void requestStop() {
         running = false;
+    }
+    
+    /**
+     * pause pauses the handling of events.
+     */
+    public void pause(){
+    	waiting = true;
+    }
+    
+    /**
+     * unpause unpauses the handling of events.
+     */
+    public void unpause(){
+    	waiting = false;
     }
 
     /**
