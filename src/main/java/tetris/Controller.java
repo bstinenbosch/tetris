@@ -59,7 +59,6 @@ class Controller {
 
     /**
      * the Controller class determines the game flow and does the actual event handling.
-     *
      * @param ui the application in which the game is running
      */
     Controller(View ui) {
@@ -183,7 +182,6 @@ class Controller {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -200,7 +198,6 @@ class Controller {
                 return false;
             }
         }
-
-        return true;
+       return true;
     }
 }
