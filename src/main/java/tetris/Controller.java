@@ -4,59 +4,64 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.TetrominoFactory;
 
-class Controller {
+public class Controller{
+	
+	private View ui;
+	private Grid grid;
+	private GraphicsContext board;
+	private AbstractTetromino tetromino;
+	private boolean gameOver = false;
+	private EventHandler<ActionEvent> onTick = new EventHandler<ActionEvent>(){
+		@Override
+		public  void handle(ActionEvent e){
+			lowerTetromino();
+		}
+	};
+	private Tick timer = new Tick(onTick);
+	private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>(){
+		@Override
+		public void handle(KeyEvent event) {
+			if (!gameOver){
+				switch(event.getCode()){
+				case DOWN:
+	                checkRotateRight();
+					break;
+				case LEFT:
+                    if(tetromino.left()>0){
+                        tetromino.moveLeft();
+                  }
+                  for(int i=0; i<4; i++){
+                         if(!grid.isFree(tetromino.get(i))){
+                             tetromino.moveRight(); break;
+                         }
+                    }
+                  break;
 
-    private View ui;
-    private Grid grid;
-    private GraphicsContext board;
-    private AbstractShape tetromino;
-    private boolean gameOver = false;
-    private EventHandler<ActionEvent> onTick = event -> lowerTetromino();
-    private Tick timer = new Tick(onTick);
-    private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-            if (!gameOver) {
-                switch (event.getCode()) {
-                    case DOWN:
-                        checkRotateRight();
-                        break;
-                    case LEFT:
-                        if (tetromino.left() > 0) {
-                            tetromino.moveLeft();
-                        }
-                        for (int i = 0; i < 4; i++) {
-                            if (!grid.isFree(tetromino.get(i))) {
-                                tetromino.moveRight();
-                                break;
-                            }
-                        }
-                        break;
+				case RIGHT:
+                    if(tetromino.right()<grid.width()-1){
+                        tetromino.moveRight();
+                   }
+                   for(int i=0; i<4; i++){
+                          if(!grid.isFree(tetromino.get(i))){
+                              tetromino.moveLeft(); break;
+                          }
+                     }
+                   break;
 
-                    case RIGHT:
-                        if (tetromino.right() < grid.width() - 1) {
-                            tetromino.moveRight();
-                        }
-                        for (int i = 0; i < 4; i++) {
-                            if (!grid.isFree(tetromino.get(i))) {
-                                tetromino.moveLeft();
-                                break;
-                            }
-                        }
-                        break;
-
-                    case UP:
-                        checkRotateLeft();
-                        break;
-                    default:
-                        break;
-                }
-                redraw();
-            }
-        }
-    };
-
+				case UP:
+	                checkRotateLeft();
+					break;
+				default:
+					break;
+				}
+				redraw();
+			}
+		}    	 
+     };
+	
     /**
      * the Controller class determines the game flow and does the actual event handling.
      * @param ui the application in which the game is running

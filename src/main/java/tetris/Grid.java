@@ -1,6 +1,8 @@
 package tetris;
 
-class Grid {
+import tetris.tetromino.AbstractTetromino;
+
+public class Grid {
 
     private int[][] board;
 
@@ -51,8 +53,8 @@ class Grid {
      *
      * @param tetromino the tetromino to add
      */
-    void registerTetromino(AbstractShape tetromino) {
-        for (int i = 0; i < 4; i++) {
+    public void registerTetromino(AbstractTetromino tetromino){
+    	for(int i=0; i<4; i++){
             Coordinate coords = tetromino.get(i);
             board[coords.getX()][coords.getY()] = tetromino.getColor();
         }
