@@ -6,28 +6,28 @@ public class Coordinate {
     private int y;
 
     public Coordinate(int x, int y) {
-        this.x = x;
-        this.y = y;
+	this.x = x;
+	this.y = y;
     }
 
     public int getX() {
-        return this.x;
+	return this.x;
     }
 
     public int getY() {
-        return this.y;
+	return this.y;
     }
 
     public void translateX(int dx) {
-        this.x += dx;
+	this.x += dx;
     }
 
     public void translateY(int dy) {
-        this.y += dy;
+	this.y += dy;
     }
 
     public void translate(int dx, int dy) {
-        this.x += dx;
-        this.y += dy;
+	this.x += dx;
+	this.y += dy;
     }
 }
