@@ -20,55 +20,53 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 /**
- * MainScreen is the class containing all the GUI-related stuff. Here we draw up the different screens and hook the key events.
- * @author ms
- *
+ * MainScreen is the class containing all the GUI-related stuff.
+ * Here we draw up the different screens and hook the key events.
  */
-public class View extends Application{
-	private static final int BLOCK_SIZE = 20;
-	private static final int BOARD_WIDTH = 10;
-	private static final int BOARD_HEIGHT = 20;
-	private static final int CORNER = 3;
-	private Controller controller;
-	private Stage primaryStage;
-		    
-	/**
-	 * start inits the application and displays a loading screen
-	 * @param primaryStage is the root object containing the application.
-	 */
+public class View extends Application {
+
+    private static final int BLOCK_SIZE = 20;
+    private static final int BOARD_WIDTH = 10;
+    private static final int BOARD_HEIGHT = 20;
+    private static final int CORNER = 3;
+    private Controller controller;
+    private Stage primaryStage;
+
+    /**
+     * start inits the application and displays a loading screen
+     *
+     * @param primaryStage is the root object containing the application.
+     */
     @Override
     public void start(Stage primaryStage) {
- 		controller = new Controller(this);
- 		this.primaryStage = primaryStage;
-    	gotoLauncher(); 
+        controller = new Controller(this);
+        this.primaryStage = primaryStage;
+        gotoLauncher();
         primaryStage.setTitle("Tetris");
-        primaryStage.show();        
+        primaryStage.show();
     }
-    
+
     /**
      * gotoLauncher navigates to the launcher and contains its definition.
-     * @param primaryStage
      */
-    public void gotoLauncher(){
-    	Label titleLabel = new Label("TETRIS");
-    	titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
+    private void gotoLauncher() {
+        Label titleLabel = new Label("TETRIS");
+        titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
         Button startNewGameButton = new Button("Start new game");
-        startNewGameButton.setOnAction(new EventHandler<ActionEvent>() { 
-            @Override
-            public void handle(ActionEvent event) { 
-            	//TODO board_width en board_height uitlezen uit size sliders oid
-                controller.startGame(BOARD_WIDTH, BOARD_HEIGHT);     
-            }
+        startNewGameButton.setOnAction(event -> {
+            //TODO board_width en board_height uitlezen uit size sliders oid
+            controller.startGame(BOARD_WIDTH, BOARD_HEIGHT);
         });
         startNewGameButton.setStyle("-fx-background-color: red");
-        
+
         Slider speedSlider = new Slider();
         Label annotationLabel = new Label("de level slider is er als voorbeeld/filler.");
         annotationLabel.setStyle("-fx-text-fill:white");
-        
-        TilePane rootStartScreen = new TilePane(Orientation.VERTICAL);    
+
+        TilePane rootStartScreen = new TilePane(Orientation.VERTICAL);
         rootStartScreen.setTileAlignment(Pos.CENTER);
         rootStartScreen.getChildren().addAll(titleLabel, startNewGameButton, speedSlider, annotationLabel);
         rootStartScreen.setStyle("-fx-background-color: black");
@@ -77,10 +75,10 @@ public class View extends Application{
 
         primaryStage.setScene(startScreen);
     }
-    
+
     /**
-     * gotoGameScreen inits and shows the game screen, hooks the key events and fires up the game controller.
-     * @param primaryStage
+     * gotoGameScreen inits and shows the game screen,
+     * hooks the key events and fires up the game controller.
      */
 	 public GraphicsContext gotoGameScreen(){     
 	     Canvas canvas = new Canvas(BLOCK_SIZE*BOARD_WIDTH, BLOCK_SIZE*BOARD_HEIGHT);
