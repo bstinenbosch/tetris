@@ -3,32 +3,33 @@ package tetris;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-public class Tick extends Thread {
+class Tick extends Thread {
 
     private long time;
     private EventHandler<ActionEvent> onTick;
-    public volatile boolean running;
-    
+    private volatile boolean running;
+
     /**
      * Tick is a timer class. No clue why this isn't a default Java library dingetje.
+     *
      * @param event the event that is fired at the moment of tick
-     * @param time the time in milliseconds between each tick
+     * @param time  the time in milliseconds between each tick
      */
-    public Tick(EventHandler<ActionEvent> event, long time) {
+    private Tick(EventHandler<ActionEvent> event, long time) {
         this.onTick = event;
         running = true;
         this.time = time;
     }
 
-    public Tick(EventHandler<ActionEvent> event) {
-    	this(event, 100);
+    Tick(EventHandler<ActionEvent> event) {
+        this(event, 170);
     }
-    
+
     /**
      * run is the code that is executed once the thread is started.
      */
     public void run() {
-    	running = true;
+        running = true;
         while (running) {
             try {
                 onTick.handle(new ActionEvent());
@@ -39,16 +40,17 @@ public class Tick extends Thread {
             }
         }
     }
-    
+
     /**
-     * requestStop halts the thread in a clean fashion. 
+     * requestStop halts the thread in a clean fashion.
      */
-    public void requestStop(){
-    	running = false;
+    void requestStop() {
+        running = false;
     }
 
     /**
      * accessor method for the set time of the tick.
+     *
      * @return the set time
      */
     public long getTime() {
@@ -56,7 +58,8 @@ public class Tick extends Thread {
     }
 
     /**
-     * setter method for the tick time
+     * setter method for the tick time.
+     *
      * @param time time
      */
     public void setTime(long time) {
