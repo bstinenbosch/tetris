@@ -10,7 +10,7 @@ enum TetrominoType {
     private static final int SIZE = VALUES.length;
     private static final Random RANDOM = new Random();
 
-    public static TetrominoType random()  {
-        return VALUES[RANDOM.nextInt(SIZE)];
+    public static TetrominoType random() {
+	return VALUES[RANDOM.nextInt(SIZE)];
     }
 }
