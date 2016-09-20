@@ -18,5 +18,4 @@ public class TetrominoO extends AbstractTetromino {
 	public TetrominoO(Coordinate position) {
 		super(position, minos);
 	}
-
 }

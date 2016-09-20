@@ -31,20 +31,20 @@ public abstract class AbstractTetromino {
         if (i < 0 || i >= minos.length)
             throw new IndexOutOfBoundsException("you are trying to access a block in a tetromino that doesn't exist.");
 
-        int minoX = minos[i].getX();
-        int minoY = minos[i].getY();
+        double minoX = minos[i].getX() - .5;
+        double minoY = minos[i].getY() - .5;
         int positionX = position.getX();
         int positionY = position.getY();
 
         switch (Math.floorMod(rotation, 4)) {
             case 0:
-                return new Coordinate(positionX + minoX, positionY + minoY);
+                return new Coordinate(positionX + (int)(.5 + minoX), positionY + (int)(.5 + minoY));
             case 1:
-                return new Coordinate(positionX + minoY, positionY - minoX);
+                return new Coordinate(positionX + (int)(.5 + minoY), positionY + (int)(.5 - minoX));
             case 2:
-                return new Coordinate(positionX - minoX, positionY - minoY);
+                return new Coordinate(positionX + (int)(.5 - minoX), positionY + (int)(.5 - minoY));
             case 3:
-                return new Coordinate(positionX - minoY, positionY + minoX);
+                return new Coordinate(positionX + (int)(.5 - minoY), positionY + (int)(.5 + minoX));
             default:
                 throw new IndexOutOfBoundsException("This exception should be unreachable.");
         }

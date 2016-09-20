@@ -28,25 +28,11 @@ public class Controller{
 	                checkRotateRight();
 					break;
 				case LEFT:
-                    if(tetromino.left()>0){
-                        tetromino.moveLeft();
-                  }
-                  for(int i=0; i<4; i++){
-                         if(!grid.isFree(tetromino.get(i))){
-                             tetromino.moveRight(); break;
-                         }
-                    }
+                    checkMoveLeft();
                   break;
 
 				case RIGHT:
-                    if(tetromino.right()<grid.width()-1){
-                        tetromino.moveRight();
-                   }
-                   for(int i=0; i<4; i++){
-                          if(!grid.isFree(tetromino.get(i))){
-                              tetromino.moveLeft(); break;
-                          }
-                     }
+                    checkMoveRight();
                    break;
 
 				case UP:
@@ -57,7 +43,7 @@ public class Controller{
 				}
 				redraw();
 			}
-		}    	 
+		} 	 
      };
 	
     /**
@@ -76,7 +62,7 @@ public class Controller{
 	 */
 	private void lowerTetromino(){
 		// check if current tetromino can be lowered
-		if(tryToLower()){
+		if(checkMoveDown()){
 		// if so, lower it	
 			redraw();
 		} else if(tetromino.top() >= grid.height()-1 ){
@@ -98,22 +84,6 @@ public class Controller{
 		tetromino = TetrominoFactory.createRandom(position);
 		redraw();
 		// pick random new tetromino and drop tetromino
-	}
-	
-	/**
-	 * tryToLower checks the lowerability of the tetromino and if possible lowers it.
-	 * @return true on succes, false on failure to load.
-	 */
-	private boolean tryToLower(){
-		tetromino.moveDown();
-		//check lowerability
-		for(int i=0; i<4; i++){
-			if(!grid.isFree(tetromino.get(i))){
-				tetromino.moveUp();
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	/**
@@ -175,24 +145,63 @@ public class Controller{
 	}
 	
     
-    public boolean checkRotateRight(){
+    private void checkRotateRight(){
         tetromino.rotateRight();
         for(int i=0; i<4; i++){
            if(!grid.isFree(tetromino.get(i))){
                tetromino.rotateLeft();
-               return false;
+               break;
            }
         }
-       return true;
    }
-    public boolean checkRotateLeft(){
+    
+    private void checkRotateLeft(){
         tetromino.rotateLeft();
         for(int i=0; i<4; i++){
            if(!grid.isFree(tetromino.get(i))){
                tetromino.rotateRight();
-               return false;
+               break;
            }
         }
-       return true;
     }
+
+	private void checkMoveLeft() {
+		if(tetromino.left()>0){
+		    tetromino.moveLeft();
+          }
+          for(int i=0; i<4; i++){
+		     if(!grid.isFree(tetromino.get(i))){
+		         tetromino.moveRight(); 
+		         break;
+		     }
+		}
+	}
+
+	private void checkMoveRight() {
+		if(tetromino.right()<grid.width()-1){
+		    tetromino.moveRight();
+           }
+           for(int i=0; i<4; i++){
+		      if(!grid.isFree(tetromino.get(i))){
+		          tetromino.moveLeft(); 
+		          break;
+		      }
+		 }
+	} 
+	
+	/**
+	 * checks the lowerability of the tetromino and if possible lowers it.
+	 * @return true on succes, false on failure to load.
+	 */
+	private boolean checkMoveDown(){
+		tetromino.moveDown();
+		//check lowerability
+		for(int i=0; i<4; i++){
+			if(!grid.isFree(tetromino.get(i))){
+				tetromino.moveUp();
+				return false;
+			}
+		}
+		return true;
+	}  
 }
