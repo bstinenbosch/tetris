@@ -93,7 +93,7 @@ public abstract class AbstractTetromino {
      *
      * @return the y-position of the lowest mino of the tetromino
      */
-    int bottom() {
+    public int bottom() {
         int bottom = Integer.MAX_VALUE;
         for (int i = 0; i < 4; i++) {
             Coordinate block = get(i);
