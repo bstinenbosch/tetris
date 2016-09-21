@@ -20,52 +20,52 @@ class Tick extends Thread {
      *            the time in milliseconds between each tick
      */
     public Tick(EventHandler<ActionEvent> event, long time) {
-	this.onTick = event;
-	running = true;
-	waiting = false;
-	this.time = time;
+        this.onTick = event;
+        running = true;
+        waiting = false;
+        this.time = time;
     }
 
     public Tick(EventHandler<ActionEvent> event) {
-	this(event, 200);
+        this(event, 200);
     }
 
     /**
      * run is the code that is executed once the thread is started.
      */
     public void run() {
-	running = true;
-	while (running) {
-	    try {
-		if (!waiting) {
-		    onTick.handle(new ActionEvent());
-		}
-		sleep(this.time);
-	    } catch (InterruptedException ie) {
-		ie.printStackTrace();
-	    }
-	}
+        running = true;
+        while (running) {
+            try {
+                if (!waiting) {
+                    onTick.handle(new ActionEvent());
+                }
+                sleep(this.time);
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
+        }
     }
 
     /**
      * requestStop halts the thread in a clean fashion.
      */
     void requestStop() {
-	running = false;
+        running = false;
     }
 
     /**
      * pause pauses the handling of events.
      */
     public void pause() {
-	waiting = true;
+        waiting = true;
     }
 
     /**
      * unpause unpauses the handling of events.
      */
     public void unpause() {
-	waiting = false;
+        waiting = false;
     }
 
     /**
@@ -74,7 +74,7 @@ class Tick extends Thread {
      * @return the set time
      */
     public long getTime() {
-	return time;
+        return time;
     }
 
     /**
@@ -84,6 +84,6 @@ class Tick extends Thread {
      *            time
      */
     public void setTime(long time) {
-	this.time = time;
+        this.time = time;
     }
 }

@@ -16,71 +16,71 @@ public final class Logger {
     private static int logLength = 10000;
 
     public enum LogType {
-	INFO, WARNING, ERROR
+        INFO, WARNING, ERROR
     };
 
     private Logger() {
     } // unreachable because static
 
     private static void writeToFile() throws IOException {
-	if (!file.exists()) {
-	    file.createNewFile();
-	}
-	FileWriter writer = new FileWriter(file, true);
-	writer.write(queue.toString());
-	writer.close();
-	capFileSize();
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileWriter writer = new FileWriter(file, true);
+        writer.write(queue.toString());
+        writer.close();
+        capFileSize();
     }
 
     private static void capFileSize() throws IOException {
-	int fileLength = countLines();
-	if (fileLength > logLength) {
-	    String line;
-	    File tempFile = File.createTempFile("TETRIS_LOG_", ".log");
-	    BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-	    try {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		try {
-		    skipLines(fileLength - logLength, reader);
-		    while ((line = reader.readLine()) != null) {
-			writer.write(line);
-			writer.newLine();
-		    }
-		} finally {
-		    reader.close();
-		}
-	    } finally {
-		writer.close();
-	    }
-	    Files.move(tempFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-	}
+        int fileLength = countLines();
+        if (fileLength > logLength) {
+            String line;
+            File tempFile = File.createTempFile("TETRIS_LOG_", ".log");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                try {
+                    skipLines(fileLength - logLength, reader);
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line);
+                        writer.newLine();
+                    }
+                } finally {
+                    reader.close();
+                }
+            } finally {
+                writer.close();
+            }
+            Files.move(tempFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
     private static void skipLines(int lines, BufferedReader file) throws IOException {
-	for (int i = 0; i < lines; i++) {
-	    file.readLine();
-	}
+        for (int i = 0; i < lines; i++) {
+            file.readLine();
+        }
     }
 
     private static int countLines() throws IOException {
-	char[] buffer = new char[1024];
-	int count = 0;
-	int readChars = 0;
-	boolean empty = true;
-	BufferedReader reader = new BufferedReader(new FileReader(file));
-	try {
-	    while ((readChars = reader.read(buffer)) != -1) {
-		empty = false;
-		for (int i = 0; i < readChars; ++i) {
-		    if (buffer[i] == '\n') {
-			++count;
-		    }
-		}
-	    }
-	    return (count == 0 && !empty) ? 1 : count;
-	} finally {
-	    reader.close();
-	}
+        char[] buffer = new char[1024];
+        int count = 0;
+        int readChars = 0;
+        boolean empty = true;
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
+            while ((readChars = reader.read(buffer)) != -1) {
+                empty = false;
+                for (int i = 0; i < readChars; ++i) {
+                    if (buffer[i] == '\n') {
+                        ++count;
+                    }
+                }
+            }
+            return (count == 0 && !empty) ? 1 : count;
+        } finally {
+            reader.close();
+        }
     }
 
     /**
@@ -95,21 +95,21 @@ public final class Logger {
      *            the message that is logged
      * @return true if the log was successfully registered, else false
      */
-    public static boolean Log(Object sender, LogType logtype, String message) {
-	if (debug) {
-	    String msg = String.format("[%s] message from object %s: %s\n", logtype.toString(), sender.toString(),
-		    message);
-	    queue.append(msg);
-	    if (queue.length() > Math.min(logLength, 100)) {
-		try {
-		    writeToFile();
-		} catch (IOException e) {
-		    e.printStackTrace();
-		    return false;
-		}
-	    }
-	}
-	return true;
+    public static boolean log(Object sender, LogType logtype, String message) {
+        if (debug) {
+            String msg = String.format("[%s] message from object %s: %s\n", logtype.toString(),
+                sender.toString(), message);
+            queue.append(msg);
+            if (queue.length() > Math.min(logLength, 100)) {
+                try {
+                    writeToFile();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -117,40 +117,46 @@ public final class Logger {
      * picture or something.
      */
     public static void clearLog() {
-	try {
-	    Files.deleteIfExists(file.toPath());
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
+        try {
+            Files.deleteIfExists(file.toPath());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     /* getters / setters */
     public static int getLogLength() {
-	return logLength;
+        return logLength;
     }
 
     public static void setLogLength(int length) {
-	logLength = length;
+        logLength = length;
     }
 
     public static void setLogDir(String path) {
-	file = new File(path);
+        file = new File(path);
     }
 
     public static String getLogDir() {
-	return file.toString();
+        return file.toString();
     }
 
+    /**
+     * switch debug on.
+     */
     public static void setDebugOn() {
-	debug = true;
+        debug = true;
     }
 
+    /**
+     * switch debug off.
+     */
     public static void setDebugOff() {
-	try {
-	    writeToFile();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	debug = false;
+        try {
+            writeToFile();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        debug = false;
     }
 }
