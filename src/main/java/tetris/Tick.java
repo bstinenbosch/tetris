@@ -27,7 +27,7 @@ class Tick extends Thread {
     }
 
     public Tick(EventHandler<ActionEvent> event) {
-        this(event, 100);
+        this(event, 200);
     }
 
     /**

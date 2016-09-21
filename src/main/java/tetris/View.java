@@ -235,7 +235,6 @@ public class View extends Application {
 
     /**
      * clearBoard erases the current board so it can be redrawn.
-     * 
      */
     public void clearBoard() {
         board.setFill(Color.BLACK);

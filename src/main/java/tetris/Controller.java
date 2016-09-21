@@ -3,6 +3,7 @@ package tetris;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
+
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
@@ -14,7 +15,7 @@ public class Controller {
     private boolean gameOver = false;
     private EventHandler<ActionEvent> onTick = new EventHandler<ActionEvent>() {
         @Override
-        public void handle(ActionEvent e) {
+        public void handle(ActionEvent event) {
             lowerTetromino();
         }
     };
@@ -28,27 +29,11 @@ public class Controller {
                         checkRotateRight();
                         break;
                     case LEFT:
-                        if (tetromino.left() > 0) {
-                            tetromino.moveLeft();
-                        }
-                        for (int i = 0; i < 4; i++) {
-                            if (!grid.isFree(tetromino.get(i))) {
-                                tetromino.moveRight();
-                                break;
-                            }
-                        }
+                        checkMoveLeft();
                         break;
 
                     case RIGHT:
-                        if (tetromino.right() < grid.width() - 1) {
-                            tetromino.moveRight();
-                        }
-                        for (int i = 0; i < 4; i++) {
-                            if (!grid.isFree(tetromino.get(i))) {
-                                tetromino.moveLeft();
-                                break;
-                            }
-                        }
+                        checkMoveRight();
                         break;
 
                     case UP:
@@ -79,7 +64,7 @@ public class Controller {
      */
     private void lowerTetromino() {
         // check if current tetromino can be lowered
-        if (tryToLower()) {
+        if (checkMoveDown()) {
             // if so, lower it
             redraw();
         } else if (tetromino.top() >= grid.height() - 1) {
@@ -101,24 +86,6 @@ public class Controller {
         tetromino = TetrominoFactory.createRandom(position);
         redraw();
         // pick random new tetromino and drop tetromino
-    }
-
-    /**
-     * tryToLower checks the lowerability of the tetromino and if possible
-     * lowers it.
-     *
-     * @return true on succes, false on failure to load.
-     */
-    private boolean tryToLower() {
-        tetromino.moveDown();
-        // check lowerability
-        for (int i = 0; i < 4; i++) {
-            if (!grid.isFree(tetromino.get(i))) {
-                tetromino.moveUp();
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -144,7 +111,7 @@ public class Controller {
     /**
      * stop handles asynchronous threads when the application is closed.
      */
-    void stop() {
+    public void stop() {
         timer.requestStop();
         ui.stop();
     }
@@ -152,9 +119,9 @@ public class Controller {
     /**
      * starts the game.
      */
-    void startGame(int width, int height) {
-        gameOver = false;
+    public void startGame(int width, int height) {
         ui.gotoGameScreen();
+        gameOver = false;
         grid = new Grid(width, height);
         dropNewTetromino();
         timer.start();
@@ -162,50 +129,80 @@ public class Controller {
     }
 
     /**
-     * Restarts the game.
+     * restartGame should only be called after startgame has been called once.
      */
-    void restartGame() {
+    public void restartGame() {
+        gameOver = false;
         grid.clearBoard();
-        timer.unpause();
         dropNewTetromino();
+        timer.unpause();
         System.out.println("started running again");
     }
 
     /**
      * public accessor for the key handle event object.
-     *
-     * @return onKeyPressed ???
+     * 
+     * @return the event
      */
-    EventHandler<KeyEvent> getOnKeyPressed() {
+    public EventHandler<KeyEvent> getOnKeyPressed() {
         return onKeyPressed;
     }
 
-    /**
-     * Checks whether it is possible to rotate Tetromino clockwise.
-     *
-     * @return Boolean
-     */
-    private boolean checkRotateRight() {
+    private void checkRotateRight() {
         tetromino.rotateRight();
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
                 tetromino.rotateLeft();
-                return false;
+                break;
             }
         }
-        return true;
     }
 
-    /**
-     * Checks whether it is possible to rotate Tetromino counter-clockwise.
-     *
-     * @return Boolean
-     */
-    private boolean checkRotateLeft() {
+    private void checkRotateLeft() {
         tetromino.rotateLeft();
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
                 tetromino.rotateRight();
+                break;
+            }
+        }
+    }
+
+    private void checkMoveLeft() {
+        if (tetromino.left() > 0) {
+            tetromino.moveLeft();
+        }
+        for (int i = 0; i < 4; i++) {
+            if (!grid.isFree(tetromino.get(i))) {
+                tetromino.moveRight();
+                break;
+            }
+        }
+    }
+
+    private void checkMoveRight() {
+        if (tetromino.right() < grid.width() - 1) {
+            tetromino.moveRight();
+        }
+        for (int i = 0; i < 4; i++) {
+            if (!grid.isFree(tetromino.get(i))) {
+                tetromino.moveLeft();
+                break;
+            }
+        }
+    }
+
+    /**
+     * checks the lowerability of the tetromino and if possible lowers it.
+     * 
+     * @return true on succes, false on failure to load.
+     */
+    private boolean checkMoveDown() {
+        tetromino.moveDown();
+        // check lowerability
+        for (int i = 0; i < 4; i++) {
+            if (!grid.isFree(tetromino.get(i))) {
+                tetromino.moveUp();
                 return false;
             }
         }

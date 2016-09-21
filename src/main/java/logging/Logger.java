@@ -141,10 +141,16 @@ public final class Logger {
         return file.toString();
     }
 
+    /**
+     * switch debug on.
+     */
     public static void setDebugOn() {
         debug = true;
     }
 
+    /**
+     * switch debug off.
+     */
     public static void setDebugOff() {
         try {
             writeToFile();
