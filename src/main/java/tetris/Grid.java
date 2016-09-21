@@ -15,7 +15,7 @@ public class Grid {
      *            the heigth of the gameboard
      */
     Grid(int width, int height) {
-	board = new int[width][height + 4];
+        board = new int[width][height + 4];
     }
 
     /**
@@ -24,7 +24,7 @@ public class Grid {
      * @return int
      */
     int height() {
-	return board[0].length - 4;
+        return board[0].length - 4;
     }
 
     /**
@@ -33,7 +33,7 @@ public class Grid {
      * @return int
      */
     int width() {
-	return board.length;
+        return board.length;
     }
 
     /**
@@ -45,11 +45,8 @@ public class Grid {
      * @return true if the location on the board is free, otherwise false.
      */
     boolean isFree(Coordinate coord) {
-	return (coord.getX() >= 0 && coord.getY() >= 0 && coord.getX() < width() && coord.getY() < height() + 3 && // Ik
-														   // speel
-														   // vals
-														   // #error
-		board[coord.getX()][coord.getY()] == 0);
+        return (coord.getX() >= 0 && coord.getY() >= 0 && coord.getX() < width()
+            && coord.getY() < height() + 3 && board[coord.getX()][coord.getY()] == 0);
     }
 
     /**
@@ -59,10 +56,10 @@ public class Grid {
      *            the tetromino to add
      */
     public void registerTetromino(AbstractTetromino tetromino) {
-	for (int i = 0; i < 4; i++) {
-	    Coordinate coords = tetromino.get(i);
-	    board[coords.getX()][coords.getY()] = tetromino.getColor();
-	}
+        for (int i = 0; i < 4; i++) {
+            Coordinate coords = tetromino.get(i);
+            board[coords.getX()][coords.getY()] = tetromino.getColor();
+        }
     }
 
     /**
@@ -71,26 +68,26 @@ public class Grid {
      * @return the score that has been earned with the removed lines
      */
     int clearLines() {
-	int row = 0;
-	int score = 0;
-	boolean skipRow;
-	int[][] localBoard = new int[width()][height() + 4];
-	for (int y = 0; y < localBoard[0].length; y++) {
-	    skipRow = false;
-	    for (int x = 0; x < localBoard.length; x++) {
-		localBoard[x][row] = board[x][y];
-		if (board[x][y] == 0) {
-		    skipRow = true;
-		}
-	    }
-	    if (skipRow) {
-		row++;
-	    } else {
-		score += localBoard.length;
-	    }
-	}
-	board = localBoard;
-	return score;
+        int row = 0;
+        int score = 0;
+        boolean skipRow;
+        int[][] localBoard = new int[width()][height() + 4];
+        for (int y = 0; y < localBoard[0].length; y++) {
+            skipRow = false;
+            for (int x = 0; x < localBoard.length; x++) {
+                localBoard[x][row] = board[x][y];
+                if (board[x][y] == 0) {
+                    skipRow = true;
+                }
+            }
+            if (skipRow) {
+                row++;
+            } else {
+                score += localBoard.length;
+            }
+        }
+        board = localBoard;
+        return score;
     }
 
     /**
@@ -104,10 +101,10 @@ public class Grid {
      * @return the color ID at location (x,y) on the board
      */
     int get(int x, int y) {
-	return board[x][y];
+        return board[x][y];
     }
 
     void clearBoard() {
-	board = new int[board.length][board[0].length];
+        board = new int[board.length][board[0].length];
     }
 }

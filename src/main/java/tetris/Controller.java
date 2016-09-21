@@ -13,53 +13,53 @@ public class Controller {
     private AbstractTetromino tetromino;
     private boolean gameOver = false;
     private EventHandler<ActionEvent> onTick = new EventHandler<ActionEvent>() {
-	@Override
-	public void handle(ActionEvent e) {
-	    lowerTetromino();
-	}
+        @Override
+        public void handle(ActionEvent e) {
+            lowerTetromino();
+        }
     };
     private Tick timer = new Tick(onTick);
     private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>() {
-	@Override
-	public void handle(KeyEvent event) {
-	    if (!gameOver) {
-		switch (event.getCode()) {
-		case DOWN:
-		    checkRotateRight();
-		    break;
-		case LEFT:
-		    if (tetromino.left() > 0) {
-			tetromino.moveLeft();
-		    }
-		    for (int i = 0; i < 4; i++) {
-			if (!grid.isFree(tetromino.get(i))) {
-			    tetromino.moveRight();
-			    break;
-			}
-		    }
-		    break;
+        @Override
+        public void handle(KeyEvent event) {
+            if (!gameOver) {
+                switch (event.getCode()) {
+                    case DOWN:
+                        checkRotateRight();
+                        break;
+                    case LEFT:
+                        if (tetromino.left() > 0) {
+                            tetromino.moveLeft();
+                        }
+                        for (int i = 0; i < 4; i++) {
+                            if (!grid.isFree(tetromino.get(i))) {
+                                tetromino.moveRight();
+                                break;
+                            }
+                        }
+                        break;
 
-		case RIGHT:
-		    if (tetromino.right() < grid.width() - 1) {
-			tetromino.moveRight();
-		    }
-		    for (int i = 0; i < 4; i++) {
-			if (!grid.isFree(tetromino.get(i))) {
-			    tetromino.moveLeft();
-			    break;
-			}
-		    }
-		    break;
+                    case RIGHT:
+                        if (tetromino.right() < grid.width() - 1) {
+                            tetromino.moveRight();
+                        }
+                        for (int i = 0; i < 4; i++) {
+                            if (!grid.isFree(tetromino.get(i))) {
+                                tetromino.moveLeft();
+                                break;
+                            }
+                        }
+                        break;
 
-		case UP:
-		    checkRotateLeft();
-		    break;
-		default:
-		    break;
-		}
-		redraw();
-	    }
-	}
+                    case UP:
+                        checkRotateLeft();
+                        break;
+                    default:
+                        break;
+                }
+                redraw();
+            }
+        }
     };
 
     /**
@@ -70,7 +70,7 @@ public class Controller {
      *            the application in which the game is running
      */
     Controller(View ui) {
-	this.ui = ui;
+        this.ui = ui;
     }
 
     /**
@@ -78,29 +78,29 @@ public class Controller {
      * launched or the game is over.
      */
     private void lowerTetromino() {
-	// check if current tetromino can be lowered
-	if (tryToLower()) {
-	    // if so, lower it
-	    redraw();
-	} else if (tetromino.top() >= grid.height() - 1) {
-	    // tetromino is in top position and cannot be lowered, so game over
-	    gameOver();
-	} else {
-	    // else, register tetromino on grid and create new tetromino
-	    grid.registerTetromino(tetromino);
-	    dropNewTetromino();
-	}
+        // check if current tetromino can be lowered
+        if (tryToLower()) {
+            // if so, lower it
+            redraw();
+        } else if (tetromino.top() >= grid.height() - 1) {
+            // tetromino is in top position and cannot be lowered, so game over
+            gameOver();
+        } else {
+            // else, register tetromino on grid and create new tetromino
+            grid.registerTetromino(tetromino);
+            dropNewTetromino();
+        }
     }
 
     /**
      * drops a new tetromino and makes sure that it is drawn on the canvas.
      */
     private void dropNewTetromino() {
-	grid.clearLines();
-	Coordinate position = new Coordinate(grid.width() / 2, grid.height());
-	tetromino = TetrominoFactory.createRandom(position);
-	redraw();
-	// pick random new tetromino and drop tetromino
+        grid.clearLines();
+        Coordinate position = new Coordinate(grid.width() / 2, grid.height());
+        tetromino = TetrominoFactory.createRandom(position);
+        redraw();
+        // pick random new tetromino and drop tetromino
     }
 
     /**
@@ -110,15 +110,15 @@ public class Controller {
      * @return true on succes, false on failure to load.
      */
     private boolean tryToLower() {
-	tetromino.moveDown();
-	// check lowerability
-	for (int i = 0; i < 4; i++) {
-	    if (!grid.isFree(tetromino.get(i))) {
-		tetromino.moveUp();
-		return false;
-	    }
-	}
-	return true;
+        tetromino.moveDown();
+        // check lowerability
+        for (int i = 0; i < 4; i++) {
+            if (!grid.isFree(tetromino.get(i))) {
+                tetromino.moveUp();
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -126,49 +126,49 @@ public class Controller {
      * active tetromino.
      */
     private void redraw() {
-	ui.clearBoard();
-	ui.drawGrid(grid);
-	ui.drawTetromino(tetromino);
+        ui.clearBoard();
+        ui.drawGrid(grid);
+        ui.drawTetromino(tetromino);
     }
 
     /**
      * gameOver handles the end of the game.
      */
     private void gameOver() {
-	timer.pause();
-	gameOver = true;
-	System.out.println("game over");
-	ui.gameOver();
+        timer.pause();
+        gameOver = true;
+        System.out.println("game over");
+        ui.gameOver();
     }
 
     /**
      * stop handles asynchronous threads when the application is closed.
      */
     void stop() {
-	timer.requestStop();
-	ui.stop();
+        timer.requestStop();
+        ui.stop();
     }
 
     /**
      * starts the game.
      */
     void startGame(int width, int height) {
-	gameOver = false;
-	ui.gotoGameScreen();
-	grid = new Grid(width, height);
-	dropNewTetromino();
-	timer.start();
-	System.out.println("started running");
+        gameOver = false;
+        ui.gotoGameScreen();
+        grid = new Grid(width, height);
+        dropNewTetromino();
+        timer.start();
+        System.out.println("started running");
     }
 
     /**
      * Restarts the game.
      */
     void restartGame() {
-	grid.clearBoard();
-	timer.unpause();
-	dropNewTetromino();
-	System.out.println("started running again");
+        grid.clearBoard();
+        timer.unpause();
+        dropNewTetromino();
+        System.out.println("started running again");
     }
 
     /**
@@ -177,7 +177,7 @@ public class Controller {
      * @return onKeyPressed ???
      */
     EventHandler<KeyEvent> getOnKeyPressed() {
-	return onKeyPressed;
+        return onKeyPressed;
     }
 
     /**
@@ -186,14 +186,14 @@ public class Controller {
      * @return Boolean
      */
     private boolean checkRotateRight() {
-	tetromino.rotateRight();
-	for (int i = 0; i < 4; i++) {
-	    if (!grid.isFree(tetromino.get(i))) {
-		tetromino.rotateLeft();
-		return false;
-	    }
-	}
-	return true;
+        tetromino.rotateRight();
+        for (int i = 0; i < 4; i++) {
+            if (!grid.isFree(tetromino.get(i))) {
+                tetromino.rotateLeft();
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -202,13 +202,13 @@ public class Controller {
      * @return Boolean
      */
     private boolean checkRotateLeft() {
-	tetromino.rotateLeft();
-	for (int i = 0; i < 4; i++) {
-	    if (!grid.isFree(tetromino.get(i))) {
-		tetromino.rotateRight();
-		return false;
-	    }
-	}
-	return true;
+        tetromino.rotateLeft();
+        for (int i = 0; i < 4; i++) {
+            if (!grid.isFree(tetromino.get(i))) {
+                tetromino.rotateRight();
+                return false;
+            }
+        }
+        return true;
     }
 }
