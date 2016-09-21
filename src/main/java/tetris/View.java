@@ -1,8 +1,6 @@
 package tetris;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -69,14 +67,7 @@ public class View extends Application {
     }
 
     private void hookLauncherEvents(Button startNewGameButton) {
-        startNewGameButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                // TODO board_width en board_height uitlezen uit size sliders
-                // oid
-                controller.startGame(BOARD_WIDTH, BOARD_HEIGHT);
-            }
-        });
+        startNewGameButton.setOnAction(event -> controller.startGame(BOARD_WIDTH, BOARD_HEIGHT));
     }
 
     /**
@@ -108,7 +99,7 @@ public class View extends Application {
         GridPane.setConstraints(leftPane, 0, 0);
         GridPane.setConstraints(rightPane, 1, 0);
         rootGameScreen.getChildren().addAll(leftPane, rightPane);
-        rootGameScreen.setOnKeyPressed(controller.getOnKeyPressed());
+        rootGameScreen.setOnKeyPressed(event -> controller.handleKeyEvent(event));
         return rootGameScreen;
     }
 
@@ -127,19 +118,8 @@ public class View extends Application {
     }
 
     private void hookGameScreenEvents(Button exitButton, Button restartButton) {
-        exitButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("aan het afsluiten"); // debugging purposes
-                controller.stop();
-            }
-        });
-        restartButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                controller.restartGame();
-            }
-        });
+        exitButton.setOnAction(event -> controller.stop());
+        restartButton.setOnAction(event -> controller.restartGame());
     }
 
     /**

@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
+import logging.Logger;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
@@ -13,39 +14,8 @@ public class Controller {
     private Grid grid;
     private AbstractTetromino tetromino;
     private boolean gameOver = false;
-    private EventHandler<ActionEvent> onTick = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            lowerTetromino();
-        }
-    };
+    private EventHandler<ActionEvent> onTick = event -> lowerTetromino();
     private Tick timer = new Tick(onTick);
-    private EventHandler<KeyEvent> onKeyPressed = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-            if (!gameOver) {
-                switch (event.getCode()) {
-                    case DOWN:
-                        checkRotateRight();
-                        break;
-                    case LEFT:
-                        checkMoveLeft();
-                        break;
-
-                    case RIGHT:
-                        checkMoveRight();
-                        break;
-
-                    case UP:
-                        checkRotateLeft();
-                        break;
-                    default:
-                        break;
-                }
-                redraw();
-            }
-        }
-    };
 
     /**
      * the Controller class determines the game flow and does the actual event
@@ -56,6 +26,35 @@ public class Controller {
      */
     Controller(View ui) {
         this.ui = ui;
+        Logger.setDebugOn();
+    }
+
+    /**
+     * handler for key events.
+     * 
+     * @param event
+     *            the key event to handle.
+     */
+    public void handleKeyEvent(KeyEvent event) {
+        if (!gameOver) {
+            switch (event.getCode()) {
+                case DOWN:
+                    checkRotateRight();
+                    break;
+                case LEFT:
+                    checkMoveLeft();
+                    break;
+                case RIGHT:
+                    checkMoveRight();
+                    break;
+                case UP:
+                    checkRotateLeft();
+                    break;
+                default:
+                    break;
+            }
+            redraw();
+        }
     }
 
     /**
@@ -63,15 +62,11 @@ public class Controller {
      * launched or the game is over.
      */
     private void lowerTetromino() {
-        // check if current tetromino can be lowered
         if (checkMoveDown()) {
-            // if so, lower it
             redraw();
         } else if (tetromino.top() >= grid.height() - 1) {
-            // tetromino is in top position and cannot be lowered, so game over
             gameOver();
         } else {
-            // else, register tetromino on grid and create new tetromino
             grid.registerTetromino(tetromino);
             dropNewTetromino();
         }
@@ -85,7 +80,7 @@ public class Controller {
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
         tetromino = TetrominoFactory.createRandom(position);
         redraw();
-        // pick random new tetromino and drop tetromino
+        Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
 
     /**
@@ -104,7 +99,7 @@ public class Controller {
     private void gameOver() {
         timer.pause();
         gameOver = true;
-        System.out.println("game over");
+        Logger.log(this, Logger.LogType.INFO, "game restarted");
         ui.gameOver();
     }
 
@@ -114,6 +109,8 @@ public class Controller {
     public void stop() {
         timer.requestStop();
         ui.stop();
+        Logger.log(this, Logger.LogType.INFO, "closing application");
+        Logger.setDebugOff();
     }
 
     /**
@@ -125,7 +122,7 @@ public class Controller {
         grid = new Grid(width, height);
         dropNewTetromino();
         timer.start();
-        System.out.println("started running");
+        Logger.log(this, Logger.LogType.INFO, "game started");
     }
 
     /**
@@ -136,16 +133,7 @@ public class Controller {
         grid.clearBoard();
         dropNewTetromino();
         timer.unpause();
-        System.out.println("started running again");
-    }
-
-    /**
-     * public accessor for the key handle event object.
-     * 
-     * @return the event
-     */
-    public EventHandler<KeyEvent> getOnKeyPressed() {
-        return onKeyPressed;
+        Logger.log(this, Logger.LogType.INFO, "game restarted");
     }
 
     private void checkRotateRight() {
@@ -153,9 +141,12 @@ public class Controller {
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
                 tetromino.rotateLeft();
+                Logger.log(this, Logger.LogType.INFO,
+                    "tried to rotate tetromino clockwise but failed");
                 break;
             }
         }
+        Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
     }
 
     private void checkRotateLeft() {
@@ -163,9 +154,12 @@ public class Controller {
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
                 tetromino.rotateRight();
+                Logger.log(this, Logger.LogType.INFO,
+                    "tried to rotate tetromino counterclockwise but failed");
                 break;
             }
         }
+        Logger.log(this, Logger.LogType.INFO, "rotated tetromino counterclockwise");
     }
 
     private void checkMoveLeft() {
@@ -175,9 +169,11 @@ public class Controller {
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
                 tetromino.moveRight();
+                Logger.log(this, Logger.LogType.INFO, "tried to move tetromino left but failed");
                 break;
             }
         }
+        Logger.log(this, Logger.LogType.INFO, "moved tetromino left");
     }
 
     private void checkMoveRight() {
@@ -187,9 +183,11 @@ public class Controller {
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
                 tetromino.moveLeft();
+                Logger.log(this, Logger.LogType.INFO, "tried to move tetromino right but failed");
                 break;
             }
         }
+        Logger.log(this, Logger.LogType.INFO, "moved tetromino right");
     }
 
     /**
@@ -199,13 +197,14 @@ public class Controller {
      */
     private boolean checkMoveDown() {
         tetromino.moveDown();
-        // check lowerability
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
                 tetromino.moveUp();
+                Logger.log(this, Logger.LogType.INFO, "tried to move tetromino down but failed");
                 return false;
             }
         }
+        Logger.log(this, Logger.LogType.INFO, "moved tetromino down");
         return true;
     }
 }
