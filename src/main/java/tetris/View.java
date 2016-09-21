@@ -146,8 +146,6 @@ public class View extends Application {
      * setColor sets the draw color pairs of the board according to predefined
      * pairs.
      * 
-     * @param board
-     *            the gameboard on which to set the colors
      * @param color
      *            the color pair ID
      */
