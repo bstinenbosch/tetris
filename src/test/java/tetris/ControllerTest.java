@@ -1,12 +1,12 @@
 package tetris;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class ControllerTest {
     @Test
@@ -28,8 +28,8 @@ public class ControllerTest {
         return true;
     }
 
-    private void randomKeyStroke(Controller c) {
-        EventHandler<KeyEvent> eventhandler = c.getOnKeyPressed();
+    private void randomKeyStroke(Controller controller) {
+        EventHandler<KeyEvent> eventhandler = event -> controller.handleKeyEvent(event);
         switch ((int) (Math.random() * 4)) {
             case 0:
                 eventhandler.handle(
