@@ -31,6 +31,8 @@ public class View extends Application {
     private Controller controller;
     private Stage primaryStage;
     private GraphicsContext board;
+    private Button settingsButton;
+    private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
 
     /**
      * start inits the application and displays a loading screen
@@ -57,13 +59,24 @@ public class View extends Application {
         startNewGameButton.setStyle("-fx-background-color: red");
         hookLauncherEvents(startNewGameButton);
 
+        settingsButton = new Button("Settings");
+        hookSettingsEvents();
+
         TilePane rootStartScreen = new TilePane(Orientation.VERTICAL);
         rootStartScreen.setTileAlignment(Pos.CENTER);
-        rootStartScreen.getChildren().addAll(titleLabel, startNewGameButton);
+        rootStartScreen.getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
         rootStartScreen.setStyle("-fx-background-color: black");
 
         Scene startScreen = new Scene(rootStartScreen);
         primaryStage.setScene(startScreen);
+    }
+
+    public Button getSettingsButton() {
+        return this.settingsButton;
+    }
+
+    private void hookSettingsEvents() {
+        settingsButton.setOnAction(event -> gameSettingsPanel.open(this.primaryStage));
     }
 
     private void hookLauncherEvents(Button startNewGameButton) {
@@ -132,28 +145,25 @@ public class View extends Application {
     private void setColor(int color) {
         switch (color) {
             case 1:
-                board.setFill(Color.LIGHTBLUE);
-                board.setStroke(Color.BLUE);
+                board.setFill(gameSettingsPanel.getColorPickers()[0].getValue());
                 break;
             case 2:
-                board.setFill(Color.LIGHTCORAL);
-                board.setStroke(Color.CORAL);
+                board.setFill(gameSettingsPanel.getColorPickers()[1].getValue());
                 break;
             case 3:
-                board.setFill(Color.LIGHTYELLOW);
-                board.setStroke(Color.YELLOW);
+                board.setFill(gameSettingsPanel.getColorPickers()[2].getValue());
                 break;
             case 4:
-                board.setFill(Color.LIGHTGREEN);
-                board.setStroke(Color.GREEN);
+                board.setFill(gameSettingsPanel.getColorPickers()[3].getValue());
                 break;
             case 5:
-                board.setFill(Color.LIGHTPINK);
-                board.setStroke(Color.PINK);
+                board.setFill(gameSettingsPanel.getColorPickers()[4].getValue());
                 break;
             case 6:
-                board.setFill(Color.LIGHTSALMON);
-                board.setStroke(Color.SALMON);
+                board.setFill(gameSettingsPanel.getColorPickers()[5].getValue());
+                break;
+            case 7:
+                board.setFill(gameSettingsPanel.getColorPickers()[6].getValue());
                 break;
             default:
                 throw new IllegalArgumentException(
