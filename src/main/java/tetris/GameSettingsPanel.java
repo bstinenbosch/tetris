@@ -47,7 +47,7 @@ public class GameSettingsPanel extends Application {
         stage.show();
     }
 
-    private void initializeColorPickers() {
+    public void initializeColorPickers() {
         for(int i = 0; i < NUMBER_OF_COLORS; i++) {
             this.colorPickers[i] = new ColorPicker();
         }

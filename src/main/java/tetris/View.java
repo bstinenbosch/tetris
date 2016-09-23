@@ -62,6 +62,8 @@ public class View extends Application {
         settingsButton = new Button("Settings");
         hookSettingsEvents();
 
+        gameSettingsPanel.initializeColorPickers();
+
         TilePane rootStartScreen = new TilePane(Orientation.VERTICAL);
         rootStartScreen.setTileAlignment(Pos.CENTER);
         rootStartScreen.getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
