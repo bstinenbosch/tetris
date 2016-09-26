@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,6 +25,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+
+import tetris.tetromino.AbstractTetromino;
 
 /**
  * MainScreen is the class containing all the GUI-related stuff. Here we draw up
@@ -39,7 +42,8 @@ public class View extends Application {
     private GraphicsContext board;
     private GraphicsContext PreviewGC;
     private Button settingsButton;
-    private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
+//    private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
+    private ScreenController screenController = new ScreenController();
 
     private class ObservingLabel extends Label implements Observer {
 
@@ -71,9 +75,8 @@ public class View extends Application {
         controller = new Controller(this);
         this.primaryStage = primaryStage;
         gotoLauncher();
-        primaryStage.setTitle("Tetris");
-        primaryStage.show();
-
+//        primaryStage.setTitle("Tetris");
+//        primaryStage.show();
     }
 
     public void resetFocus() {
@@ -84,24 +87,16 @@ public class View extends Application {
      * gotoLauncher navigates to the launcher and contains its definition.
      */
     private void gotoLauncher() {
-        Label titleLabel = new Label("TETRIS");
-        titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
-        Button startNewGameButton = new Button("Start new game");
-        startNewGameButton.setStyle("-fx-background-color: red");
-        hookLauncherEvents(startNewGameButton);
+        screenController.addScreen("Main", new MainScreen());
+        screenController.addScreen("Settings", new SettingsScreen());
+        screenController.setScreen("Main");
 
-        settingsButton = new Button("Settings");
-        hookSettingsEvents();
-
-        gameSettingsPanel.initializeColorPickers();
-
-        TilePane rootStartScreen = new TilePane(Orientation.VERTICAL);
-        rootStartScreen.setTileAlignment(Pos.CENTER);
-        rootStartScreen.getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
-        rootStartScreen.setStyle("-fx-background-color: black");
-
-        Scene startScreen = new Scene(rootStartScreen);
-        primaryStage.setScene(startScreen);
+        Group root = new Group();
+        root.getChildren().addAll(screenController);
+        Scene scene = new Scene(root);
+        scene.setFill(null);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public Button getSettingsButton() {
@@ -109,7 +104,7 @@ public class View extends Application {
     }
 
     private void hookSettingsEvents() {
-        settingsButton.setOnAction(event -> gameSettingsPanel.open(this.primaryStage));
+        settingsButton.setOnAction(event -> screenController.setScreen("Settings"));
     }
 
     private void hookLauncherEvents(Button startNewGameButton) {
@@ -169,7 +164,6 @@ public class View extends Application {
         GridPane.setConstraints(PreviewPane, 0, 4);
         rightPane.getChildren().addAll(exitButton, restartButton, PreviewPane, scoreLabel);
         rightPane.setStyle("-fx-background-color: grey");
-
         return rightPane;
     }
 
@@ -184,7 +178,6 @@ public class View extends Application {
     }
 
     private void hookGameScreenEvents(Button exitButton, Button restartButton) {
-
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
     }
@@ -365,7 +358,6 @@ public class View extends Application {
     }
 
     public static void main(String[] args) {
-
         launch(args);
     }
 }
