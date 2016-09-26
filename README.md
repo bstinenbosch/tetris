@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/bstinenbosch/tetris.svg?branch=master)](https://travis-ci.org/bstinenbosch/tetris)
-[![Code Coverage](https://img.shields.io/codecov/c/github/bstinenbosch/tetris.svg?maxAge=2592000)](https://codecov.io/github/bstinenbosch/tetris)
+[![Code Coverage](https://img.shields.io/codecov/c/github/bstinenbosch/tetris.svg)](https://codecov.io/github/bstinenbosch/tetris?branch=master)
 
 # Tetris
 
@@ -25,7 +25,7 @@
 
 ### Should haves:
 
-- [ ] A new game can be started by the player
+- [x] A new game can be started by the player
 - [ ] A new game will start when the previous game has ended
 - [x] Each tetromino shall have a different colour
 - [ ] There shall be a preview pane showing the next Tetromino to be placed in the grid
