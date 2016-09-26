@@ -8,13 +8,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
+import java.util.Calendar;
 
-public final class Logger {
-    private static boolean debug = false;
-    private static StringBuilder queue = new StringBuilder();
-    private static File file = new File("./log.log");
+public final class Logger extends Thread {
+    private static volatile boolean debug = false;
+    private static volatile StringBuilder queue = new StringBuilder();
+    private static File file = new File("log.log");
     private static int logLength = 10000;
+    private static Logger logger;
 
+    /**
+     * supported logging types.
+     *
+     */
     public enum LogType {
         INFO, WARNING, ERROR
     };
@@ -22,7 +29,28 @@ public final class Logger {
     private Logger() {
     } // unreachable because static
 
-    private static void writeToFile() throws IOException {
+    /**
+     * The logger runs in his own thread to prevent concurrent writing
+     * exceptions on the log file if multiple threads are logging.
+     */
+    public void run() {
+        while (debug) {
+            try {
+                sleep(10000);
+                if (queue.length() > Math.min(logLength, 100)) {
+                    try {
+                        writeToFile();
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    private void writeToFile() throws IOException {
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -32,7 +60,7 @@ public final class Logger {
         capFileSize();
     }
 
-    private static void capFileSize() throws IOException {
+    private void capFileSize() throws IOException {
         int fileLength = countLines();
         if (fileLength > logLength) {
             String line;
@@ -56,13 +84,13 @@ public final class Logger {
         }
     }
 
-    private static void skipLines(int lines, BufferedReader file) throws IOException {
+    private void skipLines(int lines, BufferedReader file) throws IOException {
         for (int i = 0; i < lines; i++) {
             file.readLine();
         }
     }
 
-    private static int countLines() throws IOException {
+    private int countLines() throws IOException {
         char[] buffer = new char[1024];
         int count = 0;
         int readChars = 0;
@@ -93,23 +121,15 @@ public final class Logger {
      *            the log type, for homogeneity constrained in the LogType enum
      * @param message
      *            the message that is logged
-     * @return true if the log was successfully registered, else false
      */
-    public static boolean log(Object sender, LogType logtype, String message) {
+    public static void log(Object sender, LogType logtype, String message) {
         if (debug) {
-            String msg = String.format("[%s] message from object %s: %s\n", logtype.toString(),
+            String msg = String.format("[%s] message @[%s] from object %s: %s\r\n",
+                logtype.toString(),
+                new Timestamp(Calendar.getInstance().getTimeInMillis()).toString(),
                 sender.toString(), message);
             queue.append(msg);
-            if (queue.length() > Math.min(logLength, 100)) {
-                try {
-                    writeToFile();
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                    return false;
-                }
-            }
         }
-        return true;
     }
 
     /**
@@ -146,17 +166,15 @@ public final class Logger {
      */
     public static void setDebugOn() {
         debug = true;
+        logger = new Logger();
+        logger.start();
     }
 
     /**
      * switch debug off.
      */
     public static void setDebugOff() {
-        try {
-            writeToFile();
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
         debug = false;
+        logger = null;
     }
 }
