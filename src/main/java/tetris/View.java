@@ -32,6 +32,7 @@ public class View extends Application {
     private Controller controller;
     private Stage primaryStage;
     private GraphicsContext board;
+    private GraphicsContext PreviewGC;
     private Button settingsButton;
     private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
 
@@ -122,15 +123,27 @@ public class View extends Application {
     private GridPane setUpRightPaneGameScreen() {
         Button exitButton = new Button("exit");
         Button restartButton = new Button("restart");
+        GridPane PreviewPane = setUpPreviewPane();
         hookGameScreenEvents(exitButton, restartButton);
 
         GridPane rightPane = new GridPane();
         rightPane.setVgap(10);
         GridPane.setConstraints(exitButton, 0, 0);
         GridPane.setConstraints(restartButton, 0, 1);
-        rightPane.getChildren().addAll(exitButton, restartButton);
+        GridPane.setConstraints(PreviewPane, 0, 5);
+        rightPane.getChildren().addAll(exitButton, restartButton, PreviewPane);
         rightPane.setStyle("-fx-background-color: grey");
         return rightPane;
+    }
+
+    private GridPane setUpPreviewPane() {
+        Canvas canvas = new Canvas(BLOCK_SIZE * 6, BLOCK_SIZE * 6);
+        PreviewGC = canvas.getGraphicsContext2D();
+
+        GridPane PreviewPane = new GridPane();
+        PreviewPane.getChildren().addAll(canvas);
+        PreviewPane.setStyle("-fx-background-color: red");
+        return PreviewPane;
     }
 
     private void hookGameScreenEvents(Button exitButton, Button restartButton) {
