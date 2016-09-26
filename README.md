@@ -25,7 +25,7 @@
 
 ### Should haves:
 
-- [ ] A new game can be started by the player
+- [x] A new game can be started by the player
 - [ ] A new game will start when the previous game has ended
 - [x] Each tetromino shall have a different colour
 - [ ] There shall be a preview pane showing the next Tetromino to be placed in the grid
