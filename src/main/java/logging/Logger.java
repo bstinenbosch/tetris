@@ -14,8 +14,8 @@ import java.util.Calendar;
 public final class Logger extends Thread {
     private static volatile boolean debug = false;
     private static volatile StringBuilder queue = new StringBuilder();
-    private static File file = new File("log.log");
-    private static int logLength = 10000;
+    private static volatile File file = new File("log.log");
+    private static volatile int logLength = 10000;
     private static Logger logger;
 
     /**
@@ -37,7 +37,7 @@ public final class Logger extends Thread {
         while (debug) {
             try {
                 sleep(10000);
-                if (queue.length() > Math.min(logLength, 100)) {
+                if (queue.length() > 0) {
                     try {
                         writeToFile();
                     } catch (IOException exception) {
@@ -174,7 +174,14 @@ public final class Logger extends Thread {
      * switch debug off.
      */
     public static void setDebugOff() {
-        debug = false;
+        if (debug) {
+            debug = false;
+            try {
+                logger.join();
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+        }
         logger = null;
     }
 }
