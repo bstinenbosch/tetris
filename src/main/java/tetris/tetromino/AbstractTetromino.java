@@ -23,7 +23,7 @@ public abstract class AbstractTetromino {
     /**
      * Color ID.
      */
-    private int color = 1 + (int) (Math.random() * 6);
+    private int color;
 
     /**
      * Default constructor to set Tetromino structure and position.
@@ -33,9 +33,10 @@ public abstract class AbstractTetromino {
      * @param minos
      *            Coordinates of each Mino
      */
-    public AbstractTetromino(final Coordinate position, final Coordinate[] minos) {
+    public AbstractTetromino(final Coordinate position, final Coordinate[] minos, int color) {
         this.position = position;
         this.minos = minos;
+        this.color = color;
     }
 
     /**
