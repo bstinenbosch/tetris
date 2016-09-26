@@ -1,5 +1,6 @@
 package tetris;
 
+//TEST VOOR UITLEG!
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
