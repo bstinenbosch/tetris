@@ -1,12 +1,15 @@
 package logging;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 public class LoggerTest {
     @Test
@@ -17,7 +20,7 @@ public class LoggerTest {
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
-        Assert.assertTrue(new File(testloc).exists());
+        assertTrue(new File(testloc).exists());
     }
 
     @Test
@@ -26,10 +29,10 @@ public class LoggerTest {
         Logger.setLogDir(testloc);
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
-        Assert.assertTrue(new File(testloc).exists());
+        assertTrue(new File(testloc).exists());
         Logger.setDebugOff();
         Logger.clearLog();
-        Assert.assertFalse(new File(testloc).exists());
+        assertFalse(new File(testloc).exists());
     }
 
     @Test
@@ -40,7 +43,7 @@ public class LoggerTest {
         Logger.clearLog();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
 
-        Assert.assertFalse(new File(testloc).exists());
+        assertFalse(new File(testloc).exists());
     }
 
     @Test
@@ -54,7 +57,7 @@ public class LoggerTest {
             Logger.log(this, Logger.LogType.ERROR, "test 1");
         }
         Logger.setDebugOff();
-        Assert.assertTrue(new File(testloc).exists());
+        assertTrue(new File(testloc).exists());
 
         int count = 0;
         File file = new File(testloc);
@@ -64,7 +67,7 @@ public class LoggerTest {
             ++count;
         }
         reader.close();
-        Assert.assertEquals(10, count);
+        assertEquals(10, count);
 
     }
 }
