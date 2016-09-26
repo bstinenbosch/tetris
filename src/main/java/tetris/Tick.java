@@ -92,6 +92,6 @@ class Tick extends Thread implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        this.time = (long) Math.max(1, 200 * Math.exp(-.01 * (int) arg));
+        this.time = (long) Math.max(1, 200 * Math.exp(-.0005 * (int) arg));
     }
 }
