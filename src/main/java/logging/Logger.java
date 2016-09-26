@@ -165,9 +165,11 @@ public final class Logger extends Thread {
      * switch debug on.
      */
     public static void setDebugOn() {
-        debug = true;
-        logger = new Logger();
-        logger.start();
+        if (!debug) {
+            debug = true;
+            logger = new Logger();
+            logger.start();
+        }
     }
 
     /**
