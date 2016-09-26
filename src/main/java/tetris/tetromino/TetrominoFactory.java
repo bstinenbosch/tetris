@@ -1,11 +1,9 @@
 package tetris.tetromino;
 
-import java.util.LinkedList;
-
 import tetris.Coordinate;
 
 public class TetrominoFactory {
-    public static LinkedList queue = null;
+    public static TetrominoType[] queue = null;
 
     /**
      * Creates a Tetromino.
@@ -44,12 +42,16 @@ public class TetrominoFactory {
      *            Position of shape in grid
      * @return AbstractShape Tetromino
      */
+
     public static AbstractTetromino createRandom(Coordinate position) {
-        TetrominoQueue.enqueue(TetrominoType.random());
-        queue = TetrominoQueue.giveList();
-        TetrominoType positie1 = (TetrominoType) queue.get(0);
-        TetrominoQueue.enqueue(TetrominoType.random());
-        return create(positie1, position);
+        TetrominoQueue.addToQueue();
+        //
+        // Hier moet Preview Gedaan worden
+        //
+
+        TetrominoType onScreenTetromino = TetrominoQueue.removeFromQueue();
+
+        return create(onScreenTetromino, position);
     }
 
 }

@@ -1,29 +1,28 @@
 package tetris.tetromino;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 
 public class TetrominoQueue {
-    public static LinkedList list;
+    private static ArrayDeque<TetrominoType> TetrominoQ = new ArrayDeque<>();
 
-    // Create Queue
-    public void Queue() {
-        list = new LinkedList();
+    public static ArrayDeque<TetrominoType> getList() {
+        return TetrominoQ;
     }
 
-    // Add Random tetromino to queue
-    public static void enqueue(TetrominoType type) {
-        list.add(type);
+    public static void addToQueue() {
+        if (TetrominoQ.isEmpty()) {
+            TetrominoQ.add(TetrominoType.random());
+            TetrominoQ.add(TetrominoType.random());
+        } else {
+            TetrominoQ.add(TetrominoType.random());
+        }
+
     }
 
-    // remove top tetromino from queue
-    public static TetrominoType dequeue(int queuePlace) {
-        TetrominoType blokje = (TetrominoType) list.get(queuePlace);
-        list.remove(0);
-        return blokje;
-    }
-
-    public static LinkedList giveList() {
-        return list;
+    public static TetrominoType removeFromQueue() {
+        TetrominoType onScreen = TetrominoQ.getFirst();
+        TetrominoQ.remove();
+        return onScreen;
     }
 
 }

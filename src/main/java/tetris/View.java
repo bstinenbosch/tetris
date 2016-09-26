@@ -49,6 +49,7 @@ public class View extends Application {
         gotoLauncher();
         primaryStage.setTitle("Tetris");
         primaryStage.show();
+
     }
 
     /**
@@ -147,6 +148,7 @@ public class View extends Application {
     }
 
     private void hookGameScreenEvents(Button exitButton, Button restartButton) {
+
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
     }
@@ -267,6 +269,7 @@ public class View extends Application {
     }
 
     public static void main(String[] args) {
+
         launch(args);
     }
 }
