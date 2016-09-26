@@ -3,6 +3,7 @@ package tetris;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -32,7 +33,8 @@ public class View extends Application {
     private Stage primaryStage;
     private GraphicsContext board;
     private Button settingsButton;
-    private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
+//    private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
+    private ScreenController screenController = new ScreenController();
 
     /**
      * start inits the application and displays a loading screen
@@ -45,32 +47,24 @@ public class View extends Application {
         controller = new Controller(this);
         this.primaryStage = primaryStage;
         gotoLauncher();
-        primaryStage.setTitle("Tetris");
-        primaryStage.show();
+//        primaryStage.setTitle("Tetris");
+//        primaryStage.show();
     }
 
     /**
      * gotoLauncher navigates to the launcher and contains its definition.
      */
     private void gotoLauncher() {
-        Label titleLabel = new Label("TETRIS");
-        titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
-        Button startNewGameButton = new Button("Start new game");
-        startNewGameButton.setStyle("-fx-background-color: red");
-        hookLauncherEvents(startNewGameButton);
+        screenController.addScreen("Main", new MainScreen());
+        screenController.addScreen("Settings", new SettingsScreen());
+        screenController.setScreen("Main");
 
-        settingsButton = new Button("Settings");
-        hookSettingsEvents();
-
-        gameSettingsPanel.initializeColorPickers();
-
-        TilePane rootStartScreen = new TilePane(Orientation.VERTICAL);
-        rootStartScreen.setTileAlignment(Pos.CENTER);
-        rootStartScreen.getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
-        rootStartScreen.setStyle("-fx-background-color: black");
-
-        Scene startScreen = new Scene(rootStartScreen);
-        primaryStage.setScene(startScreen);
+        Group root = new Group();
+        root.getChildren().addAll(screenController);
+        Scene scene = new Scene(root);
+        scene.setFill(null);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public Button getSettingsButton() {
@@ -78,7 +72,7 @@ public class View extends Application {
     }
 
     private void hookSettingsEvents() {
-        settingsButton.setOnAction(event -> gameSettingsPanel.open(this.primaryStage));
+        settingsButton.setOnAction(event -> screenController.setScreen("Settings"));
     }
 
     private void hookLauncherEvents(Button startNewGameButton) {
