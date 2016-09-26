@@ -17,7 +17,6 @@ public class LoggerTest {
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
-
         Assert.assertTrue(new File(testloc).exists());
     }
 
