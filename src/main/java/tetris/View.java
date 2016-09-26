@@ -5,8 +5,6 @@ import java.util.Observer;
 
 import tetris.tetromino.AbstractTetromino;
 
-//TEST VOOR UITLEG!
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
