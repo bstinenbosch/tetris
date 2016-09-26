@@ -1,12 +1,12 @@
 package tetris;
 
+import static org.junit.Assert.assertTrue;
+
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
 
 public class ControllerTest {
     @Test
@@ -14,6 +14,11 @@ public class ControllerTest {
         assertTrue(runGame());
     }
 
+    /**
+     * Simulate a running game.
+     *
+     * @return boolean
+     */
     public boolean runGame() {
 
         // TODO een manier vinden om de controller te testen zonder view?
@@ -47,6 +52,8 @@ public class ControllerTest {
                 eventhandler.handle(
                     new KeyEvent(null, null, null, KeyCode.RIGHT, false, false, false, false));
                 break;
+            default:
+                throw new IllegalStateException("No event assigned to this random key stroke.");
         }
     }
 
