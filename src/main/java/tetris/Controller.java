@@ -78,6 +78,7 @@ public class Controller {
     private void dropNewTetromino() {
         grid.clearLines();
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
+
         tetromino = TetrominoFactory.createRandom(position);
         redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
