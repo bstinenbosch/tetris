@@ -1,5 +1,7 @@
 package tetris;
 
+import java.util.Observable;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -10,6 +12,30 @@ import tetris.tetromino.TetrominoFactory;
 
 public class Controller {
 
+    private class Score extends Observable {
+        private int score = 0;
+
+        /**
+         * resets the score to 0.
+         */
+        public void reset() {
+            score = 0;
+        }
+
+        /**
+         * increases the score by add.
+         * 
+         * @param add
+         *            add add points to the score
+         */
+        public void add(int add) {
+            score += add;
+            setChanged();
+            notifyObservers(score);
+        }
+    }
+
+    private Score score;
     private View ui;
     private Grid grid;
     private AbstractTetromino tetromino;
@@ -27,6 +53,7 @@ public class Controller {
     Controller(View ui) {
         this.ui = ui;
         Logger.setDebugOn();
+        score = new Score();
     }
 
     /**
@@ -76,7 +103,7 @@ public class Controller {
      * drops a new tetromino and makes sure that it is drawn on the canvas.
      */
     private void dropNewTetromino() {
-        grid.clearLines();
+        score.add(grid.clearLines());
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
         tetromino = TetrominoFactory.createRandom(position);
         redraw();
@@ -118,6 +145,9 @@ public class Controller {
      */
     public void startGame(int width, int height) {
         ui.gotoGameScreen();
+        score.addObserver(timer);
+        score.addObserver(ui.getScoreLabel());
+        score.reset();
         gameOver = false;
         grid = new Grid(width, height);
         dropNewTetromino();
@@ -131,6 +161,7 @@ public class Controller {
     public void restartGame() {
         gameOver = false;
         grid.clearBoard();
+        score.reset();
         dropNewTetromino();
         timer.unpause();
         Logger.log(this, Logger.LogType.INFO, "game restarted");
