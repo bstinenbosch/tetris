@@ -1,5 +1,7 @@
 package tetris;
 
+import java.util.Observable;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;

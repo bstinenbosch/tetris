@@ -113,11 +113,11 @@ public class View extends Application {
      * fires up the game controller.
      */
     public void gotoGameScreen() {
-==== BASE ====
         scoreLabel = new ObservingLabel("0");
-        scoreLabel.setStyle(
-            "-fx-background-color:red;-fx-text-fill:green;-fx-text-alignment:center;-fx-alignment:center");
-==== BASE ====
+        scoreLabel
+            .setStyle("-fx-background-color:red;-fx-text-fill:black;-fx-text-alignment:center;"
+                + "-fx-alignment:center;-fx-font-weight:bold;-fx-font-size:250%");
+        scoreLabel.setMinSize(100, 50);
         Pane leftPane = setUpLeftPaneGameScreen();
         GridPane rightPane = setUpRightPaneGameScreen();
         GridPane rootGameScreen = setUpRootPaneGameScreen(leftPane, rightPane);
