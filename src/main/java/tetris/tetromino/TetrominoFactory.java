@@ -47,7 +47,7 @@ public class TetrominoFactory {
     public static AbstractTetromino createRandom(Coordinate position) {
         TetrominoQueue.enqueue(TetrominoType.random());
         queue = TetrominoQueue.giveList();
-        TetrominoType positie1 = TetrominoQueue.dequeue(1);
+        TetrominoType positie1 = (TetrominoType) queue.get(0);
         TetrominoQueue.enqueue(TetrominoType.random());
         return create(positie1, position);
     }
