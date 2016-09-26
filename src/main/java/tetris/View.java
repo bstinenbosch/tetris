@@ -3,6 +3,8 @@ package tetris;
 import java.util.Observable;
 import java.util.Observer;
 
+import tetris.tetromino.AbstractTetromino;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
@@ -20,8 +22,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
-import tetris.tetromino.AbstractTetromino;
 
 /**
  * MainScreen is the class containing all the GUI-related stuff. Here we draw up
