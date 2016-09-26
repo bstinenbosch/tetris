@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 public final class Logger {
     private static boolean debug = false;
     private static StringBuilder queue = new StringBuilder();
-    private static File file = new File("./logging/log.log");
+    private static File file = new File("./log.log");
     private static int logLength = 10000;
 
     public enum LogType {
