@@ -15,10 +15,19 @@ public class Controller {
     private class Score extends Observable {
         private int score = 0;
 
+        /**
+         * resets the score to 0.
+         */
         public void reset() {
             score = 0;
         }
 
+        /**
+         * increases the score by add.
+         * 
+         * @param add
+         *            add add points to the score
+         */
         public void add(int add) {
             score += add;
             setChanged();
