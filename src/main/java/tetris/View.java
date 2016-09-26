@@ -1,10 +1,6 @@
 package tetris;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -37,25 +33,6 @@ public class View extends Application {
     private GraphicsContext board;
     private Button settingsButton;
     private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
-
-    private class ObservingLabel extends Label implements Observer {
-
-        public ObservingLabel(String string) {
-            super(string);
-        }
-
-        @Override
-        public void update(Observable o, Object arg) {
-            Platform.runLater(() -> this.setText(Integer.toString((int) arg)));
-        }
-
-    }
-
-    private ObservingLabel scoreLabel;
-
-    public ObservingLabel getScoreLabel() {
-        return scoreLabel;
-    }
 
     /**
      * start inits the application and displays a loading screen
@@ -113,9 +90,6 @@ public class View extends Application {
      * fires up the game controller.
      */
     public void gotoGameScreen() {
-        scoreLabel = new ObservingLabel("0");
-        scoreLabel.setStyle(
-            "-fx-background-color:red;-fx-text-fill:green;-fx-text-alignment:center;-fx-alignment:center");
         Pane leftPane = setUpLeftPaneGameScreen();
         GridPane rightPane = setUpRightPaneGameScreen();
         GridPane rootGameScreen = setUpRootPaneGameScreen(leftPane, rightPane);
@@ -151,11 +125,9 @@ public class View extends Application {
 
         GridPane rightPane = new GridPane();
         rightPane.setVgap(10);
-        rightPane.setAlignment(Pos.CENTER);
         GridPane.setConstraints(exitButton, 0, 0);
         GridPane.setConstraints(restartButton, 0, 1);
-        GridPane.setConstraints(scoreLabel, 0, 2);
-        rightPane.getChildren().addAll(exitButton, restartButton, scoreLabel);
+        rightPane.getChildren().addAll(exitButton, restartButton);
         rightPane.setStyle("-fx-background-color: grey");
         return rightPane;
     }
