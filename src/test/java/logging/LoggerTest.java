@@ -54,9 +54,12 @@ public class LoggerTest {
             Logger.log(this, Logger.LogType.ERROR, "test 1");
         }
         Logger.setDebugOff();
+        Assert.assertTrue(new File(testloc).exists());
 
         int count = 0;
-        BufferedReader reader = new BufferedReader(new FileReader(testloc));
+        File file = new File(testloc);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader reader = new BufferedReader(fileReader);
         while (reader.readLine() != null) {
             ++count;
         }
