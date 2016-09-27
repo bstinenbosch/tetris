@@ -9,38 +9,32 @@ import javafx.scene.layout.TilePane;
 
 public class MainScreen extends TilePane {
 
-    private Button settingsButton;
-
     private Button startNewGameButton;
+    private Button settingsButton;
 
     public MainScreen() {
         Label titleLabel = new Label("TETRIS");
         titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
 
-        Button startNewGameButton = new Button("Start new game");
+        startNewGameButton = new Button("Start new game");
         startNewGameButton.setStyle("-fx-background-color: red");
-//        controller.hookLauncherEvents(startNewGameButton);
 
         settingsButton = new Button("Settings");
-        startNewGameButton.setStyle("-fx-background-color: green");
-//        hookSettingsEvents();
-
-//        gameSettingsPanel.initializeColorPickers();
+        settingsButton.setStyle("-fx-background-color: green");
 
         setOrientation(Orientation.VERTICAL);
         setTileAlignment(Pos.CENTER);
         setPadding(new Insets(0, 20, 10, 20));
-//        getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
-        getChildren().addAll(titleLabel, startNewGameButton);
+        getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
         setStyle("-fx-background-color: black");
     }
 
-    private Button getSettingsButton() {
-        return this.settingsButton;
+    public Button getSettingsButton() {
+        return settingsButton;
     }
 
-    private Button getStartNewGameButton() {
-        return this.startNewGameButton;
+    public Button getStartNewGameButton() {
+        return startNewGameButton;
     }
 
 }
