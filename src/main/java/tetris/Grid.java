@@ -83,7 +83,7 @@ public class Grid {
             if (skipRow) {
                 row++;
             } else {
-                rowsCleared += 1;
+                rowsCleared ++;
             }
         }
         board = localBoard;
