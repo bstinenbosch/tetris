@@ -80,10 +80,11 @@ public class Controller {
 
         grid.clearLines();
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
-        Coordinate position2 = new Coordinate(grid.width() / 2, grid.height() / 2);
+        Coordinate position2 = new Coordinate(grid.width() / 5 + 2 / 5, grid.height() - 4);
 
         tetromino = TetrominoFactory.createRandom(position);
         tetromino2 = TetrominoFactory.getLast(position2);
+
         redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
@@ -96,7 +97,7 @@ public class Controller {
         ui.clearBoard();
         ui.drawGrid(grid);
         ui.drawTetromino(tetromino);
-        ui.drawTetromino(tetromino2);
+        ui.drawTetrominoPreview(tetromino2);
     }
 
     /**

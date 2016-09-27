@@ -143,6 +143,7 @@ public class View extends Application {
 
         GridPane PreviewPane = new GridPane();
         PreviewPane.getChildren().addAll(canvas);
+
         return PreviewPane;
     }
 
@@ -285,7 +286,7 @@ public class View extends Application {
 
     private void drawRectanglePreview(int color, Coordinate coordinate) {
         if (color > 0) {
-            setColor(color);
+            setColorPreview(color);
             PreviewGC.setLineWidth(BLOCK_SIZE / 10.);
             PreviewGC.fillRoundRect(coordinate.getX() * BLOCK_SIZE,
                 (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
@@ -302,6 +303,9 @@ public class View extends Application {
     public void clearBoard() {
         board.setFill(Color.BLACK);
         board.fillRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
+        PreviewGC.setFill(Color.RED);
+        PreviewGC.fillRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
+
     }
 
     /**
