@@ -64,7 +64,7 @@ public class Controller {
     private void lowerTetromino() {
         if (checkMoveDown()) {
             redraw();
-        } else if (tetromino.top() >= grid.height() - 1) {
+        } else if (tetromino.top() >= grid.height() - 2) {
             gameOver();
         } else {
             grid.registerTetromino(tetromino);

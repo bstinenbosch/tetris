@@ -50,7 +50,6 @@ public class TetrominoFactory {
         //
 
         TetrominoType onScreenTetromino = TetrominoQueue.removeFromQueue();
-
         return create(onScreenTetromino, position);
     }
 

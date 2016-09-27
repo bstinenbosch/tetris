@@ -33,6 +33,7 @@ public class View extends Application {
     private Stage primaryStage;
     private GraphicsContext board;
     private GraphicsContext PreviewGC;
+    private GraphicsContext PreviewTT;
     private Button settingsButton;
     private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
 
@@ -137,9 +138,13 @@ public class View extends Application {
         return rightPane;
     }
 
+    // Ik zou een Canvas toevoegen aan de Pane en dan de code van drawTetromino
+    // hergebruiken om op dat Canvas te kliederen
+
     private GridPane setUpPreviewPane() {
         Canvas canvas = new Canvas(BLOCK_SIZE * 6, BLOCK_SIZE * 6);
         PreviewGC = canvas.getGraphicsContext2D();
+        ;
 
         GridPane PreviewPane = new GridPane();
         PreviewPane.getChildren().addAll(canvas);
