@@ -13,6 +13,7 @@ public class Controller {
     private View ui;
     private Grid grid;
     private AbstractTetromino tetromino;
+    private AbstractTetromino tetromino2;
     private boolean gameOver = false;
     private EventHandler<ActionEvent> onTick = event -> lowerTetromino();
     private Tick timer = new Tick(onTick);
@@ -64,7 +65,7 @@ public class Controller {
     private void lowerTetromino() {
         if (checkMoveDown()) {
             redraw();
-        } else if (tetromino.top() >= grid.height() - 2) {
+        } else if (tetromino.top() >= grid.height() - 1) {
             gameOver();
         } else {
             grid.registerTetromino(tetromino);
@@ -76,10 +77,13 @@ public class Controller {
      * drops a new tetromino and makes sure that it is drawn on the canvas.
      */
     private void dropNewTetromino() {
+
         grid.clearLines();
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
+        Coordinate position2 = new Coordinate(grid.width() / 2, grid.height() / 2);
 
         tetromino = TetrominoFactory.createRandom(position);
+        tetromino2 = TetrominoFactory.getLast(position2);
         redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
@@ -92,6 +96,7 @@ public class Controller {
         ui.clearBoard();
         ui.drawGrid(grid);
         ui.drawTetromino(tetromino);
+        ui.drawTetromino(tetromino2);
     }
 
     /**
