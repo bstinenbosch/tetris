@@ -69,7 +69,7 @@ public class Grid {
      */
     int clearLines() {
         int row = 0;
-        int score = 0;
+        int rowsCleared = 0;
         boolean skipRow;
         int[][] localBoard = new int[width()][height() + 4];
         for (int y = 0; y < localBoard[0].length; y++) {
@@ -83,11 +83,11 @@ public class Grid {
             if (skipRow) {
                 row++;
             } else {
-                score += localBoard.length;
+                rowsCleared ++;
             }
         }
         board = localBoard;
-        return score;
+        return rowsCleared;
     }
 
     /**

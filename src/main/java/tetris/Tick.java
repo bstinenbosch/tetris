@@ -1,9 +1,12 @@
 package tetris;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-class Tick extends Thread {
+class Tick extends Thread implements Observer {
 
     private long time;
     private EventHandler<ActionEvent> onTick;
@@ -85,5 +88,10 @@ class Tick extends Thread {
      */
     public void setTime(long time) {
         this.time = time;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        this.time = (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg));
     }
 }
