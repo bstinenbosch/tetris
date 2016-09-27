@@ -53,4 +53,10 @@ public class TetrominoFactory {
         return create(onScreenTetromino, position);
     }
 
+    public static AbstractTetromino getLast(Coordinate position2) {
+        TetrominoType previewTetromino = TetrominoQueue.getLast();
+
+        return create(previewTetromino, position2);
+    }
+
 }

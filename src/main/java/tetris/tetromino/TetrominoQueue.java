@@ -25,4 +25,9 @@ public class TetrominoQueue {
         return onScreen;
     }
 
+    public static TetrominoType getLast() {
+        TetrominoType previewTetromino = TetrominoQ.getLast();
+        return previewTetromino;
+    }
+
 }
