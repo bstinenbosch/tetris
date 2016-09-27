@@ -67,6 +67,7 @@ public class Controller {
         } else if (tetromino.top() >= grid.height() - 1) {
             gameOver();
         } else {
+            timer = new Tick(onTick);
             grid.registerTetromino(tetromino);
             dropNewTetromino();
         }
