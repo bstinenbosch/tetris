@@ -39,6 +39,8 @@ public class View extends Application {
     private Button settingsButton;
 //    private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
     private ScreenController screenController = new ScreenController();
+    private MainScreen mainScreen = new MainScreen();
+    private SettingsScreen settingsScreen = new SettingsScreen();
 
     private class ObservingLabel extends Label implements Observer {
 
@@ -78,9 +80,13 @@ public class View extends Application {
      * gotoLauncher navigates to the launcher and contains its definition.
      */
     private void gotoLauncher() {
-        screenController.addScreen("Main", new MainScreen());
-        screenController.addScreen("Settings", new SettingsScreen());
+        screenController.addScreen("Main", mainScreen);
+        screenController.addScreen("Settings", settingsScreen);
         screenController.setScreen("Main");
+
+        hookLauncherEvents();
+        hookSettingsEvents();
+        hookBackToMainMenuButtonEvents();
 
         Group root = new Group();
         root.getChildren().addAll(screenController);
@@ -90,16 +96,19 @@ public class View extends Application {
         primaryStage.show();
     }
 
-    public Button getSettingsButton() {
-        return this.settingsButton;
-    }
-
     private void hookSettingsEvents() {
+        Button settingsButton = mainScreen.getSettingsButton();
         settingsButton.setOnAction(event -> screenController.setScreen("Settings"));
     }
 
-    private void hookLauncherEvents(Button startNewGameButton) {
+    private void hookLauncherEvents() {
+        Button startNewGameButton = mainScreen.getStartNewGameButton();
         startNewGameButton.setOnAction(event -> controller.startGame(BOARD_WIDTH, BOARD_HEIGHT));
+    }
+
+    private void hookBackToMainMenuButtonEvents() {
+        Button backToMainMenuButton = settingsScreen.getBackToMainScreenButton();
+        backToMainMenuButton.setOnAction(event -> screenController.setScreen("Main"));
     }
 
     /**
@@ -171,25 +180,25 @@ public class View extends Application {
     private void setColor(int color) {
         switch (color) {
             case 1:
-                board.setFill(gameSettingsPanel.getColorPickers()[0].getValue());
+                board.setFill(Color.WHITE);
                 break;
             case 2:
-                board.setFill(gameSettingsPanel.getColorPickers()[1].getValue());
+                board.setFill(Color.WHITE);
                 break;
             case 3:
-                board.setFill(gameSettingsPanel.getColorPickers()[2].getValue());
+                board.setFill(Color.WHITE);
                 break;
             case 4:
-                board.setFill(gameSettingsPanel.getColorPickers()[3].getValue());
+                board.setFill(Color.WHITE);
                 break;
             case 5:
-                board.setFill(gameSettingsPanel.getColorPickers()[4].getValue());
+                board.setFill(Color.WHITE);
                 break;
             case 6:
-                board.setFill(gameSettingsPanel.getColorPickers()[5].getValue());
+                board.setFill(Color.WHITE);
                 break;
             case 7:
-                board.setFill(gameSettingsPanel.getColorPickers()[6].getValue());
+                board.setFill(Color.WHITE);
                 break;
             default:
                 throw new IllegalArgumentException(
