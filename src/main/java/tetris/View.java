@@ -144,11 +144,9 @@ public class View extends Application {
     private GridPane setUpPreviewPane() {
         Canvas canvas = new Canvas(BLOCK_SIZE * 6, BLOCK_SIZE * 6);
         PreviewGC = canvas.getGraphicsContext2D();
-        ;
 
         GridPane PreviewPane = new GridPane();
         PreviewPane.getChildren().addAll(canvas);
-        PreviewPane.setStyle("-fx-background-color: red");
         return PreviewPane;
     }
 
@@ -194,6 +192,35 @@ public class View extends Application {
         }
     }
 
+    private void setColorPreview(int color) {
+        switch (color) {
+            case 1:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[0].getValue());
+                break;
+            case 2:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[1].getValue());
+                break;
+            case 3:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[2].getValue());
+                break;
+            case 4:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[3].getValue());
+                break;
+            case 5:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[4].getValue());
+                break;
+            case 6:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[5].getValue());
+                break;
+            case 7:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[6].getValue());
+                break;
+            default:
+                throw new IllegalArgumentException(
+                    String.format("Color %d is not a valid color number.", color));
+        }
+    }
+
     /**
      * drawGrid draws the entire gameboard. As tetrominos reach their final
      * place, they are registered on the grid to be drawn by this function.
@@ -209,6 +236,14 @@ public class View extends Application {
         }
     }
 
+    public void drawGridPreview(Grid grid) {
+        for (int x = 0; x < BOARD_WIDTH; x++) {
+            for (int y = 0; y < BOARD_HEIGHT; y++) {
+                drawRectanglePreview(grid.get(x, y), new Coordinate(x, y));
+            }
+        }
+    }
+
     /**
      * drawTetromino employs the structure of a tetromino to draw it on a
      * gameboard.
@@ -219,6 +254,12 @@ public class View extends Application {
     public void drawTetromino(AbstractTetromino tetromino) {
         for (int i = 0; i < 4; i++) {
             drawRectangle(tetromino.getColor(), tetromino.get(i));
+        }
+    }
+
+    public void drawTetrominoPreview(AbstractTetromino tetromino) {
+        for (int i = 0; i < 4; i++) {
+            drawRectanglePreview(tetromino.getColor(), tetromino.get(i));
         }
     }
 
@@ -241,6 +282,19 @@ public class View extends Application {
                 (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
                 CORNER);
             board.strokeRoundRect(coordinate.getX() * BLOCK_SIZE,
+                (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
+                CORNER);
+        }
+    }
+
+    private void drawRectanglePreview(int color, Coordinate coordinate) {
+        if (color > 0) {
+            setColor(color);
+            PreviewGC.setLineWidth(BLOCK_SIZE / 10.);
+            PreviewGC.fillRoundRect(coordinate.getX() * BLOCK_SIZE,
+                (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
+                CORNER);
+            PreviewGC.strokeRoundRect(coordinate.getX() * BLOCK_SIZE,
                 (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
                 CORNER);
         }
