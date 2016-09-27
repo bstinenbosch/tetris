@@ -129,16 +129,16 @@ public class View extends Application {
 
         GridPane rightPane = new GridPane();
         rightPane.setVgap(10);
-        GridPane.setConstraints(exitButton, 0, 0);
-        GridPane.setConstraints(restartButton, 0, 1);
-        GridPane.setConstraints(PreviewPane, 0, 5);
+        GridPane.setConstraints(exitButton, 0, 2);
+        GridPane.setConstraints(restartButton, 0, 3);
+        GridPane.setConstraints(PreviewPane, 0, 4);
         rightPane.getChildren().addAll(exitButton, restartButton, PreviewPane);
-        rightPane.setStyle("-fx-background-color: grey");
+        rightPane.setStyle("-fx-background-color: BLUE");
         return rightPane;
     }
 
     private GridPane setUpPreviewPane() {
-        Canvas canvas = new Canvas(BLOCK_SIZE * 6, BLOCK_SIZE * 6);
+        Canvas canvas = new Canvas(BLOCK_SIZE * 6, BLOCK_SIZE * 5);
         PreviewGC = canvas.getGraphicsContext2D();
 
         GridPane PreviewPane = new GridPane();
@@ -303,7 +303,7 @@ public class View extends Application {
     public void clearBoard() {
         board.setFill(Color.BLACK);
         board.fillRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
-        PreviewGC.setFill(Color.RED);
+        PreviewGC.setFill(Color.BLUE);
         PreviewGC.fillRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
 
     }
@@ -314,8 +314,9 @@ public class View extends Application {
     public void gameOver() {
         board.setTextAlign(TextAlignment.CENTER);
         board.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
-        board.setFill(Color.RED);
-        board.fillText("GAME OVER", BOARD_WIDTH * BLOCK_SIZE / 2, BOARD_HEIGHT * BLOCK_SIZE / 2);
+        // board.setFill(Color.GREY);
+        // board.fillText("GAME OVER", BOARD_WIDTH * BLOCK_SIZE / 2,
+        // BOARD_HEIGHT * BLOCK_SIZE / 2);
 
     }
 
