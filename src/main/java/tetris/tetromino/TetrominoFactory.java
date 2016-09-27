@@ -45,10 +45,6 @@ public class TetrominoFactory {
 
     public static AbstractTetromino createRandom(Coordinate position) {
         TetrominoQueue.addToQueue();
-        //
-        // Hier moet Preview Gedaan worden
-        //
-
         TetrominoType onScreenTetromino = TetrominoQueue.removeFromQueue();
         return create(onScreenTetromino, position);
     }
