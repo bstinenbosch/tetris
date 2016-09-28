@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class GameView extends Group {
+public class GameScreen extends Group {
     private Settings settings;
     private Button exitButton;
     private Button restartButton;
@@ -31,7 +31,7 @@ public class GameView extends Group {
 
     private ObservingLabel scoreLabel;
 
-    public GameView(Settings settings) {
+    public GameScreen(Settings settings) {
         super();
         this.settings = settings;
         GridPane rightPane = setUpRightPaneGameScreen();

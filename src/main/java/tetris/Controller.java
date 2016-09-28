@@ -60,7 +60,7 @@ public class Controller {
     private EventHandler<ActionEvent> onTick = event -> lowerTetromino();
     private Tick timer = new Tick(onTick);
 
-    public Settings settings;
+    private Settings settings;
 
     /**
      * the Controller class determines the game flow and does the actual event
@@ -84,17 +84,17 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         if (!gameOver) {
-            switch (event.getCode()) {
-                case DOWN:
+            switch (settings.getKeyBindings().getKey(event.getCode())) {
+                case "ROTATE RIGHT":
                     checkRotateRight();
                     break;
-                case LEFT:
+                case "MOVE LEFT":
                     checkMoveLeft();
                     break;
-                case RIGHT:
+                case "MOVE RIGHT":
                     checkMoveRight();
                     break;
-                case UP:
+                case "ROTATE LEFT":
                     checkRotateLeft();
                     break;
                 case SPACE:

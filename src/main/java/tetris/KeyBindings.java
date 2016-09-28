@@ -9,8 +9,10 @@ public final class KeyBindings {
     private HashMap<KeyCode, String> bindings = new HashMap<KeyCode, String>();
 
     public KeyBindings() {
-        bindings.put(KeyCode.LEFT, "LEFT");
-        bindings.put(KeyCode.RIGHT, "RIGHT");
+        bindings.put(KeyCode.LEFT, "MOVE LEFT");
+        bindings.put(KeyCode.RIGHT, "MOVE RIGHT");
+        bindings.put(KeyCode.DOWN, "ROTATE LEFT");
+        bindings.put(KeyCode.UP, "ROTATE RIGHT");
     }
 
     public Collection<String> values() {
@@ -26,7 +28,16 @@ public final class KeyBindings {
         }
     }
 
-    public String get(KeyCode binding) {
+    public String getKey(KeyCode binding) {
         return bindings.get(binding);
+    }
+
+    public KeyCode getBinding(String key) {
+        for (KeyCode binding : bindings.keySet()) {
+            if (key.equals(bindings.get(binding))) {
+                return binding;
+            }
+        }
+        throw new IllegalArgumentException("You requested the binding of a key that is not bound.");
     }
 }

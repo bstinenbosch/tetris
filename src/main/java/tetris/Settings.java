@@ -14,7 +14,16 @@ public class Settings {
 
     public Settings() {
         keybindings = new KeyBindings();
-        colors = new Color[7];
+        colors = new Color[] { Color.CYAN, Color.BLUE, Color.DARKORANGE, Color.YELLOW, Color.LIME,
+            Color.PURPLE, Color.RED };
+    }
+
+    public Color getColor(int index) {
+        return colors[index];
+    }
+
+    public void setColor(int index, Color color) {
+        colors[index] = color;
     }
 
     public int boardWidth() {
