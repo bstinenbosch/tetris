@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
 
-public class MainScreen extends Group {
+public class MainScreen extends Group implements IScreen {
 
     private Button startNewGameButton;
     private Button settingsButton;
@@ -36,9 +36,6 @@ public class MainScreen extends Group {
 
     public void hookEvents(Controller controller) {
         startNewGameButton.setOnAction(event -> controller.startGame());
-    }
-
-    public Button getSettingsButton() {
-        return settingsButton;
+        settingsButton.setOnAction(event -> controller.openSettings());
     }
 }

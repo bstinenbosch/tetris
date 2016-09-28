@@ -1,5 +1,6 @@
 package tetris.scenes;
 
+import tetris.Controller;
 import tetris.Settings;
 
 import javafx.geometry.Insets;
@@ -13,7 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class SettingsScreen extends Group {
+public class SettingsScreen extends Group implements IScreen {
 
     public static final int NUMBER_OF_COLORS = 7;
 
@@ -25,32 +26,13 @@ public class SettingsScreen extends Group {
     public SettingsScreen(Settings settings) {
         this.settings = settings;
         initializeColorPickers();
-
-        GridPane root = new GridPane();
-        getChildren().add(root);
-
-        VBox box = new VBox(20);
-        box.setPadding(new Insets(5, 5, 5, 5));
-        box.getChildren().addAll(colorPickers);
-        colorPickers[0].setOnAction(event -> settings.setColor(0, colorPickers[0].getValue()));
-        colorPickers[1].setOnAction(event -> settings.setColor(1, colorPickers[1].getValue()));
-        colorPickers[2].setOnAction(event -> settings.setColor(2, colorPickers[2].getValue()));
-        colorPickers[3].setOnAction(event -> settings.setColor(3, colorPickers[3].getValue()));
-        colorPickers[4].setOnAction(event -> settings.setColor(4, colorPickers[4].getValue()));
-        colorPickers[5].setOnAction(event -> settings.setColor(5, colorPickers[5].getValue()));
-        colorPickers[6].setOnAction(event -> settings.setColor(6, colorPickers[6].getValue()));
-        // for (int i = 0; i < NUMBER_OF_COLORS; i++) {
-        // colorPickers[i].setOnAction(event -> settings.setColor(i,
-        // colorPickers[i].getValue()));
-        // }
+        VBox root = new VBox(20);
+        root.setPadding(new Insets(5, 5, 5, 5));
         backButton = new Button("Back");
-        box.getChildren().add(backButton);
-
-        GridPane keysetter = generateKeySetter(settings);
-
-        GridPane.setConstraints(box, 0, 0);
-        GridPane.setConstraints(keysetter, 0, 1);
-        root.getChildren().addAll(box, keysetter);
+        root.getChildren().addAll(colorPickers);
+        root.getChildren().add(backButton);
+        root.getChildren().add(generateKeySetter(settings));
+        getChildren().add(root);
     }
 
     private GridPane generateKeySetter(Settings settings) {
@@ -77,7 +59,7 @@ public class SettingsScreen extends Group {
         keyResultTextField.setText(keycode.toString());
     }
 
-    public void initializeColorPickers() {
+    private void initializeColorPickers() {
         for (int i = 0; i < NUMBER_OF_COLORS; i++) {
             this.colorPickers[i] = new ColorPicker();
             colorPickers[i].setValue(settings.getColor(i));
@@ -88,8 +70,15 @@ public class SettingsScreen extends Group {
         return this.colorPickers;
     }
 
-    public Button getBackButton() {
-        return backButton;
+    public void hookEvents(Controller controller) {
+        backButton.setOnAction(event -> controller.openMainScreen());
+        colorPickers[0].setOnAction(event -> settings.setColor(0, colorPickers[0].getValue()));
+        colorPickers[1].setOnAction(event -> settings.setColor(1, colorPickers[1].getValue()));
+        colorPickers[2].setOnAction(event -> settings.setColor(2, colorPickers[2].getValue()));
+        colorPickers[3].setOnAction(event -> settings.setColor(3, colorPickers[3].getValue()));
+        colorPickers[4].setOnAction(event -> settings.setColor(4, colorPickers[4].getValue()));
+        colorPickers[5].setOnAction(event -> settings.setColor(5, colorPickers[5].getValue()));
+        colorPickers[6].setOnAction(event -> settings.setColor(6, colorPickers[6].getValue()));
     }
 
 }
