@@ -56,6 +56,8 @@ public class Controller {
     private EventHandler<ActionEvent> onTick = event -> lowerTetromino();
     private Tick timer = new Tick(onTick);
 
+    public Settings settings;
+
     /**
      * the Controller class determines the game flow and does the actual event
      * handling.
@@ -63,7 +65,8 @@ public class Controller {
      * @param ui
      *            the application in which the game is running
      */
-    Controller(View ui) {
+    Controller(View ui, Settings settings) {
+        this.settings = settings;
         this.ui = ui;
         Logger.setDebugOn();
         score = new Score();
@@ -175,13 +178,13 @@ public class Controller {
     /**
      * starts the game.
      */
-    public void startGame(int width, int height) {
+    public void startGame() {
         ui.gotoGameScreen();
         score.addObserver(timer);
         score.addObserver(ui.getScoreLabel());
         score.reset();
         gameOver = false;
-        grid = new Grid(width, height);
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
         timer.start();
         Logger.log(this, Logger.LogType.INFO, "game started");
