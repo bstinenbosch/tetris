@@ -3,11 +3,12 @@ package tetris;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
 
-public class MainScreen extends TilePane {
+public class MainScreen extends Group {
 
     private Button startNewGameButton;
     private Button settingsButton;
@@ -22,11 +23,17 @@ public class MainScreen extends TilePane {
         settingsButton = new Button("Settings");
         settingsButton.setStyle("-fx-background-color: green");
 
-        setOrientation(Orientation.VERTICAL);
-        setTileAlignment(Pos.CENTER);
-        setPadding(new Insets(0, 20, 10, 20));
-        getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
-        setStyle("-fx-background-color: black");
+        TilePane root = new TilePane();
+        root.setOrientation(Orientation.VERTICAL);
+        root.setTileAlignment(Pos.CENTER);
+        root.setPadding(new Insets(0, 20, 10, 20));
+        root.getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
+        root.setStyle("-fx-background-color: black");
+        getChildren().add(root);
+    }
+
+    public void hookEvents(Controller controller) {
+        startNewGameButton.setOnAction(event -> controller.startGame());
     }
 
     public Button getSettingsButton() {

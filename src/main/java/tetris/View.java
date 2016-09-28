@@ -3,9 +3,7 @@ package tetris;
 import tetris.tetromino.AbstractTetromino;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -20,10 +18,6 @@ public class View extends Application {
     private Settings settings;
     private Controller controller;
     private Stage primaryStage;
-    // private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
-    private ScreenController screenController = new ScreenController();
-    private MainScreen mainScreen = new MainScreen();
-    private SettingsScreen settingsScreen = new SettingsScreen();
 
     /**
      * start inits the application and displays a loading screen
@@ -36,44 +30,8 @@ public class View extends Application {
         settings = new Settings();
         controller = new Controller(this, settings);
         this.primaryStage = primaryStage;
-        gotoLauncher();
-        // primaryStage.setTitle("Tetris");
-        // primaryStage.show();
-    }
-
-    /**
-     * gotoLauncher navigates to the launcher and contains its definition.
-     */
-    private void gotoLauncher() {
-        screenController.addScreen("Main", mainScreen);
-        screenController.addScreen("Settings", settingsScreen);
-        screenController.setScreen("Main");
-
-        hookLauncherEvents();
-        hookSettingsEvents();
-        hookBackToMainMenuButtonEvents();
-
-        Group root = new Group();
-        root.getChildren().addAll(screenController);
-        Scene scene = new Scene(root);
-        scene.setFill(null);
-        primaryStage.setScene(scene);
+        gotoMainScreen();
         primaryStage.show();
-    }
-
-    private void hookSettingsEvents() {
-        Button settingsButton = mainScreen.getSettingsButton();
-        settingsButton.setOnAction(event -> screenController.setScreen("Settings"));
-    }
-
-    private void hookLauncherEvents() {
-        Button startNewGameButton = mainScreen.getStartNewGameButton();
-        startNewGameButton.setOnAction(event -> controller.startGame());
-    }
-
-    private void hookBackToMainMenuButtonEvents() {
-        Button backToMainMenuButton = settingsScreen.getBackToMainScreenButton();
-        backToMainMenuButton.setOnAction(event -> screenController.setScreen("Main"));
     }
 
     /**
@@ -81,11 +39,24 @@ public class View extends Application {
      * fires up the game controller.
      */
     public void gotoGameScreen() {
-        GameView gameview = new GameView(settings);
+        GameScreen gameview = new GameScreen(settings);
         primaryStage.setScene(new Scene(gameview));
         gameview.setOnKeyPressed(event -> controller.handleKeyEvent(event));
         gameview.hookEvents(controller);
         gameview.requestFocus();
+    }
+
+    public void gotoSettingsScreen() {
+        SettingsScreen settingsview = new SettingsScreen(settings);
+        settingsview.getBackButton().setOnAction(event -> gotoMainScreen());
+        primaryStage.setScene(new Scene(settingsview));
+    }
+
+    public void gotoMainScreen() {
+        MainScreen mainview = new MainScreen();
+        mainview.hookEvents(controller);
+        mainview.getSettingsButton().setOnAction(event -> gotoSettingsScreen());
+        primaryStage.setScene(new Scene(mainview));
     }
 
     /**
@@ -96,32 +67,7 @@ public class View extends Application {
      *            the color pair ID
      */
     private void setColor(int color) {
-        switch (color) {
-            case 1:
-                settings.getBoard().setFill(Color.WHITE);
-                break;
-            case 2:
-                settings.getBoard().setFill(Color.WHITE);
-                break;
-            case 3:
-                settings.getBoard().setFill(Color.WHITE);
-                break;
-            case 4:
-                settings.getBoard().setFill(Color.WHITE);
-                break;
-            case 5:
-                settings.getBoard().setFill(Color.WHITE);
-                break;
-            case 6:
-                settings.getBoard().setFill(Color.WHITE);
-                break;
-            case 7:
-                settings.getBoard().setFill(Color.WHITE);
-                break;
-            default:
-                throw new IllegalArgumentException(
-                    String.format("Color %d is not a valid color number.", color));
-        }
+        settings.getBoard().setFill(settings.getColor(color));
     }
 
     /**
@@ -166,7 +112,6 @@ public class View extends Application {
     private void drawRectangle(int color, Coordinate coordinate) {
         if (color > 0) {
             setColor(color);
-            // settings.getBoard().setLineWidth(settings.blockSize() / 10.);
             settings.getBoard().fillRoundRect(coordinate.getX() * settings.blockSize(),
                 (settings.boardHeight() - 1 - coordinate.getY()) * settings.blockSize(),
                 settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
