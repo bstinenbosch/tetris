@@ -33,3 +33,6 @@ proguard/
 .gradle/
 build/
 logging/
+
+# log files
+*.log
