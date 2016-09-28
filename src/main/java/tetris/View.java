@@ -1,8 +1,8 @@
 package tetris;
 
-import java.util.Observable;
-import java.util.Observer;
-
+import tetris.scenes.GameScreen;
+import tetris.scenes.MainScreen;
+import tetris.scenes.SettingsScreen;
 import tetris.tetromino.AbstractTetromino;
 
 import javafx.application.Application;
@@ -13,35 +13,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import tetris.tetromino.AbstractTetromino;
-
 /**
  * MainScreen is the class containing all the GUI-related stuff. Here we draw up
  * the different screens and hook the key events.
  */
 public class View extends Application {
-    private Settings settings;
+    protected Settings settings;
     private Controller controller;
     private Stage primaryStage;
-
-    private class ObservingLabel extends Label implements Observer {
-
-        public ObservingLabel(String string) {
-            super(string);
-        }
-
-        @Override
-        public void update(Observable o, Object arg) {
-            Platform.runLater(() -> this.setText(Integer.toString((int) arg)));
-        }
-
-    }
-
-    private ObservingLabel scoreLabel;
-
-    public ObservingLabel getScoreLabel() {
-        return scoreLabel;
-    }
 
     /**
      * start inits the application and displays a loading screen
