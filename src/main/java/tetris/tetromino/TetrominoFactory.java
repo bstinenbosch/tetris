@@ -3,6 +3,7 @@ package tetris.tetromino;
 import tetris.Coordinate;
 
 public class TetrominoFactory {
+    public static TetrominoType[] queue = null;
 
     /**
      * Creates a Tetromino.
@@ -41,7 +42,17 @@ public class TetrominoFactory {
      *            Position of shape in grid
      * @return AbstractShape Tetromino
      */
+
     public static AbstractTetromino createRandom(Coordinate position) {
-        return create(TetrominoType.random(), position);
+        TetrominoQueue.addToQueue();
+        TetrominoType onScreenTetromino = TetrominoQueue.removeFromQueue();
+        return create(onScreenTetromino, position);
     }
+
+    public static AbstractTetromino getLast(Coordinate position2) {
+        TetrominoType previewTetromino = TetrominoQueue.getLast();
+
+        return create(previewTetromino, position2);
+    }
+
 }

@@ -2,13 +2,14 @@ package tetris;
 
 import java.util.Observable;
 
+import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.TetrominoFactory;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
 import logging.Logger;
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
 
 public class Controller {
 
@@ -50,6 +51,7 @@ public class Controller {
     private View ui;
     private Grid grid;
     private AbstractTetromino tetromino;
+    private AbstractTetromino tetromino2;
     private boolean gameOver = false;
     private EventHandler<ActionEvent> onTick = event -> lowerTetromino();
     private Tick timer = new Tick(onTick);
@@ -115,8 +117,14 @@ public class Controller {
      */
     private void dropNewTetromino() {
         score.add(grid.clearLines());
+
+        grid.clearLines();
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
+        Coordinate position2 = new Coordinate(grid.width() / 5 + 2 / 5, grid.height() - 4);
+
         tetromino = TetrominoFactory.createRandom(position);
+        tetromino2 = TetrominoFactory.getLast(position2);
+
         redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
@@ -129,6 +137,7 @@ public class Controller {
         ui.clearBoard();
         ui.drawGrid(grid);
         ui.drawTetromino(tetromino);
+        ui.drawTetrominoPreview(tetromino2);
     }
 
     /**

@@ -5,6 +5,8 @@ import java.util.Observer;
 
 import tetris.tetromino.AbstractTetromino;
 
+//TEST VOOR UITLEG!
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
@@ -35,6 +37,7 @@ public class View extends Application {
     private Controller controller;
     private Stage primaryStage;
     private GraphicsContext board;
+    private GraphicsContext PreviewGC;
     private Button settingsButton;
     private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
 
@@ -70,6 +73,7 @@ public class View extends Application {
         gotoLauncher();
         primaryStage.setTitle("Tetris");
         primaryStage.show();
+
     }
 
     /**
@@ -149,6 +153,7 @@ public class View extends Application {
     private GridPane setUpRightPaneGameScreen() {
         Button exitButton = new Button("exit");
         Button restartButton = new Button("restart");
+        GridPane PreviewPane = setUpPreviewPane();
         hookGameScreenEvents(exitButton, restartButton);
 
         GridPane rightPane = new GridPane();
@@ -157,12 +162,25 @@ public class View extends Application {
         GridPane.setConstraints(exitButton, 0, 0);
         GridPane.setConstraints(restartButton, 0, 1);
         GridPane.setConstraints(scoreLabel, 0, 2);
-        rightPane.getChildren().addAll(exitButton, restartButton, scoreLabel);
+        GridPane.setConstraints(PreviewPane, 0, 4);
+        rightPane.getChildren().addAll(exitButton, restartButton, PreviewPane, scoreLabel);
         rightPane.setStyle("-fx-background-color: grey");
+
         return rightPane;
     }
 
+    private GridPane setUpPreviewPane() {
+        Canvas canvas = new Canvas(BLOCK_SIZE * 6, BLOCK_SIZE * 5);
+        PreviewGC = canvas.getGraphicsContext2D();
+
+        GridPane PreviewPane = new GridPane();
+        PreviewPane.getChildren().addAll(canvas);
+
+        return PreviewPane;
+    }
+
     private void hookGameScreenEvents(Button exitButton, Button restartButton) {
+
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
     }
@@ -203,6 +221,35 @@ public class View extends Application {
         }
     }
 
+    private void setColorPreview(int color) {
+        switch (color) {
+            case 1:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[0].getValue());
+                break;
+            case 2:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[1].getValue());
+                break;
+            case 3:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[2].getValue());
+                break;
+            case 4:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[3].getValue());
+                break;
+            case 5:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[4].getValue());
+                break;
+            case 6:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[5].getValue());
+                break;
+            case 7:
+                PreviewGC.setFill(gameSettingsPanel.getColorPickers()[6].getValue());
+                break;
+            default:
+                throw new IllegalArgumentException(
+                    String.format("Color %d is not a valid color number.", color));
+        }
+    }
+
     /**
      * drawGrid draws the entire gameboard. As tetrominos reach their final
      * place, they are registered on the grid to be drawn by this function.
@@ -218,6 +265,14 @@ public class View extends Application {
         }
     }
 
+    public void drawGridPreview(Grid grid) {
+        for (int x = 0; x < BOARD_WIDTH; x++) {
+            for (int y = 0; y < BOARD_HEIGHT; y++) {
+                drawRectanglePreview(grid.get(x, y), new Coordinate(x, y));
+            }
+        }
+    }
+
     /**
      * drawTetromino employs the structure of a tetromino to draw it on a
      * gameboard.
@@ -228,6 +283,12 @@ public class View extends Application {
     public void drawTetromino(AbstractTetromino tetromino) {
         for (int i = 0; i < 4; i++) {
             drawRectangle(tetromino.getColor(), tetromino.get(i));
+        }
+    }
+
+    public void drawTetrominoPreview(AbstractTetromino tetromino) {
+        for (int i = 0; i < 4; i++) {
+            drawRectanglePreview(tetromino.getColor(), tetromino.get(i));
         }
     }
 
@@ -255,12 +316,28 @@ public class View extends Application {
         }
     }
 
+    private void drawRectanglePreview(int color, Coordinate coordinate) {
+        if (color > 0) {
+            setColorPreview(color);
+            PreviewGC.setLineWidth(BLOCK_SIZE / 10.);
+            PreviewGC.fillRoundRect(coordinate.getX() * BLOCK_SIZE,
+                (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
+                CORNER);
+            PreviewGC.strokeRoundRect(coordinate.getX() * BLOCK_SIZE,
+                (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
+                CORNER);
+        }
+    }
+
     /**
      * clearBoard erases the current board so it can be redrawn.
      */
     public void clearBoard() {
         board.setFill(Color.BLACK);
         board.fillRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
+        PreviewGC.setFill(Color.BLUE);
+        PreviewGC.fillRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
+
     }
 
     /**
@@ -269,8 +346,9 @@ public class View extends Application {
     public void gameOver() {
         board.setTextAlign(TextAlignment.CENTER);
         board.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
-        board.setFill(Color.RED);
-        board.fillText("GAME OVER", BOARD_WIDTH * BLOCK_SIZE / 2, BOARD_HEIGHT * BLOCK_SIZE / 2);
+        // board.setFill(Color.GREY);
+        // board.fillText("GAME OVER", BOARD_WIDTH * BLOCK_SIZE / 2,
+        // BOARD_HEIGHT * BLOCK_SIZE / 2);
 
     }
 
@@ -283,6 +361,7 @@ public class View extends Application {
     }
 
     public static void main(String[] args) {
+
         launch(args);
     }
 }

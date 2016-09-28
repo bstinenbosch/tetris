@@ -23,7 +23,7 @@ public class Grid {
      *
      * @return int
      */
-    int height() {
+    public int height() {
         return board[0].length - 4;
     }
 
@@ -32,7 +32,7 @@ public class Grid {
      *
      * @return int
      */
-    int width() {
+    public int width() {
         return board.length;
     }
 
