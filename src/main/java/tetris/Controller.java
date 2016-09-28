@@ -2,13 +2,14 @@ package tetris;
 
 import java.util.Observable;
 
+import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.TetrominoFactory;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
 import logging.Logger;
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
 
 public class Controller {
 
@@ -88,11 +89,23 @@ public class Controller {
                 case UP:
                     checkRotateLeft();
                     break;
+                case SPACE:
+                    hardDrop();
+                    break;
                 default:
                     break;
             }
             redraw();
         }
+    }
+
+    /**
+     * move a tetromino down until it hits the ground.
+     */
+    private void hardDrop() {
+        while (checkMoveDown()) {
+        }
+        lowerTetromino();
     }
 
     /**
@@ -175,6 +188,7 @@ public class Controller {
         score.reset();
         dropNewTetromino();
         timer.unpause();
+        ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game restarted");
     }
 
