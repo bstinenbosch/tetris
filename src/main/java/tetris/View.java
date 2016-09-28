@@ -76,6 +76,10 @@ public class View extends Application {
 
     }
 
+    public void resetFocus() {
+        primaryStage.getScene().getRoot().requestFocus();
+    }
+
     /**
      * gotoLauncher navigates to the launcher and contains its definition.
      */

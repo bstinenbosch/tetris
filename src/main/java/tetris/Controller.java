@@ -90,11 +90,23 @@ public class Controller {
                 case UP:
                     checkRotateLeft();
                     break;
+                case SPACE:
+                    hardDrop();
+                    break;
                 default:
                     break;
             }
             redraw();
         }
+    }
+
+    /**
+     * move a tetromino down until it hits the ground.
+     */
+    private void hardDrop() {
+        while (checkMoveDown()) {
+        }
+        lowerTetromino();
     }
 
     /**
@@ -184,6 +196,7 @@ public class Controller {
         score.reset();
         dropNewTetromino();
         timer.unpause();
+        ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game restarted");
     }
 
