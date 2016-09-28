@@ -37,7 +37,6 @@ public class GameView extends Group {
         GridPane.setConstraints(leftPane, 0, 0);
         GridPane.setConstraints(rightPane, 1, 0);
         rootGameScreen.getChildren().addAll(leftPane, rightPane);
-        rootGameScreen.setOnKeyPressed(event -> controller.handleKeyEvent(event));
         return rootGameScreen;
     }
 
