@@ -31,10 +31,6 @@ public class GameView extends Group {
 
     private ObservingLabel scoreLabel;
 
-    public ObservingLabel getScoreLabel() {
-        return scoreLabel;
-    }
-
     public GameView(Settings settings) {
         super();
         this.settings = settings;
@@ -68,14 +64,17 @@ public class GameView extends Group {
         exitButton = new Button("exit");
         restartButton = new Button("restart");
         scoreLabel = new ObservingLabel("0");
-        scoreLabel.setStyle("");
+        scoreLabel
+            .setStyle("-fx-background-color:red;-fx-text-fill:black;-fx-text-alignment:center;"
+                + "-fx-alignment:center;-fx-font-weight:bold;-fx-font-size:250%");
+        scoreLabel.setMinSize(100, 50);
 
         GridPane rightPane = new GridPane();
         rightPane.setVgap(10);
         GridPane.setConstraints(exitButton, 0, 0);
         GridPane.setConstraints(restartButton, 0, 1);
         GridPane.setConstraints(scoreLabel, 0, 2);
-        rightPane.getChildren().addAll(exitButton, restartButton);
+        rightPane.getChildren().addAll(exitButton, restartButton, scoreLabel);
         rightPane.setStyle("-fx-background-color: grey");
         return rightPane;
     }
@@ -83,6 +82,7 @@ public class GameView extends Group {
     public void hookEvents(Controller controller) {
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
+        controller.addScoreObserver(scoreLabel);
     }
 
 }
