@@ -1,6 +1,10 @@
 package tetris;
 
 import java.util.Observable;
+import java.util.Observer;
+
+import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.TetrominoFactory;
 
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
@@ -181,13 +185,17 @@ public class Controller {
     public void startGame() {
         ui.gotoGameScreen();
         score.addObserver(timer);
-        score.addObserver(ui.getScoreLabel());
+        // score.addObserver(ui.getScoreLabel());
         score.reset();
         gameOver = false;
         grid = new Grid(settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
         timer.start();
         Logger.log(this, Logger.LogType.INFO, "game started");
+    }
+
+    public void addScoreObserver(Observer observer) {
+        score.addObserver(observer);
     }
 
     /**
