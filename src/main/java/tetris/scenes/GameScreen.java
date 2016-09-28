@@ -7,17 +7,20 @@ import tetris.Controller;
 import tetris.Settings;
 
 import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
-public class GameScreen extends Group {
+public class GameScreen extends Group implements IScreen {
     private Settings settings;
     private Button exitButton;
     private Button restartButton;
+    private Button backButton;
 
     private class ObservingLabel extends Label implements Observer {
 
@@ -35,9 +38,8 @@ public class GameScreen extends Group {
     private ObservingLabel scoreLabel;
 
     public GameScreen(Settings settings) {
-        super();
         this.settings = settings;
-        GridPane rightPane = setUpRightPaneGameScreen();
+        VBox rightPane = setUpRightPaneGameScreen();
         Pane leftPane = setUpLeftPaneGameScreen();
         GridPane rootGameScreen = setUpRootPaneGameScreen(leftPane, rightPane);
         getChildren().add(rootGameScreen);
@@ -54,7 +56,7 @@ public class GameScreen extends Group {
         return leftPane;
     }
 
-    private GridPane setUpRootPaneGameScreen(Pane leftPane, GridPane rightPane) {
+    private GridPane setUpRootPaneGameScreen(Pane leftPane, VBox rightPane) {
         GridPane rootGameScreen = new GridPane();
         rootGameScreen.setHgap(10);
         GridPane.setConstraints(leftPane, 0, 0);
@@ -63,29 +65,29 @@ public class GameScreen extends Group {
         return rootGameScreen;
     }
 
-    private GridPane setUpRightPaneGameScreen() {
+    private VBox setUpRightPaneGameScreen() {
         exitButton = new Button("exit");
         restartButton = new Button("restart");
+        backButton = new Button("back");
         scoreLabel = new ObservingLabel("0");
         scoreLabel
             .setStyle("-fx-background-color:red;-fx-text-fill:black;-fx-text-alignment:center;"
                 + "-fx-alignment:center;-fx-font-weight:bold;-fx-font-size:250%");
         scoreLabel.setMinSize(100, 50);
 
-        GridPane rightPane = new GridPane();
-        rightPane.setVgap(10);
-        GridPane.setConstraints(exitButton, 0, 0);
-        GridPane.setConstraints(restartButton, 0, 1);
-        GridPane.setConstraints(scoreLabel, 0, 2);
-        rightPane.getChildren().addAll(exitButton, restartButton, scoreLabel);
-        rightPane.setStyle("-fx-background-color: grey");
-        return rightPane;
+        VBox box = new VBox(10);
+        box.setAlignment(Pos.CENTER);
+        box.getChildren().addAll(exitButton, restartButton, scoreLabel, backButton);
+        box.setStyle("-fx-background-color: grey");
+        return box;
     }
 
     public void hookEvents(Controller controller) {
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
+        backButton.setOnAction(event -> controller.openMainScreen());
         controller.addScoreObserver(scoreLabel);
+        setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }
 
 }

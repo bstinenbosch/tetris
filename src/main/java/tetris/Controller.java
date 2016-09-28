@@ -9,6 +9,10 @@ import tetris.tetromino.TetrominoFactory;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 
 import logging.Logger;
 
@@ -70,6 +74,7 @@ public class Controller {
         this.ui = ui;
         Logger.setDebugOn();
         score = new Score();
+        score.addObserver(timer);
     }
 
     /**
@@ -131,9 +136,9 @@ public class Controller {
      * active tetromino.
      */
     private void redraw() {
-        ui.clearBoard();
-        ui.drawGrid(grid);
-        ui.drawTetromino(tetromino);
+        clearBoard();
+        drawGrid();
+        drawTetromino();
     }
 
     /**
@@ -143,7 +148,11 @@ public class Controller {
         timer.pause();
         gameOver = true;
         Logger.log(this, Logger.LogType.INFO, "game restarted");
-        ui.gameOver();
+        settings.getBoard().setTextAlign(TextAlignment.CENTER);
+        settings.getBoard().setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
+        settings.getBoard().setFill(Color.RED);
+        settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
+            settings.boardHeight() * settings.blockSize() / 2);
     }
 
     /**
@@ -161,14 +170,20 @@ public class Controller {
      */
     public void startGame() {
         ui.gotoGameScreen();
-        score.addObserver(timer);
-        // score.addObserver(ui.getScoreLabel());
         score.reset();
         gameOver = false;
         grid = new Grid(settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
         timer.start();
         Logger.log(this, Logger.LogType.INFO, "game started");
+    }
+
+    public void openSettings() {
+        ui.gotoSettingsScreen();
+    }
+
+    public void openMainScreen() {
+        ui.gotoMainScreen();
     }
 
     public void addScoreObserver(Observer observer) {
@@ -257,5 +272,73 @@ public class Controller {
         }
         Logger.log(this, Logger.LogType.INFO, "moved tetromino down");
         return true;
+    }
+
+    /**
+     * setColor sets the draw color pairs of the board according to predefined
+     * pairs.
+     * 
+     * @param color
+     *            the color pair ID
+     */
+    private void setColor(int color) {
+        settings.getBoard().setFill(settings.getColor(color));
+    }
+
+    /**
+     * drawGrid draws the entire gameboard. As tetrominos reach their final
+     * place, they are registered on the grid to be drawn by this function.
+     * 
+     * @param grid
+     *            the gameboard to draw on the canvas
+     */
+    private void drawGrid() {
+        for (int x = 0; x < settings.boardWidth(); x++) {
+            for (int y = 0; y < settings.boardHeight(); y++) {
+                drawRectangle(grid.get(x, y), new Coordinate(x, y));
+            }
+        }
+    }
+
+    /**
+     * drawTetromino employs the structure of a tetromino to draw it on a
+     * gameboard.
+     * 
+     * @param tetromino
+     *            the tetromino to draw
+     */
+    private void drawTetromino() {
+        for (int i = 0; i < 4; i++) {
+            drawRectangle(tetromino.getColor(), tetromino.get(i));
+        }
+    }
+
+    /**
+     * drawRectangle draws one cube on the game grid.
+     * 
+     * @param board
+     *            specifies the gameboard(canvas) to draw on
+     * @param color
+     *            specifies the color pair to draw in (color pairs provided by
+     *            setColor)
+     * @param coordinate
+     *            the cube in the grid that is to be drawn.
+     */
+    private void drawRectangle(int color, Coordinate coordinate) {
+        if (color > 0) {
+            setColor(color);
+            settings.getBoard().fillRoundRect(coordinate.getX() * settings.blockSize(),
+                (settings.boardHeight() - 1 - coordinate.getY()) * settings.blockSize(),
+                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
+        }
+    }
+
+    /**
+     * clearBoard erases the current board so it can be redrawn.
+     */
+    private void clearBoard() {
+        settings.getBoard().setFill(Color.BLACK);
+        settings.getBoard().fillRect(0, 0, settings.boardWidth() * settings.blockSize(),
+            settings.boardHeight() * settings.blockSize());
     }
 }
