@@ -11,7 +11,6 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -26,13 +25,9 @@ import tetris.tetromino.AbstractTetromino;
  * the different screens and hook the key events.
  */
 public class View extends Application {
-    private static final int BLOCK_SIZE = 20;
-    private static final int BOARD_WIDTH = 10;
-    private static final int BOARD_HEIGHT = 20;
-    private static final int CORNER = 3;
+    private Settings settings;
     private Controller controller;
     private Stage primaryStage;
-    private GraphicsContext board;
     // private GameSettingsPanel gameSettingsPanel = new GameSettingsPanel();
     private ScreenController screenController = new ScreenController();
     private MainScreen mainScreen = new MainScreen();
@@ -65,7 +60,8 @@ public class View extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        controller = new Controller(this);
+        settings = new Settings();
+        controller = new Controller(this, settings);
         this.primaryStage = primaryStage;
         gotoLauncher();
         // primaryStage.setTitle("Tetris");
@@ -99,7 +95,7 @@ public class View extends Application {
 
     private void hookLauncherEvents() {
         Button startNewGameButton = mainScreen.getStartNewGameButton();
-        startNewGameButton.setOnAction(event -> controller.startGame(BOARD_WIDTH, BOARD_HEIGHT));
+        startNewGameButton.setOnAction(event -> controller.startGame());
     }
 
     private void hookBackToMainMenuButtonEvents() {
@@ -112,8 +108,11 @@ public class View extends Application {
      * fires up the game controller.
      */
     public void gotoGameScreen() {
-        primaryStage.setScene(new Scene(new GameView()));
-        primaryStage.getScene().getRoot().requestFocus();
+        GameView gameview = new GameView(settings);
+        primaryStage.setScene(new Scene(gameview));
+        gameview.setOnKeyPressed(event -> controller.handleKeyEvent(event));
+        gameview.hookEvents(controller);
+        gameview.requestFocus();
     }
 
     /**
@@ -126,25 +125,25 @@ public class View extends Application {
     private void setColor(int color) {
         switch (color) {
             case 1:
-                board.setFill(Color.WHITE);
+                settings.getBoard().setFill(Color.WHITE);
                 break;
             case 2:
-                board.setFill(Color.WHITE);
+                settings.getBoard().setFill(Color.WHITE);
                 break;
             case 3:
-                board.setFill(Color.WHITE);
+                settings.getBoard().setFill(Color.WHITE);
                 break;
             case 4:
-                board.setFill(Color.WHITE);
+                settings.getBoard().setFill(Color.WHITE);
                 break;
             case 5:
-                board.setFill(Color.WHITE);
+                settings.getBoard().setFill(Color.WHITE);
                 break;
             case 6:
-                board.setFill(Color.WHITE);
+                settings.getBoard().setFill(Color.WHITE);
                 break;
             case 7:
-                board.setFill(Color.WHITE);
+                settings.getBoard().setFill(Color.WHITE);
                 break;
             default:
                 throw new IllegalArgumentException(
@@ -160,8 +159,8 @@ public class View extends Application {
      *            the gameboard to draw on the canvas
      */
     public void drawGrid(Grid grid) {
-        for (int x = 0; x < BOARD_WIDTH; x++) {
-            for (int y = 0; y < BOARD_HEIGHT; y++) {
+        for (int x = 0; x < settings.boardWidth(); x++) {
+            for (int y = 0; y < settings.boardHeight(); y++) {
                 drawRectangle(grid.get(x, y), new Coordinate(x, y));
             }
         }
@@ -194,13 +193,10 @@ public class View extends Application {
     private void drawRectangle(int color, Coordinate coordinate) {
         if (color > 0) {
             setColor(color);
-            board.setLineWidth(BLOCK_SIZE / 10.);
-            board.fillRoundRect(coordinate.getX() * BLOCK_SIZE,
-                (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
-                CORNER);
-            board.strokeRoundRect(coordinate.getX() * BLOCK_SIZE,
-                (BOARD_HEIGHT - 1 - coordinate.getY()) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, CORNER,
-                CORNER);
+            // settings.getBoard().setLineWidth(settings.blockSize() / 10.);
+            settings.getBoard().fillRoundRect(coordinate.getX() * settings.blockSize(),
+                (settings.boardHeight() - 1 - coordinate.getY()) * settings.blockSize(),
+                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
         }
     }
 
@@ -208,18 +204,20 @@ public class View extends Application {
      * clearBoard erases the current board so it can be redrawn.
      */
     public void clearBoard() {
-        board.setFill(Color.BLACK);
-        board.fillRect(0, 0, BOARD_WIDTH * BLOCK_SIZE, BOARD_HEIGHT * BLOCK_SIZE);
+        settings.getBoard().setFill(Color.BLACK);
+        settings.getBoard().fillRect(0, 0, settings.boardWidth() * settings.blockSize(),
+            settings.boardHeight() * settings.blockSize());
     }
 
     /**
      * gameOver displays the "game over" text.
      */
     public void gameOver() {
-        board.setTextAlign(TextAlignment.CENTER);
-        board.setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
-        board.setFill(Color.RED);
-        board.fillText("GAME OVER", BOARD_WIDTH * BLOCK_SIZE / 2, BOARD_HEIGHT * BLOCK_SIZE / 2);
+        settings.getBoard().setTextAlign(TextAlignment.CENTER);
+        settings.getBoard().setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
+        settings.getBoard().setFill(Color.RED);
+        settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
+            settings.boardHeight() * settings.blockSize() / 2);
 
     }
 

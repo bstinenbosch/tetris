@@ -7,16 +7,24 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 public class GameView extends Group {
-    public GameView() {
+    private Settings settings;
+    private Button exitButton;
+    private Button restartButton;
 
-        Pane leftPane = setUpLeftPaneGameScreen();
+    public GameView(Settings settings) {
+        super();
+        this.settings = settings;
         GridPane rightPane = setUpRightPaneGameScreen();
+        Pane leftPane = setUpLeftPaneGameScreen();
         GridPane rootGameScreen = setUpRootPaneGameScreen(leftPane, rightPane);
+        getChildren().add(rootGameScreen);
     }
 
     private Pane setUpLeftPaneGameScreen() {
-        Canvas canvas = new Canvas(BLOCK_SIZE * BOARD_WIDTH, BLOCK_SIZE * BOARD_HEIGHT);
-        board = canvas.getGraphicsContext2D();
+        int boardWidthPixel = settings.blockSize() * settings.boardWidth();
+        int boardHeightPixel = settings.blockSize() * settings.boardHeight();
+        Canvas canvas = new Canvas(boardWidthPixel, boardHeightPixel);
+        settings.setBoard(canvas.getGraphicsContext2D());
         Pane leftPane = new Pane();
         leftPane.getChildren().add(canvas);
         leftPane.setStyle("-fx-background-color: grey");
@@ -29,14 +37,12 @@ public class GameView extends Group {
         GridPane.setConstraints(leftPane, 0, 0);
         GridPane.setConstraints(rightPane, 1, 0);
         rootGameScreen.getChildren().addAll(leftPane, rightPane);
-        rootGameScreen.setOnKeyPressed(event -> controller.handleKeyEvent(event));
         return rootGameScreen;
     }
 
     private GridPane setUpRightPaneGameScreen() {
-        Button exitButton = new Button("exit");
-        Button restartButton = new Button("restart");
-        hookGameScreenEvents(exitButton, restartButton);
+        exitButton = new Button("exit");
+        restartButton = new Button("restart");
 
         GridPane rightPane = new GridPane();
         rightPane.setVgap(10);
@@ -47,7 +53,7 @@ public class GameView extends Group {
         return rightPane;
     }
 
-    private void hookGameScreenEvents(Button exitButton, Button restartButton) {
+    public void hookEvents(Controller controller) {
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
     }
