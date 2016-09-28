@@ -1,8 +1,13 @@
 package tetris;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -10,6 +15,25 @@ public class GameView extends Group {
     private Settings settings;
     private Button exitButton;
     private Button restartButton;
+
+    private class ObservingLabel extends Label implements Observer {
+
+        public ObservingLabel(String string) {
+            super(string);
+        }
+
+        @Override
+        public void update(Observable o, Object arg) {
+            Platform.runLater(() -> this.setText(Integer.toString((int) arg)));
+        }
+
+    }
+
+    private ObservingLabel scoreLabel;
+
+    public ObservingLabel getScoreLabel() {
+        return scoreLabel;
+    }
 
     public GameView(Settings settings) {
         super();
@@ -43,11 +67,14 @@ public class GameView extends Group {
     private GridPane setUpRightPaneGameScreen() {
         exitButton = new Button("exit");
         restartButton = new Button("restart");
+        scoreLabel = new ObservingLabel("0");
+        scoreLabel.setStyle("");
 
         GridPane rightPane = new GridPane();
         rightPane.setVgap(10);
         GridPane.setConstraints(exitButton, 0, 0);
         GridPane.setConstraints(restartButton, 0, 1);
+        GridPane.setConstraints(scoreLabel, 0, 2);
         rightPane.getChildren().addAll(exitButton, restartButton);
         rightPane.setStyle("-fx-background-color: grey");
         return rightPane;
