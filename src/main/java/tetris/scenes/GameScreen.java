@@ -1,7 +1,10 @@
-package tetris;
+package tetris.scenes;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import tetris.Controller;
+import tetris.Settings;
 
 import javafx.application.Platform;
 import javafx.scene.Group;

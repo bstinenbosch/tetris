@@ -1,5 +1,8 @@
 package tetris;
 
+import tetris.scenes.GameScreen;
+import tetris.scenes.MainScreen;
+import tetris.scenes.SettingsScreen;
 import tetris.tetromino.AbstractTetromino;
 
 import javafx.application.Application;
@@ -15,7 +18,7 @@ import javafx.stage.Stage;
  * the different screens and hook the key events.
  */
 public class View extends Application {
-    private Settings settings;
+    protected Settings settings;
     private Controller controller;
     private Stage primaryStage;
 

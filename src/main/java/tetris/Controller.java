@@ -65,7 +65,7 @@ public class Controller {
      * @param ui
      *            the application in which the game is running
      */
-    Controller(View ui, Settings settings) {
+    public Controller(View ui, Settings settings) {
         this.settings = settings;
         this.ui = ui;
         Logger.setDebugOn();

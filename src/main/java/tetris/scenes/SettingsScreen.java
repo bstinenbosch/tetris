@@ -1,4 +1,6 @@
-package tetris;
+package tetris.scenes;
+
+import tetris.Settings;
 
 import javafx.geometry.Insets;
 import javafx.scene.Group;

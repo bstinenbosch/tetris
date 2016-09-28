@@ -1,4 +1,6 @@
-package tetris;
+package tetris.scenes;
+
+import tetris.Controller;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -39,9 +41,4 @@ public class MainScreen extends Group {
     public Button getSettingsButton() {
         return settingsButton;
     }
-
-    public Button getStartNewGameButton() {
-        return startNewGameButton;
-    }
-
 }
