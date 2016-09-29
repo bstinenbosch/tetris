@@ -29,7 +29,7 @@ public final class KeyBindings {
     }
 
     public String getKey(KeyCode binding) {
-        return bindings.get(binding);
+        return bindings.getOrDefault(binding, "no key assigned");
     }
 
     public KeyCode getBinding(String key) {
