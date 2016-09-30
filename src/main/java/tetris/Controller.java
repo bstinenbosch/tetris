@@ -99,6 +99,9 @@ public class Controller {
                 case "ROTATE LEFT":
                     checkRotateLeft();
                     break;
+                case "SOFT DROP":
+                    lowerTetromino();
+                    break;
                 case "HARD DROP":
                     hardDrop();
                     break;
