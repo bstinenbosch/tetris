@@ -62,7 +62,7 @@ public class SettingsScreen extends Group implements IScreen {
     private void initializeColorPickers() {
         for (int i = 0; i < NUMBER_OF_COLORS; i++) {
             this.colorPickers[i] = new ColorPicker();
-            colorPickers[i].setValue(settings.getColor(i));
+            colorPickers[i].setValue(settings.getColor(i + 1));
         }
     }
 
@@ -72,13 +72,13 @@ public class SettingsScreen extends Group implements IScreen {
 
     public void hookEvents(Controller controller) {
         backButton.setOnAction(event -> controller.openMainScreen());
-        colorPickers[0].setOnAction(event -> settings.setColor(0, colorPickers[0].getValue()));
-        colorPickers[1].setOnAction(event -> settings.setColor(1, colorPickers[1].getValue()));
-        colorPickers[2].setOnAction(event -> settings.setColor(2, colorPickers[2].getValue()));
-        colorPickers[3].setOnAction(event -> settings.setColor(3, colorPickers[3].getValue()));
-        colorPickers[4].setOnAction(event -> settings.setColor(4, colorPickers[4].getValue()));
-        colorPickers[5].setOnAction(event -> settings.setColor(5, colorPickers[5].getValue()));
-        colorPickers[6].setOnAction(event -> settings.setColor(6, colorPickers[6].getValue()));
+        colorPickers[0].setOnAction(event -> settings.setColor(1, colorPickers[0].getValue()));
+        colorPickers[1].setOnAction(event -> settings.setColor(2, colorPickers[1].getValue()));
+        colorPickers[2].setOnAction(event -> settings.setColor(3, colorPickers[2].getValue()));
+        colorPickers[3].setOnAction(event -> settings.setColor(4, colorPickers[3].getValue()));
+        colorPickers[4].setOnAction(event -> settings.setColor(5, colorPickers[4].getValue()));
+        colorPickers[5].setOnAction(event -> settings.setColor(6, colorPickers[5].getValue()));
+        colorPickers[6].setOnAction(event -> settings.setColor(7, colorPickers[6].getValue()));
     }
 
 }
