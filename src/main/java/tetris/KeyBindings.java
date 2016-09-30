@@ -11,8 +11,9 @@ public final class KeyBindings {
     public KeyBindings() {
         bindings.put(KeyCode.LEFT, "MOVE LEFT");
         bindings.put(KeyCode.RIGHT, "MOVE RIGHT");
-        bindings.put(KeyCode.DOWN, "ROTATE LEFT");
-        bindings.put(KeyCode.UP, "ROTATE RIGHT");
+        bindings.put(KeyCode.A, "ROTATE LEFT");
+        bindings.put(KeyCode.S, "ROTATE RIGHT");
+        bindings.put(KeyCode.DOWN, "SOFT DROP");
         bindings.put(KeyCode.SPACE, "HARD DROP");
     }
 
