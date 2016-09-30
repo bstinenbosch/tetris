@@ -77,9 +77,15 @@ public class GameScreen extends Group implements IScreen {
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(exitButton, restartButton, scoreLabel, backButton);
+        box.getChildren().addAll(exitButton, restartButton, scoreLabel, backButton, setUpPreview());
         box.setStyle("-fx-background-color: grey");
         return box;
+    }
+
+    private Canvas setUpPreview() {
+        Canvas canvas = new Canvas(settings.blockSize() * 6, settings.blockSize() * 5);
+        settings.setPreview(canvas.getGraphicsContext2D());
+        return canvas;
     }
 
     public void hookEvents(Controller controller) {

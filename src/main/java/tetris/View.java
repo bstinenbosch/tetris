@@ -55,6 +55,10 @@ public class View extends Application {
         primaryStage.setScene(new Scene(mainview));
     }
 
+    public void resetFocus() {
+        primaryStage.getScene().getRoot().requestFocus();
+    }
+
     /**
      * stop is called when the application terminates. Here any asynchronous
      * threads should be terminated.

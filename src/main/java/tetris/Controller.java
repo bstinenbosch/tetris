@@ -6,9 +6,6 @@ import java.util.Observer;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -102,7 +99,7 @@ public class Controller {
                 case "ROTATE LEFT":
                     checkRotateLeft();
                     break;
-                case SPACE:
+                case "HARD DROP":
                     hardDrop();
                     break;
                 default:
@@ -144,7 +141,7 @@ public class Controller {
 
         grid.clearLines();
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
-        Coordinate position2 = new Coordinate(grid.width() / 5 + 2 / 5, grid.height() - 4);
+        Coordinate position2 = new Coordinate(2, 2);
 
         tetromino = TetrominoFactory.createRandom(position);
         tetromino2 = TetrominoFactory.getLast(position2);
@@ -158,10 +155,11 @@ public class Controller {
      * active tetromino.
      */
     private void redraw() {
-        ui.clearBoard();
-        ui.drawGrid(grid);
-        ui.drawTetromino(tetromino);
-        ui.drawTetrominoPreview(tetromino2);
+        clearBoard();
+        clearPreview();
+        drawGrid();
+        drawTetromino();
+        drawTetrominoPreview();
     }
 
     /**
@@ -299,17 +297,6 @@ public class Controller {
     }
 
     /**
-     * setColor sets the draw color pairs of the board according to predefined
-     * pairs.
-     * 
-     * @param color
-     *            the color pair ID
-     */
-    private void setColor(int color) {
-        settings.getBoard().setFill(settings.getColor(color));
-    }
-
-    /**
      * drawGrid draws the entire gameboard. As tetrominos reach their final
      * place, they are registered on the grid to be drawn by this function.
      * 
@@ -337,6 +324,12 @@ public class Controller {
         }
     }
 
+    private void drawTetrominoPreview() {
+        for (int i = 0; i < 4; i++) {
+            drawRectanglePreview(tetromino2.getColor(), tetromino2.get(i));
+        }
+    }
+
     /**
      * drawRectangle draws one cube on the game grid.
      * 
@@ -350,10 +343,19 @@ public class Controller {
      */
     private void drawRectangle(int color, Coordinate coordinate) {
         if (color > 0) {
-            setColor(color);
+            settings.getBoard().setFill(settings.getColor(color));
             settings.getBoard().fillRoundRect(coordinate.getX() * settings.blockSize(),
                 (settings.boardHeight() - 1 - coordinate.getY()) * settings.blockSize(),
                 settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
+        }
+    }
+
+    private void drawRectanglePreview(int color, Coordinate coordinate) {
+        if (color > 0) {
+            settings.getPreview().setFill(settings.getColor(color));
+            settings.getPreview().fillRoundRect(coordinate.getX() * settings.blockSize(),
+                (5 - 1 - coordinate.getY()) * settings.blockSize(), settings.blockSize(),
+                settings.blockSize(), settings.corner(), settings.corner());
         }
     }
 
@@ -364,5 +366,10 @@ public class Controller {
         settings.getBoard().setFill(Color.BLACK);
         settings.getBoard().fillRect(0, 0, settings.boardWidth() * settings.blockSize(),
             settings.boardHeight() * settings.blockSize());
+    }
+
+    private void clearPreview() {
+        settings.getPreview().setFill(Color.BLACK);
+        settings.getPreview().fillRect(0, 0, 6 * settings.blockSize(), 5 * settings.blockSize());
     }
 }

@@ -11,6 +11,7 @@ public class Settings {
     private KeyBindings keybindings;
     private Color[] colors;
     private GraphicsContext board;
+    private GraphicsContext preview;
 
     public Settings() {
         keybindings = new KeyBindings();
@@ -19,11 +20,11 @@ public class Settings {
     }
 
     public Color getColor(int index) {
-        return colors[index];
+        return colors[index - 1];
     }
 
     public void setColor(int index, Color color) {
-        colors[index] = color;
+        colors[index - 1] = color;
     }
 
     public int boardWidth() {
@@ -52,5 +53,13 @@ public class Settings {
 
     public GraphicsContext getBoard() {
         return board;
+    }
+
+    public void setPreview(GraphicsContext gc) {
+        preview = gc;
+    }
+
+    public GraphicsContext getPreview() {
+        return preview;
     }
 }

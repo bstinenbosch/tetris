@@ -16,10 +16,7 @@ public class TetrominoQueue {
      * Makes sure the TetrominoQueue is alwas filled with 2 Tetromino
      */
     public static void addToQueue() {
-        if (TetrominoQ.isEmpty()) {
-            TetrominoQ.add(TetrominoType.random());
-            TetrominoQ.add(TetrominoType.random());
-        } else {
+        while (TetrominoQ.size() < 2) {
             TetrominoQ.add(TetrominoType.random());
         }
 
@@ -32,9 +29,7 @@ public class TetrominoQueue {
      */
 
     public static TetrominoType removeFromQueue() {
-        TetrominoType onScreen = TetrominoQ.getFirst();
-        TetrominoQ.remove();
-        return onScreen;
+        return TetrominoQ.remove();
     }
 
     /**
@@ -44,8 +39,7 @@ public class TetrominoQueue {
      */
 
     public static TetrominoType getLast() {
-        TetrominoType previewTetromino = TetrominoQ.getLast();
-        return previewTetromino;
+        return TetrominoQ.getLast();
     }
 
 }

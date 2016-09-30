@@ -13,6 +13,7 @@ public final class KeyBindings {
         bindings.put(KeyCode.RIGHT, "MOVE RIGHT");
         bindings.put(KeyCode.DOWN, "ROTATE LEFT");
         bindings.put(KeyCode.UP, "ROTATE RIGHT");
+        bindings.put(KeyCode.SPACE, "HARD DROP");
     }
 
     public Collection<String> values() {
