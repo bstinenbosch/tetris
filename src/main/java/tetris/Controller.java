@@ -93,13 +93,13 @@ public class Controller {
 
     public void startRoboMode() {
         ui.gotoRoboScreen();
-        new Thread(RobotController.getRobot(settings)).start();
         score.reset();
         gameOver = false;
         grid = new Grid(settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
         timer.unpause();
         timer.resetTime();
+        new Thread(RobotController.getRobotController(this, settings)).start();
         Logger.log(this, Logger.LogType.INFO, "robogame started");
     }
 
