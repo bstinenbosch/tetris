@@ -57,5 +57,6 @@ public class MainScreen extends Group implements IScreen {
         settingsButton.setOnAction(event -> controller.openSettings());
         highscoreButton.setOnAction(event -> controller.viewHighscores());
         exitButton.setOnAction(event -> controller.stop());
+        roboButton.setOnAction(event -> controller.startRoboMode());
     }
 }

@@ -133,6 +133,7 @@ public class Controller {
         } else {
             ui.gotoHighscoreScreen();
         }
+        Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
     }
 
     public void registerHighScore(CharSequence playerName) {
