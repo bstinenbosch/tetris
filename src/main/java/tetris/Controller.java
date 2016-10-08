@@ -19,7 +19,7 @@ import robot.RobotController;
 
 public class Controller {
 
-    private class Score extends Observable {
+    public class Score extends Observable {
         private int score = 0;
         private int level = 0;
         private int[] pointsPerRow = { 0, 40, 50, 100, 300 };
@@ -58,10 +58,9 @@ public class Controller {
     private Grid grid;
     private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
-    private boolean gameOver = false;
+    private volatile boolean gameOver = false;
     private EventHandler<ActionEvent> onTick = event -> lowerTetromino();
     private Tick timer = new Tick(onTick);
-
     private Settings settings;
 
     /**
@@ -152,13 +151,13 @@ public class Controller {
 
     public void startRoboMode() {
         ui.gotoRoboScreen();
-        new Thread(RobotController.getRobot(settings)).start();
         score.reset();
         gameOver = false;
         grid = new Grid(settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
         timer.unpause();
         timer.resetTime();
+        new Thread(RobotController.getRobotController(this, settings)).start();
         Logger.log(this, Logger.LogType.INFO, "robogame started");
     }
 
@@ -181,12 +180,24 @@ public class Controller {
     public void gameOver() {
         timer.pause();
         gameOver = true;
-        Logger.log(this, Logger.LogType.INFO, "game restarted");
+        Logger.log(this, Logger.LogType.INFO, "game over");
         settings.getBoard().setTextAlign(TextAlignment.CENTER);
         settings.getBoard().setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
         settings.getBoard().setFill(Color.RED);
         settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
             settings.boardHeight() * settings.blockSize() / 2);
+    }
+
+    public AbstractTetromino getTetromino() {
+        return tetromino;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public Grid getGrid() {
+        return grid;
     }
 
     /**

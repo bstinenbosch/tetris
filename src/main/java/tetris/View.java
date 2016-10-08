@@ -6,6 +6,7 @@ import tetris.scenes.RoboScreen;
 import tetris.scenes.SettingsScreen;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -63,7 +64,7 @@ public class View extends Application {
     }
 
     public void resetFocus() {
-        primaryStage.getScene().getRoot().requestFocus();
+        Platform.runLater(() -> primaryStage.getScene().getRoot().requestFocus());
     }
 
     /**
