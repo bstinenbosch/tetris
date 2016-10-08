@@ -14,22 +14,26 @@ public class MainScreen extends Group implements IScreen {
 
     private Button startNewGameButton;
     private Button settingsButton;
+    private Button roboButton;
 
     public MainScreen() {
         Label titleLabel = new Label("TETRIS");
         titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
 
         startNewGameButton = new Button("Start new game");
-        startNewGameButton.setStyle("-fx-background-color: red");
+        startNewGameButton.setStyle("-fx-background-color: red;-fx-text-fill:white");
 
         settingsButton = new Button("Settings");
-        settingsButton.setStyle("-fx-background-color: green");
+        settingsButton.setStyle("-fx-background-color: green;-fx-text-fill:white");
+
+        roboButton = new Button("Robo mode");
+        roboButton.setStyle("-fx-background-color: blue;-fx-text-fill:white");
 
         TilePane root = new TilePane();
         root.setOrientation(Orientation.VERTICAL);
         root.setTileAlignment(Pos.CENTER);
         root.setPadding(new Insets(0, 20, 10, 20));
-        root.getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
+        root.getChildren().addAll(titleLabel, startNewGameButton, settingsButton, roboButton);
         root.setStyle("-fx-background-color: black");
         getChildren().add(root);
     }
@@ -37,5 +41,6 @@ public class MainScreen extends Group implements IScreen {
     public void hookEvents(Controller controller) {
         startNewGameButton.setOnAction(event -> controller.startGame());
         settingsButton.setOnAction(event -> controller.openSettings());
+        roboButton.setOnAction(event -> controller.startRoboMode());
     }
 }

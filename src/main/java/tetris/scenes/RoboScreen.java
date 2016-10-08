@@ -16,10 +16,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class GameScreen extends Group implements IScreen {
+import robot.RobotController;
+
+public class RoboScreen extends Group implements IScreen {
+
     private Settings settings;
     private Button exitButton;
-    private Button restartButton;
     private Button backButton;
 
     private class ObservingLabel extends Label implements Observer {
@@ -32,12 +34,11 @@ public class GameScreen extends Group implements IScreen {
         public void update(Observable o, Object arg) {
             Platform.runLater(() -> this.setText(Integer.toString((int) arg)));
         }
-
     }
 
     private ObservingLabel scoreLabel;
 
-    public GameScreen(Settings settings) {
+    public RoboScreen(Settings settings) {
         this.settings = settings;
         VBox rightPane = setUpRightPaneGameScreen();
         Pane leftPane = setUpLeftPaneGameScreen();
@@ -67,7 +68,6 @@ public class GameScreen extends Group implements IScreen {
 
     private VBox setUpRightPaneGameScreen() {
         exitButton = new Button("exit");
-        restartButton = new Button("restart");
         backButton = new Button("back");
         scoreLabel = new ObservingLabel("0");
         scoreLabel
@@ -77,7 +77,7 @@ public class GameScreen extends Group implements IScreen {
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(exitButton, restartButton, scoreLabel, backButton, setUpPreview());
+        box.getChildren().addAll(exitButton, scoreLabel, backButton, setUpPreview());
         box.setStyle("-fx-background-color: grey");
         return box;
     }
@@ -90,13 +90,11 @@ public class GameScreen extends Group implements IScreen {
 
     public void hookEvents(Controller controller) {
         exitButton.setOnAction(event -> controller.stop());
-        restartButton.setOnAction(event -> controller.restartGame());
         backButton.setOnAction(event -> {
-            controller.gameOver();
+            RobotController.stopPlaying();
             controller.openMainScreen();
         });
         controller.addScoreObserver(scoreLabel);
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }
-
 }

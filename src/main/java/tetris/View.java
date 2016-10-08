@@ -2,6 +2,7 @@ package tetris;
 
 import tetris.scenes.GameScreen;
 import tetris.scenes.MainScreen;
+import tetris.scenes.RoboScreen;
 import tetris.scenes.SettingsScreen;
 
 import javafx.application.Application;
@@ -53,6 +54,12 @@ public class View extends Application {
         MainScreen mainview = new MainScreen();
         mainview.hookEvents(controller);
         primaryStage.setScene(new Scene(mainview));
+    }
+
+    public void gotoRoboScreen() {
+        RoboScreen roboview = new RoboScreen(settings);
+        roboview.hookEvents(controller);
+        primaryStage.setScene(new Scene(roboview));
     }
 
     public void resetFocus() {
