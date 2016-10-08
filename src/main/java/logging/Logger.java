@@ -132,6 +132,18 @@ public final class Logger extends Thread {
         }
     }
 
+    public static void info(Object sender, String message) {
+        Logger.log(sender, LogType.INFO, message);
+    }
+
+    public static void error(Object sender, String message) {
+        Logger.log(sender, LogType.ERROR, message);
+    }
+
+    public static void warning(Object sender, String message) {
+        Logger.log(sender, LogType.WARNING, message);
+    }
+
     /**
      * clearLog truncates the log, in case you accidentally logged a nude
      * picture or something.
