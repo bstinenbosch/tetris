@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import highscore.GameEntry;
 import highscore.ScoreBoard;
 import logging.Logger;
+import robot.RobotController;
 
 public class Controller {
 
@@ -187,6 +188,18 @@ public class Controller {
 
     public void addScoreObserver(Observer observer) {
         score.addObserver(observer);
+    }
+
+    public void startRoboMode() {
+        ui.gotoRoboScreen();
+        new Thread(RobotController.getRobot(settings)).start();
+        score.reset();
+        gameOver = false;
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        dropNewTetromino();
+        timer.unpause();
+        timer.resetTime();
+        Logger.log(this, Logger.LogType.INFO, "robogame started");
     }
 
     /**

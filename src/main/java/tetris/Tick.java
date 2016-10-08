@@ -12,6 +12,7 @@ class Tick extends Thread implements Observer {
     private EventHandler<ActionEvent> onTick;
     public volatile boolean running;
     public volatile boolean waiting;
+    private long basetime = 200;
 
     /**
      * Tick is a timer class. No clue why this isn't a default Java library
@@ -88,6 +89,13 @@ class Tick extends Thread implements Observer {
      */
     public void setTime(long time) {
         this.time = time;
+    }
+
+    /**
+     * reset the time to the starting value.
+     */
+    public void resetTime() {
+        time = basetime;
     }
 
     @Override
