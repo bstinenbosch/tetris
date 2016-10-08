@@ -9,19 +9,16 @@ public class TickTest extends Thread {
     @Test
     public void test_logcreate() throws InterruptedException {
         Tick tick = new Tick(event -> reportTrue());
-        tick.setTime(500);
-        Assert.assertEquals(tick.getTime(), 500);
-
         tick.pause();
         tick.start();
-        sleep(550);
+        sleep(250);
         Assert.assertFalse(trueReported);
         tick.unpause();
-        sleep(550);
+        sleep(250);
         Assert.assertTrue(trueReported);
         tick.requestStop();
         trueReported = false;
-        sleep(550);
+        sleep(250);
         Assert.assertFalse(trueReported);
     }
 

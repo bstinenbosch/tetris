@@ -3,6 +3,7 @@ package tetris;
 import tetris.scenes.GameScreen;
 import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;
+import tetris.scenes.RoboScreen;
 import tetris.scenes.PromptNameScreen;
 import tetris.scenes.SettingsScreen;
 
@@ -84,6 +85,12 @@ public class View extends Application {
             .observableArrayList(controller.getScoreBoard().getScores());
         highscoreView.setHighscoreData(gameEntryObservableList);
         primaryStage.setScene(new Scene(highscoreView));
+    }
+
+    public void gotoRoboScreen() {
+        RoboScreen roboview = new RoboScreen(settings);
+        roboview.hookEvents(controller);
+        primaryStage.setScene(new Scene(roboview));
     }
 
     public void resetFocus() {
