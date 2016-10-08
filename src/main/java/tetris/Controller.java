@@ -15,6 +15,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 
 import logging.Logger;
+import robot.RobotController;
 
 public class Controller {
 
@@ -76,6 +77,7 @@ public class Controller {
         Logger.setDebugOn();
         score = new Score();
         score.addObserver(timer);
+        timer.start();
     }
 
     /**
@@ -110,6 +112,81 @@ public class Controller {
             }
             redraw();
         }
+    }
+
+    /**
+     * stop handles asynchronous threads when the application is closed.
+     */
+    public void stop() {
+        timer.requestStop();
+        ui.stop();
+        Logger.log(this, Logger.LogType.INFO, "closing application");
+        Logger.setDebugOff();
+    }
+
+    /**
+     * starts the game.
+     */
+    public void startGame() {
+        ui.gotoGameScreen();
+        score.reset();
+        gameOver = false;
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        dropNewTetromino();
+        timer.unpause();
+        timer.resetTime();
+        Logger.log(this, Logger.LogType.INFO, "game started");
+    }
+
+    public void openSettings() {
+        ui.gotoSettingsScreen();
+    }
+
+    public void openMainScreen() {
+        ui.gotoMainScreen();
+    }
+
+    public void addScoreObserver(Observer observer) {
+        score.addObserver(observer);
+    }
+
+    public void startRoboMode() {
+        ui.gotoRoboScreen();
+        new Thread(RobotController.getRobot(settings)).start();
+        score.reset();
+        gameOver = false;
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        dropNewTetromino();
+        timer.unpause();
+        timer.resetTime();
+        Logger.log(this, Logger.LogType.INFO, "robogame started");
+    }
+
+    /**
+     * restartGame should only be called after startgame has been called once.
+     */
+    public void restartGame() {
+        gameOver = false;
+        grid.clearBoard();
+        score.reset();
+        dropNewTetromino();
+        timer.unpause();
+        ui.resetFocus();
+        Logger.log(this, Logger.LogType.INFO, "game restarted");
+    }
+
+    /**
+     * gameOver handles the end of the game.
+     */
+    public void gameOver() {
+        timer.pause();
+        gameOver = true;
+        Logger.log(this, Logger.LogType.INFO, "game restarted");
+        settings.getBoard().setTextAlign(TextAlignment.CENTER);
+        settings.getBoard().setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
+        settings.getBoard().setFill(Color.RED);
+        settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
+            settings.boardHeight() * settings.blockSize() / 2);
     }
 
     /**
@@ -163,68 +240,6 @@ public class Controller {
         drawGrid();
         drawTetromino();
         drawTetrominoPreview();
-    }
-
-    /**
-     * gameOver handles the end of the game.
-     */
-    private void gameOver() {
-        timer.pause();
-        gameOver = true;
-        Logger.log(this, Logger.LogType.INFO, "game restarted");
-        settings.getBoard().setTextAlign(TextAlignment.CENTER);
-        settings.getBoard().setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
-        settings.getBoard().setFill(Color.RED);
-        settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
-            settings.boardHeight() * settings.blockSize() / 2);
-    }
-
-    /**
-     * stop handles asynchronous threads when the application is closed.
-     */
-    public void stop() {
-        timer.requestStop();
-        ui.stop();
-        Logger.log(this, Logger.LogType.INFO, "closing application");
-        Logger.setDebugOff();
-    }
-
-    /**
-     * starts the game.
-     */
-    public void startGame() {
-        ui.gotoGameScreen();
-        score.reset();
-        gameOver = false;
-        grid = new Grid(settings.boardWidth(), settings.boardHeight());
-        dropNewTetromino();
-        timer.start();
-        Logger.log(this, Logger.LogType.INFO, "game started");
-    }
-
-    public void openSettings() {
-        ui.gotoSettingsScreen();
-    }
-
-    public void openMainScreen() {
-        ui.gotoMainScreen();
-    }
-
-    public void addScoreObserver(Observer observer) {
-        score.addObserver(observer);
-    }
-
-    /**
-     * restartGame should only be called after startgame has been called once.
-     */
-    public void restartGame() {
-        gameOver = false;
-        grid.clearBoard();
-        score.reset();
-        dropNewTetromino();
-        timer.unpause();
-        ui.resetFocus();
-        Logger.log(this, Logger.LogType.INFO, "game restarted");
     }
 
     private void checkRotateRight() {
