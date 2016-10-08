@@ -75,6 +75,13 @@ class Tick extends Thread implements Observer {
     }
 
     /**
+     * reset the time to the starting value.
+     */
+    public void resetTime() {
+        time = basetime;
+    }
+
+    /**
      * accessor method for the set time of the tick.
      *
      * @return the set time
@@ -103,7 +110,7 @@ class Tick extends Thread implements Observer {
     @Override
     public void update(Observable observable, Object arg) {
         if (observable instanceof Score) {
-            this.time = (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg));
+            this.time = (long) Math.max(1, basetime * Math.exp(-.0002 * (int) arg));
         }
     }
 }

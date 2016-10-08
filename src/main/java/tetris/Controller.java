@@ -91,6 +91,18 @@ public class Controller {
         }
     }
 
+    public void startRoboMode() {
+        ui.gotoRoboScreen();
+        new Thread(RobotController.getRobot(settings)).start();
+        score.reset();
+        gameOver = false;
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        dropNewTetromino();
+        timer.unpause();
+        timer.resetTime();
+        Logger.log(this, Logger.LogType.INFO, "robogame started");
+    }
+
     /**
      * drops a new tetromino and makes sure that it is drawn on the canvas.
      */

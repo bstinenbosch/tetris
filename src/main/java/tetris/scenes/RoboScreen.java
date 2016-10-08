@@ -95,5 +95,6 @@ public class RoboScreen extends Group implements IScreen {
             controller.openMainScreen();
         });
         controller.addScoreObserver(scoreLabel);
+        setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }
 }

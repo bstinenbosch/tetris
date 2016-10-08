@@ -3,6 +3,7 @@ package tetris;
 import tetris.scenes.GameScreen;
 import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;
+import tetris.scenes.RoboScreen;
 import tetris.scenes.PromptNameScreen;
 import tetris.scenes.RoboScreen;
 import tetris.scenes.SettingsScreen;
