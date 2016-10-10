@@ -13,6 +13,8 @@ public class Score extends Observable {
     public void reset() {
         score = 0;
         level = 0;
+        setChanged();
+        notifyObservers(score);
     }
 
     /**
