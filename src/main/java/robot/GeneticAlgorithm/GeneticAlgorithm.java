@@ -11,9 +11,11 @@ public class GeneticAlgorithm {
     private ArrayList<Double> generationFitness;
     Random random = new Random();
 
-    // TODO populate the IChromosome with neural networks
-    public GeneticAlgorithm(int populationStart) {
+    public GeneticAlgorithm(int populationStart, Chromosome type) {
         population = new IChromosome[populationStart * 2];
+        for (int i = 0; i < population.length; i++) {
+            population[i] = ChromosomeFactory.getChromosome(type);
+        }
         fitness = new double[populationStart * 2];
     }
 
