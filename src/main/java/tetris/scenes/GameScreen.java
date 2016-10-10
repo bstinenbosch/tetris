@@ -1,17 +1,12 @@
 package tetris.scenes;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import tetris.Controller;
 import tetris.Settings;
 
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -21,20 +16,6 @@ public class GameScreen extends Group implements IScreen {
     private Button exitButton;
     private Button restartButton;
     private Button backButton;
-
-    private class ObservingLabel extends Label implements Observer {
-
-        public ObservingLabel(String string) {
-            super(string);
-        }
-
-        @Override
-        public void update(Observable o, Object arg) {
-            Platform.runLater(() -> this.setText(Integer.toString((int) arg)));
-        }
-
-    }
-
     private ObservingLabel scoreLabel;
 
     public GameScreen(Settings settings) {
