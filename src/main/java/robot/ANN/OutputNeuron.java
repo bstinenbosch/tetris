@@ -14,4 +14,8 @@ public class OutputNeuron extends Neuron {
         output.interpret(charge);
         return charge;
     }
+
+    public IOutput getOutput() {
+        return output;
+    }
 }

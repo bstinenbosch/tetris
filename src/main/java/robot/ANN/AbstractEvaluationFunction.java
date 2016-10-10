@@ -23,4 +23,8 @@ public abstract class AbstractEvaluationFunction {
     public final void update(AbstractNeuron neuron, double weight) {
         weights.put(neuron, weight);
     }
+
+    public final double getWeight(AbstractNeuron neuron) {
+        return weights.getOrDefault(neuron, 0.);
+    }
 }
