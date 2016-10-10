@@ -1,4 +1,4 @@
-package logging;
+package tetris;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,6 +10,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import logging.Logger;
+import logging.Logger.LogType;
 
 public class LoggerTest {
     @Test

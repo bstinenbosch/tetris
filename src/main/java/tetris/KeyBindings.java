@@ -22,12 +22,9 @@ public final class KeyBindings {
     }
 
     public void put(String key, KeyCode binding) {
-        if (bindings.containsValue(key)) {
-            bindings.put(binding, key);
-        } else {
-            throw new IllegalArgumentException(
-                "The key [" + key + "] is not bindable in this game.");
-        }
+        KeyCode oldBinding = getBinding(key);
+        bindings.remove(oldBinding);
+        bindings.put(binding, key);
     }
 
     public String getKey(KeyCode binding) {
