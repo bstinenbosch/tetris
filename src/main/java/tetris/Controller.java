@@ -6,8 +6,6 @@ import java.util.Observer;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -58,8 +56,11 @@ public class Controller {
     private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
     private boolean gameOver = false;
-    private EventHandler<ActionEvent> onTick = event -> lowerTetromino();
-    private Tick timer = new Tick(onTick);
+    private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
+    private Tick timer = new Tick(event -> {
+        movementHandler.lowerTetromino(tetromino, grid);
+        redraw();
+    });
 
     private Settings settings;
 
@@ -88,22 +89,22 @@ public class Controller {
         if (!gameOver) {
             switch (settings.getKeyBindings().getKey(event.getCode())) {
                 case "ROTATE RIGHT":
-                    checkRotateRight();
+                    movementHandler.checkRotateRight(tetromino, grid);
                     break;
                 case "MOVE LEFT":
-                    checkMoveLeft();
+                    movementHandler.checkMoveLeft(tetromino, grid);
                     break;
                 case "MOVE RIGHT":
-                    checkMoveRight();
+                    movementHandler.checkMoveRight(tetromino, grid);
                     break;
                 case "ROTATE LEFT":
-                    checkRotateLeft();
+                    movementHandler.checkRotateLeft(tetromino, grid);
                     break;
                 case "SOFT DROP":
-                    lowerTetromino();
+                    movementHandler.lowerTetromino(tetromino, grid);
                     break;
                 case "HARD DROP":
-                    hardDrop();
+                    movementHandler.hardDrop(tetromino, grid);
                     break;
                 default:
                     break;
@@ -113,33 +114,9 @@ public class Controller {
     }
 
     /**
-     * move a tetromino down until it hits the ground.
-     */
-    private void hardDrop() {
-        while (checkMoveDown()) {
-        }
-        lowerTetromino();
-    }
-
-    /**
-     * tries to lower a tetromino. If this is not possible, a new tetromino is
-     * launched or the game is over.
-     */
-    private void lowerTetromino() {
-        if (checkMoveDown()) {
-            redraw();
-        } else if (tetromino.top() >= grid.height() - 1) {
-            gameOver();
-        } else {
-            grid.registerTetromino(tetromino);
-            dropNewTetromino();
-        }
-    }
-
-    /**
      * drops a new tetromino and makes sure that it is drawn on the canvas.
      */
-    private void dropNewTetromino() {
+    public void dropNewTetromino() {
         score.add(grid.clearLines());
 
         grid.clearLines();
@@ -168,7 +145,7 @@ public class Controller {
     /**
      * gameOver handles the end of the game.
      */
-    private void gameOver() {
+    public void gameOver() {
         timer.pause();
         gameOver = true;
         Logger.log(this, Logger.LogType.INFO, "game restarted");
@@ -225,78 +202,6 @@ public class Controller {
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game restarted");
-    }
-
-    private void checkRotateRight() {
-        tetromino.rotateRight();
-        for (int i = 0; i < 4; i++) {
-            if (!grid.isFree(tetromino.get(i))) {
-                tetromino.rotateLeft();
-                Logger.log(this, Logger.LogType.INFO,
-                    "tried to rotate tetromino clockwise but failed");
-                break;
-            }
-        }
-        Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
-    }
-
-    private void checkRotateLeft() {
-        tetromino.rotateLeft();
-        for (int i = 0; i < 4; i++) {
-            if (!grid.isFree(tetromino.get(i))) {
-                tetromino.rotateRight();
-                Logger.log(this, Logger.LogType.INFO,
-                    "tried to rotate tetromino counterclockwise but failed");
-                break;
-            }
-        }
-        Logger.log(this, Logger.LogType.INFO, "rotated tetromino counterclockwise");
-    }
-
-    private void checkMoveLeft() {
-        if (tetromino.left() > 0) {
-            tetromino.moveLeft();
-        }
-        for (int i = 0; i < 4; i++) {
-            if (!grid.isFree(tetromino.get(i))) {
-                tetromino.moveRight();
-                Logger.log(this, Logger.LogType.INFO, "tried to move tetromino left but failed");
-                break;
-            }
-        }
-        Logger.log(this, Logger.LogType.INFO, "moved tetromino left");
-    }
-
-    private void checkMoveRight() {
-        if (tetromino.right() < grid.width() - 1) {
-            tetromino.moveRight();
-        }
-        for (int i = 0; i < 4; i++) {
-            if (!grid.isFree(tetromino.get(i))) {
-                tetromino.moveLeft();
-                Logger.log(this, Logger.LogType.INFO, "tried to move tetromino right but failed");
-                break;
-            }
-        }
-        Logger.log(this, Logger.LogType.INFO, "moved tetromino right");
-    }
-
-    /**
-     * checks the lowerability of the tetromino and if possible lowers it.
-     * 
-     * @return true on succes, false on failure to load.
-     */
-    private boolean checkMoveDown() {
-        tetromino.moveDown();
-        for (int i = 0; i < 4; i++) {
-            if (!grid.isFree(tetromino.get(i))) {
-                tetromino.moveUp();
-                Logger.log(this, Logger.LogType.INFO, "tried to move tetromino down but failed");
-                return false;
-            }
-        }
-        Logger.log(this, Logger.LogType.INFO, "moved tetromino down");
-        return true;
     }
 
     /**
