@@ -1,15 +1,15 @@
 package logging;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class LoggerTest {
     @Test
@@ -47,7 +47,7 @@ public class LoggerTest {
     }
 
     @Test
-    public void test_capLog() throws IOException {
+    public void test_capLog() throws IOException, InterruptedException {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
         Logger.setLogLength(10);
@@ -57,6 +57,7 @@ public class LoggerTest {
             Logger.log(this, Logger.LogType.ERROR, "test 1");
         }
         Logger.setDebugOff();
+        Thread.sleep(1000);
         assertTrue(new File(testloc).exists());
 
         int count = 0;
