@@ -1,4 +1,4 @@
-package logging;
+package tetris;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,20 +11,23 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import logging.Logger;
+
 public class LoggerTest {
     @Test
-    public void test_logcreate() {
+    public void test_logcreate() throws InterruptedException {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
         Logger.clearLog();
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
+        Thread.sleep(1000);
         assertTrue(new File(testloc).exists());
     }
 
     @Test
-    public void test_logdelete() {
+    public void test_logdelete() throws InterruptedException {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
         Logger.setDebugOn();
@@ -32,6 +35,7 @@ public class LoggerTest {
         assertTrue(new File(testloc).exists());
         Logger.setDebugOff();
         Logger.clearLog();
+        Thread.sleep(1000);
         assertFalse(new File(testloc).exists());
     }
 
@@ -55,10 +59,14 @@ public class LoggerTest {
         Logger.setDebugOn();
         for (int i = 0; i < 100; i++) {
             Logger.log(this, Logger.LogType.ERROR, "test 1");
+            Logger.info(this, "test 1");
+            Logger.warning(this, "test 1");
+            Logger.error(this, "test 1");
         }
         Logger.setDebugOff();
         Thread.sleep(1000);
-        assertTrue(new File(testloc).exists());
+        File testlocFile = new File(testloc);
+        assertTrue(testlocFile.exists());
 
         int count = 0;
         File file = new File(testloc);
@@ -69,6 +77,11 @@ public class LoggerTest {
         }
         reader.close();
         assertEquals(10, count);
+    }
 
+    @Test
+    public void test_getters() throws ClassCastException {
+        assertTrue(Logger.getLogDir() instanceof String);
+        assertTrue((int) Logger.getLogLength() == Logger.getLogLength());
     }
 }

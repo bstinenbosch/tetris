@@ -15,6 +15,10 @@ public class MainScreen extends Group implements IScreen {
     private Button startNewGameButton;
     private Button settingsButton;
 
+    /**
+     * the main screen is the central entry point for the game and the root of
+     * the navigation tree.
+     */
     public MainScreen() {
         Label titleLabel = new Label("TETRIS");
         titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
@@ -34,6 +38,7 @@ public class MainScreen extends Group implements IScreen {
         getChildren().add(root);
     }
 
+    @Override
     public void hookEvents(Controller controller) {
         startNewGameButton.setOnAction(event -> controller.startGame());
         settingsButton.setOnAction(event -> controller.openSettings());

@@ -13,6 +13,8 @@ public class Score extends Observable {
     public void reset() {
         score = 0;
         level = 0;
+        setChanged();
+        notifyObservers(score);
     }
 
     /**
@@ -28,9 +30,6 @@ public class Score extends Observable {
         notifyObservers(score);
     }
 
-    /**
-     * @return the current level that has been reached.
-     */
     public int getLevel() {
         return level / 10;
     }
