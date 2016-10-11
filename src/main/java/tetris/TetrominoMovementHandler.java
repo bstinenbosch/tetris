@@ -12,6 +12,13 @@ public class TetrominoMovementHandler {
         this.controller = controller;
     }
 
+    /**
+     * attempt to rotate the tetromino to the right on the grid. do nothing upon
+     * failure.
+     * 
+     * @param tetromino
+     * @param grid
+     */
     public void checkRotateRight(AbstractTetromino tetromino, Grid grid) {
         tetromino.rotateRight();
         for (int i = 0; i < 4; i++) {
@@ -24,6 +31,14 @@ public class TetrominoMovementHandler {
         }
         Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
     }
+
+    /**
+     * attempt to rotate the tetromino to the left on the grid. do nothing upon
+     * failure.
+     * 
+     * @param tetromino
+     * @param grid
+     */
 
     public void checkRotateLeft(AbstractTetromino tetromino, Grid grid) {
         tetromino.rotateLeft();
@@ -38,6 +53,13 @@ public class TetrominoMovementHandler {
         Logger.log(this, Logger.LogType.INFO, "rotated tetromino counterclockwise");
     }
 
+    /**
+     * attempt to move the tetromino to the left on the grid. do nothing upon
+     * failure.
+     * 
+     * @param tetromino
+     * @param grid
+     */
     public void checkMoveLeft(AbstractTetromino tetromino, Grid grid) {
         if (tetromino.left() > 0) {
             tetromino.moveLeft();
@@ -52,6 +74,13 @@ public class TetrominoMovementHandler {
         Logger.log(this, Logger.LogType.INFO, "moved tetromino left");
     }
 
+    /**
+     * attempt to move the tetromino to the right on the grid. do nothing upon
+     * failure.
+     * 
+     * @param tetromino
+     * @param grid
+     */
     public void checkMoveRight(AbstractTetromino tetromino, Grid grid) {
         if (tetromino.right() < grid.width() - 1) {
             tetromino.moveRight();
@@ -67,9 +96,13 @@ public class TetrominoMovementHandler {
     }
 
     /**
-     * checks the lowerability of the tetromino and if possible lowers it.
+     * attempt to move the tetromino down on the grid. return true on success,
+     * or false upon failure.
      * 
-     * @return true on succes, false on failure to load.
+     * @param tetromino
+     * @param grid
+     * 
+     * @return success/failure
      */
     public boolean checkMoveDown(AbstractTetromino tetromino, Grid grid) {
         tetromino.moveDown();
@@ -98,8 +131,7 @@ public class TetrominoMovementHandler {
      * launched or the game is over.
      */
     public void lowerTetromino(AbstractTetromino tetromino, Grid grid) {
-        if (checkMoveDown(tetromino, grid)) {
-        } else if (tetromino.top() >= grid.height() - 1) {
+        if ((!checkMoveDown(tetromino, grid)) && tetromino.top() >= grid.height() - 1) {
             controller.gameOver();
         } else {
             grid.registerTetromino(tetromino);

@@ -12,8 +12,7 @@ public class ScoreTest {
     public void testScore() {
         Score score = new Score();
         observedscore = 0;
-        score.addObserver((arg0, arg1) -> increaseScore((int) arg1));// 40, 50,
-                                                                     // 100, 300
+        score.addObserver((arg0, arg1) -> increaseScore((int) arg1));
         score.add(1);
         assertEquals(observedscore, 40);
         score.reset();

@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 
 public class TetrominoQueue {
     /**
-     * Array of TetrominoType
+     * Array of TetrominoType.
      */
     private static ArrayDeque<TetrominoType> TetrominoQ = new ArrayDeque<>();
 
@@ -13,7 +13,7 @@ public class TetrominoQueue {
     }
 
     /**
-     * Makes sure the TetrominoQueue is alwas filled with 2 Tetromino
+     * Makes sure the TetrominoQueue is alwas filled with 2 Tetromino.
      */
     public static void addToQueue() {
         while (TetrominoQ.size() < 2) {
@@ -23,9 +23,9 @@ public class TetrominoQueue {
     }
 
     /**
-     * Get the first Tetromino from the Queue to put in the GameGrid
+     * Get the first Tetromino from the Queue to put in the GameGrid.
      * 
-     * @return
+     * @return the removed tetromino
      */
 
     public static TetrominoType removeFromQueue() {
@@ -33,9 +33,10 @@ public class TetrominoQueue {
     }
 
     /**
-     * Look at the last Tetromino in the Queue to visualise it in de previewPane
+     * Look at the last Tetromino in the Queue to visualise it in de
+     * previewPane.
      * 
-     * @return
+     * @return the last tetromino in the queue
      */
 
     public static TetrominoType getLast() {

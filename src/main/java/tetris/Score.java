@@ -30,9 +30,6 @@ public class Score extends Observable {
         notifyObservers(score);
     }
 
-    /**
-     * @return the current level that has been reached.
-     */
     public int getLevel() {
         return level / 10;
     }
