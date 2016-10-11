@@ -12,22 +12,22 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import logging.Logger;
-import logging.Logger.LogType;
 
 public class LoggerTest {
     @Test
-    public void test_logcreate() {
+    public void test_logcreate() throws InterruptedException {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
         Logger.clearLog();
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
+        Thread.sleep(1000);
         assertTrue(new File(testloc).exists());
     }
 
     @Test
-    public void test_logdelete() {
+    public void test_logdelete() throws InterruptedException {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
         Logger.setDebugOn();
@@ -35,6 +35,7 @@ public class LoggerTest {
         assertTrue(new File(testloc).exists());
         Logger.setDebugOff();
         Logger.clearLog();
+        Thread.sleep(1000);
         assertFalse(new File(testloc).exists());
     }
 
