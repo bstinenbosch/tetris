@@ -1,17 +1,17 @@
-//package logging;
-//
-//import java.io.BufferedReader;
-//import java.io.File;
-//import java.io.FileReader;
-//import java.io.IOException;
-//
-//import org.junit.Test;
-//
-//import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.assertFalse;
-//import static org.junit.Assert.assertTrue;
-//
-//public class LoggerTest {
+package logging;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class LoggerTest {
 //    @Test
 //    public void test_logcreate() {
 //        String testloc = "test.log";
@@ -71,4 +71,4 @@
 //        assertEquals(10, count);
 //
 //    }
-//}
+}
