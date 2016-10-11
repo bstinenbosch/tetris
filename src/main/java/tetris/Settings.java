@@ -13,6 +13,10 @@ public class Settings {
     private GraphicsContext board;
     private GraphicsContext preview;
 
+    /**
+     * settings is an intelligent data class that is used to store game-wide
+     * variables.
+     */
     public Settings() {
         keybindings = new KeyBindings();
         colors = new Color[] { Color.CYAN, Color.BLUE, Color.DARKORANGE, Color.YELLOW, Color.LIME,

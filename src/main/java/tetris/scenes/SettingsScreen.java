@@ -23,6 +23,13 @@ public class SettingsScreen extends Group implements IScreen {
 
     private ColorPicker[] colorPickers = new ColorPicker[7];
 
+    /**
+     * The settings screen is the place where the user can set every game-wide
+     * editable setting.
+     * 
+     * @param settings
+     *            the game-wide settings
+     */
     public SettingsScreen(Settings settings) {
         this.settings = settings;
         initializeColorPickers();
@@ -36,7 +43,6 @@ public class SettingsScreen extends Group implements IScreen {
     }
 
     private GridPane generateKeySetter(Settings settings) {
-        GridPane keysetter = new GridPane();
         ComboBox<String> actionCombobox = new ComboBox<String>();
         TextField keyResultTextField = new TextField();
         keyResultTextField.setEditable(false);
@@ -48,6 +54,7 @@ public class SettingsScreen extends Group implements IScreen {
 
         GridPane.setConstraints(actionCombobox, 0, 0);
         GridPane.setConstraints(keyResultTextField, 1, 0);
+        GridPane keysetter = new GridPane();
         keysetter.getChildren().addAll(actionCombobox, keyResultTextField);
         return keysetter;
     }
@@ -70,6 +77,7 @@ public class SettingsScreen extends Group implements IScreen {
         return this.colorPickers;
     }
 
+    @Override
     public void hookEvents(Controller controller) {
         backButton.setOnAction(event -> controller.openMainScreen());
         colorPickers[0].setOnAction(event -> settings.setColor(1, colorPickers[0].getValue()));

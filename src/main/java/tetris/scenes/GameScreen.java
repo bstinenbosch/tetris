@@ -18,6 +18,12 @@ public class GameScreen extends Group implements IScreen {
     private Button backButton;
     private ObservingLabel scoreLabel;
 
+    /**
+     * the gamescreen is the screen where game is actually played.
+     * 
+     * @param settings
+     *            the game-wide settings
+     */
     public GameScreen(Settings settings) {
         this.settings = settings;
         VBox rightPane = setUpRightPaneGameScreen();
@@ -69,6 +75,7 @@ public class GameScreen extends Group implements IScreen {
         return canvas;
     }
 
+    @Override
     public void hookEvents(Controller controller) {
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
