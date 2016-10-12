@@ -25,7 +25,7 @@ public class LoggerTest {
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
 
-        await().atMost(5, SECONDS).until(() -> new File(testloc).exists());
+        await().atMost(15, SECONDS).until(() -> new File(testloc).exists());
         assertTrue(new File(testloc).exists());
     }
 
@@ -36,13 +36,13 @@ public class LoggerTest {
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
 
-        await().atMost(5, SECONDS).until(() -> new File(testloc).exists());
+        await().atMost(15, SECONDS).until(() -> new File(testloc).exists());
         assertTrue(new File(testloc).exists());
 
         Logger.setDebugOff();
         Logger.clearLog();
 
-        await().atMost(5, SECONDS).until(() -> !(new File(testloc).exists()));
+        await().atMost(15, SECONDS).until(() -> !(new File(testloc).exists()));
         assertFalse(new File(testloc).exists());
     }
 
@@ -54,7 +54,7 @@ public class LoggerTest {
         Logger.clearLog();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
 
-        await().atMost(5, SECONDS).until(() -> !(new File(testloc).exists()));
+        await().atMost(15, SECONDS).until(() -> !(new File(testloc).exists()));
         assertFalse(new File(testloc).exists());
     }
 
@@ -74,7 +74,7 @@ public class LoggerTest {
         Logger.setDebugOff();
 
         File testlocFile = new File(testloc);
-        await().atMost(5, SECONDS).until(() -> new File(testloc).exists());
+        await().atMost(15, SECONDS).until(() -> new File(testloc).exists());
         assertTrue(testlocFile.exists());
 
         int count = 0;
