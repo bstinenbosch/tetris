@@ -25,7 +25,7 @@ public class LoggerTest {
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
 
-        await().atMost(15, SECONDS).until(() -> new File(testloc).exists());
+        await().atMost(30, SECONDS).until(() -> new File(testloc).exists());
         assertTrue(new File(testloc).exists());
     }
 
