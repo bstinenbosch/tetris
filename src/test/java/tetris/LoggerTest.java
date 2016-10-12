@@ -3,11 +3,15 @@ package tetris;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.concurrent.Callable;
 
 import org.junit.Test;
 
 import static com.jayway.awaitility.Awaitility.await;
+import static com.jayway.awaitility.Awaitility.with;
+import static com.jayway.awaitility.Duration.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -25,7 +29,12 @@ public class LoggerTest {
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
 
-        await().atMost(30, SECONDS).until(() -> new File(testloc).exists());
+        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
+                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
+                .and().with().timeout(ONE_MINUTE)
+                .await("file creation")
+                .until(fileIsCreatedOnDisk(testloc), equalTo(true));
+
         assertTrue(new File(testloc).exists());
     }
 
@@ -92,5 +101,14 @@ public class LoggerTest {
     public void test_getters() throws ClassCastException {
         assertTrue(Logger.getLogDir() instanceof String);
         assertTrue(Logger.getLogLength() == Logger.getLogLength());
+    }
+
+    private Callable<Boolean> fileIsCreatedOnDisk(final String filename) {
+        return new Callable<Boolean>() {
+            public Boolean call() throws Exception {
+                File file = new File(filename);
+                return file.exists();
+            }
+        };
     }
 }
