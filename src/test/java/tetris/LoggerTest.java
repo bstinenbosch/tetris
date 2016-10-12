@@ -29,12 +29,7 @@ public class LoggerTest {
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
 
-        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
-                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
-                .and().with().timeout(ONE_MINUTE)
-                .await("file creation")
-                .until(fileIsCreatedOnDisk(testloc), equalTo(true));
-
+        asyncWaitForFileCreation(testloc);
         assertTrue(new File(testloc).exists());
     }
 
@@ -45,17 +40,13 @@ public class LoggerTest {
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
 
-        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
-                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
-                .and().with().timeout(ONE_MINUTE)
-                .await("file creation")
-                .until(fileIsCreatedOnDisk(testloc), equalTo(true));
-
+        asyncWaitForFileCreation(testloc);
         assertTrue(new File(testloc).exists());
 
         Logger.setDebugOff();
         Logger.clearLog();
 
+        asyncWaitForFileRemoval(testloc);
         assertFalse(new File(testloc).exists());
     }
 
@@ -67,6 +58,7 @@ public class LoggerTest {
         Logger.clearLog();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
 
+        asyncWaitForFileRemoval(testloc);
         assertFalse(new File(testloc).exists());
     }
 
@@ -87,12 +79,7 @@ public class LoggerTest {
 
         File testlocFile = new File(testloc);
 
-        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
-                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
-                .and().with().timeout(ONE_MINUTE)
-                .await("file creation")
-                .until(fileIsCreatedOnDisk(testloc), equalTo(true));
-
+        asyncWaitForFileCreation(testloc);
         assertTrue(testlocFile.exists());
 
         int count = 0;
@@ -103,19 +90,42 @@ public class LoggerTest {
             ++count;
         }
         reader.close();
+
         assertEquals(10, count);
     }
-
     @Test
     public void test_getters() throws ClassCastException {
         assertTrue(Logger.getLogDir() instanceof String);
         assertTrue(Logger.getLogLength() == Logger.getLogLength());
     }
 
+    private void asyncWaitForFileCreation(String testloc) throws Exception {
+        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
+                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
+                .and().with().timeout(ONE_MINUTE)
+                .await("file creation")
+                .until(fileIsCreatedOnDisk(testloc), equalTo(true));
+    }
+
+    private void asyncWaitForFileRemoval(String testloc) throws Exception {
+        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
+                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
+                .and().with().timeout(ONE_MINUTE)
+                .await("file removal")
+                .until(fileIsRemovedFromDisk(testloc), equalTo(true));
+    }
+
     private Callable<Boolean> fileIsCreatedOnDisk(final String filename) {
         return () -> {
             File file = new File(filename);
             return file.exists();
+        };
+    }
+
+    private Callable<Boolean> fileIsRemovedFromDisk(final String filename) {
+        return () -> {
+            File file = new File(filename);
+            return !file.exists();
         };
     }
 }
