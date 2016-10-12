@@ -45,13 +45,17 @@ public class LoggerTest {
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
 
-        await().atMost(15, SECONDS).until(() -> new File(testloc).exists());
+        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
+                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
+                .and().with().timeout(ONE_MINUTE)
+                .await("file creation")
+                .until(fileIsCreatedOnDisk(testloc), equalTo(true));
+
         assertTrue(new File(testloc).exists());
 
         Logger.setDebugOff();
         Logger.clearLog();
 
-        await().atMost(15, SECONDS).until(() -> !(new File(testloc).exists()));
         assertFalse(new File(testloc).exists());
     }
 
@@ -63,7 +67,6 @@ public class LoggerTest {
         Logger.clearLog();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
 
-        await().atMost(15, SECONDS).until(() -> !(new File(testloc).exists()));
         assertFalse(new File(testloc).exists());
     }
 
@@ -83,7 +86,13 @@ public class LoggerTest {
         Logger.setDebugOff();
 
         File testlocFile = new File(testloc);
-        await().atMost(15, SECONDS).until(() -> new File(testloc).exists());
+
+        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
+                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
+                .and().with().timeout(ONE_MINUTE)
+                .await("file creation")
+                .until(fileIsCreatedOnDisk(testloc), equalTo(true));
+
         assertTrue(testlocFile.exists());
 
         int count = 0;
@@ -104,11 +113,9 @@ public class LoggerTest {
     }
 
     private Callable<Boolean> fileIsCreatedOnDisk(final String filename) {
-        return new Callable<Boolean>() {
-            public Boolean call() throws Exception {
-                File file = new File(filename);
-                return file.exists();
-            }
+        return () -> {
+            File file = new File(filename);
+            return file.exists();
         };
     }
 }
