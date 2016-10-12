@@ -86,7 +86,12 @@ public class Controller {
 
         grid.clearLines();
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
-        Coordinate position2 = new Coordinate(2, 2);
+
+        ///// HIER MOET NIEUWE COÖRDINAAT WORDEN GEMAAKT'
+        int Xposition = 2;
+        int Yposition = 2;
+
+        Coordinate position2 = new Coordinate(Xposition, Yposition);
 
         tetromino = TetrominoFactory.createRandom(position);
         tetromino2 = TetrominoFactory.getLast(position2);
