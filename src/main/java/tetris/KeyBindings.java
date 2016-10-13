@@ -2,11 +2,10 @@ package tetris;
 
 import java.util.Collection;
 import java.util.HashMap;
-
-import javafx.scene.input.KeyCode;
+import java.util.Set;
 
 public final class KeyBindings {
-    private HashMap<KeyCode, String> bindings = new HashMap<KeyCode, String>();
+    private HashMap<String, String> bindings = new HashMap<String, String>();
 
     /**
      * Keybindings provide a fast-access way of evaluating keys to their mapped
@@ -16,14 +15,25 @@ public final class KeyBindings {
         resetBindings();
     }
 
+    public KeyBindings(String left, String right, String rLeft, String rRight, String sDrop,
+        String hDrop) {
+        bindings = new HashMap<String, String>();
+        bindings.put(left, "MOVE LEFT");
+        bindings.put(right, "MOVE RIGHT");
+        bindings.put(rLeft, "ROTATE LEFT");
+        bindings.put(rRight, "ROTATE RIGHT");
+        bindings.put(sDrop, "SOFT DROP");
+        bindings.put(hDrop, "HARD DROP");
+    }
+
     public void resetBindings() {
-        bindings = new HashMap<KeyCode, String>();
-        bindings.put(KeyCode.LEFT, "MOVE LEFT");
-        bindings.put(KeyCode.RIGHT, "MOVE RIGHT");
-        bindings.put(KeyCode.A, "ROTATE LEFT");
-        bindings.put(KeyCode.S, "ROTATE RIGHT");
-        bindings.put(KeyCode.DOWN, "SOFT DROP");
-        bindings.put(KeyCode.SPACE, "HARD DROP");
+        bindings = new HashMap<String, String>();
+        bindings.put("LEFT", "MOVE LEFT");
+        bindings.put("RIGHT", "MOVE RIGHT");
+        bindings.put("A", "ROTATE LEFT");
+        bindings.put("S", "ROTATE RIGHT");
+        bindings.put("DOWN", "SOFT DROP");
+        bindings.put("SPACE", "HARD DROP");
     }
 
     public Collection<String> values() {
@@ -39,14 +49,18 @@ public final class KeyBindings {
      * @param binding
      *            the new keycode that points to the key
      */
-    public void put(String key, KeyCode binding) {
-        KeyCode oldBinding = getBinding(key);
+    public void put(String key, String binding) {
+        String oldBinding = getBinding(key);
         bindings.remove(oldBinding);
         bindings.put(binding, key);
     }
 
-    public String getKey(KeyCode binding) {
+    public String getKey(String binding) {
         return bindings.getOrDefault(binding, "no key assigned");
+    }
+
+    public Set<String> getKeys() {
+        return bindings.keySet();
     }
 
     /**
@@ -56,8 +70,8 @@ public final class KeyBindings {
      *            the key to search for in the associations
      * @return the associated keycode.
      */
-    public KeyCode getBinding(String key) {
-        for (KeyCode binding : bindings.keySet()) {
+    public String getBinding(String key) {
+        for (String binding : bindings.keySet()) {
             if (key.equals(bindings.get(binding))) {
                 return binding;
             }

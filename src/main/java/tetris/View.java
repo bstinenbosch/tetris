@@ -27,7 +27,7 @@ public class View extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        settings = new Settings();
+        settings = new Settings("src/main/resources/settings.xml");
         controller = new Controller(this, settings);
         this.primaryStage = primaryStage;
         gotoMainScreen();
