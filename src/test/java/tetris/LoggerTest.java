@@ -24,7 +24,7 @@ public class LoggerTest {
     public void test_logcreate() throws Exception {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
-        Logger.clearLog();
+//        Logger.clearLog();
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
