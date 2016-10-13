@@ -152,6 +152,10 @@ public class Controller {
         ui.gotoMainScreen();
     }
 
+    public void viewHighscores() {
+        ui.gotoHighscoreScreen();
+    }
+
     public void addScoreObserver(Observer observer) {
         score.addObserver(observer);
     }
@@ -172,7 +176,7 @@ public class Controller {
     /**
      * drawGrid draws the entire gameboard. As tetrominos reach their final
      * place, they are registered on the grid to be drawn by this function.
-     * 
+     *
      * @param grid
      *            the gameboard to draw on the canvas
      */
@@ -187,7 +191,7 @@ public class Controller {
     /**
      * drawTetromino employs the structure of a tetromino to draw it on a
      * gameboard.
-     * 
+     *
      * @param tetromino
      *            the tetromino to draw
      */
@@ -205,7 +209,7 @@ public class Controller {
 
     /**
      * drawRectangle draws one cube on the game grid.
-     * 
+     *
      * @param board
      *            specifies the gameboard(canvas) to draw on
      * @param color
