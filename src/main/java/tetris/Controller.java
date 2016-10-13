@@ -2,6 +2,7 @@ package tetris;
 
 import java.util.Observer;
 
+import tetris.scenes.TetrominoAbstracter;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
@@ -95,6 +96,12 @@ public class Controller {
 
         tetromino = TetrominoFactory.createRandom(position);
         tetromino2 = TetrominoFactory.getLast(position2);
+
+        TetrominoAbstracter.abstractTetromino(tetromino2);
+
+        Coordinate secondposition2 = TetrominoAbstracter.abstractTetromino(tetromino2);
+
+        tetromino2 = TetrominoFactory.getLast(secondposition2);
 
         redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
