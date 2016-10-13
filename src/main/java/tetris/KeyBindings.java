@@ -13,12 +13,7 @@ public final class KeyBindings {
      * meanings, while it is also possible to adjust the mapping at runtime.
      */
     public KeyBindings() {
-        bindings.put(KeyCode.LEFT, "MOVE LEFT");
-        bindings.put(KeyCode.RIGHT, "MOVE RIGHT");
-        bindings.put(KeyCode.A, "ROTATE LEFT");
-        bindings.put(KeyCode.S, "ROTATE RIGHT");
-        bindings.put(KeyCode.DOWN, "SOFT DROP");
-        bindings.put(KeyCode.SPACE, "HARD DROP");
+        resetBindings();
     }
 
     public void resetBindings() {
