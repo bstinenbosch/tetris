@@ -1,7 +1,9 @@
 package tetris;
 
 import tetris.scenes.GameScreen;
+import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;
+import tetris.scenes.PromptNameScreen;
 import tetris.scenes.SettingsScreen;
 
 import javafx.application.Application;
@@ -61,6 +63,18 @@ public class View extends Application {
         MainScreen mainview = new MainScreen();
         mainview.hookEvents(controller);
         primaryStage.setScene(new Scene(mainview));
+    }
+
+    public void gotoPromptNameScreen() {
+        PromptNameScreen nameScreen = new PromptNameScreen();
+        nameScreen.hookEvents(controller);
+        primaryStage.setScene(new Scene(nameScreen));
+    }
+
+    public void gotoHighscoreScreen() {
+        HighscoreScreen highscoreView = new HighscoreScreen();
+        highscoreView.hookEvents(controller);
+        primaryStage.setScene(new Scene(highscoreView));
     }
 
     public void resetFocus() {
