@@ -2,6 +2,7 @@ package tetris;
 
 import java.util.Observer;
 
+import javafx.application.Platform;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
@@ -118,7 +119,13 @@ public class Controller {
         settings.getBoard().setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
         settings.getBoard().setFill(Color.RED);
         settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
-            settings.boardHeight() * settings.blockSize() / 2);
+                settings.boardHeight() * settings.blockSize() / 2);
+        // runLater prevent "Not on FX thread" error, don't know why. Have to look into this later.
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                ui.gotoPromptNameScreen();
+            }
+        });
     }
 
     /**
@@ -152,6 +159,10 @@ public class Controller {
         ui.gotoMainScreen();
     }
 
+    public void openPromptName() {
+        ui.gotoPromptNameScreen();
+    }
+
     public void viewHighscores() {
         ui.gotoHighscoreScreen();
     }
@@ -176,7 +187,7 @@ public class Controller {
     /**
      * drawGrid draws the entire gameboard. As tetrominos reach their final
      * place, they are registered on the grid to be drawn by this function.
-     *
+     * 
      * @param grid
      *            the gameboard to draw on the canvas
      */
@@ -191,7 +202,7 @@ public class Controller {
     /**
      * drawTetromino employs the structure of a tetromino to draw it on a
      * gameboard.
-     *
+     * 
      * @param tetromino
      *            the tetromino to draw
      */
@@ -209,7 +220,7 @@ public class Controller {
 
     /**
      * drawRectangle draws one cube on the game grid.
-     *
+     * 
      * @param board
      *            specifies the gameboard(canvas) to draw on
      * @param color
@@ -248,5 +259,9 @@ public class Controller {
     private void clearPreview() {
         settings.getPreview().setFill(Color.BLACK);
         settings.getPreview().fillRect(0, 0, 6 * settings.blockSize(), 5 * settings.blockSize());
+    }
+
+    public void registerHighScore(CharSequence playerName) {
+        System.out.println(playerName);
     }
 }
