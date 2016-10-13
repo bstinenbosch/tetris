@@ -26,17 +26,16 @@ public class TetrominoAbstracter {
         int bottom = tetromino.bottom();
 
         int minimumGapHorizontal = 6;
-        for (int i = 0; i < rightSidePane; i++) {
-            int rightGap = rightSidePane - right;
-            int leftGap = left - leftSidePane;
 
-            if (Math.abs(rightGap - leftGap) < minimumGapHorizontal) {
-                minimumGapHorizontal = Math.abs(leftGap - rightGap) / 2;
-            }
+        int rightGap = rightSidePane - right;
+        int leftGap = left - leftSidePane;
 
+        if (Math.abs(rightGap - leftGap) < minimumGapHorizontal) {
+            minimumGapHorizontal = (rightSidePane - right + left) / 2;
         }
 
-        int Xposition = (leftSidePane + minimumGapHorizontal);
+        int Xposition = (minimumGapHorizontal);
+
         //
         // int minimumGapVertical = 6;
         // for (int i = 0; i < topPane; i++) {

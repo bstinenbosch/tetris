@@ -2,7 +2,7 @@ package tetris;
 
 import java.util.Observer;
 
-import tetris.scenes.TetrominoAbstracter;
+import tetris.scenes.PreviewTetrominoPaneAdapter;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
@@ -19,8 +19,11 @@ public class Controller {
     private Score score;
     private View ui;
     private Grid grid;
+    private PreviewTetrominoPaneAdapter adapter;
     private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
+    private int LeftOffSet;
+    private int TopOffSet;
     private boolean gameOver = false;
     private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
@@ -92,16 +95,20 @@ public class Controller {
         int Xposition = 2;
         int Yposition = 2;
 
-        Coordinate position2 = new Coordinate(Xposition, Yposition);
+        Coordinate position2 = new Coordinate(0, 0);
 
         tetromino = TetrominoFactory.createRandom(position);
         tetromino2 = TetrominoFactory.getLast(position2);
 
-        TetrominoAbstracter.abstractTetromino(tetromino2);
+        PreviewTetrominoPaneAdapter adapter = new PreviewTetrominoPaneAdapter(tetromino2);
+        this.LeftOffSet = adapter.getLeftOffSet();
+        this.TopOffSet = adapter.getTopOffSet();
 
-        Coordinate secondposition2 = TetrominoAbstracter.abstractTetromino(tetromino2);
-
-        tetromino2 = TetrominoFactory.getLast(secondposition2);
+        //
+        // Coordinate secondposition2 =
+        // TetrominoAbstracter.abstractTetromino(tetromino2);
+        //
+        // tetromino2 = TetrominoFactory.getLast(secondposition2);
 
         redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
@@ -238,9 +245,10 @@ public class Controller {
     private void drawRectanglePreview(int color, Coordinate coordinate) {
         if (color > 0) {
             settings.getPreview().setFill(settings.getColor(color));
-            settings.getPreview().fillRoundRect(coordinate.getX() * settings.blockSize(),
-                (5 - 1 - coordinate.getY()) * settings.blockSize(), settings.blockSize(),
-                settings.blockSize(), settings.corner(), settings.corner());
+            settings.getPreview().fillRoundRect(
+                coordinate.getX() * settings.blockSize() + this.LeftOffSet,
+                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.TopOffSet,
+                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
         }
     }
 
