@@ -12,7 +12,6 @@ public class GameEntry {
 
     public GameEntry(int score) {
         this.score = score;
-        this.name = "";
     }
 
     /**

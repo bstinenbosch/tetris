@@ -22,17 +22,19 @@ public class ScoreBoard {
     }
 
     public void add(GameEntry entry) {
-        int newScore = entry.getScore();
-        if (numEntries < board.length || newScore > board[numEntries - 1].getScore()) {
-            if (numEntries < board.length)
-                numEntries++;
+        if (isHighscore(entry.getScore())) {
+            int newScore = entry.getScore();
+            if (numEntries < board.length || newScore > board[numEntries - 1].getScore()) {
+                if (numEntries < board.length)
+                    numEntries++;
 
-            int i = numEntries - 1;
-            while (i > 0 && board[i - 1].getScore() < newScore) {
-                board[i] = board[i - 1];
-                i--;
+                int i = numEntries - 1;
+                while (i > 0 && board[i - 1].getScore() < newScore) {
+                    board[i] = board[i - 1];
+                    i--;
+                }
+                board[i] = entry;
             }
-            board[i] = entry;
         }
     }
 
