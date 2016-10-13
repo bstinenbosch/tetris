@@ -24,7 +24,7 @@ public final class Logger extends Thread {
      */
     public enum LogType {
         INFO, WARNING, ERROR
-    };
+    }
 
     private Logger() {
     } // unreachable because static

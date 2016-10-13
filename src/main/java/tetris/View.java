@@ -43,12 +43,20 @@ public class View extends Application {
         gameview.requestFocus();
     }
 
+    /**
+     * gotoGameScreen inits and shows the settings screen, hooks the key events
+     * and fires up the game controller.
+     */
     public void gotoSettingsScreen() {
         SettingsScreen settingsview = new SettingsScreen(settings);
         settingsview.hookEvents(controller);
         primaryStage.setScene(new Scene(settingsview));
     }
 
+    /**
+     * gotoGameScreen inits and shows the main screen, hooks the key events and
+     * fires up the game controller.
+     */
     public void gotoMainScreen() {
         MainScreen mainview = new MainScreen();
         mainview.hookEvents(controller);

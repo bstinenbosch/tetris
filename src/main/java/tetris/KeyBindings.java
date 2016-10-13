@@ -8,6 +8,10 @@ import javafx.scene.input.KeyCode;
 public final class KeyBindings {
     private HashMap<KeyCode, String> bindings = new HashMap<KeyCode, String>();
 
+    /**
+     * Keybindings provide a fast-access way of evaluating keys to their mapped
+     * meanings, while it is also possible to adjust the mapping at runtime.
+     */
     public KeyBindings() {
         bindings.put(KeyCode.LEFT, "MOVE LEFT");
         bindings.put(KeyCode.RIGHT, "MOVE RIGHT");
@@ -21,19 +25,32 @@ public final class KeyBindings {
         return bindings.values();
     }
 
+    /**
+     * put a new keybinding in place, removing possible conflicting old
+     * bindings.
+     * 
+     * @param key
+     *            the key that is replaced
+     * @param binding
+     *            the new keycode that points to the key
+     */
     public void put(String key, KeyCode binding) {
-        if (bindings.containsValue(key)) {
-            bindings.put(binding, key);
-        } else {
-            throw new IllegalArgumentException(
-                "The key [" + key + "] is not bindable in this game.");
-        }
+        KeyCode oldBinding = getBinding(key);
+        bindings.remove(oldBinding);
+        bindings.put(binding, key);
     }
 
     public String getKey(KeyCode binding) {
         return bindings.getOrDefault(binding, "no key assigned");
     }
 
+    /**
+     * get the keycode that is associated with key.
+     * 
+     * @param key
+     *            the key to search for in the associations
+     * @return the associated keycode.
+     */
     public KeyCode getBinding(String key) {
         for (KeyCode binding : bindings.keySet()) {
             if (key.equals(bindings.get(binding))) {
