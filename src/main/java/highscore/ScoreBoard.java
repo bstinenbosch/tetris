@@ -58,7 +58,6 @@ public class ScoreBoard {
                 GameEntry entry = new GameEntry(name, score);
                 add(entry);
             }
-
         }
     }
 
@@ -100,7 +99,6 @@ public class ScoreBoard {
         } catch (TransformerException e) {
             e.printStackTrace();
         }
-
     }
 
     public GameEntry[] getScores() {
