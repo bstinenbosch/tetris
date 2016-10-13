@@ -25,9 +25,4 @@ public class Coordinate {
     public void translateY(int dy) {
         this.y += dy;
     }
-
-    public void translate(int dx, int dy) {
-        this.x += dx;
-        this.y += dy;
-    }
 }

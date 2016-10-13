@@ -2,7 +2,7 @@ package tetris.tetromino;
 
 import java.util.Random;
 
-enum TetrominoType {
+public enum TetrominoType {
 
     I, J, L, O, S, T, Z;
 

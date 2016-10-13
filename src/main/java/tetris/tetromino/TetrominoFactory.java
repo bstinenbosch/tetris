@@ -50,9 +50,7 @@ public class TetrominoFactory {
     }
 
     public static AbstractTetromino getLast(Coordinate position2) {
-        TetrominoType previewTetromino = TetrominoQueue.getLast();
-
-        return create(previewTetromino, position2);
+        return create(TetrominoQueue.getLast(), position2);
     }
 
 }
