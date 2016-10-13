@@ -163,6 +163,10 @@ public class Controller {
         ui.gotoPromptNameScreen();
     }
 
+    public void viewHighscores() {
+        ui.gotoHighscoreScreen();
+    }
+
     public void addScoreObserver(Observer observer) {
         score.addObserver(observer);
     }

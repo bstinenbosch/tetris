@@ -14,6 +14,7 @@ public class MainScreen extends Group implements IScreen {
 
     private Button startNewGameButton;
     private Button settingsButton;
+    private Button highscoreButton;
 
     /**
      * the main screen is the central entry point for the game and the root of
@@ -29,11 +30,14 @@ public class MainScreen extends Group implements IScreen {
         settingsButton = new Button("Settings");
         settingsButton.setStyle("-fx-background-color: green");
 
+        highscoreButton = new Button("Highscores");
+        highscoreButton.setStyle("-fx-background-color: blue");
+
         TilePane root = new TilePane();
         root.setOrientation(Orientation.VERTICAL);
         root.setTileAlignment(Pos.CENTER);
         root.setPadding(new Insets(0, 20, 10, 20));
-        root.getChildren().addAll(titleLabel, startNewGameButton, settingsButton);
+        root.getChildren().addAll(titleLabel, startNewGameButton, settingsButton, highscoreButton);
         root.setStyle("-fx-background-color: black");
         getChildren().add(root);
     }
@@ -42,5 +46,6 @@ public class MainScreen extends Group implements IScreen {
     public void hookEvents(Controller controller) {
         startNewGameButton.setOnAction(event -> controller.startGame());
         settingsButton.setOnAction(event -> controller.openSettings());
+        highscoreButton.setOnAction(event -> controller.viewHighscores());
     }
 }
