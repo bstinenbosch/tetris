@@ -30,6 +30,10 @@ public class Score extends Observable {
         notifyObservers(score);
     }
 
+    public int getScore() {
+        return this.score;
+    }
+
     public int getLevel() {
         return level / 10;
     }

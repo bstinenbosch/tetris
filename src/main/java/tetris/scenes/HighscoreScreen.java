@@ -2,7 +2,6 @@ package tetris.scenes;
 
 import highscore.GameEntry;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.*;
 import javafx.scene.control.Button;
@@ -15,15 +14,10 @@ import javafx.scene.layout.*;
 import tetris.Controller;
 
 public class HighscoreScreen extends Group implements IScreen {
+
     private Button backButton;
 
-    private final ObservableList<HighScoreEntry> highScores =
-            FXCollections.observableArrayList(
-                    new HighScoreEntry("1", "Bas", "1200"),
-                    new HighScoreEntry("2", "Sebastiaan", "800"),
-                    new HighScoreEntry("3", "Robert", "1500"),
-                    new HighScoreEntry("4", "Karel", "400"),
-                    new HighScoreEntry("5", "Pascal", "112000"));
+    private TableView highscoreTable;
 
     public HighscoreScreen() {
         Label titleLabel = new Label("HIGHSCORES");
@@ -50,7 +44,7 @@ public class HighscoreScreen extends Group implements IScreen {
     }
 
     public VBox GetHighScoreTable() {
-        TableView table = new TableView();
+        highscoreTable = new TableView();
 
         TableColumn rankCol = new TableColumn("Rank");
         rankCol.setPrefWidth(50);
@@ -64,13 +58,11 @@ public class HighscoreScreen extends Group implements IScreen {
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
         scoreCol.setPrefWidth(100);
 
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        table.getColumns().addAll(rankCol, nameCol, scoreCol);
-
-        table.setItems(highScores);
+        highscoreTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        highscoreTable.getColumns().addAll(rankCol, nameCol, scoreCol);
 
         final VBox vbox = new VBox();
-        vbox.getChildren().addAll(table);
+        vbox.getChildren().addAll(highscoreTable);
 
         return vbox;
     }
@@ -80,32 +72,7 @@ public class HighscoreScreen extends Group implements IScreen {
         backButton.setOnAction(event -> controller.openMainScreen());
     }
 
-    // Dummy class to show how an object is link to the highscore table
-    public static class HighScoreEntry {
-
-        private final SimpleStringProperty rank;
-        private final SimpleStringProperty name;
-        private final SimpleStringProperty score;
-
-        private HighScoreEntry(String rank, String name, String score) {
-            this.rank = new SimpleStringProperty(rank);
-            this.name = new SimpleStringProperty(name);
-            this.score = new SimpleStringProperty(score);
-        }
-
-        // Getter is needed for the table to read
-        public String getRank() {
-            return rank.get();
-        }
-
-        // Getter is needed for the table to read
-        public String getName() {
-            return name.get();
-        }
-
-        // Getter is needed for the table to read
-        public String getScore() {
-            return score.get();
-        }
+    public void setHighscoreData(ObservableList<GameEntry> gameEntries) {
+        highscoreTable.setItems(gameEntries);
     }
 }
