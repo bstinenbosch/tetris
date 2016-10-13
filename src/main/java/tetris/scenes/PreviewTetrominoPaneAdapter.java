@@ -16,6 +16,12 @@ public class PreviewTetrominoPaneAdapter {
     private int width;
     private int height;
 
+    /**
+     * Creates PreviewTetrominoPaneAdapter object
+     * 
+     * @param tetromino
+     */
+
     public PreviewTetrominoPaneAdapter(AbstractTetromino tetromino) {
 
         this.left = tetromino.left();
@@ -27,17 +33,29 @@ public class PreviewTetrominoPaneAdapter {
 
     }
 
+    /**
+     * Calculates Left offset and returns it.
+     * 
+     * @return
+     */
     public int getLeftOffSet() {
 
-        int LeftOffSet = (this.RightPane * this.BlockSize - this.right * BlockSize) / 2;
+        int LeftOffSet = ((this.RightPane * this.BlockSize - this.width * BlockSize) / 2)
+            + 1 * BlockSize;
         return LeftOffSet;
 
     }
 
-    public int getTopOffSet() {
+    /**
+     * Calculates Bottom offset and returns it.
+     * 
+     * @return BottomOffSet
+     */
+    public int getBottomOffSet() {
 
-        int TopOffSet = (this.TopPane * this.BlockSize - this.height * BlockSize) / 2;
-        return TopOffSet;
+        int BottomOffSet = ((this.TopPane * this.BlockSize - this.height * BlockSize
+            - 1 * BlockSize) / 2);
+        return BottomOffSet;
 
     }
 

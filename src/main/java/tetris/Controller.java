@@ -23,7 +23,7 @@ public class Controller {
     private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
     private int LeftOffSet;
-    private int TopOffSet;
+    private int BottomOffSet;
     private boolean gameOver = false;
     private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
@@ -91,7 +91,6 @@ public class Controller {
         grid.clearLines();
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
 
-        ///// HIER MOET NIEUWE COÖRDINAAT WORDEN GEMAAKT'
         int Xposition = 2;
         int Yposition = 2;
 
@@ -102,13 +101,7 @@ public class Controller {
 
         PreviewTetrominoPaneAdapter adapter = new PreviewTetrominoPaneAdapter(tetromino2);
         this.LeftOffSet = adapter.getLeftOffSet();
-        this.TopOffSet = adapter.getTopOffSet();
-
-        //
-        // Coordinate secondposition2 =
-        // TetrominoAbstracter.abstractTetromino(tetromino2);
-        //
-        // tetromino2 = TetrominoFactory.getLast(secondposition2);
+        this.BottomOffSet = adapter.getBottomOffSet();
 
         redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
@@ -242,12 +235,23 @@ public class Controller {
         }
     }
 
+    /**
+     * drawRectanglePreview draws one cube on the preview grid.
+     * 
+     * @param board
+     *            specifies the gameboard(canvas) to draw on
+     * @param color
+     *            specifies the color pair to draw in (color pairs provided by
+     *            setColor)
+     * @param coordinate
+     *            the cube in the grid that is to be drawn.
+     */
     private void drawRectanglePreview(int color, Coordinate coordinate) {
         if (color > 0) {
             settings.getPreview().setFill(settings.getColor(color));
             settings.getPreview().fillRoundRect(
                 coordinate.getX() * settings.blockSize() + this.LeftOffSet,
-                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.TopOffSet,
+                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.BottomOffSet,
                 settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
         }
     }
