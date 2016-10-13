@@ -21,6 +21,16 @@ public final class KeyBindings {
         bindings.put(KeyCode.SPACE, "HARD DROP");
     }
 
+    public void resetBindings() {
+        bindings = new HashMap<KeyCode, String>();
+        bindings.put(KeyCode.LEFT, "MOVE LEFT");
+        bindings.put(KeyCode.RIGHT, "MOVE RIGHT");
+        bindings.put(KeyCode.A, "ROTATE LEFT");
+        bindings.put(KeyCode.S, "ROTATE RIGHT");
+        bindings.put(KeyCode.DOWN, "SOFT DROP");
+        bindings.put(KeyCode.SPACE, "HARD DROP");
+    }
+
     public Collection<String> values() {
         return bindings.values();
     }
