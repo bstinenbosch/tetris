@@ -2,7 +2,7 @@ package tetris.scenes;
 
 import tetris.tetromino.AbstractTetromino;
 
-public class PreviewTetrominoPaneAdapter {
+public class PreviewAdapter {
 
     private static int RightPane = 6;
     private static int TopPane = 6;
@@ -20,7 +20,7 @@ public class PreviewTetrominoPaneAdapter {
      * @param tetromino
      */
 
-    public PreviewTetrominoPaneAdapter(AbstractTetromino tetromino) {
+    public PreviewAdapter(AbstractTetromino tetromino) {
 
         this.left = tetromino.left();
         this.right = tetromino.right();

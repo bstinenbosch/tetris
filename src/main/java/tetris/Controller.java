@@ -2,7 +2,7 @@ package tetris;
 
 import java.util.Observer;
 
-import tetris.scenes.PreviewTetrominoPaneAdapter;
+import tetris.scenes.PreviewAdapter;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
@@ -96,7 +96,7 @@ public class Controller {
         tetromino = TetrominoFactory.createRandom(position);
         tetromino2 = TetrominoFactory.getLast(position2);
 
-        PreviewTetrominoPaneAdapter adapter = new PreviewTetrominoPaneAdapter(tetromino2);
+        PreviewAdapter adapter = new PreviewAdapter(tetromino2);
         this.LeftOffSet = adapter.getLeftOffSet();
         this.BottomOffSet = adapter.getBottomOffSet();
 
