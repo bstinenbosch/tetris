@@ -119,6 +119,7 @@ public class ScoreBoard {
                 }
                 board[i] = entry;
             }
+            SaveScores();
         }
     }
 

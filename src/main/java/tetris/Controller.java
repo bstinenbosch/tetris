@@ -2,6 +2,7 @@ package tetris;
 
 import java.util.Observer;
 
+import highscore.GameEntry;
 import highscore.ScoreBoard;
 import javafx.application.Platform;
 import tetris.tetromino.AbstractTetromino;
@@ -136,7 +137,7 @@ public class Controller {
     }
 
     public void registerHighScore(CharSequence playerName) {
-        System.out.println(playerName);
+        scoreBoard.add(new GameEntry(playerName.toString(), score.getScore()));
         ui.gotoHighscoreScreen();
     }
 
