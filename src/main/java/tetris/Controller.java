@@ -2,6 +2,8 @@ package tetris;
 
 import java.util.Observer;
 
+import highscore.GameEntry;
+import highscore.ScoreBoard;
 import tetris.scenes.PreviewAdapter;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
@@ -18,6 +20,7 @@ import logging.Logger;
 public class Controller {
 
     private Score score;
+    private ScoreBoard scoreBoard;
     private View ui;
     private Grid grid;
     private AbstractTetromino tetromino;
@@ -45,6 +48,7 @@ public class Controller {
         this.ui = ui;
         Logger.setDebugOn();
         score = new Score();
+        scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
     }
 
@@ -128,14 +132,23 @@ public class Controller {
         settings.getBoard().setFill(Color.RED);
         settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
             settings.boardHeight() * settings.blockSize() / 2);
-        // runLater prevent "Not on FX thread" error, don't know why. Have to
-        // look into this later.
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ui.gotoPromptNameScreen();
-            }
-        });
+
+        if(scoreBoard.isHighscore(score.getScore())) {
+            // runLater prevent "Not on FX thread" error, don't know why. Have to look into this later.
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    ui.gotoPromptNameScreen();
+                }
+            });
+        } else {
+            ui.gotoHighscoreScreen();
+        }
+    }
+
+    public void registerHighScore(CharSequence playerName) {
+        scoreBoard.add(new GameEntry(playerName.toString(), score.getScore()));
+        ui.gotoHighscoreScreen();
     }
 
     /**
@@ -250,7 +263,7 @@ public class Controller {
 
     /**
      * drawRectanglePreview draws one cube on the preview grid.
-     * 
+     *
      * @param board
      *            specifies the gameboard(canvas) to draw on
      * @param color
@@ -283,7 +296,7 @@ public class Controller {
         settings.getPreview().fillRect(0, 0, 6 * settings.blockSize(), 5 * settings.blockSize());
     }
 
-    public void registerHighScore(CharSequence playerName) {
-        System.out.println(playerName);
+    public ScoreBoard getScoreBoard() {
+        return scoreBoard;
     }
 }

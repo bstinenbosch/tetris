@@ -1,5 +1,8 @@
 package tetris;
 
+import highscore.GameEntry;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import tetris.scenes.GameScreen;
 import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;
@@ -74,6 +77,8 @@ public class View extends Application {
     public void gotoHighscoreScreen() {
         HighscoreScreen highscoreView = new HighscoreScreen();
         highscoreView.hookEvents(controller);
+        ObservableList<GameEntry> gameEntryObservableList = FXCollections.observableArrayList(controller.getScoreBoard().getScores());
+        highscoreView.setHighscoreData(gameEntryObservableList);
         primaryStage.setScene(new Scene(highscoreView));
     }
 
