@@ -141,6 +141,8 @@ public class Controller {
                     ui.gotoPromptNameScreen();
                 }
             });
+        } else {
+            ui.gotoHighscoreScreen();
         }
     }
 
