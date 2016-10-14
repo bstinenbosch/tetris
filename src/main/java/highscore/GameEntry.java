@@ -10,20 +10,6 @@ public class GameEntry {
         this.name = name;
     }
 
-    public GameEntry(int score) {
-        this.score = score;
-        this.name = "";
-    }
-
-    /**
-     * Set the name of the game entry.
-     * 
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
     /**
      * Return the name of the game entry.
      * 
