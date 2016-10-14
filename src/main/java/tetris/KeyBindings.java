@@ -50,14 +50,14 @@ public final class KeyBindings {
      *            the new keycode that points to the key
      */
     public void put(String key, String binding) {
-        String oldBinding = getBinding(key);
-        bindings.remove(oldBinding);
+        //String oldBinding = getBinding(key);
+        bindings.remove(key);
         bindings.put(binding, key);
     }
 
-    public String getKey(String binding) {
-        return bindings.getOrDefault(binding, "no key assigned");
-    }
+//    public String getKey(String binding) {
+//        return bindings.getOrDefault(binding, "no key assigned");
+//    }
 
     public Set<String> getKeys() {
         return bindings.keySet();
@@ -71,9 +71,19 @@ public final class KeyBindings {
      * @return the associated keycode.
      */
     public String getBinding(String key) {
-        for (String binding : bindings.keySet()) {
-            if (key.equals(bindings.get(binding))) {
-                return binding;
+        String binding = bindings.get(key);
+
+        if(binding == null) {
+            throw new IllegalArgumentException("You requested the binding of a key that is not bound.");
+        }
+
+        return binding;
+    }
+
+    public String getKey(String binding) {
+        for (String key : bindings.keySet()) {
+            if (binding.equals(bindings.get(key))) {
+                return key;
             }
         }
         throw new IllegalArgumentException("You requested the binding of a key that is not bound.");

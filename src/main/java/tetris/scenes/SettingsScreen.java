@@ -47,7 +47,7 @@ public class SettingsScreen extends Group implements IScreen {
         keyResultTextField.setEditable(false);
         actionCombobox.getItems().addAll(settings.getKeyBindings().values());
         actionCombobox.setOnAction(event -> keyResultTextField
-            .setText(settings.getKeyBindings().getBinding(actionCombobox.getValue()).toString()));
+            .setText(settings.getKeyBindings().getKey(actionCombobox.getValue())));
         keyResultTextField.setOnKeyPressed(
             event -> keyResultTextFieldOnKeyPressed(keyResultTextField, actionCombobox, event));
 

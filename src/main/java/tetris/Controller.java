@@ -60,29 +60,36 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         if (!gameOver) {
-            switch (settings.getKeyBindings().getKey(event.getCode().toString())) {
-                case "ROTATE RIGHT":
-                    movementHandler.checkRotateRight(tetromino, grid);
-                    break;
-                case "MOVE LEFT":
-                    movementHandler.checkMoveLeft(tetromino, grid);
-                    break;
-                case "MOVE RIGHT":
-                    movementHandler.checkMoveRight(tetromino, grid);
-                    break;
-                case "ROTATE LEFT":
-                    movementHandler.checkRotateLeft(tetromino, grid);
-                    break;
-                case "SOFT DROP":
-                    movementHandler.lowerTetromino(tetromino, grid);
-                    break;
-                case "HARD DROP":
-                    movementHandler.hardDrop(tetromino, grid);
-                    break;
-                default:
-                    break;
+            try {
+                String binding = settings.getKeyBindings().getBinding(event.getCode().toString());
+
+                switch (binding) {
+                    case "ROTATE RIGHT":
+                        movementHandler.checkRotateRight(tetromino, grid);
+                        break;
+                    case "MOVE LEFT":
+                        movementHandler.checkMoveLeft(tetromino, grid);
+                        break;
+                    case "MOVE RIGHT":
+                        movementHandler.checkMoveRight(tetromino, grid);
+                        break;
+                    case "ROTATE LEFT":
+                        movementHandler.checkRotateLeft(tetromino, grid);
+                        break;
+                    case "SOFT DROP":
+                        movementHandler.lowerTetromino(tetromino, grid);
+                        break;
+                    case "HARD DROP":
+                        movementHandler.hardDrop(tetromino, grid);
+                        break;
+                    default:
+                        break;
+                }
+                redraw();
+            } catch(IllegalArgumentException e) {
+                e.getMessage();
+                Logger.warning(this, "Key binding not set.");
             }
-            redraw();
         }
     }
 
