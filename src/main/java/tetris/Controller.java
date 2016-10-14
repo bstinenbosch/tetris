@@ -2,10 +2,11 @@ package tetris;
 
 import java.util.Observer;
 
-import javafx.application.Platform;
+import tetris.scenes.PreviewTetrominoPaneAdapter;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
+import javafx.application.Platform;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -21,6 +22,8 @@ public class Controller {
     private Grid grid;
     private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
+    private int LeftOffSet;
+    private int BottomOffSet;
     private boolean gameOver = false;
     private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
@@ -87,10 +90,15 @@ public class Controller {
 
         grid.clearLines();
         Coordinate position = new Coordinate(grid.width() / 2, grid.height());
-        Coordinate position2 = new Coordinate(2, 2);
+
+        Coordinate position2 = new Coordinate(0, 0);
 
         tetromino = TetrominoFactory.createRandom(position);
         tetromino2 = TetrominoFactory.getLast(position2);
+
+        PreviewTetrominoPaneAdapter adapter = new PreviewTetrominoPaneAdapter(tetromino2);
+        this.LeftOffSet = adapter.getLeftOffSet();
+        this.BottomOffSet = adapter.getBottomOffSet();
 
         redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
@@ -119,10 +127,12 @@ public class Controller {
         settings.getBoard().setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
         settings.getBoard().setFill(Color.RED);
         settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
-                settings.boardHeight() * settings.blockSize() / 2);
-        // runLater prevent "Not on FX thread" error, don't know why. Have to look into this later.
+            settings.boardHeight() * settings.blockSize() / 2);
+        // runLater prevent "Not on FX thread" error, don't know why. Have to
+        // look into this later.
         Platform.runLater(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 ui.gotoPromptNameScreen();
             }
         });
@@ -238,12 +248,24 @@ public class Controller {
         }
     }
 
+    /**
+     * drawRectanglePreview draws one cube on the preview grid.
+     * 
+     * @param board
+     *            specifies the gameboard(canvas) to draw on
+     * @param color
+     *            specifies the color pair to draw in (color pairs provided by
+     *            setColor)
+     * @param coordinate
+     *            the cube in the grid that is to be drawn.
+     */
     private void drawRectanglePreview(int color, Coordinate coordinate) {
         if (color > 0) {
             settings.getPreview().setFill(settings.getColor(color));
-            settings.getPreview().fillRoundRect(coordinate.getX() * settings.blockSize(),
-                (5 - 1 - coordinate.getY()) * settings.blockSize(), settings.blockSize(),
-                settings.blockSize(), settings.corner(), settings.corner());
+            settings.getPreview().fillRoundRect(
+                coordinate.getX() * settings.blockSize() + this.LeftOffSet,
+                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.BottomOffSet,
+                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
         }
     }
 
