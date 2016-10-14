@@ -116,17 +116,14 @@ public class ScoreBoard {
                 while (i > 0 && board[i - 1].getScore() < newScore) {
                     board[i] = board[i - 1];
                     i--;
-                }
-                board[i] = entry;
+                }board[i] = entry;
             }
             SaveScores();
         }
     }
 
     public boolean isHighscore(int score) {
-        if (numEntries < board.length || score > board[numEntries - 1].getScore())
-            return true;
-        return false;
+        return (numEntries < board.length || score > board[numEntries - 1].getScore());
     }
 
     public String toString() {
