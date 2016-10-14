@@ -293,4 +293,8 @@ public class Controller {
         settings.getPreview().setFill(Color.BLACK);
         settings.getPreview().fillRect(0, 0, 6 * settings.blockSize(), 5 * settings.blockSize());
     }
+
+    public ScoreBoard getScoreBoard() {
+        return scoreBoard;
+    }
 }
