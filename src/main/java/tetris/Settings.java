@@ -106,7 +106,7 @@ public class Settings {
             // set keyBindings
             Element keyBindings = doc.createElement("keyBindings");
             rootElement.appendChild(keyBindings);
-            String[] keys = keybindings.getKeys().toArray(new String[5]);
+            String[] keys = keybindings.getKeys().toArray(new String[6]);
             // set Left
             Element left = doc.createElement("left");
             left.appendChild(doc.createTextNode(keys[0]));

@@ -7,14 +7,20 @@ import static org.junit.Assert.assertEquals;
 public class ScoreBoardTest {
 
     @Test
+    public void LoadScoresTest() {
+        ScoreBoard board = new ScoreBoard("src/test/resources/highscores.xml");
+        assertEquals("{(Pascal, 700), (Bas, 500)}", board.toString());
+    }
+
+    @Test
     public void toStringTest() {
-        ScoreBoard board = new ScoreBoard();
+        ScoreBoard board = new ScoreBoard("");
         assertEquals("{}", board.toString());
     }
 
     @Test
     public void addEntryTest() {
-        ScoreBoard board = new ScoreBoard();
+        ScoreBoard board = new ScoreBoard("");
         GameEntry entry = new GameEntry("Pascal", 500);
         board.add(entry);
         assertEquals("{(Pascal, 500)}", board.toString());
@@ -22,7 +28,7 @@ public class ScoreBoardTest {
 
     @Test
     public void addEntryHigherTest() {
-        ScoreBoard board = new ScoreBoard();
+        ScoreBoard board = new ScoreBoard("");
         GameEntry entry = new GameEntry("Pascal", 500);
         board.add(entry);
         entry = new GameEntry("Bas", 700);
@@ -31,7 +37,7 @@ public class ScoreBoardTest {
     }
 
     public void addEntryLowerTest() {
-        ScoreBoard board = new ScoreBoard();
+        ScoreBoard board = new ScoreBoard("");
         GameEntry entry = new GameEntry("Pascal", 500);
         board.add(entry);
         entry = new GameEntry("Robbert", 300);
@@ -40,7 +46,7 @@ public class ScoreBoardTest {
     }
 
     public void addFullLowerTest() {
-        ScoreBoard board = new ScoreBoard();
+        ScoreBoard board = new ScoreBoard("");
         board.add(new GameEntry("Player1", 1000));
         board.add(new GameEntry("Player2", 900));
         board.add(new GameEntry("Player3", 800));
@@ -59,7 +65,7 @@ public class ScoreBoardTest {
     }
 
     public void addFullHigherTest() {
-        ScoreBoard board = new ScoreBoard();
+        ScoreBoard board = new ScoreBoard("");
         board.add(new GameEntry("Player1", 1000));
         board.add(new GameEntry("Player2", 900));
         board.add(new GameEntry("Player3", 800));
@@ -78,7 +84,7 @@ public class ScoreBoardTest {
     }
 
     public void isHighscoreFullYesTest() {
-        ScoreBoard board = new ScoreBoard();
+        ScoreBoard board = new ScoreBoard("");
         board.add(new GameEntry("Player1", 1000));
         board.add(new GameEntry("Player2", 900));
         board.add(new GameEntry("Player3", 800));
@@ -94,7 +100,7 @@ public class ScoreBoardTest {
     }
 
     public void isHighscoreFullNoTest() {
-        ScoreBoard board = new ScoreBoard();
+        ScoreBoard board = new ScoreBoard("");
         board.add(new GameEntry("Player1", 1000));
         board.add(new GameEntry("Player2", 900));
         board.add(new GameEntry("Player3", 800));
