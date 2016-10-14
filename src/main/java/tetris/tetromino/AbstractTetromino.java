@@ -124,6 +124,10 @@ public abstract class AbstractTetromino {
         return left;
     }
 
+    public Coordinate getleft() {
+        return this.position;
+    }
+
     /**
      * Determines horizontal position of rightmost Mino.
      *

@@ -13,4 +13,5 @@ public enum TetrominoType {
     public static TetrominoType random() {
         return VALUES[RANDOM.nextInt(SIZE)];
     }
+
 }
