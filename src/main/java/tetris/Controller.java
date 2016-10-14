@@ -2,8 +2,6 @@ package tetris;
 
 import java.util.Observer;
 
-import highscore.GameEntry;
-import highscore.ScoreBoard;
 import tetris.scenes.PreviewAdapter;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
@@ -11,10 +9,9 @@ import tetris.tetromino.TetrominoFactory;
 import javafx.application.Platform;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.TextAlignment;
 
+import highscore.GameEntry;
+import highscore.ScoreBoard;
 import logging.Logger;
 
 public class Controller {
@@ -50,6 +47,7 @@ public class Controller {
         score = new Score();
         scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
+        timer.start();
     }
 
     /**
@@ -61,32 +59,31 @@ public class Controller {
     public void handleKeyEvent(KeyEvent event) {
         if (!gameOver) {
             try {
-                String binding = settings.getKeyBindings().getBinding(event.getCode().toString());
-
+                String binding = settings.getKeyBindings().getKey(event.getCode());
                 switch (binding) {
-                    case "ROTATE RIGHT":
+                    case "ROTATE_RIGHT":
                         movementHandler.checkRotateRight(tetromino, grid);
                         break;
-                    case "MOVE LEFT":
+                    case "MOVE_LEFT":
                         movementHandler.checkMoveLeft(tetromino, grid);
                         break;
-                    case "MOVE RIGHT":
+                    case "MOVE_RIGHT":
                         movementHandler.checkMoveRight(tetromino, grid);
                         break;
-                    case "ROTATE LEFT":
+                    case "ROTATE_LEFT":
                         movementHandler.checkRotateLeft(tetromino, grid);
                         break;
-                    case "SOFT DROP":
+                    case "SOFT_DROP":
                         movementHandler.lowerTetromino(tetromino, grid);
                         break;
-                    case "HARD DROP":
+                    case "HARD_DROP":
                         movementHandler.hardDrop(tetromino, grid);
                         break;
                     default:
                         break;
                 }
                 redraw();
-            } catch(IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 e.getMessage();
                 Logger.warning(this, "Key binding not set.");
             }
@@ -110,8 +107,6 @@ public class Controller {
         PreviewAdapter adapter = new PreviewAdapter(tetromino2);
         this.LeftOffSet = adapter.getLeftOffSet();
         this.BottomOffSet = adapter.getBottomOffSet();
-
-        redraw();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
 
@@ -131,23 +126,9 @@ public class Controller {
      * gameOver handles the end of the game.
      */
     public void gameOver() {
-        timer.pause();
-        gameOver = true;
-        Logger.log(this, Logger.LogType.INFO, "game restarted");
-        settings.getBoard().setTextAlign(TextAlignment.CENTER);
-        settings.getBoard().setFont(Font.font("Tahoma", FontWeight.EXTRA_BOLD, 20));
-        settings.getBoard().setFill(Color.RED);
-        settings.getBoard().fillText("GAME OVER", settings.boardWidth() * settings.blockSize() / 2,
-            settings.boardHeight() * settings.blockSize() / 2);
-
-        if(scoreBoard.isHighscore(score.getScore())) {
-            // runLater prevent "Not on FX thread" error, don't know why. Have to look into this later.
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    ui.gotoPromptNameScreen();
-                }
-            });
+        stopGame();
+        if (score.getScore() > 0 && scoreBoard.isHighscore(score.getScore())) {
+            Platform.runLater(() -> ui.gotoPromptNameScreen());
         } else {
             ui.gotoHighscoreScreen();
         }
@@ -156,6 +137,11 @@ public class Controller {
     public void registerHighScore(CharSequence playerName) {
         scoreBoard.add(new GameEntry(playerName.toString(), score.getScore()));
         ui.gotoHighscoreScreen();
+    }
+
+    private void stopGame() {
+        timer.pause();
+        gameOver = true;
     }
 
     /**
@@ -177,7 +163,8 @@ public class Controller {
         gameOver = false;
         grid = new Grid(settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
-        timer.start();
+        timer.unpause();
+        ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
     }
 
@@ -186,6 +173,7 @@ public class Controller {
     }
 
     public void openMainScreen() {
+        stopGame();
         ui.gotoMainScreen();
     }
 

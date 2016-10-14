@@ -30,6 +30,7 @@ public class GameScreen extends Group implements IScreen {
         Pane leftPane = setUpLeftPaneGameScreen();
         GridPane rootGameScreen = setUpRootPaneGameScreen(leftPane, rightPane);
         getChildren().add(rootGameScreen);
+        rootGameScreen.setStyle("-fx-background-color: grey");
     }
 
     private Pane setUpLeftPaneGameScreen() {
@@ -39,7 +40,6 @@ public class GameScreen extends Group implements IScreen {
         settings.setBoard(canvas.getGraphicsContext2D());
         Pane leftPane = new Pane();
         leftPane.getChildren().add(canvas);
-        leftPane.setStyle("-fx-background-color: grey");
         return leftPane;
     }
 
@@ -65,7 +65,6 @@ public class GameScreen extends Group implements IScreen {
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
         box.getChildren().addAll(exitButton, restartButton, scoreLabel, backButton, setUpPreview());
-        box.setStyle("-fx-background-color: grey");
         return box;
     }
 
@@ -79,7 +78,10 @@ public class GameScreen extends Group implements IScreen {
     public void hookEvents(Controller controller) {
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
-        backButton.setOnAction(event -> controller.openMainScreen());
+        backButton.setOnAction(event -> {
+            controller.gameOver();
+            controller.openMainScreen();
+        });
         controller.addScoreObserver(scoreLabel);
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }

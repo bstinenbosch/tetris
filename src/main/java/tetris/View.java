@@ -1,8 +1,5 @@
 package tetris;
 
-import highscore.GameEntry;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import tetris.scenes.GameScreen;
 import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;
@@ -10,8 +7,13 @@ import tetris.scenes.PromptNameScreen;
 import tetris.scenes.SettingsScreen;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import highscore.GameEntry;
 
 /**
  * MainScreen is the class containing all the GUI-related stuff. Here we draw up
@@ -33,6 +35,7 @@ public class View extends Application {
         settings = new Settings("src/main/resources/settings.xml");
         controller = new Controller(this, settings);
         this.primaryStage = primaryStage;
+        this.primaryStage.initStyle(StageStyle.UNDECORATED);
         gotoMainScreen();
         primaryStage.show();
     }
@@ -77,7 +80,8 @@ public class View extends Application {
     public void gotoHighscoreScreen() {
         HighscoreScreen highscoreView = new HighscoreScreen();
         highscoreView.hookEvents(controller);
-        ObservableList<GameEntry> gameEntryObservableList = FXCollections.observableArrayList(controller.getScoreBoard().getScores());
+        ObservableList<GameEntry> gameEntryObservableList = FXCollections
+            .observableArrayList(controller.getScoreBoard().getScores());
         highscoreView.setHighscoreData(gameEntryObservableList);
         primaryStage.setScene(new Scene(highscoreView));
     }
@@ -95,6 +99,6 @@ public class View extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
+        launch();
     }
 }

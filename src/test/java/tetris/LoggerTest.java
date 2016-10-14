@@ -1,5 +1,8 @@
 package tetris;
 
+import static com.jayway.awaitility.Awaitility.with;
+import static com.jayway.awaitility.Duration.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,10 +10,6 @@ import java.util.concurrent.Callable;
 
 import org.junit.Test;
 
-import static com.jayway.awaitility.Awaitility.await;
-import static com.jayway.awaitility.Awaitility.with;
-import static com.jayway.awaitility.Duration.*;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,7 +23,7 @@ public class LoggerTest {
     public void test_logcreate() throws Exception {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
-//        Logger.clearLog();
+        // Logger.clearLog();
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
@@ -93,6 +92,7 @@ public class LoggerTest {
 
         assertEquals(10, count);
     }
+
     @Test
     public void test_getters() throws ClassCastException {
         assertTrue(Logger.getLogDir() instanceof String);
@@ -100,19 +100,15 @@ public class LoggerTest {
     }
 
     private void asyncWaitForFileCreation(String testloc) throws Exception {
-        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
-                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
-                .and().with().timeout(ONE_MINUTE)
-                .await("file creation")
-                .until(fileIsCreatedOnDisk(testloc), equalTo(true));
+        with().pollDelay(ONE_HUNDRED_MILLISECONDS).and().with()
+            .pollInterval(TWO_HUNDRED_MILLISECONDS).and().with().timeout(ONE_MINUTE)
+            .await("file creation").until(fileIsCreatedOnDisk(testloc), equalTo(true));
     }
 
     private void asyncWaitForFileRemoval(String testloc) throws Exception {
-        with().pollDelay(ONE_HUNDRED_MILLISECONDS)
-                .and().with().pollInterval(TWO_HUNDRED_MILLISECONDS)
-                .and().with().timeout(ONE_MINUTE)
-                .await("file removal")
-                .until(fileIsRemovedFromDisk(testloc), equalTo(true));
+        with().pollDelay(ONE_HUNDRED_MILLISECONDS).and().with()
+            .pollInterval(TWO_HUNDRED_MILLISECONDS).and().with().timeout(ONE_MINUTE)
+            .await("file removal").until(fileIsRemovedFromDisk(testloc), equalTo(true));
     }
 
     private Callable<Boolean> fileIsCreatedOnDisk(final String filename) {

@@ -15,6 +15,7 @@ public class MainScreen extends Group implements IScreen {
     private Button startNewGameButton;
     private Button settingsButton;
     private Button highscoreButton;
+    private Button exitButton;
 
     /**
      * the main screen is the central entry point for the game and the root of
@@ -25,19 +26,23 @@ public class MainScreen extends Group implements IScreen {
         titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
 
         startNewGameButton = new Button("Start new game");
-        startNewGameButton.setStyle("-fx-background-color: red");
+        startNewGameButton.setStyle("-fx-background-color: red;-fx-text-fill:white");
 
         settingsButton = new Button("Settings");
-        settingsButton.setStyle("-fx-background-color: green");
+        settingsButton.setStyle("-fx-background-color: green;-fx-text-fill:white");
 
         highscoreButton = new Button("Highscores");
-        highscoreButton.setStyle("-fx-background-color: blue");
+        highscoreButton.setStyle("-fx-background-color: blue;-fx-text-fill:white");
+
+        exitButton = new Button("Exit");
+        exitButton.setStyle("-fx-background-color: orange;-fx-text-fill:white");
 
         TilePane root = new TilePane();
         root.setOrientation(Orientation.VERTICAL);
         root.setTileAlignment(Pos.CENTER);
         root.setPadding(new Insets(0, 20, 10, 20));
-        root.getChildren().addAll(titleLabel, startNewGameButton, settingsButton, highscoreButton);
+        root.getChildren().addAll(titleLabel, startNewGameButton, settingsButton, highscoreButton,
+            exitButton);
         root.setStyle("-fx-background-color: black");
         getChildren().add(root);
     }
@@ -47,5 +52,6 @@ public class MainScreen extends Group implements IScreen {
         startNewGameButton.setOnAction(event -> controller.startGame());
         settingsButton.setOnAction(event -> controller.openSettings());
         highscoreButton.setOnAction(event -> controller.viewHighscores());
+        exitButton.setOnAction(event -> controller.stop());
     }
 }
