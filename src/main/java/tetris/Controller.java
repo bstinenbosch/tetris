@@ -205,9 +205,6 @@ public class Controller {
     /**
      * drawGrid draws the entire gameboard. As tetrominos reach their final
      * place, they are registered on the grid to be drawn by this function.
-     * 
-     * @param grid
-     *            the gameboard to draw on the canvas
      */
     private void drawGrid() {
         for (int x = 0; x < settings.boardWidth(); x++) {
@@ -220,9 +217,6 @@ public class Controller {
     /**
      * drawTetromino employs the structure of a tetromino to draw it on a
      * gameboard.
-     * 
-     * @param tetromino
-     *            the tetromino to draw
      */
     private void drawTetromino() {
         for (int i = 0; i < 4; i++) {
@@ -239,8 +233,6 @@ public class Controller {
     /**
      * drawRectangle draws one cube on the game grid.
      * 
-     * @param board
-     *            specifies the gameboard(canvas) to draw on
      * @param color
      *            specifies the color pair to draw in (color pairs provided by
      *            setColor)
@@ -259,8 +251,6 @@ public class Controller {
     /**
      * drawRectanglePreview draws one cube on the preview grid.
      *
-     * @param board
-     *            specifies the gameboard(canvas) to draw on
      * @param color
      *            specifies the color pair to draw in (color pairs provided by
      *            setColor)
