@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -39,6 +40,7 @@ public class SettingsScreen extends Group implements IScreen {
         root.getChildren().add(backButton);
         root.getChildren().add(generateKeySetter(settings));
         getChildren().add(root);
+        root.setStyle("-fx-background-color: black");
     }
 
     private GridPane generateKeySetter(Settings settings) {
@@ -47,7 +49,7 @@ public class SettingsScreen extends Group implements IScreen {
         keyResultTextField.setEditable(false);
         actionCombobox.getItems().addAll(settings.getKeyBindings().values());
         actionCombobox.setOnAction(event -> keyResultTextField
-            .setText(settings.getKeyBindings().getKey(actionCombobox.getValue())));
+            .setText(settings.getKeyBindings().getBinding(actionCombobox.getValue()).toString()));
         keyResultTextField.setOnKeyPressed(
             event -> keyResultTextFieldOnKeyPressed(keyResultTextField, actionCombobox, event));
 
@@ -60,8 +62,7 @@ public class SettingsScreen extends Group implements IScreen {
 
     private void keyResultTextFieldOnKeyPressed(TextField keyResultTextField,
         ComboBox<String> actionCombobox, KeyEvent event) {
-        String keycode = ((KeyEvent) event).getCode().toString();
-        System.out.println(keycode);
+        KeyCode keycode = ((KeyEvent) event).getCode();
         settings.getKeyBindings().put(actionCombobox.getValue(), keycode);
         keyResultTextField.setText(keycode.toString());
     }

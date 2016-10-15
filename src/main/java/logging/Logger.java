@@ -187,7 +187,7 @@ public final class Logger extends Thread {
     /**
      * switch debug off.
      */
-    public static void setDebugOff() {
+    public static synchronized void setDebugOff() {
         if (debug) {
             debug = false;
             try {

@@ -2,15 +2,14 @@ package tetris;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -23,12 +22,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class Settings {
+    private File savePath = new File("src/main/resources/settings.xml");
     private static final int BLOCK_SIZE = 20;
     private static final int BOARD_WIDTH = 10;
     private static final int BOARD_HEIGHT = 20;
     private static final int CORNER = 3;
-    private KeyBindings keybindings;
-    private Color[] colors;
+    private KeyBindings keybindings = new KeyBindings();
+    private Color[] colors = new Color[7];
     private GraphicsContext board;
     private GraphicsContext preview;
 
@@ -37,16 +37,21 @@ public class Settings {
      * variables.
      */
     public Settings() {
-        keybindings = new KeyBindings();
         resetColors();
+        try {
+            loadSettings();
+        } catch (ParserConfigurationException | SAXException | IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public Settings(String path) {
+        savePath = new File(path);
+        resetColors();
         try {
-            loadSettings(path);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            keybindings = new KeyBindings();
-            resetColors();
+            loadSettings();
+        } catch (ParserConfigurationException | SAXException | IOException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -55,26 +60,14 @@ public class Settings {
             Color.PURPLE, Color.RED };
     }
 
-    private void loadSettings(String path)
-        throws ParserConfigurationException, SAXException, IOException {
-        File inputFile = new File(path);
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputFile);
+    private void loadSettings() throws ParserConfigurationException, SAXException, IOException {
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(savePath);
         doc.getDocumentElement().normalize();
+        readKeyBindings(doc.getElementsByTagName("keyBindings").item(0));
+        readColors(doc.getElementsByTagName("color"));
+    }
 
-        // get key bindings
-        String left = doc.getElementsByTagName("left").item(0).getTextContent();
-        String right = doc.getElementsByTagName("right").item(0).getTextContent();
-        String rLeft = doc.getElementsByTagName("rotate_left").item(0).getTextContent();
-        String rRight = doc.getElementsByTagName("rotate_right").item(0).getTextContent();
-        String sDrop = doc.getElementsByTagName("soft_drop").item(0).getTextContent();
-        String hDrop = doc.getElementsByTagName("hard_drop").item(0).getTextContent();
-        keybindings = new KeyBindings(left, right, rLeft, rRight, sDrop, hDrop);
-
-        // get colors
-        colors = new Color[7];
-        NodeList nList = doc.getElementsByTagName("color");
+    private void readColors(NodeList nList) {
         for (int i = 0; i < nList.getLength(); i++) {
             Node nNode = nList.item(i);
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -87,90 +80,67 @@ public class Settings {
                 int intBlue = Integer.parseInt(blue);
                 colors[i] = Color.rgb(intRed, intGreen, intBlue);
             }
-
         }
+    }
 
+    private void readKeyBindings(Node node) {
+        for (int i = 0; i < node.getAttributes().getLength(); i++) {
+            String key = node.getAttributes().item(i).getNodeName();
+            KeyCode binding = KeyCode.getKeyCode(node.getAttributes().item(i).getNodeValue());
+            keybindings.put(key, binding);
+        }
     }
 
     public void saveSettings() {
-        // save scores naar een xml bestand
         try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
-            // build file
-            Document doc = docBuilder.newDocument();
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
             Element rootElement = doc.createElement("settings");
             doc.appendChild(rootElement);
-
-            // set keyBindings
-            Element keyBindings = doc.createElement("keyBindings");
-            rootElement.appendChild(keyBindings);
-            String[] keys = keybindings.getKeys().toArray(new String[6]);
-            // set Left
-            Element left = doc.createElement("left");
-            left.appendChild(doc.createTextNode(keys[0]));
-            keyBindings.appendChild(left);
-            // set Right
-            Element right = doc.createElement("right");
-            right.appendChild(doc.createTextNode(keys[1]));
-            keyBindings.appendChild(right);
-            // set rotate_left
-            Element rotate_left = doc.createElement("rotate_left");
-            rotate_left.appendChild(doc.createTextNode(keys[2]));
-            keyBindings.appendChild(rotate_left);
-            // set rotate_right
-            Element rotate_right = doc.createElement("rotate_right");
-            rotate_right.appendChild(doc.createTextNode(keys[3]));
-            keyBindings.appendChild(rotate_right);
-            // set soft_drop
-            Element soft_drop = doc.createElement("soft_drop");
-            soft_drop.appendChild(doc.createTextNode(keys[4]));
-            keyBindings.appendChild(soft_drop);
-            // set soft_drop
-            Element hard_drop = doc.createElement("hard_drop");
-            hard_drop.appendChild(doc.createTextNode(keys[5]));
-            keyBindings.appendChild(hard_drop);
-
-            // Set colors
-            Element eColors = doc.createElement("colors");
-            rootElement.appendChild(eColors);
-            for (int i = 0; i < colors.length; i++) {
-                Element color = doc.createElement("color");
-                eColors.appendChild(color);
-
-                Element red = doc.createElement("red");
-                double value = colors[i].getRed() * 255;
-                long colorValue = Math.round(value);
-                red.appendChild(doc.createTextNode(Long.toString(colorValue)));
-                color.appendChild(red);
-
-                Element green = doc.createElement("green");
-                value = colors[i].getGreen() * 255;
-                colorValue = Math.round(value);
-                green.appendChild(doc.createTextNode(Long.toString(colorValue)));
-                color.appendChild(green);
-
-                Element blue = doc.createElement("blue");
-                value = colors[i].getBlue() * 255;
-                colorValue = Math.round(value);
-                blue.appendChild(doc.createTextNode(Long.toString(colorValue)));
-                color.appendChild(blue);
-            }
-
-            // Save file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
+            writeKeyBindings(doc, rootElement);
+            writeColors(doc, rootElement);
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("src/main/resources/settings.xml"));
-            transformer.transform(source, result); // Save
+            StreamResult result = new StreamResult(savePath);
+            TransformerFactory.newInstance().newTransformer().transform(source, result);
+        } catch (ParserConfigurationException | TransformerException exception) {
+            exception.printStackTrace();
+        }
+    }
 
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
+    private void writeColors(Document doc, Element rootElement) {
+        Element eColors = doc.createElement("colors");
+        rootElement.appendChild(eColors);
+        for (int i = 0; i < colors.length; i++) {
+            Element color = doc.createElement("color");
+            eColors.appendChild(color);
+
+            Element red = doc.createElement("red");
+            double value = colors[i].getRed() * 255;
+            long colorValue = Math.round(value);
+            red.appendChild(doc.createTextNode(Long.toString(colorValue)));
+            color.appendChild(red);
+
+            Element green = doc.createElement("green");
+            value = colors[i].getGreen() * 255;
+            colorValue = Math.round(value);
+            green.appendChild(doc.createTextNode(Long.toString(colorValue)));
+            color.appendChild(green);
+
+            Element blue = doc.createElement("blue");
+            value = colors[i].getBlue() * 255;
+            colorValue = Math.round(value);
+            blue.appendChild(doc.createTextNode(Long.toString(colorValue)));
+            color.appendChild(blue);
+        }
+    }
+
+    private void writeKeyBindings(Document doc, Element rootElement) {
+        String binding, key;
+        Element keyBindings = doc.createElement("keyBindings");
+        rootElement.appendChild(keyBindings);
+        for (Entry<KeyCode, String> entry : keybindings) {
+            key = entry.getKey().getName();
+            binding = entry.getValue();
+            keyBindings.setAttribute(binding, key);
         }
     }
 
