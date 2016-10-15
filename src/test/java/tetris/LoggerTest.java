@@ -3,6 +3,7 @@ package tetris;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.concurrent.TimeoutException;
 
 import org.junit.Test;
 
@@ -29,42 +30,65 @@ public class LoggerTest {
         test_logdelete();
     }
 
-    public synchronized void test_logcreate() throws Exception {
+    private synchronized void test_logcreate() throws Exception {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
-        // Logger.clearLog();
+        Logger.clearLog();
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
+        waitForFileCreation(testloc);
         assertTrue(new File(testloc).exists());
     }
 
-    public synchronized void test_logdelete() throws Exception {
+    private synchronized void test_logdelete() throws Exception {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
-
         Logger.setDebugOff();
         assertTrue(new File(testloc).exists());
         Logger.setDebugOn();
         Logger.clearLog();
         Logger.setDebugOff();
+        waitForFileRemoval(testloc);
         assertFalse(new File(testloc).exists());
     }
 
-    public synchronized void test_debugMode() throws Exception {
+    private synchronized void test_debugMode() throws Exception {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
         Logger.setDebugOff();
         Logger.clearLog();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
         Logger.setDebugOff();
-        // asyncWaitForFileRemoval(testloc);
+        waitForFileRemoval(testloc);
         assertFalse(new File(testloc).exists());
     }
 
-    public synchronized void test_capLog() throws Exception {
+    private void waitForFileCreation(String testloc) throws InterruptedException, TimeoutException {
+        File file = new File(testloc);
+        int counter = 0;
+        while (!file.exists()) {
+            Thread.sleep(1000);
+            if (counter++ > 60) {
+                throw new TimeoutException("file wasn't created within 60 seconds.");
+            }
+        }
+    }
+
+    private void waitForFileRemoval(String testloc) throws InterruptedException, TimeoutException {
+        File file = new File(testloc);
+        int counter = 0;
+        while (file.exists()) {
+            Thread.sleep(1000);
+            if (counter++ > 60) {
+                throw new TimeoutException("file wasn't removed within 60 seconds.");
+            }
+        }
+    }
+
+    private synchronized void test_capLog() throws Exception {
         String testloc = "test.log";
         Logger.setLogDir(testloc);
         Logger.setLogLength(10);
@@ -80,7 +104,7 @@ public class LoggerTest {
 
         File testlocFile = new File(testloc);
 
-        // asyncWaitForFileCreation(testloc);
+        waitForFileCreation(testloc);
         assertTrue(testlocFile.exists());
 
         int count = 0;
@@ -95,8 +119,9 @@ public class LoggerTest {
         assertEquals(10, count);
     }
 
-    public synchronized void test_getters() throws ClassCastException {
+    private synchronized void test_getters() throws ClassCastException {
         assertTrue(Logger.getLogDir() instanceof String);
-        assertTrue(Logger.getLogLength() == Logger.getLogLength());
+        Logger.setLogLength(10);
+        assertEquals(Logger.getLogLength(), 10);
     }
 }
