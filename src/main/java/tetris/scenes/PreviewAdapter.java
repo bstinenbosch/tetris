@@ -4,57 +4,40 @@ import tetris.tetromino.AbstractTetromino;
 
 public class PreviewAdapter {
 
-    private static int RightPane = 6;
-    private static int TopPane = 6;
-    private static int BlockSize = 20;
-    private int right;
-    private int left;
-    private int top;
-    private int bottom;
-    private int width;
-    private int height;
+    private static final int blockSize = 20;
+    private final int width;
+    private final int height;
 
     /**
      * Creates PreviewTetrominoPaneAdapter object
-     * 
-     * @param tetromino
+     *
+     * @param tetromino tetromino
      */
-
     public PreviewAdapter(AbstractTetromino tetromino) {
-
-        this.left = tetromino.left();
-        this.right = tetromino.right();
-        this.top = tetromino.top();
-        this.bottom = tetromino.bottom();
         this.width = tetromino.right() - tetromino.left() + 1;
         this.height = tetromino.top() - tetromino.bottom() + 1;
-
     }
 
     /**
      * Calculates Left offset and returns it.
-     * 
-     * @return
+     *
+     * @return left offset
      */
     public int getLeftOffSet() {
-
-        int LeftOffSet = ((this.RightPane * this.BlockSize - this.width * BlockSize) / 2)
-            + 1 * BlockSize;
-        return LeftOffSet;
-
+        int rightPane = 6;
+        return ((rightPane * blockSize - width * blockSize) / 2)
+                + blockSize;
     }
 
     /**
      * Calculates Bottom offset and returns it.
-     * 
+     *
      * @return BottomOffSet
      */
     public int getBottomOffSet() {
-
-        int BottomOffSet = ((this.TopPane * this.BlockSize - this.height * BlockSize
-            - 1 * BlockSize) / 2);
-        return BottomOffSet;
-
+        int topPane = 6;
+        return ((topPane * blockSize - height * blockSize
+                - blockSize) / 2);
     }
 
 }
