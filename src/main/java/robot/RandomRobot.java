@@ -2,8 +2,8 @@ package robot;
 
 import java.util.Observable;
 
-import tetris.Controller.Score;
 import tetris.Grid;
+import tetris.Score;
 import tetris.tetromino.AbstractTetromino;
 
 public class RandomRobot implements IRobot {

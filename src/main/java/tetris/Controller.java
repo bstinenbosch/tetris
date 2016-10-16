@@ -298,4 +298,16 @@ public class Controller {
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
     }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public AbstractTetromino getTetromino() {
+        return tetromino;
+    }
 }
