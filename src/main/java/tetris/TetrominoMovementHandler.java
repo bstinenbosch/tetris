@@ -151,13 +151,13 @@ public class TetrominoMovementHandler {
      *            on which the tetromino is moved
      */
     public void lowerTetromino(AbstractTetromino tetromino, Grid grid) {
-        if (checkMoveDown(tetromino, grid)) {
-            return;
-        } else if (tetromino.top() >= grid.height() - 1) {
-            controller.gameOver();
-        } else {
-            grid.registerTetromino(tetromino);
-            controller.dropNewTetromino();
+        if (!checkMoveDown(tetromino, grid)) {
+            if (tetromino.top() >= grid.height() - 1) {
+                controller.gameOver();
+            } else {
+                grid.registerTetromino(tetromino);
+                controller.dropNewTetromino();
+            }
         }
     }
 }
