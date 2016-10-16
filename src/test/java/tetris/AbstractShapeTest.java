@@ -1,14 +1,14 @@
 package tetris;
 
-import static org.junit.Assert.assertEquals;
+import tetris.tetromino.AbstractTetromino;
 
 import org.junit.Test;
 
-import tetris.tetromino.AbstractTetromino;
+import static org.junit.Assert.assertEquals;
 
 public class AbstractShapeTest {
 
-    private AbstractTetromino shape = new DummyShape(new Coordinate(0, 0));
+    private AbstractTetromino shape = new DummyShapeRotationTests(new Coordinate(0, 0));
 
     @Test
     public void test_topmost_coordinate() {
