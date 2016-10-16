@@ -59,7 +59,7 @@ public class Controller {
     public void handleKeyEvent(KeyEvent event) {
         if (!gameOver) {
             try {
-                String binding = settings.getKeyBindings().getKey(event.getCode());
+                String binding = settings.getKeyBindings().getAction(event.getCode());
                 switch (binding) {
                     case "ROTATE_RIGHT":
                         movementHandler.checkRotateRight(tetromino, grid);

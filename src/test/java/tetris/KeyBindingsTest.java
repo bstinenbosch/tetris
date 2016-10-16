@@ -16,7 +16,7 @@ public class KeyBindingsTest {
         Collection<String> bindings = kb.values();
         String str = (String) bindings.toArray()[0];
         kb.put(str, KeyCode.ACCEPT);
-        assertEquals(kb.getKey(KeyCode.ACCEPT), str);
-        assertEquals(kb.getBinding(str), KeyCode.ACCEPT);
+        assertEquals(kb.getAction(KeyCode.ACCEPT), str);
+        assertEquals(kb.getKeyCode(str), KeyCode.ACCEPT);
     }
 }
