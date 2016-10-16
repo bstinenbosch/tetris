@@ -38,26 +38,27 @@ public final class Logger extends Thread {
             try {
                 sleep(10000);
                 if (queue.length() > 0) {
-                    try {
-                        writeToFile();
-                    } catch (IOException exception) {
-                        exception.printStackTrace();
-                    }
+                    writeToFile();
                 }
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
         }
+        writeToFile();
     }
 
-    private void writeToFile() throws IOException {
-        if (!file.exists()) {
-            file.createNewFile();
+    private void writeToFile() {
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter writer = new FileWriter(file, true);
+            writer.write(queue.toString());
+            writer.close();
+            capFileSize();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
-        FileWriter writer = new FileWriter(file, true);
-        writer.write(queue.toString());
-        writer.close();
-        capFileSize();
     }
 
     private void capFileSize() throws IOException {
@@ -149,10 +150,8 @@ public final class Logger extends Thread {
      * picture or something.
      */
     public static void clearLog() {
-        try {
-            Files.deleteIfExists(file.toPath());
-        } catch (IOException exception) {
-            exception.printStackTrace();
+        if (file.exists()) {
+            file.delete();
         }
     }
 
