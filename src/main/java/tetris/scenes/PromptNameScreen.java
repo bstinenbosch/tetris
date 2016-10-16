@@ -13,6 +13,9 @@ public class PromptNameScreen extends Group implements IScreen {
     private Button submit;
     private final TextField playerName;
 
+    /**
+     * Creates a view for asking the players name.
+     */
     public PromptNameScreen() {
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));

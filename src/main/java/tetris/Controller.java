@@ -22,8 +22,8 @@ public class Controller {
     private Grid grid;
     private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
-    private int LeftOffSet;
-    private int BottomOffSet;
+    private int leftOffSet;
+    private int bottomOffSet;
     private boolean gameOver = false;
     private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
@@ -105,8 +105,8 @@ public class Controller {
         tetromino2 = TetrominoFactory.getLast(position2);
 
         PreviewAdapter adapter = new PreviewAdapter(tetromino2);
-        this.LeftOffSet = adapter.getLeftOffSet();
-        this.BottomOffSet = adapter.getBottomOffSet();
+        this.leftOffSet = adapter.getLeftOffSet();
+        this.bottomOffSet = adapter.getBottomOffSet();
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
 
@@ -261,8 +261,8 @@ public class Controller {
         if (color > 0) {
             settings.getPreview().setFill(settings.getColor(color));
             settings.getPreview().fillRoundRect(
-                coordinate.getX() * settings.blockSize() + this.LeftOffSet,
-                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.BottomOffSet,
+                coordinate.getX() * settings.blockSize() + this.leftOffSet,
+                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.bottomOffSet,
                 settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
         }
     }

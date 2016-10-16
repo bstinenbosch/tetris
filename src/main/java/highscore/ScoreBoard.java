@@ -24,6 +24,11 @@ public class ScoreBoard {
     private GameEntry[] board = new GameEntry[10];
     private int numEntries = 0;
 
+    /**
+     * Create a ScoreBoard object holding the 10 best scores.
+     *
+     * @param path path to highscores xml-file
+     */
     public ScoreBoard(String path) {
         try {
             loadScores(path);
@@ -43,25 +48,28 @@ public class ScoreBoard {
         throws ParserConfigurationException, SAXException, IOException {
         File inputFile = new File(path);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputFile);
+        DocumentBuilder documentBuilder = dbFactory.newDocumentBuilder();
+        Document doc = documentBuilder.parse(inputFile);
         doc.getDocumentElement().normalize();
 
-        NodeList nList = doc.getElementsByTagName("gameEntry");
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node nNode = nList.item(i);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
-                String name = eElement.getElementsByTagName("name").item(0).getTextContent();
-                String sScore = eElement.getElementsByTagName("score").item(0).getTextContent();
-                int score = Integer.parseInt(sScore);
-                GameEntry entry = new GameEntry(name, score);
+        NodeList gameEntries = doc.getElementsByTagName("gameEntry");
+        for (int i = 0; i < gameEntries.getLength(); i++) {
+            Node gameEntryNode = gameEntries.item(i);
+            if (gameEntryNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element gameEntry = (Element) gameEntryNode;
+                String name = gameEntry.getElementsByTagName("name").item(0).getTextContent();
+                String scoreElement =
+                        gameEntry.getElementsByTagName("score").item(0).getTextContent();
+                GameEntry entry = new GameEntry(name, Integer.parseInt(scoreElement));
                 add(entry);
             }
         }
     }
 
-    public void SaveScores() {
+    /**
+     * Save scores to xml file.
+     */
+    public void saveScores() {
         // save scores naar een xml bestand
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -105,20 +113,27 @@ public class ScoreBoard {
         return board;
     }
 
+    /**
+     * Add game entry to scoreboard.
+     *
+     * @param entry game entry
+     */
     public void add(GameEntry entry) {
         if (isHighscore(entry.getScore())) {
             int newScore = entry.getScore();
             if (numEntries < board.length || newScore > board[numEntries - 1].getScore()) {
-                if (numEntries < board.length)
+                if (numEntries < board.length) {
                     numEntries++;
+                }
 
-                int i = numEntries - 1;
-                while (i > 0 && board[i - 1].getScore() < newScore) {
-                    board[i] = board[i - 1];
-                    i--;
-                }board[i] = entry;
+                int maxNumEntries = this.numEntries - 1;
+                while (maxNumEntries > 0 && board[maxNumEntries - 1].getScore() < newScore) {
+                    board[maxNumEntries] = board[maxNumEntries - 1];
+                    maxNumEntries--;
+                }
+                board[maxNumEntries] = entry;
             }
-            SaveScores();
+            saveScores();
         }
     }
 
@@ -126,11 +141,17 @@ public class ScoreBoard {
         return (numEntries < board.length || score > board[numEntries - 1].getScore());
     }
 
+    /**
+     * Returns an ScoreBoard object as a string.
+     *
+     * @return scoreboard object as single-line string
+     */
     public String toString() {
         String result = "{";
         for (int i = 0; i < numEntries; i++) {
-            if (i > 0)
+            if (i > 0) {
                 result += ", ";
+            }
             result += board[i].toString();
         }
         result += "}";

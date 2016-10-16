@@ -9,7 +9,7 @@ public class PreviewAdapter {
     private final int height;
 
     /**
-     * Creates PreviewTetrominoPaneAdapter object
+     * Creates PreviewTetrominoPaneAdapter object.
      *
      * @param tetromino tetromino
      */

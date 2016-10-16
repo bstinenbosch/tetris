@@ -71,12 +71,18 @@ public class View extends Application {
         primaryStage.setScene(new Scene(mainview));
     }
 
+    /**
+     * opens to dialog for asking the player's name.
+     */
     public void gotoPromptNameScreen() {
         PromptNameScreen nameScreen = new PromptNameScreen();
         nameScreen.hookEvents(controller);
         primaryStage.setScene(new Scene(nameScreen));
     }
 
+    /**
+     * Opens the highscore table.
+     */
     public void gotoHighscoreScreen() {
         HighscoreScreen highscoreView = new HighscoreScreen();
         highscoreView.hookEvents(controller);
