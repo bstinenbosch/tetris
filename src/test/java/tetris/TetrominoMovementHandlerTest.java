@@ -9,6 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class TetrominoMovementHandlerTest {
+
     private class FakeController extends Controller {
         public int newTetrominosDropped = 0;
 
@@ -29,8 +30,7 @@ public class TetrominoMovementHandlerTest {
         TetrominoMovementHandler handler = new TetrominoMovementHandler(controller);
         Grid grid = new Grid(10, 20);
         for (int i = 0; i < 10; i += 2) {
-            AbstractTetromino tetromino = TetrominoFactory.create(TetrominoType.O,
-                new Coordinate(i, 20));
+            AbstractTetromino tetromino = new DummyShapeO(new Coordinate(i, 20));
             handler.checkMoveLeft(tetromino, grid);
             if (i > 0) {
                 handler.checkMoveRight(tetromino, grid);
@@ -41,8 +41,7 @@ public class TetrominoMovementHandlerTest {
         }
         assertEquals(grid.clearLines(), 2);
         assertEquals(controller.newTetrominosDropped, 5);
-        AbstractTetromino tetromino = TetrominoFactory.create(TetrominoType.I,
-            new Coordinate(10, 20));
+        AbstractTetromino tetromino = new DummyShapeI(new Coordinate(10, 20));
         for (int i = 0; i < 20; i++) {
             handler.checkMoveLeft(tetromino, grid);
         }
