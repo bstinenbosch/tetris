@@ -1,35 +1,67 @@
 package tetris;
 
-import tetris.tetromino.TetrominoFactory;
-import tetris.tetromino.TetrominoType;
+import org.junit.Before;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class GridTest {
 
-    @Test
-    public void testIfGridIsEmptyAtInitialization() {
-        Grid grid = new Grid(10, 20);
-        assertTrue(isEmpty(grid));
-        Coordinate coord = new Coordinate(5, 5);
-        grid.registerTetromino(TetrominoFactory.create(TetrominoType.O, coord));
-        assertFalse(grid.isFree(coord));
-        assertFalse(isEmpty(grid));
-        grid.clearBoard();
-        assertTrue(isEmpty(grid));
-        assertTrue(grid.isFree(coord));
+    private Grid grid;
 
-        grid.registerTetromino(TetrominoFactory.create(TetrominoType.O, new Coordinate(0, 0)));
-        grid.registerTetromino(TetrominoFactory.create(TetrominoType.O, new Coordinate(2, 0)));
-        grid.registerTetromino(TetrominoFactory.create(TetrominoType.O, new Coordinate(4, 0)));
-        grid.registerTetromino(TetrominoFactory.create(TetrominoType.O, new Coordinate(6, 0)));
-        grid.registerTetromino(TetrominoFactory.create(TetrominoType.O, new Coordinate(8, 0)));
-        assertEquals(2, grid.clearLines());
-        assertTrue(isEmpty(grid));
+    @Before
+    public void set_up_grid() {
+        this.grid = new Grid(10, 20);
+    }
+
+    @Test
+    public void test_if_grid_is_empty_at_initialization() {
+        assertThat("grid is empty when initialized", isEmpty(this.grid), equalTo(true));
+    }
+
+    @Test
+    public void test_width_of_grid() {
+        assertThat("width of grid is equal to requested width", this.grid.width(), equalTo(10));
+    }
+
+    @Test
+    public void test_height_of_grid() {
+        assertThat("height of grid is equal to requested width", this.grid.height(), equalTo(20));
+    }
+
+    @Test
+    public void test_register_shape_to_grid() {
+        Grid grid = new Grid(10, 20);
+        Coordinate coordinate = new Coordinate(5, 5);
+        DummyShape shape = new DummyShape(coordinate);
+        grid.registerTetromino(shape);
+
+        assertThat("grid is not empty when a tetromino is registered", isEmpty(grid), equalTo(false));
+    }
+
+    @Test
+    public void test_clear_board() {
+        Coordinate coordinate = new Coordinate(5, 5);
+        DummyShape shape = new DummyShape(coordinate);
+        grid.registerTetromino(shape);
+        grid.clearBoard();
+
+        assertThat("grid is empty after clearing", isEmpty(grid), equalTo(true));
+    }
+
+    @Test
+    public void test_clear_line() {
+        grid.registerTetromino(new DummyShape(new Coordinate(0, 0)));
+        grid.registerTetromino(new DummyShape(new Coordinate(2, 0)));
+        grid.registerTetromino(new DummyShape(new Coordinate(4, 0)));
+        grid.registerTetromino(new DummyShape(new Coordinate(6, 0)));
+        grid.registerTetromino(new DummyShape(new Coordinate(8, 0)));
+
+        assertThat("two lines are cleared when a full row of O-shaped tetrominos " +
+                "is placed at the bottom of the grid", grid.clearLines(), equalTo(2));
     }
 
     private boolean isEmpty(Grid grid) {
