@@ -57,37 +57,9 @@ public class Controller {
      *            the key event to handle.
      */
     public void handleKeyEvent(KeyEvent event) {
-        if (!gameOver) {
-            try {
-                Action binding = settings.getKeyBindings().getAction(event.getCode());
-                switch (binding) {
-                    case ROTATE_RIGHT:
-                        movementHandler.checkRotateRight(tetromino, grid);
-                        break;
-                    case MOVE_LEFT:
-                        movementHandler.checkMoveLeft(tetromino, grid);
-                        break;
-                    case MOVE_RIGHT:
-                        movementHandler.checkMoveRight(tetromino, grid);
-                        break;
-                    case ROTATE_LEFT:
-                        movementHandler.checkRotateLeft(tetromino, grid);
-                        break;
-                    case SOFT_DROP:
-                        movementHandler.lowerTetromino(tetromino, grid);
-                        break;
-                    case HARD_DROP:
-                        movementHandler.hardDrop(tetromino, grid);
-                        break;
-                    default:
-                        break;
-                }
-                redraw();
-            } catch (IllegalArgumentException e) {
-                e.getMessage();
-                Logger.warning(this, "Key binding not set.");
-            }
-        }
+        String binding = settings.getKeyBindings().getAction(event.getCode());
+        movementHandler.handleKeyEvent(binding);
+        redraw();
     }
 
     /**
@@ -296,4 +268,15 @@ public class Controller {
         gameOver = false;
     }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public AbstractTetromino getTetromino() {
+        return tetromino;
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
 }

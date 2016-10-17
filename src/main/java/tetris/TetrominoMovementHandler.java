@@ -13,6 +13,41 @@ public class TetrominoMovementHandler {
     }
 
     /**
+     * handler for key events.
+     * 
+     * @param event
+     *            the key event to handle.
+     */
+    public void handleKeyEvent(String event) {
+        AbstractTetromino tetromino = controller.getTetromino();
+        Grid grid = controller.getGrid();
+        if (controller.isGameOver()) {
+            switch (event) {
+                case "ROTATE_RIGHT":
+                    checkRotateRight(tetromino, grid);
+                    break;
+                case "MOVE_LEFT":
+                    checkMoveLeft(tetromino, grid);
+                    break;
+                case "MOVE_RIGHT":
+                    checkMoveRight(tetromino, grid);
+                    break;
+                case "ROTATE_LEFT":
+                    checkRotateLeft(tetromino, grid);
+                    break;
+                case "SOFT_DROP":
+                    lowerTetromino(tetromino, grid);
+                    break;
+                case "HARD_DROP":
+                    hardDrop(tetromino, grid);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
      * attempt to rotate the tetromino to the right on the grid. do nothing upon
      * failure.
      * 
@@ -21,7 +56,7 @@ public class TetrominoMovementHandler {
      * @param grid
      *            on which the tetromino is moved
      */
-    public void checkRotateRight(AbstractTetromino tetromino, Grid grid) {
+    private void checkRotateRight(AbstractTetromino tetromino, Grid grid) {
         tetromino.rotateRight();
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
@@ -44,7 +79,7 @@ public class TetrominoMovementHandler {
      *            on which the tetromino is moved
      */
 
-    public void checkRotateLeft(AbstractTetromino tetromino, Grid grid) {
+    private void checkRotateLeft(AbstractTetromino tetromino, Grid grid) {
         tetromino.rotateLeft();
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
@@ -66,7 +101,7 @@ public class TetrominoMovementHandler {
      * @param grid
      *            on which the tetromino is moved
      */
-    public void checkMoveLeft(AbstractTetromino tetromino, Grid grid) {
+    private void checkMoveLeft(AbstractTetromino tetromino, Grid grid) {
         if (tetromino.left() > 0) {
             tetromino.moveLeft();
         }
@@ -89,7 +124,7 @@ public class TetrominoMovementHandler {
      * @param grid
      *            on which the tetromino is moved
      */
-    public void checkMoveRight(AbstractTetromino tetromino, Grid grid) {
+    private void checkMoveRight(AbstractTetromino tetromino, Grid grid) {
         if (tetromino.right() < grid.width() - 1) {
             tetromino.moveRight();
         }
@@ -114,7 +149,7 @@ public class TetrominoMovementHandler {
      * 
      * @return success/failure
      */
-    public boolean checkMoveDown(AbstractTetromino tetromino, Grid grid) {
+    private boolean checkMoveDown(AbstractTetromino tetromino, Grid grid) {
         tetromino.moveDown();
         for (int i = 0; i < 4; i++) {
             if (!grid.isFree(tetromino.get(i))) {
@@ -135,7 +170,7 @@ public class TetrominoMovementHandler {
      * @param grid
      *            on which the tetromino is moved
      */
-    public void hardDrop(AbstractTetromino tetromino, Grid grid) {
+    private void hardDrop(AbstractTetromino tetromino, Grid grid) {
         while (checkMoveDown(tetromino, grid)) {
         }
         lowerTetromino(tetromino, grid);
@@ -150,7 +185,7 @@ public class TetrominoMovementHandler {
      * @param grid
      *            on which the tetromino is moved
      */
-    public void lowerTetromino(AbstractTetromino tetromino, Grid grid) {
+    private void lowerTetromino(AbstractTetromino tetromino, Grid grid) {
         if (!checkMoveDown(tetromino, grid)) {
             if (tetromino.top() >= grid.height() - 1) {
                 controller.gameOver();
