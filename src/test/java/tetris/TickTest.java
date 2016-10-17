@@ -1,5 +1,7 @@
 package tetris;
 
+import java.util.Observable;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -64,5 +66,24 @@ public class TickTest extends Thread {
         Tick tick = new Tick(event -> counter.increaseCounter());
         tick.setTime(500);
         Assert.assertEquals(tick.getTime(), 500);
+    }
+
+    @Test
+    public void test_update_from_score() {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
+        int arg = 40;
+        tick.update(new Score(), arg);
+        Assert.assertEquals(tick.getTime(), (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg)));
+    }
+
+    @Test
+    public void test_update_from_other() {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
+        int arg = 40;
+        tick.update(new Observable(), arg);
+        Assert.assertNotEquals(tick.getTime(),
+            (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg)));
     }
 }
