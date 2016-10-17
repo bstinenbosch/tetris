@@ -154,6 +154,17 @@ public class Controller {
         Logger.setDebugOff();
     }
 
+    public void pauze() {
+        timer.pause();
+        gameOver = true;
+    }
+
+    public void unpauze() {
+        timer.unpause();
+        ui.resetFocus();
+        gameOver = false;
+    }
+
     /**
      * starts the game.
      */

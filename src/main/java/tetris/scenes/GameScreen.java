@@ -16,6 +16,8 @@ public class GameScreen extends Group implements IScreen {
     private Button exitButton;
     private Button restartButton;
     private Button backButton;
+    private Button pauzeButton;
+    private Button unpauseButton;
     private ObservingLabel scoreLabel;
 
     /**
@@ -56,6 +58,8 @@ public class GameScreen extends Group implements IScreen {
         exitButton = new Button("exit");
         restartButton = new Button("restart");
         backButton = new Button("back");
+        pauzeButton = new Button("pause");
+        unpauseButton = new Button("unpause");
         scoreLabel = new ObservingLabel("0");
         scoreLabel
             .setStyle("-fx-background-color:red;-fx-text-fill:black;-fx-text-alignment:center;"
@@ -64,7 +68,8 @@ public class GameScreen extends Group implements IScreen {
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(exitButton, restartButton, scoreLabel, backButton, setUpPreview());
+        box.getChildren().addAll(exitButton, unpauseButton, restartButton, scoreLabel, backButton,
+            pauzeButton, setUpPreview());
         return box;
     }
 
@@ -76,12 +81,15 @@ public class GameScreen extends Group implements IScreen {
 
     @Override
     public void hookEvents(Controller controller) {
+        pauzeButton.setOnAction(event -> controller.pauze());
+
         exitButton.setOnAction(event -> controller.stop());
         restartButton.setOnAction(event -> controller.restartGame());
         backButton.setOnAction(event -> {
             controller.gameOver();
             controller.openMainScreen();
         });
+        unpauseButton.setOnAction(event -> controller.unpauze());
         controller.addScoreObserver(scoreLabel);
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }
