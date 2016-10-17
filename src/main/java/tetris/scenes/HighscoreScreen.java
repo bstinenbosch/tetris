@@ -1,7 +1,6 @@
 package tetris.scenes;
 
 import highscore.GameEntry;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.*;
 import javafx.scene.control.Button;
