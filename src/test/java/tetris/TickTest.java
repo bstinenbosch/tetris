@@ -4,53 +4,64 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class TickTest extends Thread {
-    boolean trueReported = false;
+    private class Counter {
+        private int counter = 0;
+
+        public void increaseCounter() {
+            counter++;
+        }
+
+        public int get() {
+            return counter;
+        }
+
+        public void set(int newCounter) {
+            counter = newCounter;
+        }
+    }
 
     @Test
     public void test_fire_ontick_event_paused() throws InterruptedException {
-        trueReported = false;
-        Tick tick = new Tick(event -> reportTrue());
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
         tick.setTime(100);
         tick.pause();
         tick.start();
         sleep(1550);
-        Assert.assertFalse(trueReported);
+        Assert.assertFalse(counter.get() > 0);
         tick.requestStop();
     }
 
     @Test
     public void test_fire_ontick_event_unpaused() throws InterruptedException {
-        trueReported = false;
-        Tick tick = new Tick(event -> reportTrue());
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
         tick.setTime(100);
         tick.unpause();
         tick.start();
         sleep(1550);
-        Assert.assertTrue(trueReported);
+        Assert.assertTrue(counter.get() > 0);
         tick.requestStop();
 
     }
 
     @Test
-    public void test_fire_ontick_event_stoped() throws InterruptedException {
-        Tick tick = new Tick(event -> reportTrue());
+    public void test_fire_ontick_event_stopped() throws InterruptedException {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
         tick.setTime(100);
         tick.start();
-        tick.unpause();
         tick.requestStop();
         sleep(1550);
-        trueReported = false;
+        counter.set(0);
         sleep(1550);
-        Assert.assertFalse(trueReported);
-    }
-
-    private void reportTrue() {
-        trueReported = true;
+        Assert.assertFalse(counter.get() > 0);
     }
 
     @Test
     public void test_setters_getters() {
-        Tick tick = new Tick(event -> reportTrue());
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
         tick.setTime(500);
         Assert.assertEquals(tick.getTime(), 500);
     }
