@@ -3,7 +3,11 @@ package tetris;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyCode;
 
@@ -31,32 +35,34 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
      * put a new keybinding in place, removing possible conflicting old
      * bindings.
      * 
-     * @param key
+     * @param action
      *            the key that is replaced
-     * @param binding
+     * @param keyCode
      *            the new keycode that points to the key
      */
-    public void put(String key, KeyCode binding) {
-        KeyCode oldBinding = getBinding(key);
-        bindings.remove(oldBinding);
-        bindings.put(binding, key);
+    public void put(String action, KeyCode keyCode) {
+        if (!bindings.containsKey(keyCode)) {
+            KeyCode oldBinding = getKeyCode(action);
+            bindings.remove(oldBinding);
+            bindings.put(keyCode, action);
+        }
     }
 
-    public String getKey(KeyCode binding) {
-        return bindings.getOrDefault(binding, "no key assigned");
+    public String getAction(KeyCode keyCode) {
+        return bindings.getOrDefault(keyCode, "no key assigned");
     }
 
     /**
      * get the keycode that is associated with key.
      * 
-     * @param key
+     * @param action
      *            the key to search for in the associations
      * @return the associated keycode.
      */
-    public KeyCode getBinding(String key) {
-        for (KeyCode binding : bindings.keySet()) {
-            if (key.equals(bindings.get(binding))) {
-                return binding;
+    public KeyCode getKeyCode(String action) {
+        for (KeyCode keycode : bindings.keySet()) {
+            if (action.equals(bindings.get(keycode))) {
+                return keycode;
             }
         }
         throw new IllegalArgumentException("You requested the binding of a key that is not bound.");
@@ -65,5 +71,18 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
     @Override
     public Iterator<Entry<KeyCode, String>> iterator() {
         return bindings.entrySet().iterator();
+    }
+
+    /**
+     * courtesy of
+     * http://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values-java.
+     * 
+     * @return a value-sorted version of bindings.
+     */
+    public Set<Entry<KeyCode, String>> getSortedEntrySet() {
+        return bindings.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(/* Collections.reverseOrder() */)).collect(Collectors
+                .toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
+            .entrySet();
     }
 }
