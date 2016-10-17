@@ -2,6 +2,7 @@ package tetris.scenes;
 
 import java.util.Map.Entry;
 
+import tetris.Action;
 import tetris.Controller;
 import tetris.Settings;
 
@@ -56,27 +57,26 @@ public class SettingsScreen extends Group implements IScreen {
      * @return the table.
      */
     @SuppressWarnings("unchecked")
-    private TableView<Entry<KeyCode, String>> generateKeySetter(Settings settings) {
-        TableColumn<Entry<KeyCode, String>, String> actionColumn = new TableColumn<Entry<KeyCode, String>, String>(
-            "action");
+    private TableView<Entry<KeyCode, Action>> generateKeySetter(Settings settings) {
+        TableColumn<Entry<KeyCode, Action>, String> actionColumn = new TableColumn<>("action");
         actionColumn.setPrefWidth(100);
-        actionColumn
-            .setCellValueFactory(entry -> new SimpleStringProperty(entry.getValue().getValue()));
+        actionColumn.setCellValueFactory(
+            entry -> new SimpleStringProperty(entry.getValue().getValue().toString()));
 
-        TableColumn<Entry<KeyCode, String>, String> keyCodeColumn = new TableColumn<Entry<KeyCode, String>, String>(
+        TableColumn<Entry<KeyCode, Action>, String> keyCodeColumn = new TableColumn<>(
             "assigned key");
         keyCodeColumn.setCellValueFactory(
             entry -> new SimpleStringProperty(entry.getValue().getKey().getName()));
         keyCodeColumn.setPrefWidth(100);
 
-        TableView<Entry<KeyCode, String>> keybindingsTable = new TableView<Entry<KeyCode, String>>();
+        TableView<Entry<KeyCode, Action>> keybindingsTable = new TableView<>();
         keybindingsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         keybindingsTable.getColumns().setAll(actionColumn, keyCodeColumn);
 
         keybindingsTable.setItems(
             FXCollections.observableArrayList(settings.getKeyBindings().getSortedEntrySet()));
         keybindingsTable.setOnKeyPressed(event -> {
-            String action = keybindingsTable.getSelectionModel().getSelectedItem().getValue();
+            Action action = keybindingsTable.getSelectionModel().getSelectedItem().getValue();
             KeyCode keycode = ((KeyEvent) event).getCode();
             settings.getKeyBindings().put(action, keycode);
             keybindingsTable.setItems(

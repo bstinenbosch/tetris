@@ -11,23 +11,23 @@ import java.util.stream.Collectors;
 
 import javafx.scene.input.KeyCode;
 
-public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
-    private HashMap<KeyCode, String> bindings = new HashMap<KeyCode, String>();
+public final class KeyBindings implements Iterable<Entry<KeyCode, Action>> {
+    private HashMap<KeyCode, Action> bindings = new HashMap<>();
 
     /**
      * Keybindings provide a fast-access way of evaluating keys to their mapped
      * meanings, while it is also possible to adjust the mapping at runtime.
      */
     public KeyBindings() {
-        bindings.put(KeyCode.LEFT, "MOVE_LEFT");
-        bindings.put(KeyCode.RIGHT, "MOVE_RIGHT");
-        bindings.put(KeyCode.A, "ROTATE_LEFT");
-        bindings.put(KeyCode.S, "ROTATE_RIGHT");
-        bindings.put(KeyCode.DOWN, "SOFT_DROP");
-        bindings.put(KeyCode.SPACE, "HARD_DROP");
+        bindings.put(KeyCode.LEFT, Action.MOVE_LEFT);
+        bindings.put(KeyCode.RIGHT, Action.MOVE_RIGHT);
+        bindings.put(KeyCode.A, Action.ROTATE_LEFT);
+        bindings.put(KeyCode.S, Action.ROTATE_RIGHT);
+        bindings.put(KeyCode.DOWN, Action.SOFT_DROP);
+        bindings.put(KeyCode.SPACE, Action.HARD_DROP);
     }
 
-    public Collection<String> values() {
+    public Collection<Action> values() {
         return bindings.values();
     }
 
@@ -40,7 +40,7 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
      * @param keyCode
      *            the new keycode that points to the key
      */
-    public void put(String action, KeyCode keyCode) {
+    public void put(Action action, KeyCode keyCode) {
         if (!bindings.containsKey(keyCode)) {
             KeyCode oldBinding = getKeyCode(action);
             bindings.remove(oldBinding);
@@ -48,8 +48,8 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
         }
     }
 
-    public String getAction(KeyCode keyCode) {
-        return bindings.getOrDefault(keyCode, "no key assigned");
+    public Action getAction(KeyCode keyCode) {
+        return bindings.getOrDefault(keyCode, Action.INVALID_ACTION);
     }
 
     /**
@@ -59,7 +59,7 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
      *            the key to search for in the associations
      * @return the associated keycode.
      */
-    public KeyCode getKeyCode(String action) {
+    public KeyCode getKeyCode(Action action) {
         for (KeyCode keycode : bindings.keySet()) {
             if (action.equals(bindings.get(keycode))) {
                 return keycode;
@@ -69,7 +69,7 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
     }
 
     @Override
-    public Iterator<Entry<KeyCode, String>> iterator() {
+    public Iterator<Entry<KeyCode, Action>> iterator() {
         return bindings.entrySet().iterator();
     }
 
@@ -79,7 +79,7 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
      * 
      * @return a value-sorted version of bindings.
      */
-    public Set<Entry<KeyCode, String>> getSortedEntrySet() {
+    public Set<Entry<KeyCode, Action>> getSortedEntrySet() {
         return bindings.entrySet().stream()
             .sorted(Map.Entry.comparingByValue(/* Collections.reverseOrder() */)).collect(Collectors
                 .toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
