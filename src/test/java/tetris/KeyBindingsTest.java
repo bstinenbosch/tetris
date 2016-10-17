@@ -82,18 +82,23 @@ public class KeyBindingsTest {
                 equalTo(KeyCode.SHIFT));
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void test_iteration_through_default_key_bindings() {
+        keyBindings.getBinding("MOVE_UP");
+    }
+
+    @Test
+    public void test_retrieval_of_key_without_binding() {
         Iterator keyBindingsIterator = keyBindings.iterator();
         while (keyBindingsIterator.hasNext()) {
             Map.Entry e = (Map.Entry) keyBindingsIterator.next();
             assertTrue(
                     (e.getValue().equals("MOVE_LEFT") && e.getKey().equals(KeyCode.LEFT)) ||
-                    (e.getValue().equals("MOVE_RIGHT") && e.getKey().equals(KeyCode.RIGHT)) ||
-                    (e.getValue().equals("ROTATE_LEFT") && e.getKey().equals(KeyCode.A)) ||
-                    (e.getValue().equals("ROTATE_RIGHT") && e.getKey().equals(KeyCode.S)) ||
-                    (e.getValue().equals("SOFT_DROP") && e.getKey().equals(KeyCode.DOWN)) ||
-                    (e.getValue().equals("HARD_DROP") && e.getKey().equals(KeyCode.SPACE)));
+                            (e.getValue().equals("MOVE_RIGHT") && e.getKey().equals(KeyCode.RIGHT)) ||
+                            (e.getValue().equals("ROTATE_LEFT") && e.getKey().equals(KeyCode.A)) ||
+                            (e.getValue().equals("ROTATE_RIGHT") && e.getKey().equals(KeyCode.S)) ||
+                            (e.getValue().equals("SOFT_DROP") && e.getKey().equals(KeyCode.DOWN)) ||
+                            (e.getValue().equals("HARD_DROP") && e.getKey().equals(KeyCode.SPACE)));
         }
     }
 
