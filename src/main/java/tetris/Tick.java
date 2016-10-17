@@ -3,7 +3,6 @@ package tetris;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -42,7 +41,7 @@ class Tick extends Thread implements Observer {
         while (running) {
             try {
                 if (!waiting) {
-                    Platform.runLater(() -> onTick.handle(new ActionEvent()));
+                    onTick.handle(new ActionEvent());
                 }
                 sleep(this.time);
             } catch (InterruptedException ie) {
