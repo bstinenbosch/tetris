@@ -62,7 +62,7 @@ public class SettingsScreen extends Group implements IScreen {
 
     private void keyResultTextFieldOnKeyPressed(TextField keyResultTextField,
         ComboBox<String> actionCombobox, KeyEvent event) {
-        KeyCode keycode = ((KeyEvent) event).getCode();
+        KeyCode keycode = event.getCode();
         settings.getKeyBindings().put(actionCombobox.getValue(), keycode);
         keyResultTextField.setText(keycode.toString());
     }

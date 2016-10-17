@@ -2,14 +2,17 @@ package tetris.scenes;
 
 import highscore.GameEntry;
 import javafx.collections.ObservableList;
-import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import tetris.Controller;
 
 public class HighscoreScreen extends Group implements IScreen {
@@ -18,13 +21,15 @@ public class HighscoreScreen extends Group implements IScreen {
 
     private TableView highscoreTable;
 
+    /**
+     * Creates a view for showing highscores.
+     */
     public HighscoreScreen() {
         Label titleLabel = new Label("HIGHSCORES");
         titleLabel.setStyle("-fx-font-size:250%; -fx-text-fill:white");
 
         backButton = new Button("Back to main menu");
 
-        Pane highScoreTable = GetHighScoreTable();
 
         BorderPane root = new BorderPane();
         BorderPane.setAlignment(titleLabel, Pos.CENTER);
@@ -33,6 +38,7 @@ public class HighscoreScreen extends Group implements IScreen {
         BorderPane.setAlignment(backButton, Pos.CENTER);
         root.setBottom(backButton);
 
+        Pane highScoreTable = getHighScoreTable();
         BorderPane.setMargin(highScoreTable, new Insets(12,12,12,12));
         BorderPane.setAlignment(highScoreTable, Pos.CENTER);
         root.setCenter(highScoreTable);
@@ -42,7 +48,12 @@ public class HighscoreScreen extends Group implements IScreen {
         getChildren().add(root);
     }
 
-    public VBox GetHighScoreTable() {
+    /**
+     * Creates highscore table component.
+     *
+     * @return highscore table
+     */
+    public VBox getHighScoreTable() {
         highscoreTable = new TableView();
 
         TableColumn rankCol = new TableColumn("Rank");

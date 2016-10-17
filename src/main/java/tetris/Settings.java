@@ -45,6 +45,11 @@ public class Settings {
         }
     }
 
+    /**
+     * Creates a Settings object holding several game-wide settings.
+     *
+     * @param path path to settings xml-file
+     */
     public Settings(String path) {
         savePath = new File(path);
         resetColors();
@@ -67,14 +72,14 @@ public class Settings {
         readColors(doc.getElementsByTagName("color"));
     }
 
-    private void readColors(NodeList nList) {
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node nNode = nList.item(i);
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
-                String red = eElement.getElementsByTagName("red").item(0).getTextContent();
-                String green = eElement.getElementsByTagName("green").item(0).getTextContent();
-                String blue = eElement.getElementsByTagName("blue").item(0).getTextContent();
+    private void readColors(NodeList nodeList) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node item = nodeList.item(i);
+            if (item.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) item;
+                String red = element.getElementsByTagName("red").item(0).getTextContent();
+                String green = element.getElementsByTagName("green").item(0).getTextContent();
+                String blue = element.getElementsByTagName("blue").item(0).getTextContent();
                 int intRed = Integer.parseInt(red);
                 int intGreen = Integer.parseInt(green);
                 int intBlue = Integer.parseInt(blue);
@@ -91,6 +96,9 @@ public class Settings {
         }
     }
 
+    /**
+     * Save settings to file.
+     */
     public void saveSettings() {
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -107,11 +115,11 @@ public class Settings {
     }
 
     private void writeColors(Document doc, Element rootElement) {
-        Element eColors = doc.createElement("colors");
-        rootElement.appendChild(eColors);
+        Element docElement = doc.createElement("colors");
+        rootElement.appendChild(docElement);
         for (int i = 0; i < colors.length; i++) {
             Element color = doc.createElement("color");
-            eColors.appendChild(color);
+            docElement.appendChild(color);
 
             Element red = doc.createElement("red");
             double value = colors[i].getRed() * 255;
@@ -134,7 +142,8 @@ public class Settings {
     }
 
     private void writeKeyBindings(Document doc, Element rootElement) {
-        String binding, key;
+        String binding;
+        String key;
         Element keyBindings = doc.createElement("keyBindings");
         rootElement.appendChild(keyBindings);
         for (Entry<KeyCode, String> entry : keybindings) {

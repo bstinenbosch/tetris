@@ -12,5 +12,5 @@ public interface IScreen {
      *            The controller object that contains all the methods that must
      *            be handled by the events.
      */
-    public void hookEvents(Controller controller);
+    void hookEvents(Controller controller);
 }

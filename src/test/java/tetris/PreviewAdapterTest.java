@@ -22,7 +22,6 @@ public class PreviewAdapterTest {
         Tetromino = TetrominoFactory.create(type, coordinate);
         assertTrue(Tetromino.left() == -1);
         assertTrue(Tetromino.right() == 2);
-        ;
     }
 
     @Test

@@ -13,7 +13,7 @@ public class GameEntry {
     /**
      * Return the name of the game entry.
      * 
-     * @return
+     * @return name of game entry
      */
     public String getName() {
         return name;
@@ -22,7 +22,7 @@ public class GameEntry {
     /**
      * Return the score of the game entry.
      * 
-     * @return
+     * @return score of game entry
      */
     public int getScore() {
         return score;
