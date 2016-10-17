@@ -58,15 +58,15 @@ public class RobotController implements Runnable {
 
     private void setActions() {
         actions = new KeyEvent[] {
-            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("MOVE LEFT"), false,
+            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("MOVE_LEFT"), false,
                 false, false, false),
-            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("MOVE RIGHT"),
+            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("MOVE_RIGHT"),
                 false, false, false, false),
-            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("ROTATE LEFT"),
+            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("ROTATE_LEFT"),
                 false, false, false, false),
-            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("ROTATE RIGHT"),
+            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("ROTATE_RIGHT"),
                 false, false, false, false),
-            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("HARD DROP"), false,
+            new KeyEvent(null, null, null, settings.getKeyBindings().getBinding("HARD_DROP"), false,
                 false, false, false) };
     }
 

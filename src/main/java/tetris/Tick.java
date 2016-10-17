@@ -75,13 +75,6 @@ class Tick extends Thread implements Observer {
     }
 
     /**
-     * reset the time to the starting value.
-     */
-    public void resetTime() {
-        time = basetime;
-    }
-
-    /**
      * accessor method for the set time of the tick.
      *
      * @return the set time

@@ -28,8 +28,8 @@ public class Controller {
     private boolean gameOver = false;
     private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
-        movementHandler.lowerTetromino(tetromino, grid);
-        redraw();
+        Platform.runLater(() -> movementHandler.lowerTetromino(tetromino, grid));
+        Platform.runLater(() -> redraw());
     });
 
     private Settings settings;
@@ -201,18 +201,6 @@ public class Controller {
 
     public void addScoreObserver(Observer observer) {
         score.addObserver(observer);
-    }
-
-    public void startRoboMode() {
-        ui.gotoRoboScreen();
-        score.reset();
-        gameOver = false;
-        grid = new Grid(settings.boardWidth(), settings.boardHeight());
-        dropNewTetromino();
-        timer.unpause();
-        timer.resetTime();
-        new Thread(RobotController.getRobotController(this, settings)).start();
-        Logger.log(this, Logger.LogType.INFO, "robogame started");
     }
 
     /**
