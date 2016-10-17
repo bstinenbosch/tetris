@@ -13,8 +13,8 @@ public class KeyBindingsTest {
 
     @Test
     public void testElementAcessors() {
-        Collection<String> bindings = kb.values();
-        String str = (String) bindings.toArray()[0];
+        Collection<Action> bindings = kb.values();
+        Action str = (Action) bindings.toArray()[0];
         kb.put(str, KeyCode.ACCEPT);
         assertEquals(kb.getAction(KeyCode.ACCEPT), str);
         assertEquals(kb.getKeyCode(str), KeyCode.ACCEPT);
