@@ -67,7 +67,7 @@ public class Grid {
      *
      * @return the score that has been earned with the removed lines
      */
-    int clearLines() {
+    public int clearLines() {
         int row = 0;
         int rowsCleared = 0;
         boolean skipRow;
@@ -83,7 +83,7 @@ public class Grid {
             if (skipRow) {
                 row++;
             } else {
-                rowsCleared ++;
+                rowsCleared++;
             }
         }
         board = localBoard;

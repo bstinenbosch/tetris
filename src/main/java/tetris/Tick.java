@@ -12,6 +12,7 @@ class Tick extends Thread implements Observer {
     private EventHandler<ActionEvent> onTick;
     public volatile boolean running;
     public volatile boolean waiting;
+    private long basetime = 200;
 
     /**
      * Tick is a timer class. No clue why this isn't a default Java library
@@ -30,7 +31,9 @@ class Tick extends Thread implements Observer {
     }
 
     public Tick(EventHandler<ActionEvent> event) {
-        this(event, 200);
+        this.onTick = event;
+        waiting = true;
+        this.time = basetime;
     }
 
     /**
@@ -72,6 +75,13 @@ class Tick extends Thread implements Observer {
     }
 
     /**
+     * reset the time to the starting value.
+     */
+    public void resetTime() {
+        time = basetime;
+    }
+
+    /**
      * accessor method for the set time of the tick.
      *
      * @return the set time
@@ -90,10 +100,17 @@ class Tick extends Thread implements Observer {
         this.time = time;
     }
 
+    /**
+     * reset the time to the starting value.
+     */
+    public void resetTime() {
+        time = basetime;
+    }
+
     @Override
     public void update(Observable observable, Object arg) {
         if (observable instanceof Score) {
-            this.time = (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg));
+            this.time = (long) Math.max(1, basetime * Math.exp(-.0002 * (int) arg));
         }
     }
 }

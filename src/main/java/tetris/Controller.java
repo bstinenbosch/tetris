@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import highscore.GameEntry;
 import highscore.ScoreBoard;
 import logging.Logger;
+import robot.RobotController;
 
 public class Controller {
 
@@ -90,6 +91,18 @@ public class Controller {
         }
     }
 
+    public void startRoboMode() {
+        ui.gotoRoboScreen();
+        score.reset();
+        gameOver = false;
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        dropNewTetromino();
+        timer.unpause();
+        timer.resetTime();
+        new Thread(RobotController.getRobotController(this, settings)).start();
+        Logger.log(this, Logger.LogType.INFO, "robogame started");
+    }
+
     /**
      * drops a new tetromino and makes sure that it is drawn on the canvas.
      */
@@ -132,6 +145,7 @@ public class Controller {
         } else {
             ui.gotoHighscoreScreen();
         }
+        Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
     }
 
     public void registerHighScore(CharSequence playerName) {
@@ -187,6 +201,18 @@ public class Controller {
 
     public void addScoreObserver(Observer observer) {
         score.addObserver(observer);
+    }
+
+    public void startRoboMode() {
+        ui.gotoRoboScreen();
+        score.reset();
+        gameOver = false;
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        dropNewTetromino();
+        timer.unpause();
+        timer.resetTime();
+        new Thread(RobotController.getRobotController(this, settings)).start();
+        Logger.log(this, Logger.LogType.INFO, "robogame started");
     }
 
     /**
@@ -283,5 +309,17 @@ public class Controller {
 
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    public AbstractTetromino getTetromino() {
+        return tetromino;
     }
 }

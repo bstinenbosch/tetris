@@ -16,6 +16,7 @@ public class MainScreen extends Group implements IScreen {
     private Button settingsButton;
     private Button highscoreButton;
     private Button exitButton;
+    private Button roboButton;
 
     /**
      * the main screen is the central entry point for the game and the root of
@@ -37,12 +38,15 @@ public class MainScreen extends Group implements IScreen {
         exitButton = new Button("Exit");
         exitButton.setStyle("-fx-background-color: orange;-fx-text-fill:white");
 
+        roboButton = new Button("Robo mode");
+        roboButton.setStyle("-fx-background-color: blue;-fx-text-fill:white");
+
         TilePane root = new TilePane();
         root.setOrientation(Orientation.VERTICAL);
         root.setTileAlignment(Pos.CENTER);
         root.setPadding(new Insets(0, 20, 10, 20));
         root.getChildren().addAll(titleLabel, startNewGameButton, settingsButton, highscoreButton,
-            exitButton);
+            exitButton, roboButton);
         root.setStyle("-fx-background-color: black");
         getChildren().add(root);
     }
@@ -53,5 +57,6 @@ public class MainScreen extends Group implements IScreen {
         settingsButton.setOnAction(event -> controller.openSettings());
         highscoreButton.setOnAction(event -> controller.viewHighscores());
         exitButton.setOnAction(event -> controller.stop());
+        roboButton.setOnAction(event -> controller.startRoboMode());
     }
 }
