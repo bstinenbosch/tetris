@@ -10,8 +10,8 @@ class Tick extends Thread implements Observer {
 
     private long time;
     private EventHandler<ActionEvent> onTick;
-    public volatile boolean running;
-    public volatile boolean waiting;
+    private volatile boolean running;
+    private volatile boolean waiting;
 
     /**
      * Tick is a timer class. No clue why this isn't a default Java library
@@ -53,21 +53,21 @@ class Tick extends Thread implements Observer {
     /**
      * requestStop halts the thread in a clean fashion.
      */
-    void requestStop() {
+    public synchronized void requestStop() {
         running = false;
     }
 
     /**
      * pause pauses the handling of events.
      */
-    public void pause() {
+    public synchronized void pause() {
         waiting = true;
     }
 
     /**
      * unpause unpauses the handling of events.
      */
-    public void unpause() {
+    public synchronized void unpause() {
         waiting = false;
     }
 
@@ -91,7 +91,7 @@ class Tick extends Thread implements Observer {
     }
 
     @Override
-    public void update(Observable observable, Object arg) {
+    public synchronized void update(Observable observable, Object arg) {
         if (observable instanceof Score) {
             this.time = (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg));
         }

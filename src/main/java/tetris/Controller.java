@@ -27,8 +27,8 @@ public class Controller {
     private boolean gameOver = false;
     private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
-        movementHandler.lowerTetromino(tetromino, grid);
-        redraw();
+        Platform.runLater(() -> movementHandler.lowerTetromino(tetromino, grid));
+        Platform.runLater(() -> redraw());
     });
 
     private Settings settings;
