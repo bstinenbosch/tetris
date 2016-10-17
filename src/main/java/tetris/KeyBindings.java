@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import javafx.scene.input.KeyCode;
 
 public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
-    private HashMap<KeyCode, String> bindings = new HashMap<KeyCode, String>();
+    private HashMap<KeyCode, String> bindings = new HashMap<>();
 
     /**
      * Keybindings provide a fast-access way of evaluating keys to their mapped
