@@ -23,6 +23,11 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
         bindings.put(KeyCode.SPACE, "HARD_DROP");
     }
 
+    /**
+     * Return names of all bindings
+     *
+     * @return
+     */
     public Collection<String> values() {
         return bindings.values();
     }
@@ -42,6 +47,12 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
         bindings.put(binding, key);
     }
 
+    /**
+     * Returns the keycode for a given binding event
+     *
+     * @param binding
+     * @return
+     */
     public String getKey(KeyCode binding) {
         return bindings.getOrDefault(binding, "no key assigned");
     }
@@ -62,6 +73,12 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
         throw new IllegalArgumentException("You requested the binding of a key that is not bound.");
     }
 
+    /**
+     * Returns all key bindings as an iterable set
+     * for the convenience of listing every key binding
+     *
+     * @return
+     */
     @Override
     public Iterator<Entry<KeyCode, String>> iterator() {
         return bindings.entrySet().iterator();
