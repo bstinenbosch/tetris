@@ -7,14 +7,17 @@ public class PreviewAdapter {
     private static final int blockSize = 20;
     private final int width;
     private final int height;
+    private final int left;
 
     /**
      * Creates PreviewTetrominoPaneAdapter object
      *
-     * @param tetromino tetromino
+     * @param tetromino
+     *            tetromino
      */
     public PreviewAdapter(AbstractTetromino tetromino) {
-        this.width = tetromino.right() - tetromino.left() + 1;
+        this.left = tetromino.left();
+        this.width = tetromino.right() - left + 1;
         this.height = tetromino.top() - tetromino.bottom() + 1;
     }
 
@@ -25,8 +28,11 @@ public class PreviewAdapter {
      */
     public int getLeftOffSet() {
         int rightPane = 6;
-        return ((rightPane * blockSize - width * blockSize) / 2)
-                + blockSize;
+        if (left >= 0) {
+            return ((rightPane * blockSize - width * blockSize) / 2);
+        }
+        return ((rightPane * blockSize - width * blockSize) / 2) + blockSize;
+
     }
 
     /**
@@ -36,8 +42,7 @@ public class PreviewAdapter {
      */
     public int getBottomOffSet() {
         int topPane = 6;
-        return ((topPane * blockSize - height * blockSize
-                - blockSize) / 2);
+        return ((topPane * blockSize - height * blockSize - blockSize) / 2);
     }
 
 }
