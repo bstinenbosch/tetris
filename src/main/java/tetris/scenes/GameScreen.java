@@ -11,9 +11,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import robot.RobotController;
+
 public class GameScreen extends Group implements IScreen {
     private Settings settings;
-    private Button exitButton;
+    private Button botButton;
     private Button restartButton;
     private Button backButton;
     private ObservingLabel scoreLabel;
@@ -53,7 +55,7 @@ public class GameScreen extends Group implements IScreen {
     }
 
     private VBox setUpRightPaneGameScreen() {
-        exitButton = new Button("exit");
+        botButton = new Button("Toggle botmode");
         restartButton = new Button("restart");
         backButton = new Button("back");
         scoreLabel = new ObservingLabel("0");
@@ -64,7 +66,7 @@ public class GameScreen extends Group implements IScreen {
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(exitButton, restartButton, scoreLabel, backButton, setUpPreview());
+        box.getChildren().addAll(botButton, restartButton, scoreLabel, backButton, setUpPreview());
         return box;
     }
 
@@ -76,7 +78,7 @@ public class GameScreen extends Group implements IScreen {
 
     @Override
     public void hookEvents(Controller controller) {
-        exitButton.setOnAction(event -> controller.stop());
+        botButton.setOnAction(event -> RobotController.toggleRobotController(controller));
         restartButton.setOnAction(event -> controller.restartGame());
         backButton.setOnAction(event -> {
             controller.gameOver();
