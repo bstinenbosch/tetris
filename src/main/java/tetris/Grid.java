@@ -5,6 +5,7 @@ import tetris.tetromino.AbstractTetromino;
 public class Grid {
 
     private int[][] board;
+    private Controller controller;
 
     /**
      * Grid represents the gameboard.
@@ -14,8 +15,9 @@ public class Grid {
      * @param height
      *            the heigth of the gameboard
      */
-    Grid(int width, int height) {
+    Grid(Controller controller, int width, int height) {
         board = new int[width][height + 4];
+        this.controller = controller;
     }
 
     /**
@@ -60,6 +62,11 @@ public class Grid {
             Coordinate coords = tetromino.get(i);
             board[coords.getX()][coords.getY()] = tetromino.getColor();
         }
+        if (tetromino.top() >= height() - 1) {
+            controller.gameOver();
+        } else {
+            controller.dropNewTetromino();
+        }
     }
 
     /**
@@ -83,7 +90,7 @@ public class Grid {
             if (skipRow) {
                 row++;
             } else {
-                rowsCleared ++;
+                rowsCleared++;
             }
         }
         board = localBoard;
