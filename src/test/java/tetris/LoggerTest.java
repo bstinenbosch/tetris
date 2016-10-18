@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.concurrent.TimeoutException;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +14,6 @@ import static org.junit.Assert.assertTrue;
 import logging.Logger;
 
 public class LoggerTest {
-    String testloc = "test.log";
 
     /**
      * By putting all tests sync'ed in one method the tests can't be executed in
@@ -24,16 +21,15 @@ public class LoggerTest {
      * 
      * @throws Exception
      */
-    @Before
-    public void init() {
+
+    public void init(String testloc) {
         File file = new File(testloc);
         if (file.exists()) {
             file.delete();
         }
     }
 
-    @After
-    public void cleanup() {
+    public void cleanup(String testloc) {
         File file = new File(testloc);
         if (file.exists()) {
             file.delete();
@@ -42,7 +38,8 @@ public class LoggerTest {
 
     @Test
     public synchronized void test_logcreate() throws Exception {
-        init();
+        String testloc = "test1.log";
+        init(testloc);
         Logger.setLogDir(testloc);
         Logger.clearLog();
         Logger.setDebugOn();
@@ -50,12 +47,13 @@ public class LoggerTest {
         Logger.setDebugOff();
         waitForFileCreation(testloc);
         assertTrue(new File(testloc).exists());
-        cleanup();
+        cleanup(testloc);
     }
 
     @Test
     public synchronized void test_logdelete() throws Exception {
-        init();
+        String testloc = "test2.log";
+        init(testloc);
         Logger.setLogDir(testloc);
         Logger.setDebugOn();
         Logger.log(this, Logger.LogType.ERROR, "test 1");
@@ -65,12 +63,13 @@ public class LoggerTest {
         Logger.clearLog();
         waitForFileRemoval(testloc);
         assertFalse(new File(testloc).exists());
-        cleanup();
+        cleanup(testloc);
     }
 
     @Test
     public synchronized void test_debugMode() throws Exception {
-        init();
+        String testloc = "test3.log";
+        init(testloc);
         Logger.setLogDir(testloc);
         Logger.setDebugOff();
         Logger.clearLog();
@@ -78,12 +77,13 @@ public class LoggerTest {
         Logger.setDebugOff();
         waitForFileRemoval(testloc);
         assertFalse(new File(testloc).exists());
-        cleanup();
+        cleanup(testloc);
     }
 
     @Test
     public synchronized void test_capLog() throws Exception {
-        init();
+        String testloc = "test4.log";
+        init(testloc);
         Logger.setLogDir(testloc);
         Logger.setLogLength(10);
         Logger.clearLog();
@@ -107,7 +107,7 @@ public class LoggerTest {
         }
         reader.close();
         assertEquals(10, count);
-        cleanup();
+        cleanup(testloc);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class LoggerTest {
         int counter = 0;
         while (!file.exists()) {
             Thread.sleep(1000);
-            if (counter++ > 60) {
+            if (counter++ > 10) {
                 throw new TimeoutException("file wasn't created within 1 minute.");
             }
         }
@@ -133,7 +133,7 @@ public class LoggerTest {
         int counter = 0;
         while (file.exists()) {
             Thread.sleep(1000);
-            if (counter++ > 60) {
+            if (counter++ > 10) {
                 throw new TimeoutException("file wasn't removed within 1 minute.");
             }
         }
