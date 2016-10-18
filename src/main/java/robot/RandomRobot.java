@@ -2,14 +2,12 @@ package robot;
 
 import java.util.Observable;
 
+import tetris.Action;
 import tetris.Grid;
-import tetris.Score;
 import tetris.tetromino.AbstractTetromino;
 
 public class RandomRobot implements IRobot {
-
-    private int score;
-
+    @Override
     public void setGameState(Grid grid, AbstractTetromino tetromino) {
         // This robot doesnt care about the game state. However, he has ADHD so
         // we regularly put him to sleep.
@@ -22,10 +20,12 @@ public class RandomRobot implements IRobot {
 
     }
 
-    public int getNextAction() {
-        return (int) (Math.random() * 5);
+    @Override
+    public Action getNextAction() {
+        return Action.values()[(int) (Math.random() * 5)];
     }
 
+    @Override
     public void resetSession() {
         // Nothing to reset because RANDOM
 
@@ -33,12 +33,7 @@ public class RandomRobot implements IRobot {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Score && arg instanceof Integer) {
-            score = (int) arg;
-        } else {
-            throw new UnsupportedOperationException(
-                "RandomRobot instance received an update from an unknown source.");
-        }
+        // do nothing: randomrobot doesn't care about scores.
     }
 
 }

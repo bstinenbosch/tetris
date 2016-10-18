@@ -2,6 +2,7 @@ package robot;
 
 import java.util.Observer;
 
+import tetris.Action;
 import tetris.Grid;
 import tetris.tetromino.AbstractTetromino;
 
@@ -20,9 +21,9 @@ public interface IRobot extends Observer {
     /**
      * getNextAction determines the next action given the current game state.
      * 
-     * @return
+     * @return the next action to execute
      */
-    public int getNextAction();
+    public Action getNextAction();
 
     /**
      * resetSession tells the robot that the game was over and a new one is
