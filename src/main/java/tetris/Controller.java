@@ -284,4 +284,16 @@ public class Controller {
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
     }
+
+    public void pause() {
+        timer.pause();
+        gameOver = true;
+    }
+
+    public void unpause() {
+        timer.unpause();
+        ui.resetFocus();
+        gameOver = false;
+    }
+
 }
