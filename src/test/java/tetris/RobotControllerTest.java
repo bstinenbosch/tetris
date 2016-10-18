@@ -8,6 +8,10 @@ import org.junit.runner.RunWith;
 
 import robot.RobotController;
 
+/**
+ * Solution courtesy of http://stackoverflow.com/a/33778183
+ *
+ */
 @RunWith(JfxTestRunner.class)
 public class RobotControllerTest {
     @Test
