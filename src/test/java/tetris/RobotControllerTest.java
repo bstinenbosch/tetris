@@ -2,17 +2,14 @@ package tetris;
 
 import tetris.tetromino.AbstractTetromino;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import robot.RobotController;
 
-public class RobotControllerTest extends Application {
+@RunWith(JfxTestRunner.class)
+public class RobotControllerTest {
     @Test
     public void testRobotController() throws InterruptedException {
         DummyController controller = new DummyController();
@@ -26,18 +23,4 @@ public class RobotControllerTest extends Application {
 
     }
 
-    @Before
-    public void startApp() {
-        new Thread(() -> launch()).start();
-    }
-
-    @After
-    public void stopApp() throws Exception {
-        stop();
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        // do nothing
-    }
 }
