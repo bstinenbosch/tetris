@@ -36,7 +36,6 @@ proguard/
 .gradletasknamecache
 .gradle/
 build/
-logging/
 
 # log files
 *.log
