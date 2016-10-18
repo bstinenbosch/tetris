@@ -21,6 +21,7 @@ public class GameScreen extends Group implements IScreen {
     private Button pauzeButton;
     private Button unpauseButton;
     private ObservingLabel scoreLabel;
+    private Canvas canvas;
 
     /**
      * the gamescreen is the screen where game is actually played.
@@ -40,7 +41,7 @@ public class GameScreen extends Group implements IScreen {
     private Pane setUpLeftPaneGameScreen() {
         int boardWidthPixel = settings.blockSize() * settings.boardWidth();
         int boardHeightPixel = settings.blockSize() * settings.boardHeight();
-        Canvas canvas = new Canvas(boardWidthPixel, boardHeightPixel);
+        canvas = new Canvas(boardWidthPixel, boardHeightPixel);
         settings.setBoard(canvas.getGraphicsContext2D());
         Pane leftPane = new Pane();
         leftPane.getChildren().add(canvas);
@@ -91,6 +92,7 @@ public class GameScreen extends Group implements IScreen {
             controller.openMainScreen();
         });
         controller.addScoreObserver(scoreLabel);
+        canvas.setOnMouseClicked(event -> requestFocus());
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }
 
