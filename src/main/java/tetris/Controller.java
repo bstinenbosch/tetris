@@ -25,9 +25,8 @@ public class Controller {
     private int leftOffSet;
     private int bottomOffSet;
     private boolean gameOver = false;
-    private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
-        Platform.runLater(() -> movementHandler.lowerTetromino(tetromino, grid));
+        Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
         Platform.runLater(() -> redraw());
     });
 
@@ -57,8 +56,8 @@ public class Controller {
      *            the key event to handle.
      */
     public void handleKeyEvent(KeyEvent event) {
-        String binding = settings.getKeyBindings().getAction(event.getCode());
-        movementHandler.handleKeyEvent(binding);
+        Action action = settings.getKeyBindings().getAction(event.getCode());
+        action.attempt(tetromino, grid);
         redraw();
     }
 
@@ -133,7 +132,7 @@ public class Controller {
         ui.gotoGameScreen();
         score.reset();
         gameOver = false;
-        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
         timer.unpause();
         ui.resetFocus();
