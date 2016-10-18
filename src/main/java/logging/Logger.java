@@ -1,22 +1,11 @@
 package logging;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.sql.Timestamp;
-import java.util.Calendar;
 
-public final class Logger extends Thread {
-    private static volatile boolean debug = false;
-    private static volatile StringBuilder queue = new StringBuilder();
-    private static volatile File file = new File("log.log");
-    private static volatile int logLength = 10000;
-    private static Logger logger;
+public abstract class Logger extends Thread implements ILogger {
+    protected static volatile File file = new File("log.log");
+    protected static volatile int logLength = 10000;
+    protected static Logger logger;
 
     /**
      * supported logging types.
@@ -26,91 +15,10 @@ public final class Logger extends Thread {
         INFO, WARNING, ERROR
     }
 
-    private Logger() {
+    protected Logger() {
     } // unreachable because static
 
-    /**
-     * The logger runs in his own thread to prevent concurrent writing
-     * exceptions on the log file if multiple threads are logging.
-     */
-    public void run() {
-        while (debug) {
-            try {
-                sleep(10000);
-                if (queue.length() > 0) {
-                    writeToFile();
-                }
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
-        }
-        writeToFile();
-    }
-
-    private void writeToFile() {
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter writer = new FileWriter(file, true);
-            writer.write(queue.toString());
-            writer.close();
-            capFileSize();
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    private void capFileSize() throws IOException {
-        int fileLength = countLines();
-        if (fileLength > logLength) {
-            String line;
-            File tempFile = File.createTempFile("TETRIS_LOG_", ".log");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                try {
-                    skipLines(fileLength - logLength, reader);
-                    while ((line = reader.readLine()) != null) {
-                        writer.write(line);
-                        writer.newLine();
-                    }
-                } finally {
-                    reader.close();
-                }
-            } finally {
-                writer.close();
-            }
-            Files.move(tempFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        }
-    }
-
-    private void skipLines(int lines, BufferedReader file) throws IOException {
-        for (int i = 0; i < lines; i++) {
-            file.readLine();
-        }
-    }
-
-    private int countLines() throws IOException {
-        char[] buffer = new char[1024];
-        int count = 0;
-        int readChars = 0;
-        boolean empty = true;
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        try {
-            while ((readChars = reader.read(buffer)) != -1) {
-                empty = false;
-                for (int i = 0; i < readChars; ++i) {
-                    if (buffer[i] == '\n') {
-                        ++count;
-                    }
-                }
-            }
-            return (count == 0 && !empty) ? 1 : count;
-        } finally {
-            reader.close();
-        }
-    }
+    public abstract void run();
 
     /**
      * Log lets you log a line in the log file, conditional on the debug mode
@@ -124,25 +32,19 @@ public final class Logger extends Thread {
      *            the message that is logged
      */
     public static void log(Object sender, LogType logtype, String message) {
-        if (debug) {
-            String msg = String.format("[%s] message @[%s] from object %s: %s\r\n",
-                logtype.toString(),
-                new Timestamp(Calendar.getInstance().getTimeInMillis()).toString(),
-                sender.toString(), message);
-            queue.append(msg);
-        }
+        logger.doLog(sender, logtype, message);
     }
 
     public static void info(Object sender, String message) {
-        Logger.log(sender, LogType.INFO, message);
+        logger.doLog(sender, LogType.INFO, message);
     }
 
     public static void error(Object sender, String message) {
-        Logger.log(sender, LogType.ERROR, message);
+        logger.doLog(sender, LogType.ERROR, message);
     }
 
     public static void warning(Object sender, String message) {
-        Logger.log(sender, LogType.WARNING, message);
+        logger.doLog(sender, LogType.WARNING, message);
     }
 
     /**
@@ -176,25 +78,13 @@ public final class Logger extends Thread {
      * switch debug on.
      */
     public static synchronized void setDebugOn() {
-        if (!debug) {
-            debug = true;
-            logger = new Logger();
-            logger.start();
-        }
+        ReleaseLogger.setDebugMode();
     }
 
     /**
      * switch debug off.
      */
     public static synchronized void setDebugOff() {
-        if (debug) {
-            debug = false;
-            try {
-                logger.join();
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
-        }
-        logger = null;
+        DebugLogger.setReleaseMode();
     }
 }
