@@ -10,7 +10,7 @@ public class ActionTest {
         Grid grid = new Grid(controller, 2, 2);
         DummyShapeO tetromino = new DummyShapeO(new Coordinate(0, 0));
         Action.SOFT_DROP.attempt(tetromino, grid);
-        Assert.assertTrue(controller.isGameOver);
+        Assert.assertTrue(controller.isGameOverBoolean);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class ActionTest {
         Grid grid = new Grid(controller, 2, 2);
         DummyShapeO tetromino = new DummyShapeO(new Coordinate(0, 0));
         Action.HARD_DROP.attempt(tetromino, grid);
-        Assert.assertTrue(controller.isGameOver);
+        Assert.assertTrue(controller.isGameOverBoolean);
 
     }
 }

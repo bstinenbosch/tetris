@@ -1,15 +1,13 @@
 package robot;
 
-import tetris.Action;
 import tetris.Controller;
 
 import javafx.application.Platform;
 
 public class RobotController extends Thread {
 
-    private Action[] actions = Action.values();
     private Controller controller;
-    private RandomRobot robot;
+    private IRobot robot;
     private static volatile boolean playing = true;
     private static volatile RobotController robotController;
 
@@ -46,8 +44,8 @@ public class RobotController extends Thread {
                 // give grid and tetromino to ANN
                 robot.setGameState(controller.getGrid(), controller.getTetromino());
                 // ask for action and handle it
-                Platform.runLater(() -> actions[robot.getNextAction()]
-                    .attempt(controller.getTetromino(), controller.getGrid()));
+                Platform.runLater(() -> robot.getNextAction().attempt(controller.getTetromino(),
+                    controller.getGrid()));
             }
         }
         // TODO save settings
