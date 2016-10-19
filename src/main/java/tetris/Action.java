@@ -31,6 +31,8 @@ public enum Action implements IActionItem {
             for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.get(i))) {
                     tetromino.rotateLeft();
+                    Logger.log(this, Logger.LogType.INFO,
+                        "tried to rotate tetromino clockwise but failed");
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
@@ -106,6 +108,8 @@ public enum Action implements IActionItem {
             for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.get(i))) {
                     tetromino.rotateLeft();
+                    Logger.log(this, Logger.LogType.INFO,
+                        "tried to rotate tetromino counter clockwise but failed");
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "rotated tetromino counter clockwise");
