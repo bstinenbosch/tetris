@@ -18,8 +18,7 @@ public class GameScreen extends Group implements IScreen {
     private Button botButton;
     private Button restartButton;
     private Button backButton;
-    private Button pauzeButton;
-    private Button unpauseButton;
+    private Button pauseButton;
     private ObservingLabel scoreLabel;
     private Canvas canvas;
 
@@ -62,8 +61,7 @@ public class GameScreen extends Group implements IScreen {
         restartButton = new Button("restart");
         backButton = new Button("back");
         scoreLabel = new ObservingLabel("0");
-        pauzeButton = new Button("pause");
-        unpauseButton = new Button("unpause");
+        pauseButton = new Button("pause");
         scoreLabel
             .setStyle("-fx-background-color:red;-fx-text-fill:black;-fx-text-alignment:center;"
                 + "-fx-alignment:center;-fx-font-weight:bold;-fx-font-size:250%");
@@ -71,7 +69,8 @@ public class GameScreen extends Group implements IScreen {
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(pauzeButton, unpauseButton, botButton, restartButton, scoreLabel, backButton, setUpPreview());
+        box.getChildren().addAll(pauseButton, botButton, restartButton, scoreLabel, backButton,
+            setUpPreview());
         return box;
     }
 
@@ -84,8 +83,7 @@ public class GameScreen extends Group implements IScreen {
     @Override
     public void hookEvents(Controller controller) {
         botButton.setOnAction(event -> RobotController.toggleRobotController(controller));
-        pauzeButton.setOnAction(event -> controller.pause());
-        unpauseButton.setOnAction(event -> controller.unpause());
+        pauseButton.setOnAction(event -> controller.pauseCombined());
         restartButton.setOnAction(event -> controller.restartGame());
         backButton.setOnAction(event -> {
             controller.gameOver();

@@ -25,6 +25,7 @@ public class Controller {
     private int leftOffSet;
     private int bottomOffSet;
     private boolean gameOver = false;
+    private boolean isPaused = false;
     private Tick timer = new Tick(event -> {
         Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
         Platform.runLater(() -> redraw());
@@ -278,4 +279,18 @@ public class Controller {
     public Grid getGrid() {
         return grid;
     }
+
+    public void pauseCombined() {
+        if (isPaused == false) {
+            timer.pause();
+            gameOver = true;
+            isPaused = !isPaused;
+        } else {
+            timer.unpause();
+            ui.resetFocus();
+            gameOver = false;
+            isPaused = !isPaused;
+        }
+    }
+
 }
