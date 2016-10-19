@@ -2,6 +2,10 @@
 *.apk
 *.ap_
 
+# app content files
+src/main/resources/highscores.xml
+src/main/resources/settings.xml
+
 # files for the dex VM
 *.dex
 
