@@ -15,11 +15,22 @@ public enum Action implements IActionItem {
         public void attempt(AbstractTetromino tetromino, Grid grid) {
             tetromino.rotateRight();
             for (int i = 0; i < 4; i++) {
+                if (!grid.isFree(tetromino.leftCoor())) {
+                    tetromino.moveRight();
+                    Logger.log(this, Logger.LogType.INFO,
+                        "rotated tetromino clockwise and moved to the right to make it possible");
+                }
+            }
+            for (int i = 0; i < 4; i++) {
+                if (!grid.isFree(tetromino.rightCoor())) {
+                    tetromino.moveLeft();
+                    Logger.log(this, Logger.LogType.INFO,
+                        "rotated tetromino clockwise and moved to the left to make it possible");
+                }
+            }
+            for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.get(i))) {
                     tetromino.rotateLeft();
-                    Logger.log(this, Logger.LogType.INFO,
-                        "tried to rotate tetromino clockwise but failed");
-                    break;
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
@@ -77,16 +88,27 @@ public enum Action implements IActionItem {
 
         @Override
         public void attempt(AbstractTetromino tetromino, Grid grid) {
-            tetromino.rotateLeft();
+            tetromino.rotateRight();
             for (int i = 0; i < 4; i++) {
-                if (!grid.isFree(tetromino.get(i))) {
-                    tetromino.rotateRight();
+                if (!grid.isFree(tetromino.leftCoor())) {
+                    tetromino.moveRight();
                     Logger.log(this, Logger.LogType.INFO,
-                        "tried to rotate tetromino counterclockwise but failed");
-                    break;
+                        "rotated tetromino counter clockwise and moved to the right to make it possible");
                 }
             }
-            Logger.log(this, Logger.LogType.INFO, "rotated tetromino counterclockwise");
+            for (int i = 0; i < 4; i++) {
+                if (!grid.isFree(tetromino.rightCoor())) {
+                    tetromino.moveLeft();
+                    Logger.log(this, Logger.LogType.INFO,
+                        "rotated tetromino counter clockwise and moved to the left to make it possible");
+                }
+            }
+            for (int i = 0; i < 4; i++) {
+                if (!grid.isFree(tetromino.get(i))) {
+                    tetromino.rotateLeft();
+                }
+            }
+            Logger.log(this, Logger.LogType.INFO, "rotated tetromino counter clockwise");
         }
     },
     SOFT_DROP {

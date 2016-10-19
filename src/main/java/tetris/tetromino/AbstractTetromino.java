@@ -124,6 +124,36 @@ public abstract class AbstractTetromino {
         return left;
     }
 
+    /**
+     * Determines the most left coordinate of a tetromino
+     * 
+     * @return the most left coordinate of a tetromino
+     */
+    public Coordinate leftCoor() {
+        Coordinate left = this.get(0);
+        for (int i = 0; i < 4; i++) {
+            if (this.get(i).getX() < left.getX()) {
+                left = this.get(i);
+            }
+        }
+        return left;
+    }
+
+    /**
+     * Determines the most left coordinate of a tetromino
+     * 
+     * @return the most left coordinate of a tetromino
+     */
+    public Coordinate rightCoor() {
+        Coordinate right = this.get(0);
+        for (int i = 0; i < 4; i++) {
+            if (this.get(i).getX() > right.getX()) {
+                right = this.get(i);
+            }
+        }
+        return right;
+    }
+
     public Coordinate getleft() {
         return this.position;
     }
