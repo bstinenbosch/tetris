@@ -11,14 +11,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import robot.RobotController;
+
 public class GameScreen extends Group implements IScreen {
     private Settings settings;
-    private Button exitButton;
+    private Button botButton;
     private Button restartButton;
     private Button backButton;
     private Button pauzeButton;
     private Button unpauseButton;
     private ObservingLabel scoreLabel;
+    private Canvas canvas;
 
     /**
      * the gamescreen is the screen where game is actually played.
@@ -38,7 +41,7 @@ public class GameScreen extends Group implements IScreen {
     private Pane setUpLeftPaneGameScreen() {
         int boardWidthPixel = settings.blockSize() * settings.boardWidth();
         int boardHeightPixel = settings.blockSize() * settings.boardHeight();
-        Canvas canvas = new Canvas(boardWidthPixel, boardHeightPixel);
+        canvas = new Canvas(boardWidthPixel, boardHeightPixel);
         settings.setBoard(canvas.getGraphicsContext2D());
         Pane leftPane = new Pane();
         leftPane.getChildren().add(canvas);
@@ -55,7 +58,7 @@ public class GameScreen extends Group implements IScreen {
     }
 
     private VBox setUpRightPaneGameScreen() {
-        exitButton = new Button("exit");
+        botButton = new Button("Toggle botmode");
         restartButton = new Button("restart");
         backButton = new Button("back");
         scoreLabel = new ObservingLabel("0");
@@ -68,8 +71,7 @@ public class GameScreen extends Group implements IScreen {
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(exitButton, unpauseButton, restartButton, scoreLabel, backButton,
-            pauzeButton, setUpPreview());
+        box.getChildren().addAll(pauzeButton, unpauseButton, botButton, restartButton, scoreLabel, backButton, setUpPreview());
         return box;
     }
 
@@ -81,7 +83,7 @@ public class GameScreen extends Group implements IScreen {
 
     @Override
     public void hookEvents(Controller controller) {
-        exitButton.setOnAction(event -> controller.stop());
+        botButton.setOnAction(event -> RobotController.toggleRobotController(controller));
         pauzeButton.setOnAction(event -> controller.pause());
         unpauseButton.setOnAction(event -> controller.unpause());
         restartButton.setOnAction(event -> controller.restartGame());
@@ -90,6 +92,7 @@ public class GameScreen extends Group implements IScreen {
             controller.openMainScreen();
         });
         controller.addScoreObserver(scoreLabel);
+        canvas.setOnMouseClicked(event -> requestFocus());
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }
 

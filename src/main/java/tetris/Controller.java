@@ -99,7 +99,7 @@ public class Controller {
     public void gameOver() {
         stopGame();
         if (score.getScore() > 0 && scoreBoard.isHighscore(score.getScore())) {
-            Platform.runLater(() -> ui.gotoPromptNameScreen());
+            ui.gotoPromptNameScreen();
         } else {
             ui.gotoHighscoreScreen();
         }

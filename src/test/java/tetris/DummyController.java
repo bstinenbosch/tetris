@@ -1,8 +1,12 @@
 package tetris;
 
+import tetris.tetromino.AbstractTetromino;
+
 public class DummyController extends Controller {
     public boolean newTetrominoDropped = false;
-    public boolean isGameOver = false;
+    public boolean isGameOverBoolean = false;
+    private AbstractTetromino tetromino = new DummyShapeO(new Coordinate(100, 100));
+    private Grid grid = new Grid(this, 200, 200);
 
     public DummyController(View ui, Settings settings) {
         super(ui, settings);
@@ -19,7 +23,26 @@ public class DummyController extends Controller {
 
     @Override
     public void gameOver() {
-        isGameOver = true;
+        isGameOverBoolean = true;
     }
 
+    @Override
+    public void startGame() {
+        isGameOverBoolean = false;
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return isGameOverBoolean;
+    }
+
+    @Override
+    public Grid getGrid() {
+        return grid;
+    }
+
+    @Override
+    public AbstractTetromino getTetromino() {
+        return tetromino;
+    }
 }
