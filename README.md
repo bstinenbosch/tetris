@@ -28,30 +28,30 @@
 - [x] A new game can be started by the player
 - [ ] A new game will start when the previous game has ended
 - [x] Each tetromino shall have a different colour
-- [ ] There shall be a preview pane showing the next Tetromino to be placed in the grid
+- [X] There shall be a preview pane showing the next Tetromino to be placed in the grid
 
 ### Could haves:
 
-- [ ] The score of the player will be 0 when the game starts
-- [ ] The final score will be shown when the game has ended
-- [ ] The score shall increase for each row cleared by the player
-- [ ] The game will follow the original Nintento scoring system:
+- [X] The score of the player will be 0 when the game starts
+- [X] The final score will be shown when the game has ended
+- [X] The score shall increase for each row cleared by the player
+- [X] The game will follow the original Nintento scoring system:
   - 40 points will be given if 1 row of blocks is cleared
   - 100 points will be given if 2 rows of blocks are cleared at the same time
   - 300 points will be given if 3 rows of blocks are cleared at the same time
   - 1200 point will be given if 4 rows of blocks are cleared at the same time
-- [ ] The game should have different levels where the tetrimos fall down with a different speed
+- [X] The game should have different levels where the tetrimos fall down with a different speed
 - [ ] The game should have a maximum score, when reached, restarting the game on the next level
-- [ ] The game has a high score system where the best 10 players can leave their names
+- [X] The game has a high score system where the best 10 players can leave their names
 
 ### Would/won’t haves
 
-- [ ] The game will keep track of the 10 highest scores with the names of the corresponding players
+- [X] The game will keep track of the 10 highest scores with the names of the corresponding players
 - [ ] The player shall be able to choose a soundtrack from a list of presets
 - [ ] The player shall be able to choose a theme from a list of presets
 - [ ] The game has sound effects
 - [ ] The player shall be able to choose at which level to start the game
-- [ ] The player shall be able to pause the game
+- [X] The player shall be able to pause the game
 
 ## Non Functional requirements
 

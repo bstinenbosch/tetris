@@ -106,8 +106,8 @@ public class KeyBindingsTest {
     public void test_element_accessors() {
         Collection<String> bindings = keyBindings.values();
         String str = (String) bindings.toArray()[0];
-        keyBindings.put(str, KeyCode.ACCEPT);
-        assertEquals(keyBindings.getKey(KeyCode.ACCEPT), str);
-        assertEquals(keyBindings.getBinding(str), KeyCode.ACCEPT);
+        kb.put(str, KeyCode.ACCEPT);
+        assertEquals(kb.getAction(KeyCode.ACCEPT), str);
+        assertEquals(kb.getKeyCode(str), KeyCode.ACCEPT);
     }
 }

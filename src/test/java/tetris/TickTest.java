@@ -1,31 +1,89 @@
 package tetris;
 
+import java.util.Observable;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 public class TickTest extends Thread {
-    boolean trueReported = false;
+    private class Counter {
+        private int counter = 0;
 
-    @Test
-    public void test_logcreate() throws InterruptedException {
-        Tick tick = new Tick(event -> reportTrue());
-        tick.setTime(500);
-        Assert.assertEquals(tick.getTime(), 500);
+        public void increaseCounter() {
+            counter++;
+        }
 
-        tick.pause();
-        tick.start();
-        sleep(550);
-        Assert.assertFalse(trueReported);
-        tick.unpause();
-        sleep(550);
-        Assert.assertTrue(trueReported);
-        tick.requestStop();
-        trueReported = false;
-        sleep(550);
-        Assert.assertFalse(trueReported);
+        public int get() {
+            return counter;
+        }
+
+        public void set(int newCounter) {
+            counter = newCounter;
+        }
     }
 
-    private void reportTrue() {
-        trueReported = true;
+    @Test
+    public void test_fire_ontick_event_paused() throws InterruptedException {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
+        tick.setTime(100);
+        tick.pause();
+        tick.start();
+        sleep(1550);
+        Assert.assertFalse(counter.get() > 0);
+        tick.requestStop();
+    }
+
+    @Test
+    public void test_fire_ontick_event_unpaused() throws InterruptedException {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
+        tick.setTime(100);
+        tick.unpause();
+        tick.start();
+        sleep(1550);
+        Assert.assertTrue(counter.get() > 0);
+        tick.requestStop();
+
+    }
+
+    @Test
+    public void test_fire_ontick_event_stopped() throws InterruptedException {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
+        tick.setTime(100);
+        tick.start();
+        tick.requestStop();
+        sleep(1550);
+        counter.set(0);
+        sleep(1550);
+        Assert.assertFalse(counter.get() > 0);
+    }
+
+    @Test
+    public void test_setters_getters() {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
+        tick.setTime(500);
+        Assert.assertEquals(tick.getTime(), 500);
+    }
+
+    @Test
+    public void test_update_from_score() {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
+        int arg = 40;
+        tick.update(new Score(), arg);
+        Assert.assertEquals(tick.getTime(), (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg)));
+    }
+
+    @Test
+    public void test_update_from_other() {
+        Counter counter = new Counter();
+        Tick tick = new Tick(event -> counter.increaseCounter());
+        int arg = 40;
+        tick.update(new Observable(), arg);
+        Assert.assertNotEquals(tick.getTime(),
+            (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg)));
     }
 }

@@ -27,8 +27,8 @@ public class Controller {
     private boolean gameOver = false;
     private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
-        movementHandler.lowerTetromino(tetromino, grid);
-        redraw();
+        Platform.runLater(() -> movementHandler.lowerTetromino(tetromino, grid));
+        Platform.runLater(() -> redraw());
     });
 
     private Settings settings;
@@ -59,7 +59,7 @@ public class Controller {
     public void handleKeyEvent(KeyEvent event) {
         if (!gameOver) {
             try {
-                String binding = settings.getKeyBindings().getKey(event.getCode());
+                String binding = settings.getKeyBindings().getAction(event.getCode());
                 switch (binding) {
                     case "ROTATE_RIGHT":
                         movementHandler.checkRotateRight(tetromino, grid);
@@ -284,4 +284,16 @@ public class Controller {
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
     }
+
+    public void pause() {
+        timer.pause();
+        gameOver = true;
+    }
+
+    public void unpause() {
+        timer.unpause();
+        ui.resetFocus();
+        gameOver = false;
+    }
+
 }

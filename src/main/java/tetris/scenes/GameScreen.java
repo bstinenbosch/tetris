@@ -16,6 +16,8 @@ public class GameScreen extends Group implements IScreen {
     private Button exitButton;
     private Button restartButton;
     private Button backButton;
+    private Button pauzeButton;
+    private Button unpauseButton;
     private ObservingLabel scoreLabel;
 
     /**
@@ -57,6 +59,8 @@ public class GameScreen extends Group implements IScreen {
         restartButton = new Button("restart");
         backButton = new Button("back");
         scoreLabel = new ObservingLabel("0");
+        pauzeButton = new Button("pause");
+        unpauseButton = new Button("unpause");
         scoreLabel
             .setStyle("-fx-background-color:red;-fx-text-fill:black;-fx-text-alignment:center;"
                 + "-fx-alignment:center;-fx-font-weight:bold;-fx-font-size:250%");
@@ -64,7 +68,8 @@ public class GameScreen extends Group implements IScreen {
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(exitButton, restartButton, scoreLabel, backButton, setUpPreview());
+        box.getChildren().addAll(exitButton, unpauseButton, restartButton, scoreLabel, backButton,
+            pauzeButton, setUpPreview());
         return box;
     }
 
@@ -77,6 +82,8 @@ public class GameScreen extends Group implements IScreen {
     @Override
     public void hookEvents(Controller controller) {
         exitButton.setOnAction(event -> controller.stop());
+        pauzeButton.setOnAction(event -> controller.pause());
+        unpauseButton.setOnAction(event -> controller.unpause());
         restartButton.setOnAction(event -> controller.restartGame());
         backButton.setOnAction(event -> {
             controller.gameOver();
