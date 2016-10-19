@@ -49,14 +49,14 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
         if (!bindings.containsKey(keyCode)) {
             KeyCode oldBinding = getKeyCode(action);
             bindings.remove(oldBinding);
-            bindings.put(keyCode, action);
         }
+        bindings.put(keyCode, action);
     }
 
     /**
-     * Returns the keycode for a given binding event
+     * Returns the keycode for a given binding event.
      *
-     * @param action
+     * @param keyCode
      * @return
      */
     public String getAction(KeyCode keyCode) {
