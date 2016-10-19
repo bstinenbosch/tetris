@@ -14,7 +14,6 @@ public enum Action implements IActionItem {
         @Override
         public void attempt(AbstractTetromino tetromino, Grid grid) {
             tetromino.rotateRight();
-
             for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.leftCoor())) {
                     tetromino.moveRight();
@@ -27,6 +26,11 @@ public enum Action implements IActionItem {
                     tetromino.moveLeft();
                     Logger.log(this, Logger.LogType.INFO,
                         "rotated tetromino clockwise and moved to the left to make it possible");
+                }
+            }
+            for (int i = 0; i < 4; i++) {
+                if (!grid.isFree(tetromino.get(i))) {
+                    tetromino.rotateLeft();
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
@@ -97,6 +101,11 @@ public enum Action implements IActionItem {
                     tetromino.moveLeft();
                     Logger.log(this, Logger.LogType.INFO,
                         "rotated tetromino counter clockwise and moved to the left to make it possible");
+                }
+            }
+            for (int i = 0; i < 4; i++) {
+                if (!grid.isFree(tetromino.get(i))) {
+                    tetromino.rotateLeft();
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "rotated tetromino counter clockwise");
