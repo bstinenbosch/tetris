@@ -17,4 +17,16 @@ public interface ILogger {
      */
     public void doLog(Object sender, LogType logtype, String message);
 
+    /**
+     * This function is called to switch the logger to debug mode, if the logger
+     * is not already in debug mode.
+     */
+    public void setDebugMode();
+
+    /**
+     * This function is called to switch the logger to release mode, if the
+     * logger is not already in release mode.
+     */
+    public void setReleaseMode();
+
 }

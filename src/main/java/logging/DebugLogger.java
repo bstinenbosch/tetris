@@ -106,17 +106,19 @@ public class DebugLogger extends Logger implements ILogger {
         queue.append(msg);
     }
 
-    public static void setReleaseMode() {
-        if (logger instanceof DebugLogger) {
-            debug = false;
-            try {
-                logger.join(6000);
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
+    @Override
+    public void setDebugMode() {
+        // do nothing.
+    }
+
+    @Override
+    public void setReleaseMode() {
+        debug = false;
+        try {
+            logger.join(6000);
+        } catch (InterruptedException exception) {
+            exception.printStackTrace();
         }
-        if (!(logger instanceof ReleaseLogger)) {
-            logger = new ReleaseLogger();
-        }
+        logger = new ReleaseLogger();
     }
 }
