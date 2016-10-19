@@ -48,7 +48,8 @@ public class Settings {
     /**
      * Creates a Settings object holding several game-wide settings.
      *
-     * @param path path to settings xml-file
+     * @param path
+     *            path to settings xml-file
      */
     public Settings(String path) {
         savePath = new File(path);
@@ -90,7 +91,7 @@ public class Settings {
 
     private void readKeyBindings(Node node) {
         for (int i = 0; i < node.getAttributes().getLength(); i++) {
-            String key = node.getAttributes().item(i).getNodeName();
+            Action key = Action.valueOf(node.getAttributes().item(i).getNodeName());
             KeyCode binding = KeyCode.getKeyCode(node.getAttributes().item(i).getNodeValue());
             keybindings.put(key, binding);
         }
@@ -146,9 +147,9 @@ public class Settings {
         String key;
         Element keyBindings = doc.createElement("keyBindings");
         rootElement.appendChild(keyBindings);
-        for (Entry<KeyCode, String> entry : keybindings) {
+        for (Entry<KeyCode, Action> entry : keybindings) {
             key = entry.getKey().getName();
-            binding = entry.getValue();
+            binding = entry.getValue().name();
             keyBindings.setAttribute(binding, key);
         }
     }

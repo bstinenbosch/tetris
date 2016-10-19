@@ -59,24 +59,24 @@ public class Controller {
     public void handleKeyEvent(KeyEvent event) {
         if (!gameOver) {
             try {
-                String binding = settings.getKeyBindings().getAction(event.getCode());
+                Action binding = settings.getKeyBindings().getAction(event.getCode());
                 switch (binding) {
-                    case "ROTATE_RIGHT":
+                    case ROTATE_RIGHT:
                         movementHandler.checkRotateRight(tetromino, grid);
                         break;
-                    case "MOVE_LEFT":
+                    case MOVE_LEFT:
                         movementHandler.checkMoveLeft(tetromino, grid);
                         break;
-                    case "MOVE_RIGHT":
+                    case MOVE_RIGHT:
                         movementHandler.checkMoveRight(tetromino, grid);
                         break;
-                    case "ROTATE_LEFT":
+                    case ROTATE_LEFT:
                         movementHandler.checkRotateLeft(tetromino, grid);
                         break;
-                    case "SOFT_DROP":
+                    case SOFT_DROP:
                         movementHandler.lowerTetromino(tetromino, grid);
                         break;
-                    case "HARD_DROP":
+                    case HARD_DROP:
                         movementHandler.hardDrop(tetromino, grid);
                         break;
                     default:
