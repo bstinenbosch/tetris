@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import javafx.scene.input.KeyCode;
 
 public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
-    private HashMap<KeyCode, String> bindings = new HashMap<KeyCode, String>();
+    private HashMap<KeyCode, String> bindings = new HashMap<>();
 
     /**
      * Keybindings provide a fast-access way of evaluating keys to their mapped
@@ -27,6 +27,11 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
         bindings.put(KeyCode.SPACE, "HARD_DROP");
     }
 
+    /**
+     * Return names of all bindings
+     *
+     * @return
+     */
     public Collection<String> values() {
         return bindings.values();
     }
@@ -44,10 +49,16 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
         if (!bindings.containsKey(keyCode)) {
             KeyCode oldBinding = getKeyCode(action);
             bindings.remove(oldBinding);
-            bindings.put(keyCode, action);
         }
+        bindings.put(keyCode, action);
     }
 
+    /**
+     * Returns the keycode for a given binding event.
+     *
+     * @param keyCode
+     * @return
+     */
     public String getAction(KeyCode keyCode) {
         return bindings.getOrDefault(keyCode, "no key assigned");
     }
@@ -68,6 +79,12 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
         throw new IllegalArgumentException("You requested the binding of a key that is not bound.");
     }
 
+    /**
+     * Returns all key bindings as an iterable set
+     * for the convenience of listing every key binding
+     *
+     * @return
+     */
     @Override
     public Iterator<Entry<KeyCode, String>> iterator() {
         return bindings.entrySet().iterator();
@@ -76,7 +93,7 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, String>> {
     /**
      * courtesy of
      * http://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values-java.
-     * 
+     *
      * @return a value-sorted version of bindings.
      */
     public Set<Entry<KeyCode, String>> getSortedEntrySet() {
