@@ -25,9 +25,8 @@ public class Controller {
     private int leftOffSet;
     private int bottomOffSet;
     private boolean gameOver = false;
-    private TetrominoMovementHandler movementHandler = new TetrominoMovementHandler(this);
     private Tick timer = new Tick(event -> {
-        Platform.runLater(() -> movementHandler.lowerTetromino(tetromino, grid));
+        Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
         Platform.runLater(() -> redraw());
     });
 
@@ -57,37 +56,9 @@ public class Controller {
      *            the key event to handle.
      */
     public void handleKeyEvent(KeyEvent event) {
-        if (!gameOver) {
-            try {
-                Action binding = settings.getKeyBindings().getAction(event.getCode());
-                switch (binding) {
-                    case ROTATE_RIGHT:
-                        movementHandler.checkRotateRight(tetromino, grid);
-                        break;
-                    case MOVE_LEFT:
-                        movementHandler.checkMoveLeft(tetromino, grid);
-                        break;
-                    case MOVE_RIGHT:
-                        movementHandler.checkMoveRight(tetromino, grid);
-                        break;
-                    case ROTATE_LEFT:
-                        movementHandler.checkRotateLeft(tetromino, grid);
-                        break;
-                    case SOFT_DROP:
-                        movementHandler.lowerTetromino(tetromino, grid);
-                        break;
-                    case HARD_DROP:
-                        movementHandler.hardDrop(tetromino, grid);
-                        break;
-                    default:
-                        break;
-                }
-                redraw();
-            } catch (IllegalArgumentException e) {
-                e.getMessage();
-                Logger.warning(this, "Key binding not set.");
-            }
-        }
+        Action action = settings.getKeyBindings().getAction(event.getCode());
+        action.attempt(tetromino, grid);
+        redraw();
     }
 
     /**
@@ -161,7 +132,7 @@ public class Controller {
         ui.gotoGameScreen();
         score.reset();
         gameOver = false;
-        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
         timer.unpause();
         ui.resetFocus();
@@ -296,4 +267,15 @@ public class Controller {
         gameOver = false;
     }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public AbstractTetromino getTetromino() {
+        return tetromino;
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
 }

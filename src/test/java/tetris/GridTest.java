@@ -1,7 +1,6 @@
 package tetris;
 
 import org.junit.Before;
-
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -13,7 +12,7 @@ public class GridTest {
 
     @Before
     public void set_up_grid() {
-        this.grid = new Grid(10, 20);
+        this.grid = new Grid(new DummyController(), 10, 20);
     }
 
     @Test
@@ -33,12 +32,13 @@ public class GridTest {
 
     @Test
     public void test_register_shape_to_grid() {
-        Grid grid = new Grid(10, 20);
+        Grid grid = new Grid(new DummyController(), 10, 20);
         Coordinate coordinate = new Coordinate(5, 5);
         DummyShape shape = new DummyShape(coordinate);
         grid.registerTetromino(shape);
 
-        assertThat("grid is not empty when a tetromino is registered", isEmpty(grid), equalTo(false));
+        assertThat("grid is not empty when a tetromino is registered", isEmpty(grid),
+            equalTo(false));
     }
 
     @Test
@@ -59,8 +59,8 @@ public class GridTest {
         grid.registerTetromino(new DummyShape(new Coordinate(6, 0)));
         grid.registerTetromino(new DummyShape(new Coordinate(8, 0)));
 
-        assertThat("two lines are cleared when a full row of O-shaped tetrominos " +
-                "is placed at the bottom of the grid", grid.clearLines(), equalTo(2));
+        assertThat("two lines are cleared when a full row of O-shaped tetrominos "
+            + "is placed at the bottom of the grid", grid.clearLines(), equalTo(2));
     }
 
     private boolean isEmpty(Grid grid) {
