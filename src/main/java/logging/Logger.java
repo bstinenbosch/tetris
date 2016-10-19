@@ -5,7 +5,7 @@ import java.io.File;
 public abstract class Logger extends Thread implements ILogger {
     protected static volatile File file = new File("log.log");
     protected static volatile int logLength = 10000;
-    protected static Logger logger;
+    protected static Logger logger = new ReleaseLogger();
 
     /**
      * supported logging types.
@@ -78,13 +78,13 @@ public abstract class Logger extends Thread implements ILogger {
      * switch debug on.
      */
     public static synchronized void setDebugOn() {
-        ReleaseLogger.setDebugMode();
+        logger.setDebugMode();
     }
 
     /**
      * switch debug off.
      */
     public static synchronized void setDebugOff() {
-        DebugLogger.setReleaseMode();
+        logger.setReleaseMode();
     }
 }
