@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 class Tick extends Thread implements Observer {
 
     private long time;
+    private static long basetime = 400;
     private EventHandler<ActionEvent> onTick;
     private volatile boolean running;
     private volatile boolean waiting;
@@ -27,10 +28,11 @@ class Tick extends Thread implements Observer {
         running = true;
         waiting = true;
         this.time = time;
+        basetime = time;
     }
 
     public Tick(EventHandler<ActionEvent> event) {
-        this(event, 200);
+        this(event, basetime);
     }
 
     /**
@@ -93,7 +95,7 @@ class Tick extends Thread implements Observer {
     @Override
     public synchronized void update(Observable observable, Object arg) {
         if (observable instanceof Score) {
-            this.time = (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg));
+            this.time = (long) Math.max(1, basetime * Math.exp(-.0002 * (int) arg));
         }
     }
 }
