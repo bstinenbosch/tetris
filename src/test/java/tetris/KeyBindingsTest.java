@@ -19,4 +19,32 @@ public class KeyBindingsTest {
         assertEquals(kb.getAction(KeyCode.ACCEPT), str);
         assertEquals(kb.getKeyCode(str), KeyCode.ACCEPT);
     }
+
+    @Test
+    public void sizeTest() {
+        KeyBindings bindings = new KeyBindings();
+        assertEquals(6, bindings.size());
+    }
+
+    @Test
+    public void equalsSameMemorieTest() {
+        KeyBindings bindings = new KeyBindings();
+        KeyBindings bindings2 = bindings;
+        assertEquals(true, bindings.equals(bindings2));
+    }
+
+    @Test
+    public void equalsDifferentMemorieTest() {
+        KeyBindings bindings = new KeyBindings();
+        KeyBindings bindings2 = new KeyBindings();
+        assertEquals(true, bindings.equals(bindings2));
+    }
+
+    @Test
+    public void equalsNotEqualTest() {
+        KeyBindings bindings = new KeyBindings();
+        KeyBindings bindings2 = new KeyBindings();
+        bindings2.put(Action.HARD_DROP, KeyCode.T);
+        assertEquals(false, bindings.equals(bindings2));
+    }
 }
