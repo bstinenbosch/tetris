@@ -42,7 +42,6 @@ public class Settings {
         try {
             loadSettings();
         } catch (ParserConfigurationException | SAXException | IOException exception) {
-            exception.printStackTrace();
         }
     }
 
@@ -58,7 +57,6 @@ public class Settings {
         try {
             loadSettings();
         } catch (ParserConfigurationException | SAXException | IOException exception) {
-            exception.printStackTrace();
         }
     }
 
@@ -69,10 +67,14 @@ public class Settings {
 
     private void loadSettings()
         throws ParserConfigurationException, SAXException, IOException, FileNotFoundException {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(savePath);
-        doc.getDocumentElement().normalize();
-        readKeyBindings(doc.getElementsByTagName("keyBindings").item(0));
-        readColors(doc.getElementsByTagName("color"));
+        if (savePath.exists()) {
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                .parse(savePath);
+            doc.getDocumentElement().normalize();
+            readKeyBindings(doc.getElementsByTagName("keyBindings").item(0));
+            readColors(doc.getElementsByTagName("color"));
+        }
+
     }
 
     private void readColors(NodeList nodeList) {
@@ -113,7 +115,6 @@ public class Settings {
             StreamResult result = new StreamResult(savePath);
             TransformerFactory.newInstance().newTransformer().transform(source, result);
         } catch (ParserConfigurationException | TransformerException exception) {
-            exception.printStackTrace();
         }
     }
 
