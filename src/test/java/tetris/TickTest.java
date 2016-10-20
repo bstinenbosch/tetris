@@ -71,19 +71,19 @@ public class TickTest extends Thread {
     @Test
     public void test_update_from_score() {
         Counter counter = new Counter();
-        Tick tick = new Tick(event -> counter.increaseCounter());
+        Tick tick = new Tick(event -> counter.increaseCounter(), 400);
         int arg = 40;
         tick.update(new Score(), arg);
-        Assert.assertEquals(tick.getTime(), (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg)));
+        Assert.assertEquals(tick.getTime(), (long) Math.max(1, 400 * Math.exp(-.0002 * (int) arg)));
     }
 
     @Test
     public void test_update_from_other() {
         Counter counter = new Counter();
-        Tick tick = new Tick(event -> counter.increaseCounter());
+        Tick tick = new Tick(event -> counter.increaseCounter(), 400);
         int arg = 40;
         tick.update(new Observable(), arg);
         Assert.assertNotEquals(tick.getTime(),
-            (long) Math.max(1, 200 * Math.exp(-.0002 * (int) arg)));
+            (long) Math.max(1, 400 * Math.exp(-.0002 * (int) arg)));
     }
 }

@@ -28,6 +28,7 @@ class Tick extends Thread implements Observer {
         running = true;
         waiting = true;
         this.time = time;
+        basetime = time;
     }
 
     public Tick(EventHandler<ActionEvent> event) {
