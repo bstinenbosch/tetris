@@ -121,6 +121,7 @@ public enum Action implements IActionItem {
     INVALID_ACTION {
         @Override
         public void attempt(AbstractTetromino tetromino, Grid grid) {
+
         }
     };
 
