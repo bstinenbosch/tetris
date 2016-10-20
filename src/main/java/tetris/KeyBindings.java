@@ -85,4 +85,32 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, Action>> {
                 .toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new))
             .entrySet();
     }
+
+    public int size() {
+        return bindings.size();
+    }
+
+    public boolean equals(KeyBindings other) {
+        if (other == null) {
+            return false;
+        }
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof KeyBindings)) {
+            return false;
+        }
+        KeyBindings otherObject = (KeyBindings) other;
+        if (size() == otherObject.size()) {
+            boolean result;
+            result = true;
+            for (Action action : bindings.values()) {
+                if (!getKeyCode(action).equals(otherObject.getKeyCode(action))) {
+                    result = false;
+                }
+            }
+            return result;
+        } else
+            return false;
+    }
 }
