@@ -81,12 +81,30 @@ public class ActionTest {
     }
 
     @Test
+    public void testRotateLeftNoFreeGrid() {
+        DummyController controller = new DummyController();
+        Grid grid = new Grid(controller, 10, 20);
+        DummyShapeI tetromino = new DummyShapeI(new Coordinate(2, 0));
+        Action.ROTATE_LEFT.attempt(tetromino, grid);
+        assertTrue(tetromino.top() == 0);
+    }
+
+    @Test
     public void testRotateRight() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
         DummyShapeL tetromino = new DummyShapeL(new Coordinate(4, 6));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
         assertTrue(tetromino.right() == 5);
+    }
+
+    @Test
+    public void testRotateRightNoFreeGrid() {
+        DummyController controller = new DummyController();
+        Grid grid = new Grid(controller, 10, 20);
+        DummyShapeI tetromino = new DummyShapeI(new Coordinate(4, 0));
+        Action.ROTATE_RIGHT.attempt(tetromino, grid);
+        assertTrue(tetromino.right() == 6);
     }
 
     @Test
@@ -127,10 +145,11 @@ public class ActionTest {
 
     @Test
     public void testInvalidAction() {
+        Action action = null;
         DummyController controller = new DummyController();
-        Grid grid = new Grid(controller, 2, 2);
-        DummyShapeI tetromino = new DummyShapeI(new Coordinate(2, 2));
-        Action.INVALID_ACTION.attempt(tetromino, grid);
+        Grid grid = new Grid(controller, 10, 20);
+        DummyShapeI tetromino = new DummyShapeI(new Coordinate(5, 5));
+        assertTrue(action.testINVALIDACTION(tetromino, grid));
     }
 
 }
