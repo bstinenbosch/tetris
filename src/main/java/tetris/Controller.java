@@ -31,6 +31,7 @@ public class Controller {
     });
 
     private Settings settings;
+    private SoundManager soundManager;
 
     /**
      * the Controller class determines the game flow and does the actual event
@@ -42,11 +43,19 @@ public class Controller {
     public Controller(View ui, Settings settings) {
         this.settings = settings;
         this.ui = ui;
+        this.soundManager = new SoundManager();
+        setGameSounds();
         Logger.setDebugOn();
         score = new Score();
         scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
         timer.start();
+    }
+
+    private void setGameSounds() {
+        soundManager.load("theme", getClass().getClassLoader().getResource("theme.mp3"));
+        soundManager.load("sfx1", getClass().getClassLoader().getResource("sfx/sfx1.wav"));
+        soundManager.load("sfx2", getClass().getClassLoader().getResource("sfx/sfx2.wav"));
     }
 
     /**
@@ -58,6 +67,7 @@ public class Controller {
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
         action.attempt(tetromino, grid);
+        soundManager.play("sfx1");
         redraw();
     }
 
@@ -112,6 +122,7 @@ public class Controller {
 
     private void stopGame() {
         timer.pause();
+        soundManager.stop();
         gameOver = true;
     }
 
@@ -119,6 +130,7 @@ public class Controller {
      * stop handles asynchronous threads when the application is closed.
      */
     public void stop() {
+        soundManager.shutdown();
         timer.requestStop();
         ui.stop();
         Logger.log(this, Logger.LogType.INFO, "closing application");
@@ -134,6 +146,7 @@ public class Controller {
         gameOver = false;
         grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
+        soundManager.play("theme");
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
@@ -167,6 +180,8 @@ public class Controller {
         gameOver = false;
         grid.clearBoard();
         score.reset();
+        soundManager.stop();
+        soundManager.play("theme");
         dropNewTetromino();
         timer.unpause();
         ui.resetFocus();
@@ -258,11 +273,13 @@ public class Controller {
 
     public void pause() {
         timer.pause();
+        soundManager.stop();
         gameOver = true;
     }
 
     public void unpause() {
         timer.unpause();
+        soundManager.play("theme");
         ui.resetFocus();
         gameOver = false;
     }
