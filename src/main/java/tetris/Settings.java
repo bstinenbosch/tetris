@@ -1,6 +1,7 @@
 package tetris;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map.Entry;
 
@@ -41,7 +42,6 @@ public class Settings {
         try {
             loadSettings();
         } catch (ParserConfigurationException | SAXException | IOException exception) {
-            exception.printStackTrace();
         }
     }
 
@@ -57,7 +57,6 @@ public class Settings {
         try {
             loadSettings();
         } catch (ParserConfigurationException | SAXException | IOException exception) {
-            exception.printStackTrace();
         }
     }
 
@@ -66,11 +65,16 @@ public class Settings {
             Color.PURPLE, Color.RED };
     }
 
-    private void loadSettings() throws ParserConfigurationException, SAXException, IOException {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(savePath);
-        doc.getDocumentElement().normalize();
-        readKeyBindings(doc.getElementsByTagName("keyBindings").item(0));
-        readColors(doc.getElementsByTagName("color"));
+    private void loadSettings()
+        throws ParserConfigurationException, SAXException, IOException, FileNotFoundException {
+        if (savePath.exists()) {
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+                .parse(savePath);
+            doc.getDocumentElement().normalize();
+            readKeyBindings(doc.getElementsByTagName("keyBindings").item(0));
+            readColors(doc.getElementsByTagName("color"));
+        }
+
     }
 
     private void readColors(NodeList nodeList) {
@@ -111,7 +115,6 @@ public class Settings {
             StreamResult result = new StreamResult(savePath);
             TransformerFactory.newInstance().newTransformer().transform(source, result);
         } catch (ParserConfigurationException | TransformerException exception) {
-            exception.printStackTrace();
         }
     }
 
