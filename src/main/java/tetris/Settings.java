@@ -1,6 +1,7 @@
 package tetris;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map.Entry;
 
@@ -66,7 +67,8 @@ public class Settings {
             Color.PURPLE, Color.RED };
     }
 
-    private void loadSettings() throws ParserConfigurationException, SAXException, IOException {
+    private void loadSettings()
+        throws ParserConfigurationException, SAXException, IOException, FileNotFoundException {
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(savePath);
         doc.getDocumentElement().normalize();
         readKeyBindings(doc.getElementsByTagName("keyBindings").item(0));
