@@ -14,18 +14,21 @@ public enum Action implements IActionItem {
         @Override
         public void attempt(AbstractTetromino tetromino, Grid grid) {
             tetromino.rotateRight();
+            checkRotate(tetromino, grid);
             for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.get(i))) {
                     tetromino.rotateLeft();
                     Logger.log(this, Logger.LogType.INFO,
                         "tried to rotate tetromino clockwise but failed");
-                    break;
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
         }
     },
-    MOVE_LEFT {
+    MOVE_LEFT
+
+    {
+
         @Override
         public String toString() {
             return "Move left";
@@ -78,15 +81,15 @@ public enum Action implements IActionItem {
         @Override
         public void attempt(AbstractTetromino tetromino, Grid grid) {
             tetromino.rotateLeft();
+            checkRotate(tetromino, grid);
             for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.get(i))) {
-                    tetromino.rotateRight();
+                    tetromino.rotateLeft();
                     Logger.log(this, Logger.LogType.INFO,
-                        "tried to rotate tetromino counterclockwise but failed");
-                    break;
+                        "tried to rotate tetromino counter clockwise but failed");
                 }
             }
-            Logger.log(this, Logger.LogType.INFO, "rotated tetromino counterclockwise");
+            Logger.log(this, Logger.LogType.INFO, "rotated counter tetromino clockwise");
         }
     },
     SOFT_DROP {
@@ -139,5 +142,15 @@ public enum Action implements IActionItem {
             }
         }
         return true;
+    }
+
+    private static void checkRotate(AbstractTetromino tetromino, Grid grid) {
+        for (int i = 0; i < 4; i++) {
+            if (!grid.isFree(tetromino.leftCoor())) {
+                tetromino.moveRight();
+            } else if (!grid.isFree(tetromino.rightCoor())) {
+                tetromino.moveLeft();
+            }
+        }
     }
 }
