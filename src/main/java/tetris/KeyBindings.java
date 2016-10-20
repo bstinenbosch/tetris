@@ -103,6 +103,7 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, Action>> {
         KeyBindings otherObject = (KeyBindings) other;
         if (size() == otherObject.size()) {
             boolean result;
+            result = true;
             for (Action action : bindings.values()) {
                 if (!getKeyCode(action).equals(otherObject.getKeyCode(action))) {
                     result = false;
