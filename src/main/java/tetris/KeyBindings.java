@@ -91,26 +91,16 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, Action>> {
     }
 
     public boolean equals(KeyBindings other) {
-        if (other == null) {
-            return false;
-        }
         if (other == this) {
             return true;
         }
         if (!(other instanceof KeyBindings)) {
             return false;
         }
-        KeyBindings otherObject = (KeyBindings) other;
-        if (size() == otherObject.size()) {
-            boolean result;
-            result = true;
-            for (Action action : bindings.values()) {
-                if (!getKeyCode(action).equals(otherObject.getKeyCode(action))) {
-                    result = false;
-                }
-            }
-            return result;
-        } else
-            return false;
+        boolean result = true;
+        for (Action action : bindings.values()) {
+            result &= getKeyCode(action).equals(other.getKeyCode(action));
+        }
+        return result;
     }
 }
