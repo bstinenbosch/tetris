@@ -39,13 +39,31 @@ public class GameScreenTest {
     }
 
     @Test
-    public void testGameScreen() {
+    public void testPreviewHeight() {
+        Settings settings = new Settings();
+        GameScreen gamescreen = new GameScreen(settings);
+        assertTrue(gamescreen.getPreviewHeight() == 100);
+    }
+
+    @Test
+    public void testPreviewWidth() {
+        Settings settings = new Settings();
+        GameScreen gamescreen = new GameScreen(settings);
+        assertTrue(gamescreen.getPreviewWidth() == 120);
+    }
+
+    @Test
+    public void testLeftPaneHeight() {
         Settings settings = new Settings();
         GameScreen gamescreen = new GameScreen(settings);
         assertTrue(gamescreen.getLeftPaneHeight() == 400);
     }
 
-    // @Test
-    // public void
+    @Test
+    public void testHookEvent() {
+        Settings settings = new Settings();
+        GameScreen gamescreen = new GameScreen(settings);
+        assertTrue(gamescreen.testHookEvents());
+    }
 
 }

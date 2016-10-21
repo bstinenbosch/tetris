@@ -22,11 +22,13 @@ public class GameScreen extends Group implements IScreen {
     private Button pauseButton;
     private ObservingLabel scoreLabel;
     private Canvas canvas;
-    // private Pane leftPane;
-    // private VBox rightPane;
-    // private GridPane rootGameScreen;
+    private Pane leftPane;
+    private VBox rightPane;
+    private GridPane rootGameScreen;
     private int boardWidthPixel;
     private int boardHeightPixel;
+    private int previewWidth;
+    private int previewHeight;
 
     /**
      * the gamescreen is the screen where game is actually played.
@@ -81,7 +83,9 @@ public class GameScreen extends Group implements IScreen {
     }
 
     private Canvas setUpPreview() {
-        Canvas canvas = new Canvas(settings.blockSize() * 6, settings.blockSize() * 5);
+        previewWidth = settings.blockSize() * 6;
+        previewHeight = settings.blockSize() * 5;
+        Canvas canvas = new Canvas(previewWidth, previewHeight);
         settings.setPreview(canvas.getGraphicsContext2D());
         return canvas;
     }
@@ -100,7 +104,7 @@ public class GameScreen extends Group implements IScreen {
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }
 
-    public boolean testHookEvent() {
+    public boolean testHookEvents() {
         View view = new View();
         Controller controller = new Controller(view, settings);
         this.hookEvents(controller);
@@ -113,6 +117,14 @@ public class GameScreen extends Group implements IScreen {
 
     public int getLeftPaneHeight() {
         return this.boardHeightPixel;
+    }
+
+    public int getPreviewHeight() {
+        return previewHeight;
+    }
+
+    public int getPreviewWidth() {
+        return previewWidth;
     }
 
 }
