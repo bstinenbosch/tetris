@@ -104,6 +104,7 @@ public class DebugLogger extends Logger implements ILogger {
             new Timestamp(Calendar.getInstance().getTimeInMillis()).toString(), sender.toString(),
             message);
         queue.append(msg);
+        System.out.println(msg);
     }
 
     @Override
