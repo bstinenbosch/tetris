@@ -138,6 +138,7 @@ public class Controller {
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
+        redraw();
     }
 
     public void openSettings() {
