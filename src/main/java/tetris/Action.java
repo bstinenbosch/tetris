@@ -12,7 +12,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public boolean attempt(AbstractTetromino tetromino, Grid grid) {
             tetromino.rotateRight();
             checkRotate(tetromino, grid);
             for (int i = 0; i < 4; i++) {
@@ -20,22 +20,21 @@ public enum Action implements IActionItem {
                     tetromino.rotateLeft();
                     Logger.log(this, Logger.LogType.INFO,
                         "tried to rotate tetromino clockwise but failed");
+                    return false;
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
+            return true;
         }
     },
-    MOVE_LEFT
-
-    {
-
+    MOVE_LEFT {
         @Override
         public String toString() {
             return "Move left";
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public boolean attempt(AbstractTetromino tetromino, Grid grid) {
             if (tetromino.left() > 0) {
                 tetromino.moveLeft();
             }
@@ -44,10 +43,11 @@ public enum Action implements IActionItem {
                     tetromino.moveRight();
                     Logger.log(this, Logger.LogType.INFO,
                         "tried to move tetromino left but failed");
-                    break;
+                    return false;
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "moved tetromino left");
+            return true;
         }
     },
     MOVE_RIGHT {
@@ -57,7 +57,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public boolean attempt(AbstractTetromino tetromino, Grid grid) {
             if (tetromino.right() < grid.width() - 1) {
                 tetromino.moveRight();
             }
@@ -66,10 +66,11 @@ public enum Action implements IActionItem {
                     tetromino.moveLeft();
                     Logger.log(this, Logger.LogType.INFO,
                         "tried to move tetromino right but failed");
-                    break;
+                    return false;
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "moved tetromino right");
+            return true;
         }
     },
     ROTATE_LEFT {
@@ -79,7 +80,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public boolean attempt(AbstractTetromino tetromino, Grid grid) {
             tetromino.rotateLeft();
             checkRotate(tetromino, grid);
             for (int i = 0; i < 4; i++) {
@@ -87,9 +88,11 @@ public enum Action implements IActionItem {
                     tetromino.rotateRight();
                     Logger.log(this, Logger.LogType.INFO,
                         "tried to rotate tetromino counter clockwise but failed");
+                    return false;
                 }
             }
             Logger.log(this, Logger.LogType.INFO, "rotated counter tetromino clockwise");
+            return true;
         }
     },
     SOFT_DROP {
@@ -99,10 +102,11 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public boolean attempt(AbstractTetromino tetromino, Grid grid) {
             if (!checkMoveDown(tetromino, grid)) {
                 grid.registerTetromino(tetromino);
             }
+            return true;
         }
     },
     HARD_DROP {
@@ -112,16 +116,20 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public boolean attempt(AbstractTetromino tetromino, Grid grid) {
             while (checkMoveDown(tetromino, grid)) {
+                // checkMoveDown moves the tetromino down already,
+                // so we don't need to do anything in here
             }
             grid.registerTetromino(tetromino);
+            return true;
         }
     },
     INVALID_ACTION {
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
-
+        public boolean attempt(AbstractTetromino tetromino, Grid grid) {
+            // invalid action, do nothing
+            return false;
         }
     };
 
