@@ -7,7 +7,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -19,6 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import logging.Logger;
+
 public class ScoreBoard {
 
     private GameEntry[] board = new GameEntry[10];
@@ -27,20 +28,14 @@ public class ScoreBoard {
     /**
      * Create a ScoreBoard object holding the 10 best scores.
      *
-     * @param path path to highscores xml-file
+     * @param path
+     *            path to highscores xml-file
      */
     public ScoreBoard(String path) {
         try {
             loadScores(path);
-        } catch (ParserConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SAXException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            Logger.warning(this, "The highscore file could not be read.");
         }
     }
 
@@ -58,8 +53,8 @@ public class ScoreBoard {
             if (gameEntryNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element gameEntry = (Element) gameEntryNode;
                 String name = gameEntry.getElementsByTagName("name").item(0).getTextContent();
-                String scoreElement =
-                        gameEntry.getElementsByTagName("score").item(0).getTextContent();
+                String scoreElement = gameEntry.getElementsByTagName("score").item(0)
+                    .getTextContent();
                 GameEntry entry = new GameEntry(name, Integer.parseInt(scoreElement));
                 add(entry);
             }
@@ -81,16 +76,8 @@ public class ScoreBoard {
             doc.appendChild(rootElement);
 
             for (int i = 0; i < numEntries; i++) {
-                Element gameEntry = doc.createElement("gameEntry");
-                rootElement.appendChild(gameEntry);
-
-                Element name = doc.createElement("name");
-                name.appendChild(doc.createTextNode(board[i].getName()));
-                gameEntry.appendChild(name);
-
-                Element score = doc.createElement("score");
-                score.appendChild(doc.createTextNode(Integer.toString(board[i].getScore())));
-                gameEntry.appendChild(score);
+                GameEntry entry = board[i];
+                addEntryToDoc(doc, rootElement, entry);
             }
 
             // Save file
@@ -100,13 +87,22 @@ public class ScoreBoard {
             StreamResult result = new StreamResult(new File("src/main/resources/highscores.xml"));
             transformer.transform(source, result); // Save
 
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
+        } catch (ParserConfigurationException | TransformerException e) {
+            Logger.warning(this, "The highscores file could not be created.");
         }
+    }
+
+    private void addEntryToDoc(Document doc, Element rootElement, GameEntry entry) {
+        Element gameEntry = doc.createElement("gameEntry");
+        rootElement.appendChild(gameEntry);
+
+        Element name = doc.createElement("name");
+        name.appendChild(doc.createTextNode(entry.getName()));
+        gameEntry.appendChild(name);
+
+        Element score = doc.createElement("score");
+        score.appendChild(doc.createTextNode(Integer.toString(entry.getScore())));
+        gameEntry.appendChild(score);
     }
 
     public GameEntry[] getScores() {
@@ -116,7 +112,8 @@ public class ScoreBoard {
     /**
      * Add game entry to scoreboard.
      *
-     * @param entry game entry
+     * @param entry
+     *            game entry
      */
     public void add(GameEntry entry) {
         if (isHighscore(entry.getScore())) {
