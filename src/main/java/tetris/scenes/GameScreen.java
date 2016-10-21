@@ -83,7 +83,7 @@ public class GameScreen extends Group implements IScreen {
     @Override
     public void hookEvents(Controller controller) {
         botButton.setOnAction(event -> RobotController.toggleRobotController(controller));
-        pauseButton.setOnAction(event -> controller.pauseCombined());
+        pauseButton.setOnAction(event -> controller.pause(pauseButton));
         restartButton.setOnAction(event -> controller.restartGame());
         backButton.setOnAction(event -> {
             controller.gameOver();

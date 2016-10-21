@@ -8,6 +8,7 @@ import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
 import javafx.application.Platform;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
@@ -27,7 +28,6 @@ public class Controller {
     private int leftOffSet;
     private int bottomOffSet;
     private boolean gameOver = false;
-    private boolean isPaused = false;
     private Tick timer = new Tick(event -> {
         Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
         Platform.runLater(() -> redraw());
@@ -67,7 +67,7 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
-        if(action.attempt(tetromino, grid)) {
+        if (action.attempt(tetromino, grid)) {
             soundManager.play("move");
         }
         redraw();
@@ -271,17 +271,6 @@ public class Controller {
         return scoreBoard;
     }
 
-    public void pause() {
-        timer.pause();
-        gameOver = true;
-    }
-
-    public void unpause() {
-        timer.unpause();
-        ui.resetFocus();
-        gameOver = false;
-    }
-
     public boolean isGameOver() {
         return gameOver;
     }
@@ -294,17 +283,16 @@ public class Controller {
         return grid;
     }
 
-    public void pauseCombined() {
-        if (isPaused == false) {
-            timer.pause();
-            gameOver = true;
-            isPaused = !isPaused;
-        } else {
-            timer.unpause();
-            ui.resetFocus();
-            gameOver = false;
-            isPaused = !isPaused;
-        }
+    public void unpause(Button button) {
+        timer.unpause();
+        ui.resetFocus();
+        gameOver = false;
+        button.setOnAction((event) -> pause(button));
     }
 
+    public void pause(Button button) {
+        timer.pause();
+        gameOver = true;
+        button.setOnAction((event) -> unpause(button));
+    }
 }
