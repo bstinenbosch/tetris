@@ -3,6 +3,7 @@ package tetris;
 import java.util.Observer;
 
 import tetris.scenes.PreviewAdapter;
+import tetris.sound.SoundManager;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
 
@@ -16,6 +17,7 @@ import logging.Logger;
 
 public class Controller {
 
+    private final SoundManager soundManager;
     private Score score;
     private ScoreBoard scoreBoard;
     private View ui;
@@ -43,11 +45,18 @@ public class Controller {
     public Controller(View ui, Settings settings) {
         this.settings = settings;
         this.ui = ui;
+        this.soundManager = new SoundManager(2);
+        setSounds();
         Logger.setDebugOn();
         score = new Score();
         scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
         timer.start();
+    }
+
+    private void setSounds() {
+        soundManager.load("theme", getClass().getClassLoader().getResource("sound/theme.mp3"));
+        soundManager.load("move", getClass().getClassLoader().getResource("sound/sfx/move.wav"));
     }
 
     /**
@@ -58,7 +67,9 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
-        action.attempt(tetromino, grid);
+        if(action.attempt(tetromino, grid)) {
+            soundManager.play("move");
+        }
         redraw();
     }
 
@@ -114,6 +125,7 @@ public class Controller {
     private void stopGame() {
         timer.pause();
         gameOver = true;
+        soundManager.stopAll();
     }
 
     /**
@@ -122,6 +134,7 @@ public class Controller {
     public void stop() {
         timer.requestStop();
         ui.stop();
+        soundManager.stopAll();
         Logger.log(this, Logger.LogType.INFO, "closing application");
         Logger.setDebugOff();
     }
@@ -135,6 +148,7 @@ public class Controller {
         gameOver = false;
         grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
+        soundManager.play("theme");
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
