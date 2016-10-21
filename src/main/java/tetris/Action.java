@@ -84,7 +84,7 @@ public enum Action implements IActionItem {
             checkRotate(tetromino, grid);
             for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.get(i))) {
-                    tetromino.rotateLeft();
+                    tetromino.rotateRight();
                     Logger.log(this, Logger.LogType.INFO,
                         "tried to rotate tetromino counter clockwise but failed");
                 }
@@ -121,6 +121,7 @@ public enum Action implements IActionItem {
     INVALID_ACTION {
         @Override
         public void attempt(AbstractTetromino tetromino, Grid grid) {
+
         }
     };
 
@@ -152,5 +153,10 @@ public enum Action implements IActionItem {
                 tetromino.moveLeft();
             }
         }
+    }
+
+    public static boolean testINVALIDACTION(AbstractTetromino tetromino, Grid grid) {
+        Action.INVALID_ACTION.attempt(tetromino, grid);
+        return true;
     }
 }
