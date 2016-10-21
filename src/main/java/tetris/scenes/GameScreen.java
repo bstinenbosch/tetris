@@ -2,6 +2,7 @@ package tetris.scenes;
 
 import tetris.Controller;
 import tetris.Settings;
+import tetris.View;
 
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -21,6 +22,13 @@ public class GameScreen extends Group implements IScreen {
     private Button pauseButton;
     private ObservingLabel scoreLabel;
     private Canvas canvas;
+    private Pane leftPane;
+    private VBox rightPane;
+    private GridPane rootGameScreen;
+    private int boardWidthPixel;
+    private int boardHeightPixel;
+    private int previewWidth;
+    private int previewHeight;
 
     /**
      * the gamescreen is the screen where game is actually played.
@@ -38,8 +46,8 @@ public class GameScreen extends Group implements IScreen {
     }
 
     private Pane setUpLeftPaneGameScreen() {
-        int boardWidthPixel = settings.blockSize() * settings.boardWidth();
-        int boardHeightPixel = settings.blockSize() * settings.boardHeight();
+        boardWidthPixel = settings.blockSize() * settings.boardWidth();
+        boardHeightPixel = settings.blockSize() * settings.boardHeight();
         canvas = new Canvas(boardWidthPixel, boardHeightPixel);
         settings.setBoard(canvas.getGraphicsContext2D());
         Pane leftPane = new Pane();
@@ -75,7 +83,9 @@ public class GameScreen extends Group implements IScreen {
     }
 
     private Canvas setUpPreview() {
-        Canvas canvas = new Canvas(settings.blockSize() * 6, settings.blockSize() * 5);
+        previewWidth = settings.blockSize() * 6;
+        previewHeight = settings.blockSize() * 5;
+        Canvas canvas = new Canvas(previewWidth, previewHeight);
         settings.setPreview(canvas.getGraphicsContext2D());
         return canvas;
     }
@@ -92,6 +102,29 @@ public class GameScreen extends Group implements IScreen {
         controller.addScoreObserver(scoreLabel);
         canvas.setOnMouseClicked(event -> requestFocus());
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
+    }
+
+    public boolean testHookEvents() {
+        View view = new View();
+        Controller controller = new Controller(view, settings);
+        this.hookEvents(controller);
+        return true;
+    }
+
+    public int getLeftPaneWidth() {
+        return this.boardWidthPixel;
+    }
+
+    public int getLeftPaneHeight() {
+        return this.boardHeightPixel;
+    }
+
+    public int getPreviewHeight() {
+        return previewHeight;
+    }
+
+    public int getPreviewWidth() {
+        return previewWidth;
     }
 
 }
