@@ -13,14 +13,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
 import highscore.GameEntry;
-import highscore.ScoreBoard;
+import highscore.IScoreBoard;
+import highscore.XMLScoreBoard;
 import logging.Logger;
 
 public class Controller {
 
     private final SoundManager soundManager;
     private Score score;
-    private ScoreBoard scoreBoard;
+    private IScoreBoard scoreBoard;
     private View ui;
     private Grid grid;
     private AbstractTetromino tetromino;
@@ -49,7 +50,7 @@ public class Controller {
         setSounds();
         Logger.setDebugOn();
         score = new Score();
-        scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
+        scoreBoard = new XMLScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
         timer.start();
     }
@@ -268,7 +269,7 @@ public class Controller {
         settings.getPreview().fillRect(0, 0, 6 * settings.blockSize(), 5 * settings.blockSize());
     }
 
-    public ScoreBoard getScoreBoard() {
+    public IScoreBoard getScoreBoard() {
         return scoreBoard;
     }
 
