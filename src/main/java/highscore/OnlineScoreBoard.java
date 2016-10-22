@@ -31,6 +31,7 @@ public class OnlineScoreBoard implements IScoreBoard {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement
                 .executeQuery("select username,score,syscreated from top10");
+            board.clear();
             while (resultSet.next()) {
                 board
                     .add(new GameEntry(resultSet.getString("username"), resultSet.getInt("score")));
