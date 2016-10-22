@@ -14,7 +14,7 @@ import logging.Logger;
 public class OnlineScoreBoard implements IScoreBoard {
 
     private TreeSet<GameEntry> board = new TreeSet<>();
-    private final String server = "jdbc:mysql://remote-mysql3.servage.net/tetrisSEM";
+    private String server = "jdbc:mysql://remote-mysql3.servage.net/tetrisSEM";
     private final String user = "tetrisSEM";
     private final String pass = "tetrisSEM1";
 
@@ -44,9 +44,18 @@ public class OnlineScoreBoard implements IScoreBoard {
         }
     }
 
-    public OnlineScoreBoard(boolean startEmpty) {
-        if (!startEmpty) {
+    /**
+     * this constructor exists for testing purposes until a better way has been
+     * devised to keep the database clean from testcases.
+     * 
+     * @param localSession
+     *            whether to run local or not.
+     */
+    public OnlineScoreBoard(boolean localSession) {
+        if (!localSession) {
             fetchBoard();
+        } else {
+            server = "";
         }
     }
 
