@@ -78,7 +78,7 @@ public class OnlineScoreBoard implements IScoreBoard {
 
     @Override
     public boolean isHighscore(int score) {
-        return (board.first().getScore() < score);
+        return (board.size() < 10 || board.first().getScore() < score);
     }
 
     @Override
