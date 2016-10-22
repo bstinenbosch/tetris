@@ -52,7 +52,7 @@ public class OnlineScoreBoard implements IScoreBoard {
 
     @Override
     public GameEntry[] getScores() {
-        return (GameEntry[]) board.toArray();
+        return (GameEntry[]) board.descendingSet().toArray(new GameEntry[0]);
     }
 
     @Override
