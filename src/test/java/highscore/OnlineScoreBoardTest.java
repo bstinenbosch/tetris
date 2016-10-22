@@ -9,12 +9,6 @@ import static org.junit.Assert.assertTrue;
 public class OnlineScoreBoardTest {
 
     @Test
-    public void LoadScoresTest() {
-        IScoreBoard board = new OnlineScoreBoard();
-        assertTrue(board.toString().length() > 2);
-    }
-
-    @Test
     public void toStringTest() {
         IScoreBoard board = new OnlineScoreBoard(true);
         assertEquals("{}", board.toString());
