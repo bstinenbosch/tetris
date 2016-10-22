@@ -36,6 +36,7 @@ public class XMLScoreBoardTest {
         assertEquals("{(Bas, 700), (Pascal, 500)}", board.toString());
     }
 
+    @Test
     public void addEntryLowerTest() {
         IScoreBoard board = new XMLScoreBoard("");
         GameEntry entry = new GameEntry("Pascal", 500);
@@ -45,6 +46,7 @@ public class XMLScoreBoardTest {
         assertEquals("{(Pascal, 500), (Robbert, 300)}", board.toString());
     }
 
+    @Test
     public void addFullLowerTest() {
         IScoreBoard board = new XMLScoreBoard("");
         board.add(new GameEntry("Player1", 1000));
@@ -64,6 +66,7 @@ public class XMLScoreBoardTest {
             board.toString());
     }
 
+    @Test
     public void addFullHigherTest() {
         IScoreBoard board = new XMLScoreBoard("");
         board.add(new GameEntry("Player1", 1000));
@@ -83,6 +86,7 @@ public class XMLScoreBoardTest {
             board.toString());
     }
 
+    @Test
     public void isHighscoreFullYesTest() {
         IScoreBoard board = new XMLScoreBoard("");
         board.add(new GameEntry("Player1", 1000));
@@ -99,6 +103,7 @@ public class XMLScoreBoardTest {
         assertEquals(true, board.isHighscore(550));
     }
 
+    @Test
     public void isHighscoreFullNoTest() {
         IScoreBoard board = new XMLScoreBoard("");
         board.add(new GameEntry("Player1", 1000));

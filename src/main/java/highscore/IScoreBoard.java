@@ -12,6 +12,13 @@ public interface IScoreBoard {
      */
     void add(GameEntry entry);
 
+    /**
+     * return true if the highscore is deserving of a place on the leaderboard.
+     * 
+     * @param score
+     *            the score to chekc against the leaderboard.
+     * @return true or false.
+     */
     boolean isHighscore(int score);
 
     /**

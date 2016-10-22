@@ -35,6 +35,7 @@ public class OnlineScoreBoardTest {
         assertEquals("{(Bas, 700), (Pascal, 500)}", board.toString());
     }
 
+    @Test
     public void addEntryLowerTest() {
         IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Pascal", 500));
@@ -42,6 +43,7 @@ public class OnlineScoreBoardTest {
         assertEquals("{(Pascal, 500), (Robbert, 300)}", board.toString());
     }
 
+    @Test
     public void addFullLowerTest() {
         IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Player1", 1000));
@@ -61,6 +63,7 @@ public class OnlineScoreBoardTest {
             board.toString());
     }
 
+    @Test
     public void addFullHigherTest() {
         IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Player1", 1000));
@@ -80,6 +83,7 @@ public class OnlineScoreBoardTest {
             board.toString());
     }
 
+    @Test
     public void isHighscoreFullYesTest() {
         IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Player1", 1000));
@@ -96,6 +100,7 @@ public class OnlineScoreBoardTest {
         assertTrue(board.isHighscore(550));
     }
 
+    @Test
     public void isHighscoreFullNoTest() {
         IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Player1", 1000));

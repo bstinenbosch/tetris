@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
 
 import highscore.GameEntry;
 import highscore.IScoreBoard;
-import highscore.XMLScoreBoard;
+import highscore.OnlineScoreBoard;
 import logging.Logger;
 
 public class Controller {
@@ -50,7 +50,7 @@ public class Controller {
         setSounds();
         Logger.setDebugOn();
         score = new Score();
-        scoreBoard = new XMLScoreBoard("src/main/resources/highscores.xml");
+        scoreBoard = new OnlineScoreBoard();// XMLScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
         timer.start();
     }

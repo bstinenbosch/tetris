@@ -14,7 +14,7 @@ import logging.Logger;
 public class OnlineScoreBoard implements IScoreBoard {
 
     private TreeSet<GameEntry> board = new TreeSet<>();
-    private final String server = "jdbc:mysql://remote-mysql3.servage.net";
+    private final String server = "jdbc:mysql://remote-mysql3.servage.net/tetrisSEM";
     private final String user = "tetrisSEM";
     private final String pass = "tetrisSEM1";
 
@@ -22,14 +22,12 @@ public class OnlineScoreBoard implements IScoreBoard {
         fetchBoard();
     }
 
+    /**
+     * fetchBoard collects the leaderboard from the database.
+     */
     private void fetchBoard() {
         try {
-//            Connection connection = DriverManager.getConnection(server, user, pass);
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setUser(user);
-            dataSource.setPassword(pass);
-            dataSource.setServerName(server);
-            Connection connection = dataSource.getConnection();
+            Connection connection = DriverManager.getConnection(server, user, pass);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement
                 .executeQuery("select username,score,syscreated from top10");
@@ -88,9 +86,4 @@ public class OnlineScoreBoard implements IScoreBoard {
         return board.descendingSet().stream().map(GameEntry::toString)
             .collect(Collectors.joining(", ", "{", "}"));
     }
-
-    public static void main(String[] args) {
-        System.out.println(new OnlineScoreBoard().toString());
-    }
-
 }
