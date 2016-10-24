@@ -5,28 +5,39 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import robot.ANN.Neuron.AbstractNeuron;
+import robot.ANN.Neuron.IInput;
+import robot.ANN.Neuron.IOutput;
 import robot.ANN.Neuron.InputNeuron;
 import robot.ANN.Neuron.Neuron;
 import robot.ANN.Neuron.OutputNeuron;
-import robot.ANN.functions.LinearEvaluationFunction;
+import robot.ANN.functions.AbstractEvaluationFunction;
 import robot.GeneticAlgorithm.IChromosome;
 
-public class RandomLinearNeuralNetwork extends AbstractNeuralNetwork implements IChromosome {
+public class RandomNeuralNetwork extends AbstractNeuralNetwork {
+
     private static final double PROBABILITY_NEWNODE = 0.01;
     private static final double PROBABILITY_INHERIT = 0.5;
     Random random = new Random();
 
-    public RandomLinearNeuralNetwork() {
-        super();
+    public RandomNeuralNetwork(Class<? extends AbstractEvaluationFunction> function,
+        IInput[] inputs, IOutput[] outputs) {
+        super(function, inputs, outputs);
+    }
+
+    public RandomNeuralNetwork(Class<? extends AbstractEvaluationFunction> function) {
+        super(function);
     }
 
     /**
      * add a random node to the network. Mind you that this node initially does
      * nothing because it has no connections to other nodes.
+     * 
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      */
     private void addRandomNode() {
-        addNeuronToNetwork(new LinearEvaluationFunction());
-        // TODO add this node to an input.
+        Neuron successor = addNeuronToNetwork(function);
+        addPredecessorToNeuron(getRandomPredecessor(), successor, random.nextDouble());
     }
 
     /**
@@ -60,20 +71,17 @@ public class RandomLinearNeuralNetwork extends AbstractNeuralNetwork implements 
             addRandomNode();
         }
         addRandomConnection();
-        // perhaps:
-        // TODO remove node with some probability
-        // TODO remove random connection
     }
 
     @Override
     public IChromosome procreate(IChromosome partner) {
-        RandomLinearNeuralNetwork child = deepCloneIO();
+        RandomNeuralNetwork child = deepCloneIO();
         inherit(this, child);
-        inherit((RandomLinearNeuralNetwork) partner, child);
+        inherit((RandomNeuralNetwork) partner, child);
         return child;
     }
 
-    private void inherit(RandomLinearNeuralNetwork parent, RandomLinearNeuralNetwork child) {
+    private void inherit(RandomNeuralNetwork parent, RandomNeuralNetwork child) {
         HashMap<AbstractNeuron, Neuron> oldNewTable = new HashMap<AbstractNeuron, Neuron>(
             neurons.size());
         NeuralPathNode node;
@@ -87,7 +95,7 @@ public class RandomLinearNeuralNetwork extends AbstractNeuralNetwork implements 
                 previousWeight = node.getWeight();
                 // TODO implement equals() for input and output that equates
                 // their IInput and IOutput interface implementations, not their
-                // memory address.
+                // memory address. SOLVED create iinput and ioutput only once.
                 // TODO treat the last element in the list different? (is
                 // output)
                 // traverse path: check all neurons against oldnewtable. if not
@@ -96,7 +104,7 @@ public class RandomLinearNeuralNetwork extends AbstractNeuralNetwork implements 
                 while (!path.isEmpty()) {
                     node = path.pop();
                     if (!oldNewTable.containsKey(node.getNeuron())) {
-                        neuron = new Neuron(new LinearEvaluationFunction());
+                        neuron = new Neuron(function);
                         oldNewTable.put(node.getNeuron(), neuron);
                     } else {
                         neuron = oldNewTable.get(node.getNeuron());
@@ -109,23 +117,15 @@ public class RandomLinearNeuralNetwork extends AbstractNeuralNetwork implements 
         }
     }
 
-    @Override
-    public double fitness() {
-        // TODO run 1 game and return the score
-        return 0;
-    }
-
-    private RandomLinearNeuralNetwork deepCloneIO() {
-        RandomLinearNeuralNetwork child = new RandomLinearNeuralNetwork();
+    private RandomNeuralNetwork deepCloneIO() {
+        RandomNeuralNetwork child = new RandomNeuralNetwork(function);
         for (InputNeuron iNeuron : input) {
             child.addInputToNetwork(iNeuron.getInput());
         }
         for (OutputNeuron oNeuron : output) {
-            child.addOutputToNetwork(oNeuron.getOutput(), new LinearEvaluationFunction());
+            child.addOutputToNetwork(oNeuron.getOutput(), function);
         }
         return null;
     }
 
-    public static void main(String[] args) {
-    }
 }

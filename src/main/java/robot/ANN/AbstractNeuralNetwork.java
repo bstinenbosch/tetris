@@ -11,11 +11,31 @@ import robot.ANN.Neuron.InputNeuron;
 import robot.ANN.Neuron.Neuron;
 import robot.ANN.Neuron.OutputNeuron;
 import robot.ANN.functions.AbstractEvaluationFunction;
+import robot.GeneticAlgorithm.IChromosome;
 
-public abstract class AbstractNeuralNetwork {
+public abstract class AbstractNeuralNetwork implements IChromosome {
     protected ArrayList<InputNeuron> input;
     protected ArrayList<OutputNeuron> output;
     protected ArrayList<Neuron> neurons;
+    protected Class<? extends AbstractEvaluationFunction> function;
+    protected double fitness = -1;
+
+    public AbstractNeuralNetwork(Class<? extends AbstractEvaluationFunction> function,
+        IInput[] inputs, IOutput[] outputs) {
+        super();
+        this.function = function;
+        for (IInput input : inputs) {
+            addInputToNetwork(input);
+        }
+        for (IOutput output : outputs) {
+            addOutputToNetwork(output, function);
+        }
+    }
+
+    public AbstractNeuralNetwork(Class<? extends AbstractEvaluationFunction> function) {
+        super();
+        this.function = function;
+    }
 
     private class PathIterable implements Iterable<LinkedList<NeuralPathNode>> {
         private class PathIterator implements Iterator<LinkedList<NeuralPathNode>> {
@@ -70,7 +90,7 @@ public abstract class AbstractNeuralNetwork {
      * update evaluates the current state of the neural network and fires the
      * output events accordingly.
      */
-    public final void update() {
+    public void evaluate() {
         reset();
         for (OutputNeuron node : output) {
             node.getCharge();
@@ -95,7 +115,7 @@ public abstract class AbstractNeuralNetwork {
      * @param output
      */
     public final OutputNeuron addOutputToNetwork(IOutput output,
-        AbstractEvaluationFunction function) {
+        Class<? extends AbstractEvaluationFunction> function) {
         OutputNeuron oNeuron = new OutputNeuron(function, output);
         this.output.add(oNeuron);
         return oNeuron;
@@ -121,7 +141,8 @@ public abstract class AbstractNeuralNetwork {
      * @param function
      * @return the neuron that was added.
      */
-    protected final Neuron addNeuronToNetwork(AbstractEvaluationFunction function) {
+    protected final Neuron addNeuronToNetwork(
+        Class<? extends AbstractEvaluationFunction> function) {
         Neuron neuron = new Neuron(function);
         neurons.add(neuron);
         return neuron;
@@ -136,4 +157,13 @@ public abstract class AbstractNeuralNetwork {
         return true;
     }
 
+    @Override
+    public double getFitness() {
+        return fitness;
+    }
+
+    @Override
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
+    }
 }
