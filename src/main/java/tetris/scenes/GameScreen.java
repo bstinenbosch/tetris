@@ -1,6 +1,9 @@
 package tetris.scenes;
 
+import com.sun.prism.shader.Texture_Color_AlphaTest_Loader;
+import highscore.ScoreBoard;
 import tetris.Controller;
+import tetris.Score;
 import tetris.Settings;
 import tetris.View;
 
@@ -13,6 +16,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import robot.RobotController;
+import tetris.sound.SoundManager;
+import tetris.tetromino.TetrominoFactory;
 
 public class GameScreen extends Group implements IScreen {
     private Settings settings;
@@ -105,8 +110,13 @@ public class GameScreen extends Group implements IScreen {
     }
 
     public boolean testHookEvents() {
-        View view = new View();
-        Controller controller = new Controller(view, settings);
+        View ui = new View();
+        Settings settings = new Settings("src/main/resources/settings.xml");
+        TetrominoFactory factory = new TetrominoFactory();
+        SoundManager soundManager = new SoundManager(2);
+        Score score = new Score();
+        ScoreBoard scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
+        Controller controller = new Controller(ui, settings, factory, soundManager, score, scoreBoard);
         this.hookEvents(controller);
         return true;
     }

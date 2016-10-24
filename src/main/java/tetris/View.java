@@ -1,5 +1,6 @@
 package tetris;
 
+import highscore.ScoreBoard;
 import tetris.scenes.GameScreen;
 import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;
@@ -14,6 +15,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import highscore.GameEntry;
+import tetris.sound.SoundManager;
+import tetris.tetromino.TetrominoFactory;
 
 /**
  * MainScreen is the class containing all the GUI-related stuff. Here we draw up
@@ -26,14 +29,18 @@ public class View extends Application {
 
     /**
      * start inits the application and displays a loading screen
-     * 
+     *
      * @param primaryStage
      *            is the root object containing the application.
      */
     @Override
     public void start(Stage primaryStage) {
         settings = new Settings("src/main/resources/settings.xml");
-        controller = new Controller(this, settings);
+        TetrominoFactory factory = new TetrominoFactory();
+        SoundManager soundManager = new SoundManager(2);
+        Score score = new Score();
+        ScoreBoard scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
+        controller = new Controller(this, settings, factory, soundManager, score, scoreBoard);
         this.primaryStage = primaryStage;
         this.primaryStage.initStyle(StageStyle.UNDECORATED);
         gotoMainScreen();
