@@ -1,6 +1,5 @@
 package tetris.scenes;
 
-import com.sun.prism.shader.Texture_Color_AlphaTest_Loader;
 import highscore.ScoreBoard;
 import tetris.Controller;
 import tetris.Score;
