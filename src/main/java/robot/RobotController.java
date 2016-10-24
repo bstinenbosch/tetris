@@ -13,6 +13,8 @@ public class RobotController extends Thread {
 
     private RobotController(Controller controller) {
         this.controller = controller;
+        controller.getTick().setBaseTime(30);
+        controller.getTick().setTime(30);
         // robot = new RandomRobot();
         robot = new ANNRobot(controller.getGrid().width());
         this.controller.addScoreObserver(robot);
@@ -25,6 +27,7 @@ public class RobotController extends Thread {
         } else {
             playing = false;
             robotController = null;
+            controller.getTick().unpause();
         }
     }
 
@@ -35,6 +38,11 @@ public class RobotController extends Thread {
         while (playing) {
             if (controller.isGameOver()) {
                 robot.resetSession();
+                try {
+                    sleep(20);
+                } catch (InterruptedException exception) {
+                    exception.printStackTrace();
+                }
                 // TODO highscore invullen in leaderboards
                 Platform.runLater(() -> controller.startGame());
             } else {
@@ -45,7 +53,7 @@ public class RobotController extends Thread {
                     controller.getGrid()));
             }
             try {
-                sleep(100);
+                sleep(20);
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }

@@ -28,11 +28,7 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
     }
 
     /**
-     * add a random node to the network. Mind you that this node initially does
-     * nothing because it has no connections to other nodes.
-     * 
-     * @throws IllegalAccessException
-     * @throws InstantiationException
+     * add a random node to the network.
      */
     private void addRandomNode() {
         Neuron successor = addNeuronToNetwork(function);

@@ -1,8 +1,6 @@
 package robot.ANN;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 import robot.ANN.Neuron.AbstractNeuron;
 import robot.ANN.Neuron.IInput;
@@ -36,53 +34,8 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
         this.function = function;
     }
 
-    private class PathIterable implements Iterable<LinkedList<NeuralPathNode>> {
-        private class PathIterator implements Iterator<LinkedList<NeuralPathNode>> {
-            private Iterator<OutputNeuron> outputIterator = output.iterator();
-            private Iterator<LinkedList<NeuralPathNode>> currentNeuronIterator;
-            private LinkedList<NeuralPathNode> path;
-
-            public PathIterator() {
-                if (outputIterator.hasNext()) {
-                    OutputNeuron oNeuron = outputIterator.next();
-                    path = new LinkedList<NeuralPathNode>();
-                    path.push(new NeuralPathNode(0, oNeuron));
-                    currentNeuronIterator = oNeuron.iterator(path);
-                }
-            }
-
-            @Override
-            public boolean hasNext() {
-                if (currentNeuronIterator == null) {
-                    return false;
-                }
-                while (!currentNeuronIterator.hasNext()) {
-                    if (outputIterator.hasNext()) {
-                        OutputNeuron oNeuron = outputIterator.next();
-                        path = new LinkedList<NeuralPathNode>();
-                        path.push(new NeuralPathNode(0, oNeuron));
-                        currentNeuronIterator = oNeuron.iterator(path);
-                    } else {
-                        return false;
-                    }
-                }
-                return currentNeuronIterator.hasNext();
-            }
-
-            @Override
-            public LinkedList<NeuralPathNode> next() {
-                return currentNeuronIterator.next();
-            }
-        }
-
-        @Override
-        public Iterator<LinkedList<NeuralPathNode>> iterator() {
-            return new PathIterator();
-        }
-    }
-
     public PathIterable getIterable() {
-        return new PathIterable();
+        return new PathIterable(output.iterator());
     }
 
     /**

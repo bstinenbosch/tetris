@@ -11,10 +11,10 @@ import robot.ANN.functions.EvaluationFunction;
 
 public class GeneticAlgorithm {
 
-    private static final double MUTATION_PROBABILITY = 0.01;
+    private static final double MUTATION_PROBABILITY = 0.05;
     private LinkedList<IChromosome> population = new LinkedList<>();
     private LinkedList<IChromosome> newborns = new LinkedList<>();
-    private ArrayList<Double> generationFitness;
+    private ArrayList<Double> generationFitness = new ArrayList<>();
     private final double generationSize;
     private double totalFitness;
     Random random = new Random();
