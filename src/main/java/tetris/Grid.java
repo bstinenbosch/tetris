@@ -117,7 +117,7 @@ public class Grid {
 
     public int getHighestOccupied(int x) {
         int y = height();
-        while (get(x, y - 1) == 0 && y > 0) {
+        while (y > 0 && get(x, y - 1) == 0) {
             y--;
         }
         return y;

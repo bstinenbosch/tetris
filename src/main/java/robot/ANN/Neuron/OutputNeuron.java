@@ -1,11 +1,11 @@
 package robot.ANN.Neuron;
 
-import robot.ANN.functions.AbstractEvaluationFunction;
+import robot.ANN.functions.EvaluationFunction;
 
 public class OutputNeuron extends Neuron {
     private IOutput output;
 
-    public OutputNeuron(Class<? extends AbstractEvaluationFunction> function, IOutput output) {
+    public OutputNeuron(EvaluationFunction function, IOutput output) {
         super(function);
         this.output = output;
     }

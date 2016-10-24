@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import logging.Logger;
 import robot.ANN.NeuralPathNode;
 import robot.ANN.functions.AbstractEvaluationFunction;
+import robot.ANN.functions.EvaluationFunction;
 
 public class Neuron extends AbstractNeuron {
     private ArrayList<AbstractNeuron> predecessors;
@@ -63,18 +63,12 @@ public class Neuron extends AbstractNeuron {
         return new NeuronIterator(path);
     }
 
-    public Neuron(ArrayList<AbstractNeuron> input,
-        Class<? extends AbstractEvaluationFunction> function) {
-        try {
-            this.function = function.newInstance();
-        } catch (InstantiationException | IllegalAccessException exception) {
-            Logger.error(this,
-                "A Neuron was constructed with an invalid evaluationfunction as input.");
-        }
+    public Neuron(ArrayList<AbstractNeuron> input, EvaluationFunction function) {
+        this.function = function.newInstance();
         this.predecessors = input;
     }
 
-    public Neuron(Class<? extends AbstractEvaluationFunction> function) {
+    public Neuron(EvaluationFunction function) {
         this(new ArrayList<AbstractNeuron>(), function);
     }
 
