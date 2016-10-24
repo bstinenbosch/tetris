@@ -2,6 +2,7 @@ package tetris;
 
 import java.util.Observer;
 
+import tetris.scenes.GridCanvas;
 import tetris.scenes.PreviewAdapter;
 import tetris.sound.SoundManager;
 import tetris.tetromino.AbstractTetromino;
@@ -95,11 +96,8 @@ public class Controller {
      * active tetromino.
      */
     private void redraw() {
-        clearBoard();
-        clearPreview();
-        drawGrid();
-        drawTetromino();
-        drawTetrominoPreview();
+        ((GridCanvas) settings.getBoard().getCanvas()).redraw();
+        ((GridCanvas) settings.getPreview().getCanvas()).redraw();
     }
 
     /**
