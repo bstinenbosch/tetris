@@ -12,9 +12,9 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public synchronized void individualAttempt(AbstractTetromino tetromino, Grid grid) {
             tetromino.rotateRight();
-            checkRotate(tetromino, grid);
+            // checkRotate(tetromino, grid);
             for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.get(i))) {
                     tetromino.rotateLeft();
@@ -25,17 +25,14 @@ public enum Action implements IActionItem {
             Logger.log(this, Logger.LogType.INFO, "rotated tetromino clockwise");
         }
     },
-    MOVE_LEFT
-
-    {
-
+    MOVE_LEFT {
         @Override
         public String toString() {
             return "Move left";
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public synchronized void individualAttempt(AbstractTetromino tetromino, Grid grid) {
             if (tetromino.left() > 0) {
                 tetromino.moveLeft();
             }
@@ -57,7 +54,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public synchronized void individualAttempt(AbstractTetromino tetromino, Grid grid) {
             if (tetromino.right() < grid.width() - 1) {
                 tetromino.moveRight();
             }
@@ -79,9 +76,9 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public synchronized void individualAttempt(AbstractTetromino tetromino, Grid grid) {
             tetromino.rotateLeft();
-            checkRotate(tetromino, grid);
+            // checkRotate(tetromino, grid);
             for (int i = 0; i < 4; i++) {
                 if (!grid.isFree(tetromino.get(i))) {
                     tetromino.rotateLeft();
@@ -99,7 +96,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public void individualAttempt(AbstractTetromino tetromino, Grid grid) {
             if (!checkMoveDown(tetromino, grid)) {
                 grid.registerTetromino(tetromino);
             }
@@ -112,7 +109,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public synchronized void individualAttempt(AbstractTetromino tetromino, Grid grid) {
             while (checkMoveDown(tetromino, grid)) {
             }
             grid.registerTetromino(tetromino);
@@ -120,9 +117,20 @@ public enum Action implements IActionItem {
     },
     INVALID_ACTION {
         @Override
-        public void attempt(AbstractTetromino tetromino, Grid grid) {
+        public synchronized void individualAttempt(AbstractTetromino tetromino, Grid grid) {
         }
     };
+    public synchronized void attempt(AbstractTetromino tetromino, Grid grid) {
+        if (!locked) {
+            locked = true;
+            individualAttempt(tetromino, grid);
+            locked = false;
+        }
+    }
+
+    public abstract void individualAttempt(AbstractTetromino tetromino, Grid grid);
+
+    private static volatile boolean locked;
 
     /**
      * checkmovedown attempts a move down and reports whether he had success.

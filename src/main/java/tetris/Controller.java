@@ -161,6 +161,10 @@ public class Controller {
         score.addObserver(observer);
     }
 
+    public Tick getTick() {
+        return timer;
+    }
+
     /**
      * restartGame should only be called after startgame has been called once.
      */

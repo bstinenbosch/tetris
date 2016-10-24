@@ -6,7 +6,7 @@ import java.util.Observer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-class Tick extends Thread implements Observer {
+public class Tick extends Thread implements Observer {
 
     private long time;
     private static long basetime = 400;
@@ -97,5 +97,9 @@ class Tick extends Thread implements Observer {
         if (observable instanceof Score) {
             this.time = (long) Math.max(1, basetime * Math.exp(-.0002 * (int) arg));
         }
+    }
+
+    public void setBaseTime(long time) {
+        basetime = time;
     }
 }

@@ -18,19 +18,20 @@ public class ANNRobot implements IRobot {
     private Inputter[] input;
     private IOutput[] output;
     private Action nextAction;
+    private volatile int score;
 
     public ANNRobot(int boardSize) {
         output = new IOutput[] {
             (charge) -> nextAction = Action.values()[(int) (charge * Action.values().length)] };
         input = new Inputter[4 + boardSize];
         setInput();
-        geneticAlgorithm = new GeneticAlgorithm(10, EvaluationFunction.Linear, input, output);
+        geneticAlgorithm = new GeneticAlgorithm(3, EvaluationFunction.Linear, input, output);
         bot = geneticAlgorithm.getNextRobot();
     }
 
     @Override
     public void update(Observable arg0, Object arg1) {
-        bot.setFitness((int) arg1);
+        score = (int) arg1;
     }
 
     @Override
@@ -52,6 +53,7 @@ public class ANNRobot implements IRobot {
 
     @Override
     public void resetSession() {
+        bot.setFitness(score);
         bot = geneticAlgorithm.getNextRobot();
     }
 
