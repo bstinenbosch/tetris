@@ -7,6 +7,7 @@ public class TetrominoQueue {
      * Array of TetrominoType.
      */
     private static ArrayDeque<TetrominoType> TetrominoQ = new ArrayDeque<>();
+    private static ArrayDeque<TetrominoType> TetrominoHold = new ArrayDeque<>();
 
     public static ArrayDeque<TetrominoType> getList() {
         return TetrominoQ;
@@ -41,6 +42,14 @@ public class TetrominoQueue {
 
     public static TetrominoType getLast() {
         return TetrominoQ.getLast();
+    }
+
+    public static TetrominoType holdTetromino() {
+        // POP Tetromino out of the Grid
+        TetrominoQ.pop();
+        // add another TetrominoBlock to the normal Queue
+
+        return TetrominoHold.getFirst();
     }
 
 }

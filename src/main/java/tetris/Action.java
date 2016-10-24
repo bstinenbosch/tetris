@@ -1,6 +1,7 @@
 package tetris;
 
 import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.TetrominoQueue;
 
 import logging.Logger;
 
@@ -125,6 +126,21 @@ public enum Action implements IActionItem {
             return true;
         }
     },
+
+    HOLD_TETROMINO {
+        @Override
+        public String toString() {
+            return "Hold Tetromino";
+        }
+
+        @Override
+        public boolean attempt(AbstractTetromino tetromino, Grid grid) {
+            TetrominoQueue.holdTetromino();
+
+            return false;
+        }
+    },
+
     INVALID_ACTION {
         @Override
         public boolean attempt(AbstractTetromino tetromino, Grid grid) {
