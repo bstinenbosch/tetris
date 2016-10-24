@@ -5,7 +5,7 @@ import robot.ANN.functions.AbstractEvaluationFunction;
 public class OutputNeuron extends Neuron {
     private IOutput output;
 
-    public OutputNeuron(AbstractEvaluationFunction function, IOutput output) {
+    public OutputNeuron(Class<? extends AbstractEvaluationFunction> function, IOutput output) {
         super(function);
         this.output = output;
     }

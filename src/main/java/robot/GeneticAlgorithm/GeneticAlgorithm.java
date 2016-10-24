@@ -1,35 +1,63 @@
 package robot.GeneticAlgorithm;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
+
+import robot.ANN.AbstractNeuralNetwork;
+import robot.ANN.Neuron.IInput;
+import robot.ANN.Neuron.IOutput;
+import robot.ANN.functions.AbstractEvaluationFunction;
 
 public class GeneticAlgorithm {
 
     private static final double MUTATION_PROBABILITY = 0.01;
-    private IChromosome[] population;
-    private double[] fitness;
+    private LinkedList<IChromosome> population;
+    private LinkedList<IChromosome> newborns;
     private ArrayList<Double> generationFitness;
+    private final double generationSize;
+    private double totalFitness;
     Random random = new Random();
 
-    public GeneticAlgorithm(int populationStart, Chromosome type) {
-        population = new IChromosome[populationStart * 2];
-        for (int i = 0; i < population.length; i++) {
-            population[i] = ChromosomeFactory.getChromosome(type);
+    public GeneticAlgorithm(int populationStart,
+        Class<? extends AbstractEvaluationFunction> function,
+        Class<? extends AbstractNeuralNetwork> ANN, IInput[] inputs, IOutput[] outputs) {
+        population = new LinkedList<IChromosome>();
+        generationSize = populationStart * 2;
+        while (newborns.size() < generationSize) {
+            try {
+                newborns.push(ANN.getConstructor(function, IInput.class, IOutput.class)
+                    .newInstance(function, inputs, outputs));
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
+                exception.printStackTrace();
+            }
         }
-        fitness = new double[populationStart * 2];
     }
 
-    public void run(int cycles) {
-        while (generationFitness.size() < cycles) {
+    /**
+     * return the next newborn and if necessary cycle the generation.
+     * 
+     * @return the next newborn.
+     */
+    public IChromosome getNextRobot() {
+        if (newborns.isEmpty()) {
             cycle();
         }
+        population.push(newborns.pop());
+        return population.getFirst();
+
     }
 
+    /**
+     * perform the three evolutionary steps: kill, procreate, mutate.
+     */
     private void cycle() {
-        double averageFitness = averageFitness();
-        generationFitness.add(averageFitness);
-        ArrayList<IChromosome> selectedMates = cullUnfit(averageFitness);
-        procreate(selectedMates);
+        recountTotalFitness();
+        generationFitness.add(totalFitness / generationSize);
+        cullUnfit();
+        procreate();
         mutatePopulation();
     }
 
@@ -37,16 +65,17 @@ public class GeneticAlgorithm {
      * let the selectedMates repopulate civilization.
      * 
      * @param selectedMates
+     * 
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      */
-    private void procreate(ArrayList<IChromosome> selectedMates) {
-        for (int i = 0; i < fitness.length; i++) {
+    private void procreate() {
+        while (population.size() + newborns.size() < generationSize) {
             IChromosome mother, father;
-            if (fitness[i] == 0) {
-                mother = selectedMates.get(random.nextInt(selectedMates.size()));
-                father = selectedMates.get(random.nextInt(selectedMates.size()));
-                // yes, possibly mother==father. Keep an open mind!
-                population[i] = mother.procreate(father);
-            }
+            mother = population.get(random.nextInt(population.size()));
+            father = population.get(random.nextInt(population.size()));
+            // yes, possibly mother==father. Keep an open mind!
+            newborns.push(mother.procreate(father));
         }
     }
 
@@ -54,31 +83,23 @@ public class GeneticAlgorithm {
      * Be that eugenicist and mark everyone for culling who performs below
      * average.
      * 
-     * @param averageFitness
-     *            the benchmark
-     * @return return a list of who hasn't been culled
      */
-    private ArrayList<IChromosome> cullUnfit(double averageFitness) {
-        ArrayList<IChromosome> selectedMates = new ArrayList<IChromosome>(
-            (int) (fitness.length / 2));
-        for (int i = 0; i < fitness.length; i++) {
-            if (fitness[i] < averageFitness) {
-                fitness[i] = 0;
-            } else {
-                selectedMates.add(population[i]);
-            }
-        }
-        return selectedMates;
+    private void cullUnfit() {
+        population
+            .removeIf((chromosome) -> chromosome.getFitness() < totalFitness / generationSize);
     }
 
     /**
      * Mutate a small portion of the member of the population.
+     * 
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      */
     private void mutatePopulation() {
-        for (int i = 0; i < population.length; i++) {
+        for (int i = 0; i < generationSize; i++) {
             if (random.nextDouble() < MUTATION_PROBABILITY) {
-                fitness[i] = 0;
-                population[i].mutate();
+                population.get(i).mutate();
+                newborns.push(population.remove(i));
             }
         }
     }
@@ -87,17 +108,11 @@ public class GeneticAlgorithm {
      * update the fitness of each individual and return the population average
      * fitness.
      * 
-     * @return
      */
-    private double averageFitness() {
-        double averageFitness = 0;
-        for (int i = 0; i < fitness.length; i++) {
-            if (fitness[i] == 0) {
-                fitness[i] = population[i].fitness();
-            }
-            averageFitness += fitness[i];
+    private void recountTotalFitness() {
+        totalFitness = 0;
+        for (IChromosome chromosome : population) {
+            totalFitness += chromosome.getFitness();
         }
-        averageFitness /= fitness.length;
-        return averageFitness;
     }
 }

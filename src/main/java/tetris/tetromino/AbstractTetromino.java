@@ -64,7 +64,7 @@ public abstract class AbstractTetromino {
         int positionX = position.getX();
         int positionY = position.getY();
 
-        switch (Math.floorMod(rotation, 4)) {
+        switch (rotation) {
             case 0:
                 return new Coordinate(positionX + (int) (.5 + minoX),
                     positionY + (int) (.5 + minoY));
@@ -204,13 +204,17 @@ public abstract class AbstractTetromino {
      * Rotates the tetromino clockwise in the grid.
      */
     public void rotateRight() {
-        rotation++;
+        rotation = Math.floorMod(++rotation, 4);
     }
 
     /**
      * Rotates the tetromino clockwise in the grid.
      */
     public void rotateLeft() {
-        rotation--;
+        rotation = Math.floorMod(--rotation, 4);
+    }
+
+    public int getRotation() {
+        return rotation;
     }
 }

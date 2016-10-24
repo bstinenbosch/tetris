@@ -15,5 +15,16 @@ public interface IChromosome {
     /**
      * report the fitness of this chromosome.
      */
-    public double fitness();
+    public double getFitness();
+
+    /**
+     * set the fitness of this chromosome.
+     * 
+     * @param fitness
+     *            the fitness.
+     */
+    public void setFitness(double fitness);
+
+    public void evaluate();
+
 }
