@@ -48,6 +48,8 @@ public class TetrominoQueue {
         // POP Tetromino out of the Grid
         TetrominoQ.pop();
         // add another TetrominoBlock to the normal Queue
+        addToQueue();
+        // restart gamescreen
 
         return TetrominoHold.getFirst();
     }
