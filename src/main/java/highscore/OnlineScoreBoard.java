@@ -62,6 +62,7 @@ public class OnlineScoreBoard implements IScoreBoard {
 
     @Override
     public GameEntry[] getScores() {
+        fetchBoard();
         return (GameEntry[]) board.descendingSet().toArray(new GameEntry[0]);
     }
 
@@ -88,6 +89,7 @@ public class OnlineScoreBoard implements IScoreBoard {
 
     @Override
     public boolean isHighscore(int score) {
+        fetchBoard();
         return (board.size() < 10 || board.first().getScore() < score);
     }
 
