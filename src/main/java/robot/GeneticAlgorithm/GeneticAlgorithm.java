@@ -1,38 +1,29 @@
 package robot.GeneticAlgorithm;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-import robot.ANN.AbstractNeuralNetwork;
+import robot.ANN.RandomNeuralNetwork;
 import robot.ANN.Neuron.IInput;
 import robot.ANN.Neuron.IOutput;
-import robot.ANN.functions.AbstractEvaluationFunction;
+import robot.ANN.functions.EvaluationFunction;
 
 public class GeneticAlgorithm {
 
     private static final double MUTATION_PROBABILITY = 0.01;
-    private LinkedList<IChromosome> population;
-    private LinkedList<IChromosome> newborns;
+    private LinkedList<IChromosome> population = new LinkedList<>();
+    private LinkedList<IChromosome> newborns = new LinkedList<>();
     private ArrayList<Double> generationFitness;
     private final double generationSize;
     private double totalFitness;
     Random random = new Random();
 
-    public GeneticAlgorithm(int populationStart,
-        Class<? extends AbstractEvaluationFunction> function,
-        Class<? extends AbstractNeuralNetwork> ANN, IInput[] inputs, IOutput[] outputs) {
-        population = new LinkedList<IChromosome>();
+    public GeneticAlgorithm(int populationStart, EvaluationFunction function, IInput[] inputs,
+        IOutput[] outputs) {
         generationSize = populationStart * 2;
         while (newborns.size() < generationSize) {
-            try {
-                newborns.push(ANN.getConstructor(function, IInput.class, IOutput.class)
-                    .newInstance(function, inputs, outputs));
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException | NoSuchMethodException | SecurityException exception) {
-                exception.printStackTrace();
-            }
+            newborns.push(new RandomNeuralNetwork(function, inputs, outputs));
         }
     }
 

@@ -10,18 +10,17 @@ import robot.ANN.Neuron.IOutput;
 import robot.ANN.Neuron.InputNeuron;
 import robot.ANN.Neuron.Neuron;
 import robot.ANN.Neuron.OutputNeuron;
-import robot.ANN.functions.AbstractEvaluationFunction;
+import robot.ANN.functions.EvaluationFunction;
 import robot.GeneticAlgorithm.IChromosome;
 
 public abstract class AbstractNeuralNetwork implements IChromosome {
-    protected ArrayList<InputNeuron> input;
-    protected ArrayList<OutputNeuron> output;
-    protected ArrayList<Neuron> neurons;
-    protected Class<? extends AbstractEvaluationFunction> function;
+    protected ArrayList<InputNeuron> input = new ArrayList<InputNeuron>();
+    protected ArrayList<OutputNeuron> output = new ArrayList<OutputNeuron>();
+    protected ArrayList<Neuron> neurons = new ArrayList<Neuron>();
+    protected EvaluationFunction function;
     protected double fitness = -1;
 
-    public AbstractNeuralNetwork(Class<? extends AbstractEvaluationFunction> function,
-        IInput[] inputs, IOutput[] outputs) {
+    public AbstractNeuralNetwork(EvaluationFunction function, IInput[] inputs, IOutput[] outputs) {
         super();
         this.function = function;
         for (IInput input : inputs) {
@@ -32,7 +31,7 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
         }
     }
 
-    public AbstractNeuralNetwork(Class<? extends AbstractEvaluationFunction> function) {
+    public AbstractNeuralNetwork(EvaluationFunction function) {
         super();
         this.function = function;
     }
@@ -114,8 +113,7 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
      * 
      * @param output
      */
-    public final OutputNeuron addOutputToNetwork(IOutput output,
-        Class<? extends AbstractEvaluationFunction> function) {
+    public final OutputNeuron addOutputToNetwork(IOutput output, EvaluationFunction function) {
         OutputNeuron oNeuron = new OutputNeuron(function, output);
         this.output.add(oNeuron);
         return oNeuron;
@@ -141,8 +139,7 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
      * @param function
      * @return the neuron that was added.
      */
-    protected final Neuron addNeuronToNetwork(
-        Class<? extends AbstractEvaluationFunction> function) {
+    protected final Neuron addNeuronToNetwork(EvaluationFunction function) {
         Neuron neuron = new Neuron(function);
         neurons.add(neuron);
         return neuron;

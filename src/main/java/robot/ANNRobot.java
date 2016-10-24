@@ -6,10 +6,9 @@ import tetris.Action;
 import tetris.Grid;
 import tetris.tetromino.AbstractTetromino;
 
-import robot.ANN.RandomNeuralNetwork;
 import robot.ANN.Neuron.IOutput;
 import robot.ANN.Neuron.Inputter;
-import robot.ANN.functions.LinearEvaluationFunction;
+import robot.ANN.functions.EvaluationFunction;
 import robot.GeneticAlgorithm.GeneticAlgorithm;
 import robot.GeneticAlgorithm.IChromosome;
 
@@ -23,10 +22,10 @@ public class ANNRobot implements IRobot {
     public ANNRobot(int boardSize) {
         output = new IOutput[] {
             (charge) -> nextAction = Action.values()[(int) (charge * Action.values().length)] };
-        setInput();
-        geneticAlgorithm = new GeneticAlgorithm(10, LinearEvaluationFunction.class,
-            RandomNeuralNetwork.class, input, output);
         input = new Inputter[4 + boardSize];
+        setInput();
+        geneticAlgorithm = new GeneticAlgorithm(10, EvaluationFunction.Linear, input, output);
+        bot = geneticAlgorithm.getNextRobot();
     }
 
     @Override

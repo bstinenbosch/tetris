@@ -37,17 +37,17 @@ public class RobotController extends Thread {
                 robot.resetSession();
                 // TODO highscore invullen in leaderboards
                 Platform.runLater(() -> controller.startGame());
-                try {
-                    sleep(200);
-                } catch (InterruptedException exception) {
-                    exception.printStackTrace();
-                }
             } else {
                 // give grid and tetromino to ANN
                 robot.setGameState(controller.getGrid(), controller.getTetromino());
                 // ask for action and handle it
                 Platform.runLater(() -> robot.getNextAction().attempt(controller.getTetromino(),
                     controller.getGrid()));
+            }
+            try {
+                sleep(100);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
             }
         }
         // TODO save settings

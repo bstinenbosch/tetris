@@ -10,21 +10,20 @@ import robot.ANN.Neuron.IOutput;
 import robot.ANN.Neuron.InputNeuron;
 import robot.ANN.Neuron.Neuron;
 import robot.ANN.Neuron.OutputNeuron;
-import robot.ANN.functions.AbstractEvaluationFunction;
+import robot.ANN.functions.EvaluationFunction;
 import robot.GeneticAlgorithm.IChromosome;
 
 public class RandomNeuralNetwork extends AbstractNeuralNetwork {
 
-    private static final double PROBABILITY_NEWNODE = 0.01;
+    private static final double PROBABILITY_NEWNODE = 0.05;
     private static final double PROBABILITY_INHERIT = 0.5;
     Random random = new Random();
 
-    public RandomNeuralNetwork(Class<? extends AbstractEvaluationFunction> function,
-        IInput[] inputs, IOutput[] outputs) {
+    public RandomNeuralNetwork(EvaluationFunction function, IInput[] inputs, IOutput[] outputs) {
         super(function, inputs, outputs);
     }
 
-    public RandomNeuralNetwork(Class<? extends AbstractEvaluationFunction> function) {
+    public RandomNeuralNetwork(EvaluationFunction function) {
         super(function);
     }
 
