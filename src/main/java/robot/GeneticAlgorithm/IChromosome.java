@@ -1,5 +1,7 @@
 package robot.GeneticAlgorithm;
 
+import org.w3c.dom.Document;
+
 public interface IChromosome {
 
     /**
@@ -25,6 +27,14 @@ public interface IChromosome {
      */
     public void setFitness(double fitness);
 
+    /**
+     * evaluate the state of the network; do not return but set the state of the
+     * network accordingly.
+     */
     public void evaluate();
 
+    /**
+     * save the state in an XML file.
+     */
+    public void saveState(Document doc);
 }

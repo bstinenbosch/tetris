@@ -1,6 +1,10 @@
 package robot.ANN;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import robot.ANN.Neuron.AbstractNeuron;
 import robot.ANN.Neuron.IInput;
@@ -36,6 +40,15 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
 
     public PathIterable getIterable() {
         return new PathIterable(output.iterator());
+    }
+
+    @Override
+    public void saveState(Document doc) {
+        Element network = doc.createElement("Network");
+        doc.appendChild(network);
+        for (LinkedList<NeuralPathNode> path : getIterable()) {
+            // TODO add paths to doc
+        }
     }
 
     /**

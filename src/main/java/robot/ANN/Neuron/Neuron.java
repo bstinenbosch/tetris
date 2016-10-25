@@ -12,55 +12,8 @@ public class Neuron extends AbstractNeuron {
     private ArrayList<AbstractNeuron> predecessors;
     private AbstractEvaluationFunction function;
 
-    private class NeuronIterator implements Iterator<LinkedList<NeuralPathNode>> {
-        private Iterator<AbstractNeuron> predecessorIterator = predecessors.iterator();
-        private Iterator<LinkedList<NeuralPathNode>> currentPredecessorPathIterator;
-        private LinkedList<NeuralPathNode> path;
-
-        public NeuronIterator(LinkedList<NeuralPathNode> path) {
-            this.path = path;
-            if (predecessorIterator.hasNext()) {
-                AbstractNeuron currentPredecessor = (AbstractNeuron) predecessorIterator.next();
-                this.path.push(
-                    new NeuralPathNode(function.getWeight(currentPredecessor), currentPredecessor));
-                currentPredecessorPathIterator = currentPredecessor.iterator(this.path);
-            }
-        }
-
-        @Override
-        public boolean hasNext() {
-            if (currentPredecessorPathIterator == null) {
-                return false;// init must have failed. nothing to pop.
-            } // if current iterator is empty, try find a new one amongst
-              // children
-            while (!currentPredecessorPathIterator.hasNext()) {
-                if (predecessorIterator.hasNext()) {
-                    AbstractNeuron currentPredecessor = (AbstractNeuron) predecessorIterator.next();
-                    path.pop();
-                    path.push(new NeuralPathNode(function.getWeight(currentPredecessor),
-                        currentPredecessor));
-                    currentPredecessorPathIterator = currentPredecessor.iterator(path);
-                } else {
-                    path.pop();
-                    return false;
-                }
-            }
-            return currentPredecessorPathIterator.hasNext();
-        }
-
-        @Override
-        public LinkedList<NeuralPathNode> next() {
-            // by virtue of hasNext, the currentPredecessorIterator is loaded
-            // with an iterator which 'hasNext'.
-            return currentPredecessorPathIterator.next();
-            // TODO return the next from the child after updating weight
-            // accordingly
-        }
-
-    }
-
     public Iterator<LinkedList<NeuralPathNode>> iterator(LinkedList<NeuralPathNode> path) {
-        return new NeuronIterator(path);
+        return new NeuronIterator(path, predecessors.iterator(), function);
     }
 
     public Neuron(ArrayList<AbstractNeuron> input, EvaluationFunction function) {
