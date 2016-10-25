@@ -21,6 +21,9 @@ public class ANNRobot implements IRobot {
     private volatile int score;
     private TreeSet<ActionOutput> outputActions = new TreeSet<>();
 
+    /**
+     * class used to sort outputs on their charge.
+     */
     private class ActionOutput implements Comparable<ActionOutput> {
         private Action action;
         private double charge;
@@ -55,6 +58,9 @@ public class ANNRobot implements IRobot {
         bot = geneticAlgorithm.getNextRobot();
     }
 
+    /**
+     * hook output events and charges in the outputactions sorted list.
+     */
     private void setOutput() {
         output = new IOutput[] {
             charge -> outputActions.add(new ActionOutput(Action.ROTATE_LEFT, charge)),
@@ -62,6 +68,7 @@ public class ANNRobot implements IRobot {
             charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)),
             charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)),
             charge -> outputActions.add(new ActionOutput(Action.HARD_DROP, charge)) };
+        new ActionOutput(Action.INVALID_ACTION, .5);
     }
 
     @Override
@@ -92,6 +99,10 @@ public class ANNRobot implements IRobot {
         bot = geneticAlgorithm.getNextRobot();
     }
 
+    /**
+     * instantiate the inputter array, which is used to easily set the game
+     * state.
+     */
     private void setInput() {
         for (int i = 0; i < input.length; i++) {
             input[i] = new Inputter();
