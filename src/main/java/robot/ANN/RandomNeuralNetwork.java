@@ -31,8 +31,10 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
      * add a random node to the network.
      */
     private void addRandomNode() {
-        Neuron successor = addNeuronToNetwork(function);
-        addPredecessorToNeuron(getRandomPredecessor(), successor, random.nextDouble());
+        // Neuron successor =
+        addNeuronToNetwork(function);
+        // addPredecessorToNeuron(getRandomPredecessor(), successor,
+        // random.nextDouble());
     }
 
     /**
@@ -42,7 +44,7 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
      */
     private void addRandomConnection() {
         boolean success = false;
-        double weight = random.nextDouble();
+        double weight = random.nextGaussian();
         while (!success) {
             Neuron successor = getRandomSuccessor();
             AbstractNeuron predecessor = getRandomPredecessor();
