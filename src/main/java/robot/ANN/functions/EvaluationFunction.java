@@ -1,14 +1,14 @@
 package robot.ANN.functions;
 
 public enum EvaluationFunction implements IEvaluationFunctionFactory {
-    Linear {
+    LINEAR {
         public AbstractEvaluationFunction newInstance() {
             return new LinearEvaluationFunction();
         }
     },
-    SoftMax {
+    SIGMOID {
         public AbstractEvaluationFunction newInstance() {
-            return new SoftMax();
+            return new SigmoidEvaluationFunction();
         }
     };
 

@@ -1,6 +1,7 @@
 package robot;
 
 import java.util.Observable;
+import java.util.TreeSet;
 
 import tetris.Action;
 import tetris.Grid;
@@ -17,16 +18,50 @@ public class ANNRobot implements IRobot {
     private IChromosome bot;
     private Inputter[] input;
     private IOutput[] output;
-    private Action nextAction;
     private volatile int score;
+    private TreeSet<ActionOutput> outputActions = new TreeSet<>();
 
-    public ANNRobot(int boardSize) {
-        output = new IOutput[] {
-            (charge) -> nextAction = Action.values()[(int) (charge * Action.values().length)] };
+    private class ActionOutput implements Comparable<ActionOutput> {
+        private Action action;
+        private double charge;
+
+        ActionOutput(Action action, double charge) {
+            this.action = action;
+            this.charge = charge;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (!(other instanceof ActionOutput)) {
+                return false;
+            }
+            return ((ActionOutput) other).action.equals(this.action);
+        }
+
+        @Override
+        public int compareTo(ActionOutput o) {
+            if (equals(o)) {
+                return 0;
+            }
+            return (int) Math.signum(this.charge - o.charge);
+        }
+    }
+
+    public ANNRobot(int boardSize, int populationSize, EvaluationFunction evaluationFunction) {
         input = new Inputter[4 + boardSize];
         setInput();
-        geneticAlgorithm = new GeneticAlgorithm(3, EvaluationFunction.Linear, input, output);
+        setOutput();
+        geneticAlgorithm = new GeneticAlgorithm(populationSize, evaluationFunction, input, output);
         bot = geneticAlgorithm.getNextRobot();
+    }
+
+    private void setOutput() {
+        output = new IOutput[] {
+            charge -> outputActions.add(new ActionOutput(Action.ROTATE_LEFT, charge)),
+            charge -> outputActions.add(new ActionOutput(Action.ROTATE_RIGHT, charge)),
+            charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)),
+            charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)),
+            charge -> outputActions.add(new ActionOutput(Action.HARD_DROP, charge)) };
     }
 
     @Override
@@ -48,7 +83,7 @@ public class ANNRobot implements IRobot {
 
     @Override
     public Action getNextAction() {
-        return nextAction;
+        return outputActions.last().action;
     }
 
     @Override

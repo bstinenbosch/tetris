@@ -4,6 +4,8 @@ import tetris.Controller;
 
 import javafx.application.Platform;
 
+import robot.ANN.functions.EvaluationFunction;
+
 public class RobotController extends Thread {
 
     private Controller controller;
@@ -16,7 +18,7 @@ public class RobotController extends Thread {
         controller.getTick().setBaseTime(30);
         controller.getTick().setTime(30);
         // robot = new RandomRobot();
-        robot = new ANNRobot(controller.getGrid().width());
+        robot = new ANNRobot(controller.getGrid().width(), 5, EvaluationFunction.SIGMOID);
         this.controller.addScoreObserver(robot);
     }
 
@@ -39,7 +41,7 @@ public class RobotController extends Thread {
             if (controller.isGameOver()) {
                 robot.resetSession();
                 try {
-                    sleep(20);
+                    sleep(50);
                 } catch (InterruptedException exception) {
                     exception.printStackTrace();
                 }

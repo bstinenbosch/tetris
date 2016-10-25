@@ -8,28 +8,6 @@ import robot.ANN.NeuralPathNode;
 public class InputNeuron extends AbstractNeuron {
     private IInput input;
 
-    private class InputIterator implements Iterator<LinkedList<NeuralPathNode>> {
-
-        private LinkedList<NeuralPathNode> path;
-        private boolean hasIterated = false;
-
-        public InputIterator(LinkedList<NeuralPathNode> path) {
-            this.path = path;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return (!hasIterated);
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public LinkedList<NeuralPathNode> next() {
-            hasIterated = true;
-            return (LinkedList<NeuralPathNode>) path.clone();
-        }
-    }
-
     @Override
     public Iterator<LinkedList<NeuralPathNode>> iterator(LinkedList<NeuralPathNode> path) {
         return new InputIterator(path);
@@ -39,10 +17,12 @@ public class InputNeuron extends AbstractNeuron {
         this.input = input;
     }
 
+    @Override
     public void uncharge() {
         charge = -1;
     }
 
+    @Override
     public boolean hasAsPredecessor(AbstractNeuron neuron) {
         return false;
     }
