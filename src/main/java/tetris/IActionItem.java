@@ -15,5 +15,5 @@ public interface IActionItem {
      *            on this grid
      * @throws InvalidActivityException
      */
-    boolean attempt(AbstractTetromino tetromino, Grid grid);
+    public void attempt(AbstractTetromino tetromino, Grid grid);
 }

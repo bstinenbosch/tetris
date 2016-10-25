@@ -67,9 +67,8 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
-        if (action.attempt(tetromino, grid)) {
-            soundManager.play("move");
-        }
+        action.attempt(tetromino, grid);
+        soundManager.play("move");
         redraw();
     }
 
