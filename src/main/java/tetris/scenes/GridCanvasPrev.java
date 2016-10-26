@@ -1,8 +1,6 @@
 package tetris.scenes;
 
-import tetris.Controller;
 import tetris.Coordinate;
-import tetris.Grid;
 import tetris.Settings;
 import tetris.tetromino.AbstractTetromino;
 
@@ -12,35 +10,20 @@ import javafx.scene.paint.Color;
 public class GridCanvasPrev extends Canvas {
 
     private Settings settings;
-    private Grid grid;
     private int leftOffSet;
     private int bottomOffSet;
-    private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
-    private Controller controller;
 
     public void redraw() {
         clearPreview();
-        drawGrid();
         drawTetrominoPreview();
     }
 
     public GridCanvasPrev(Settings settings) {
-        super(settings.blockSize() * 6, settings.blockSize() * 5);
+        super(settings.blockSize() * settings.boardWidthPrev(),
+            settings.blockSize() * settings.boardHeightPrev());
         settings.setPreview(this.getGraphicsContext2D());
         this.settings = settings;
-    }
-
-    /**
-     * drawGrid draws the entire gameboard. As tetrominos reach their final
-     * place, they are registered on the grid to be drawn by this function.
-     */
-    private void drawGrid() {
-        for (int x = 0; x < settings.boardWidthPrev(); x++) {
-            for (int y = 0; y < settings.boardHeightPrev(); y++) {
-                drawRectanglePreview(grid.get(x, y), new Coordinate(x, y));
-            }
-        }
     }
 
     /**
@@ -84,10 +67,6 @@ public class GridCanvasPrev extends Canvas {
 
     public void setBottomOffSet(int offset) {
         this.bottomOffSet = offset;
-    }
-
-    public void setGrid(Grid grid) {
-        this.grid = grid;
     }
 
 }

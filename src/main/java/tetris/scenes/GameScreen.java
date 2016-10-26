@@ -80,8 +80,7 @@ public class GameScreen extends Group implements IScreen {
 
     private Canvas setUpPreview() {
         canvasprev = new GridCanvasPrev(settings);
-        settings.setPreview(canvas.getGraphicsContext2D());
-        return canvas;
+        return canvasprev;
     }
 
     @Override

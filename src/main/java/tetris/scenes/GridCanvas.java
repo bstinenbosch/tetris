@@ -1,6 +1,5 @@
 package tetris.scenes;
 
-import tetris.Controller;
 import tetris.Coordinate;
 import tetris.Grid;
 import tetris.Settings;
@@ -13,11 +12,7 @@ public class GridCanvas extends Canvas {
 
     private Settings settings;
     private Grid grid;
-    private int leftOffSet;
-    private int bottomOffSet;
     private AbstractTetromino tetromino;
-    private AbstractTetromino tetromino2;
-    private Controller controller;
 
     public void redraw() {
         clearBoard();
