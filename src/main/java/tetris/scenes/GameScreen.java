@@ -23,6 +23,7 @@ public class GameScreen extends Group implements IScreen {
     private Button pauseButton;
     private ObservingLabel scoreLabel;
     private Canvas canvas;
+    private Canvas canvasprev;
     private Pane leftPane;
     private VBox rightPane;
     private GridPane rootGameScreen;
@@ -78,9 +79,7 @@ public class GameScreen extends Group implements IScreen {
     }
 
     private Canvas setUpPreview() {
-        previewWidth = settings.blockSize() * 6;
-        previewHeight = settings.blockSize() * 5;
-        Canvas canvas = new Canvas(previewWidth, previewHeight);
+        canvasprev = new GridCanvasPrev(settings);
         settings.setPreview(canvas.getGraphicsContext2D());
         return canvas;
     }

@@ -21,10 +21,8 @@ public class GridCanvas extends Canvas {
 
     public void redraw() {
         clearBoard();
-        clearPreview();
         drawGrid();
         drawTetromino();
-        drawTetrominoPreview();
     }
 
     public GridCanvas(Settings settings) {
@@ -83,52 +81,8 @@ public class GridCanvas extends Canvas {
             settings.boardHeight() * settings.blockSize());
     }
 
-    /**
-     * drawRectanglePreview draws one cube on the preview grid.
-     *
-     * @param color
-     *            specifies the color pair to draw in (color pairs provided by
-     *            setColor)
-     * @param coordinate
-     *            the cube in the grid that is to be drawn.
-     */
-    private void drawRectanglePreview(int color, Coordinate coordinate) {
-        this.leftOffSet = controller.getLeftOffSet();
-        this.bottomOffSet = controller.getBottomOffSet();
-        if (color > 0) {
-            settings.getPreview().setFill(settings.getColor(color));
-            settings.getPreview().fillRoundRect(
-                coordinate.getX() * settings.blockSize() + this.leftOffSet,
-                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.bottomOffSet,
-                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
-        }
-    }
-
-    private void drawTetrominoPreview() {
-        for (int i = 0; i < 4; i++) {
-            drawRectanglePreview(tetromino2.getColor(), tetromino2.get(i));
-        }
-    }
-
-    private void clearPreview() {
-        settings.getPreview().setFill(Color.BLACK);
-        settings.getPreview().fillRect(0, 0, 6 * settings.blockSize(), 5 * settings.blockSize());
-    }
-
     public void setTetromino(AbstractTetromino tetromino) {
         this.tetromino = tetromino;
-    }
-
-    public void setTetrominoPrev(AbstractTetromino tetromino) {
-        this.tetromino2 = tetromino;
-    }
-
-    public void setLeftOffSet(int offset) {
-        this.leftOffSet = offset;
-    }
-
-    public void setBottomOffSet(int offset) {
-        this.bottomOffSet = offset;
     }
 
     public void setGrid(Grid grid) {

@@ -3,6 +3,7 @@ package tetris;
 import java.util.Observer;
 
 import tetris.scenes.GridCanvas;
+import tetris.scenes.GridCanvasPrev;
 import tetris.scenes.PreviewAdapter;
 import tetris.sound.SoundManager;
 import tetris.tetromino.AbstractTetromino;
@@ -24,6 +25,7 @@ public class Controller {
     private View ui;
     private Grid grid;
     private GridCanvas gridcanvas;
+    private GridCanvasPrev gridcanvasprev;
     private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
     private int leftOffSet;
@@ -46,6 +48,7 @@ public class Controller {
     public Controller(View ui, Settings settings) {
         this.settings = settings;
         this.gridcanvas = new GridCanvas(settings);
+        this.gridcanvasprev = new GridCanvasPrev(settings);
         this.ui = ui;
         this.soundManager = new SoundManager(2);
         setSounds();
@@ -72,7 +75,12 @@ public class Controller {
         if (action.attempt(tetromino, grid)) {
             soundManager.play("move");
         }
+        redraw();
+    }
+
+    public void redraw() {
         gridcanvas.redraw();
+        gridcanvasprev.redraw();
     }
 
     /**
@@ -90,11 +98,11 @@ public class Controller {
         tetromino2 = TetrominoFactory.getLast(position2);
 
         gridcanvas.setTetromino(tetromino);
-        gridcanvas.setTetrominoPrev(tetromino2);
+        gridcanvasprev.setTetrominoPrev(tetromino2);
 
         PreviewAdapter adapter = new PreviewAdapter(tetromino2);
-        gridcanvas.setLeftOffSet(adapter.getLeftOffSet());
-        gridcanvas.setBottomOffSet(adapter.getBottomOffSet());
+        gridcanvasprev.setLeftOffSet(adapter.getLeftOffSet());
+        gridcanvasprev.setBottomOffSet(adapter.getBottomOffSet());
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
 
@@ -146,7 +154,7 @@ public class Controller {
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
-        gridcanvas.redraw();
+        redraw();
     }
 
     public void openSettings() {
