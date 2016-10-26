@@ -2,7 +2,7 @@ package tetris.shapes;
 
 import tetris.Coordinate;
 
-public abstract class AbstractTetromino {
+public abstract class AbstractShape {
 
     /**
      * Coordinates of every Mino in a Tetromino.
@@ -20,13 +20,13 @@ public abstract class AbstractTetromino {
      * @param minos
      *            Coordinates of each Mino
      */
-    public AbstractTetromino(final Coordinate[] minos, int color) {
+    public AbstractShape(final Coordinate[] minos, int color) {
         this.minos = minos;
         this.color = color;
     }
 
     /**
-     * Returns the color ID of the tetromino.
+     * Returns the color ID of the shape.
      *
      * @return color ID
      */
@@ -42,7 +42,7 @@ public abstract class AbstractTetromino {
     public Coordinate get(int index) {
         if (index < 0 || index >= minos.length) {
             throw new IndexOutOfBoundsException(
-                "you are trying to access a block in a tetromino that doesn't exist.");
+                "you are trying to access a block in a shape that doesn't exist.");
         }
 
         return new Coordinate(minos[index].getX(), minos[index].getY());
@@ -51,7 +51,7 @@ public abstract class AbstractTetromino {
     /**
      * Determines vertical position of topmost Mino.
      *
-     * @return the y-position of the highest mino of the tetromino
+     * @return the y-position of the highest mino of the shape
      */
     public int top() {
         int top = 0;
@@ -65,7 +65,7 @@ public abstract class AbstractTetromino {
     /**
      * Determines vertical position of bottommost Mino.
      *
-     * @return the y-position of the lowest mino of the tetromino
+     * @return the y-position of the lowest mino of the shape
      */
     public int bottom() {
         int bottom = Integer.MAX_VALUE;
@@ -79,7 +79,7 @@ public abstract class AbstractTetromino {
     /**
      * Determines horizontal position of leftmost Mino.
      *
-     * @return the x-position of the leftmost mino of the tetromino
+     * @return the x-position of the leftmost mino of the shape
      */
     public int left() {
         int left = Integer.MAX_VALUE;
@@ -94,7 +94,7 @@ public abstract class AbstractTetromino {
     /**
      * Determines horizontal position of rightmost Mino.
      *
-     * @return the x-position of the rightmost mino of the tetromino
+     * @return the x-position of the rightmost mino of the shape
      */
     public int right() {
         int right = 0;

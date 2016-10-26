@@ -1,11 +1,11 @@
 package tetris.shapes.decorators;
 
 import tetris.Coordinate;
-import tetris.shapes.AbstractTetromino;
+import tetris.shapes.AbstractShape;
 import tetris.shapes.IRotatable;
 import tetris.shapes.ITranslatable;
 
-public class MovableTetromino extends TetrominoDecorator implements ITranslatable, IRotatable {
+public class MovableShape extends ShapeDecorator implements ITranslatable, IRotatable {
 
     /**
      * Rotation index (0 = spawning position). Index increases when rotating
@@ -18,8 +18,8 @@ public class MovableTetromino extends TetrominoDecorator implements ITranslatabl
      */
     protected Coordinate position;
 
-    public MovableTetromino(AbstractTetromino tetromino, Coordinate position) {
-        super(tetromino);
+    public MovableShape(AbstractShape shape, Coordinate position) {
+        super(shape);
         this.position = position;
     }
 
@@ -54,7 +54,7 @@ public class MovableTetromino extends TetrominoDecorator implements ITranslatabl
     }
 
     public Coordinate get(int index) {
-        Coordinate mino = tetromino.get(index);
+        Coordinate mino = shape.get(index);
 
         double minoX = mino.getX() - .5;
         double minoY = mino.getY() - .5;
@@ -81,9 +81,9 @@ public class MovableTetromino extends TetrominoDecorator implements ITranslatabl
 
 
     /**
-     * Determines the most left coordinate of a tetromino
+     * Determines the most left coordinate of a shape
      *
-     * @return the most left coordinate of a tetromino
+     * @return the most left coordinate of a shape
      */
     public Coordinate leftCoor() {
         Coordinate left = this.get(0);
@@ -96,9 +96,9 @@ public class MovableTetromino extends TetrominoDecorator implements ITranslatabl
     }
 
     /**
-     * Determines the most left coordinate of a tetromino
+     * Determines the most left coordinate of a shape
      *
-     * @return the most left coordinate of a tetromino
+     * @return the most left coordinate of a shape
      */
     public Coordinate rightCoor() {
         Coordinate right = this.get(0);
@@ -113,7 +113,7 @@ public class MovableTetromino extends TetrominoDecorator implements ITranslatabl
     /**
      * Determines vertical position of topmost Mino.
      *
-     * @return the y-position of the highest mino of the tetromino
+     * @return the y-position of the highest mino of the shape
      */
     public int top() {
         int top = 0;
@@ -127,7 +127,7 @@ public class MovableTetromino extends TetrominoDecorator implements ITranslatabl
     /**
      * Determines vertical position of bottommost Mino.
      *
-     * @return the y-position of the lowest mino of the tetromino
+     * @return the y-position of the lowest mino of the shape
      */
     public int bottom() {
         int bottom = Integer.MAX_VALUE;
@@ -141,7 +141,7 @@ public class MovableTetromino extends TetrominoDecorator implements ITranslatabl
     /**
      * Determines horizontal position of leftmost Mino.
      *
-     * @return the x-position of the leftmost mino of the tetromino
+     * @return the x-position of the leftmost mino of the shape
      */
     public int left() {
         int left = Integer.MAX_VALUE;
@@ -156,7 +156,7 @@ public class MovableTetromino extends TetrominoDecorator implements ITranslatabl
     /**
      * Determines horizontal position of rightmost Mino.
      *
-     * @return the x-position of the rightmost mino of the tetromino
+     * @return the x-position of the rightmost mino of the shape
      */
     public int right() {
         int right = 0;

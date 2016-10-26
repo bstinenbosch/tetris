@@ -41,7 +41,7 @@ public class RobotController extends Thread {
                     exception.printStackTrace();
                 }
             } else {
-                // give grid and tetromino to ANN
+                // give grid and shape to ANN
                 robot.setGameState(controller.getGrid(), controller.getFallingTetromino());
                 // ask for action and handle it
                 Platform.runLater(() -> robot.getNextAction().attempt(controller.getFallingTetromino(),

@@ -1,6 +1,6 @@
 package tetris;
 
-import tetris.shapes.AbstractTetromino;
+import tetris.shapes.AbstractShape;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class RobotControllerTest {
     @Test
     public void testRobotController() throws InterruptedException {
         DummyController controller = new DummyController();
-        AbstractTetromino tetromino = new DummyShapeO();
+        AbstractShape tetromino = new DummyShapeO();
         RobotController.toggleRobotController(controller);
         while (controller.getFallingTetromino().get(0).getX() == tetromino.get(0).getX()) {
             Thread.sleep(500);

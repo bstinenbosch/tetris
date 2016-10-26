@@ -1,8 +1,8 @@
 package tetris;
 
-import tetris.shapes.AbstractTetromino;
+import tetris.shapes.AbstractShape;
 
-public class DummyShapeI extends AbstractTetromino {
+public class DummyShapeI extends AbstractShape {
 
     private static final Coordinate[] minos = new Coordinate[] { new Coordinate(-1, 0),
             new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(2, 0) };

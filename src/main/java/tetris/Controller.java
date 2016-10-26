@@ -2,9 +2,9 @@ package tetris;
 
 import java.util.Observer;
 
-import tetris.scenes.PreviewAdapter;
-import tetris.shapes.AbstractTetromino;
-import tetris.shapes.decorators.MovableTetromino;
+import tetris.shapes.adapters.PreviewAdapter;
+import tetris.shapes.AbstractShape;
+import tetris.shapes.decorators.MovableShape;
 import tetris.shapes.original.TetrominoFactory;
 import tetris.shapes.original.TetrominoType;
 import tetris.sound.SoundManager;
@@ -26,8 +26,8 @@ public class Controller {
     private View ui;
     private Grid grid;
     private TetrominoQueue queue = new TetrominoQueue();
-    private MovableTetromino fallingTetromino;
-    private AbstractTetromino nextTetromino;
+    private MovableShape fallingTetromino;
+    private AbstractShape nextTetromino;
     private TetrominoFactory factory = new TetrominoFactory();
     private int leftOffSet;
     private int bottomOffSet;
@@ -86,7 +86,7 @@ public class Controller {
         grid.clearLines();
 
         Coordinate spawnPosition = new Coordinate(grid.width() / 2, grid.height());
-        fallingTetromino = new MovableTetromino(factory.create(queue.pop()), spawnPosition);
+        fallingTetromino = new MovableShape(factory.create(queue.pop()), spawnPosition);
 
         TetrominoType next = queue.peek();
         nextTetromino = factory.create(next);
@@ -279,7 +279,7 @@ public class Controller {
         return gameOver;
     }
 
-    public MovableTetromino getFallingTetromino() {
+    public MovableShape getFallingTetromino() {
         return fallingTetromino;
     }
 

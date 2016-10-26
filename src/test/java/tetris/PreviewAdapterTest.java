@@ -1,7 +1,7 @@
 package tetris;
 
-import tetris.scenes.PreviewAdapter;
-import tetris.shapes.AbstractTetromino;
+import tetris.shapes.adapters.PreviewAdapter;
+import tetris.shapes.AbstractShape;
 import tetris.shapes.original.TetrominoFactory;
 import tetris.shapes.original.TetrominoType;
 
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class PreviewAdapterTest {
 
     private TetrominoType type;
-    private AbstractTetromino Tetromino;
+    private AbstractShape Tetromino;
     private TetrominoFactory factory = new TetrominoFactory();
 
     @Test

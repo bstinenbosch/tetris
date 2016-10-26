@@ -1,17 +1,16 @@
 package tetris.shapes.original;
 
-import tetris.shapes.AbstractTetromino;
+import tetris.shapes.AbstractShape;
 
 public class TetrominoFactory {
 
     /**
-     * Creates a Tetromino.
+     * This creates one of the shapes defined in TetrominoType.
      *
-     * @param type
-     *            Type of Tetromino to create
-     * @return AbstractShape Tetromino
+     * @param   type             Type of Tetromino to create
+     * @return  AbstractShape    Tetromino
      */
-    public AbstractTetromino create(TetrominoType type) {
+    public AbstractShape create(TetrominoType type) {
         switch (type) {
             case I:
                 return new TetrominoI();

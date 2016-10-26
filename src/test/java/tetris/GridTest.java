@@ -2,7 +2,7 @@ package tetris;
 
 import org.junit.Before;
 import org.junit.Test;
-import tetris.shapes.decorators.MovableTetromino;
+import tetris.shapes.decorators.MovableShape;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,17 +35,17 @@ public class GridTest {
     public void test_register_shape_to_grid() {
         Grid grid = new Grid(new DummyController(), 10, 20);
         Coordinate coordinate = new Coordinate(5, 5);
-        MovableTetromino shape = new MovableTetromino(new DummyShape(), coordinate);
+        MovableShape shape = new MovableShape(new DummyShape(), coordinate);
         grid.registerTetromino(shape);
 
-        assertThat("grid is not empty when a tetromino is registered", isEmpty(grid),
+        assertThat("grid is not empty when a shape is registered", isEmpty(grid),
             equalTo(false));
     }
 
     @Test
     public void test_clear_board() {
         Coordinate coordinate = new Coordinate(5, 5);
-        MovableTetromino shape = new MovableTetromino(new DummyShape(), coordinate);
+        MovableShape shape = new MovableShape(new DummyShape(), coordinate);
         grid.registerTetromino(shape);
         grid.clearBoard();
 
@@ -56,11 +56,11 @@ public class GridTest {
     // registering some Tetrominos and let the fall properly.
 //    @Test
 //    public void test_clear_line() {
-//        grid.registerTetromino(new MovableTetromino(new DummyShape()));
-//        grid.registerTetromino(new MovableTetromino(new DummyShape()));
-//        grid.registerTetromino(new MovableTetromino(new DummyShape()));
-//        grid.registerTetromino(new MovableTetromino(new DummyShape()));
-//        grid.registerTetromino(new MovableTetromino(new DummyShape()));
+//        grid.registerTetromino(new MovableShape(new DummyShape()));
+//        grid.registerTetromino(new MovableShape(new DummyShape()));
+//        grid.registerTetromino(new MovableShape(new DummyShape()));
+//        grid.registerTetromino(new MovableShape(new DummyShape()));
+//        grid.registerTetromino(new MovableShape(new DummyShape()));
 //
 //        assertThat("two lines are cleared when a full row of O-shaped tetrominos "
 //            + "is placed at the bottom of the grid", grid.clearLines(), equalTo(2));

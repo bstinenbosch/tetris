@@ -1,9 +1,9 @@
 package tetris.shapes.original;
 
 import tetris.Coordinate;
-import tetris.shapes.AbstractTetromino;
+import tetris.shapes.AbstractShape;
 
-public class TetrominoL extends AbstractTetromino {
+public class TetrominoL extends AbstractShape {
 
     private static final Coordinate[] minos = new Coordinate[] { new Coordinate(-1, 0),
         new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(1, 1) };
@@ -11,8 +11,7 @@ public class TetrominoL extends AbstractTetromino {
     private static int color = 3;
 
     /**
-     * ShapeL is the figure that is dropped on the gameboard.
-     *
+     * Creates an L-shaped tetromino consisting of four minos.
      */
     public TetrominoL() {
         super(minos, color);
