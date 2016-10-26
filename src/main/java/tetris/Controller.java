@@ -78,6 +78,10 @@ public class Controller {
         redraw();
     }
 
+    /**
+     * redraws the GridCanvas and GridCanvasPreview
+     * 
+     */
     public void redraw() {
         gridcanvas.redraw();
         gridcanvasprev.redraw();

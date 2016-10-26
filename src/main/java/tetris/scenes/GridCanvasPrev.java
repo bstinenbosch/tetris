@@ -19,6 +19,11 @@ public class GridCanvasPrev extends Canvas {
         drawTetrominoPreview();
     }
 
+    /**
+     * Constructor
+     * 
+     * @param settings
+     */
     public GridCanvasPrev(Settings settings) {
         super(settings.blockSize() * settings.boardWidthPrev(),
             settings.blockSize() * settings.boardHeightPrev());
@@ -45,26 +50,51 @@ public class GridCanvasPrev extends Canvas {
         }
     }
 
+    /**
+     * Draws the preview tetromino
+     * 
+     */
+
     private void drawTetrominoPreview() {
         for (int i = 0; i < 4; i++) {
             drawRectanglePreview(tetromino2.getColor(), tetromino2.get(i));
         }
     }
 
+    /**
+     * Clears the preview window
+     * 
+     */
     private void clearPreview() {
         settings.getPreview().setFill(Color.BLACK);
         settings.getPreview().fillRect(0, 0, settings.boardWidthPrev() * settings.blockSize(),
             settings.boardHeightPrev() * settings.blockSize());
     }
 
+    /**
+     * sets the tetromino that is to be drawn, to be able to use this class in
+     * the controller
+     * 
+     * @param tetromino
+     */
     public void setTetrominoPrev(AbstractTetromino tetromino) {
         this.tetromino2 = tetromino;
     }
 
+    /**
+     * Sets the leftOffSet that should be used, gets it from the controller
+     * 
+     * @param offset
+     */
     public void setLeftOffSet(int offset) {
         this.leftOffSet = offset;
     }
 
+    /**
+     * Sets the bottomOffSet that should be used, gets it from the controller
+     * 
+     * @param offset
+     */
     public void setBottomOffSet(int offset) {
         this.bottomOffSet = offset;
     }

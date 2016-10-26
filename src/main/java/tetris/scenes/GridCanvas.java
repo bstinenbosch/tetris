@@ -20,6 +20,11 @@ public class GridCanvas extends Canvas {
         drawTetromino();
     }
 
+    /**
+     * Constructor
+     * 
+     * @param settings
+     */
     public GridCanvas(Settings settings) {
         super(settings.blockSize() * settings.boardWidth(),
             settings.blockSize() * settings.boardHeight());
@@ -76,10 +81,21 @@ public class GridCanvas extends Canvas {
             settings.boardHeight() * settings.blockSize());
     }
 
+    /**
+     * sets the tetromino that is to be drawn, to be able to use this class in
+     * the controller
+     * 
+     * @param tetromino
+     */
     public void setTetromino(AbstractTetromino tetromino) {
         this.tetromino = tetromino;
     }
 
+    /**
+     * Sets the grid that is used in the controller in here
+     * 
+     * @param grid
+     */
     public void setGrid(Grid grid) {
         this.grid = grid;
     }
