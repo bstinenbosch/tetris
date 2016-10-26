@@ -3,6 +3,7 @@ package tetris;
 import java.util.Observer;
 
 import tetris.scenes.PreviewAdapter;
+import tetris.sound.AudioStreaming;
 import tetris.sound.SoundManager;
 import tetris.tetromino.AbstractTetromino;
 import tetris.tetromino.TetrominoFactory;
@@ -98,6 +99,8 @@ public class Controller {
      * active tetromino.
      */
     private void redraw() {
+        AudioStreaming.playTheme();
+
         clearBoard();
         clearPreview();
         drawGrid();
@@ -148,7 +151,6 @@ public class Controller {
         gameOver = false;
         grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
-        soundManager.play("theme");
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
