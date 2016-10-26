@@ -2,7 +2,7 @@ package tetris;
 
 import org.junit.Before;
 import org.junit.Test;
-import tetris.tetromino.MovableTetromino;
+import tetris.shapes.decorators.MovableTetromino;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;

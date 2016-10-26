@@ -1,15 +1,14 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
-import tetris.tetromino.TetrominoI;
-import tetris.tetromino.TetrominoJ;
-import tetris.tetromino.TetrominoL;
-import tetris.tetromino.TetrominoO;
-import tetris.tetromino.TetrominoS;
-import tetris.tetromino.TetrominoT;
-import tetris.tetromino.TetrominoType;
-import tetris.tetromino.TetrominoZ;
+import tetris.shapes.original.TetrominoFactory;
+import tetris.shapes.original.TetrominoI;
+import tetris.shapes.original.TetrominoJ;
+import tetris.shapes.original.TetrominoL;
+import tetris.shapes.original.TetrominoO;
+import tetris.shapes.original.TetrominoS;
+import tetris.shapes.original.TetrominoT;
+import tetris.shapes.original.TetrominoType;
+import tetris.shapes.original.TetrominoZ;
 
 import org.junit.Test;
 

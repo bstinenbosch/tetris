@@ -1,7 +1,7 @@
 package tetris;
 
 import logging.Logger;
-import tetris.tetromino.MovableTetromino;
+import tetris.shapes.decorators.MovableTetromino;
 
 public enum Action implements IActionItem {
     ROTATE_RIGHT {

@@ -1,6 +1,6 @@
 package tetris.scenes;
 
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.AbstractTetromino;
 
 public class PreviewAdapter {
 

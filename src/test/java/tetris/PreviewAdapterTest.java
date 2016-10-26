@@ -1,9 +1,9 @@
 package tetris;
 
 import tetris.scenes.PreviewAdapter;
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
-import tetris.tetromino.TetrominoType;
+import tetris.shapes.AbstractTetromino;
+import tetris.shapes.original.TetrominoFactory;
+import tetris.shapes.original.TetrominoType;
 
 import org.junit.Test;
 

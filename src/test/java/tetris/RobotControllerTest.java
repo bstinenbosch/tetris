@@ -1,6 +1,6 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.AbstractTetromino;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,7 +1,6 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.MovableTetromino;
+import tetris.shapes.decorators.MovableTetromino;
 
 public class DummyController extends Controller {
     public boolean newTetrominoDropped = false;

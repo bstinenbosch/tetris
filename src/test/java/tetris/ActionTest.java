@@ -1,7 +1,7 @@
 package tetris;
 
 import org.junit.Test;
-import tetris.tetromino.MovableTetromino;
+import tetris.shapes.decorators.MovableTetromino;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

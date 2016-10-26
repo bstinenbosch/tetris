@@ -1,6 +1,9 @@
-package tetris.tetromino;
+package tetris.shapes.decorators;
 
 import tetris.Coordinate;
+import tetris.shapes.AbstractTetromino;
+import tetris.shapes.IRotatable;
+import tetris.shapes.ITranslatable;
 
 public class MovableTetromino extends TetrominoDecorator implements ITranslatable, IRotatable {
 

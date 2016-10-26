@@ -1,6 +1,6 @@
 package tetris;
 
-import tetris.tetromino.MovableTetromino;
+import tetris.shapes.decorators.MovableTetromino;
 
 public class Grid {
 

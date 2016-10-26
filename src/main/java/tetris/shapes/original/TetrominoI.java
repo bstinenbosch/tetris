@@ -1,6 +1,7 @@
-package tetris.tetromino;
+package tetris.shapes.original;
 
 import tetris.Coordinate;
+import tetris.shapes.AbstractTetromino;
 
 public class TetrominoI extends AbstractTetromino {
 

@@ -4,7 +4,7 @@ import java.util.Observer;
 
 import tetris.Action;
 import tetris.Grid;
-import tetris.tetromino.MovableTetromino;
+import tetris.shapes.decorators.MovableTetromino;
 
 public interface IRobot extends Observer {
     /**

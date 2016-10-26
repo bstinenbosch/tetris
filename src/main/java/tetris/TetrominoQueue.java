@@ -1,4 +1,6 @@
-package tetris.tetromino;
+package tetris;
+
+import tetris.shapes.original.TetrominoType;
 
 public class TetrominoQueue {
 

@@ -1,4 +1,4 @@
-package tetris.tetromino;
+package tetris.shapes;
 
 /**
  * Interface for classes able to translate in a two-dimensional space.

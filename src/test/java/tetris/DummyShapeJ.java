@@ -1,6 +1,6 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.AbstractTetromino;
 
 public class DummyShapeJ extends AbstractTetromino {
 

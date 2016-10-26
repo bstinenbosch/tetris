@@ -3,8 +3,11 @@ package tetris;
 import java.util.Observer;
 
 import tetris.scenes.PreviewAdapter;
+import tetris.shapes.AbstractTetromino;
+import tetris.shapes.decorators.MovableTetromino;
+import tetris.shapes.original.TetrominoFactory;
+import tetris.shapes.original.TetrominoType;
 import tetris.sound.SoundManager;
-import tetris.tetromino.*;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;

@@ -1,4 +1,6 @@
-package tetris.tetromino;
+package tetris.shapes.original;
+
+import tetris.shapes.AbstractTetromino;
 
 public class TetrominoFactory {
 

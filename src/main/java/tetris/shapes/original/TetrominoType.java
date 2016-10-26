@@ -1,4 +1,4 @@
-package tetris.tetromino;
+package tetris.shapes.original;
 
 import java.util.Random;
 
