@@ -1,6 +1,9 @@
 package tetris;
 
+import highscore.ScoreBoard;
+import tetris.sound.SoundManager;
 import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.TetrominoFactory;
 
 public class DummyController extends Controller {
     public boolean newTetrominoDropped = false;
@@ -8,12 +11,12 @@ public class DummyController extends Controller {
     private AbstractTetromino tetromino = new DummyShapeO(new Coordinate(100, 100));
     private Grid grid = new Grid(this, 200, 200);
 
-    public DummyController(View ui, Settings settings) {
-        super(ui, settings);
+    public DummyController(View ui, Settings settings, TetrominoFactory factory, SoundManager soundManager, Score score, ScoreBoard scoreBoard) {
+        super(ui, settings, factory, soundManager, score, scoreBoard);
     }
 
     public DummyController() {
-        super(null, null);
+        super(null, null, null, new SoundManager(2), new Score(), new ScoreBoard("src/main/resources/highscores.xml"));
     }
 
     @Override

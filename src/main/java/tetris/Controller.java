@@ -18,7 +18,7 @@ import logging.Logger;
 
 public class Controller {
 
-    private final SoundManager soundManager;
+    private SoundManager soundManager;
     private Score score;
     private ScoreBoard scoreBoard;
     private View ui;
@@ -32,24 +32,31 @@ public class Controller {
         Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
         Platform.runLater(() -> redraw());
     });
-
     private Settings settings;
+    private TetrominoFactory factory;
 
     /**
      * the Controller class determines the game flow and does the actual event
      * handling.
-     * 
+     *
      * @param ui
-     *            the application in which the game is running
+     * @param settings
+     * @param factory
+     * @param soundManager
+     * @param score
+     * @param scoreBoard
      */
-    public Controller(View ui, Settings settings) {
+    public Controller(View ui, Settings settings, TetrominoFactory factory,
+                      SoundManager soundManager, Score score, ScoreBoard scoreBoard) {
         this.settings = settings;
         this.ui = ui;
-        this.soundManager = new SoundManager(2);
+        this.factory = factory;
+        this.soundManager = soundManager;
+        this.score = score;
+        this.scoreBoard = scoreBoard;
+
         setSounds();
         Logger.setDebugOn();
-        score = new Score();
-        scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
         timer.start();
     }
@@ -84,8 +91,8 @@ public class Controller {
 
         Coordinate position2 = new Coordinate(0, 0);
 
-        tetromino = TetrominoFactory.createRandom(position);
-        tetromino2 = TetrominoFactory.getLast(position2);
+        tetromino = factory.createRandom(position);
+        tetromino2 = factory.getLast(position2);
 
         PreviewAdapter adapter = new PreviewAdapter(tetromino2);
         this.leftOffSet = adapter.getLeftOffSet();
