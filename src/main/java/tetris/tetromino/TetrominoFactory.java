@@ -1,56 +1,33 @@
 package tetris.tetromino;
 
-import tetris.Coordinate;
-
 public class TetrominoFactory {
-    public static TetrominoType[] queue = null;
 
     /**
      * Creates a Tetromino.
      *
      * @param type
      *            Type of Tetromino to create
-     * @param position
-     *            Position of shape in grid
      * @return AbstractShape Tetromino
      */
-    public static AbstractTetromino create(TetrominoType type, Coordinate position) {
+    public AbstractTetromino create(TetrominoType type) {
         switch (type) {
             case I:
-                return new TetrominoI(position);
+                return new TetrominoI();
             case J:
-                return new TetrominoJ(position);
+                return new TetrominoJ();
             case L:
-                return new TetrominoL(position);
+                return new TetrominoL();
             case O:
-                return new TetrominoO(position);
+                return new TetrominoO();
             case S:
-                return new TetrominoS(position);
+                return new TetrominoS();
             case T:
-                return new TetrominoT(position);
+                return new TetrominoT();
             case Z:
-                return new TetrominoZ(position);
+                return new TetrominoZ();
             default:
-                return new TetrominoI(position);
+                return new TetrominoI();
         }
-    }
-
-    /**
-     * Creates a random Tetromino.
-     *
-     * @param position
-     *            Position of shape in grid
-     * @return AbstractShape Tetromino
-     */
-
-    public static AbstractTetromino createRandom(Coordinate position) {
-        TetrominoQueue.addToQueue();
-        TetrominoType onScreenTetromino = TetrominoQueue.removeFromQueue();
-        return create(onScreenTetromino, position);
-    }
-
-    public static AbstractTetromino getLast(Coordinate position2) {
-        return create(TetrominoQueue.getLast(), position2);
     }
 
 }

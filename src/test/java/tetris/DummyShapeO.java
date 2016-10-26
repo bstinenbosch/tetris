@@ -11,10 +11,9 @@ public class DummyShapeO extends AbstractTetromino {
 
     /**
      * Creates a DummyShapeO that is similar in shape as the O-shaped Tetromino
-     * @param position coordinate where shape is registered in the grid
      */
-    public DummyShapeO(Coordinate position) {
-        super(position, minos, color);
+    public DummyShapeO() {
+        super(minos, color);
     }
 
 }

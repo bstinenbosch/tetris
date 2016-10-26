@@ -11,12 +11,10 @@ public class TetrominoO extends AbstractTetromino {
 
     /**
      * ShapeO is the figure that is dropped on the gameboard.
-     * 
-     * @param position
-     *            Position of shape in grid
+     *
      */
-    public TetrominoO(Coordinate position) {
-        super(position, minos, color);
+    public TetrominoO() {
+        super(minos, color);
     }
 
 }

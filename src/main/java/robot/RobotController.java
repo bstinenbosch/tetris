@@ -42,9 +42,9 @@ public class RobotController extends Thread {
                 }
             } else {
                 // give grid and tetromino to ANN
-                robot.setGameState(controller.getGrid(), controller.getTetromino());
+                robot.setGameState(controller.getGrid(), controller.getFallingTetromino());
                 // ask for action and handle it
-                Platform.runLater(() -> robot.getNextAction().attempt(controller.getTetromino(),
+                Platform.runLater(() -> robot.getNextAction().attempt(controller.getFallingTetromino(),
                     controller.getGrid()));
             }
         }

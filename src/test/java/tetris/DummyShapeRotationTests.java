@@ -9,8 +9,8 @@ public class DummyShapeRotationTests extends AbstractTetromino {
 
     private static int color = 1;
 
-    public DummyShapeRotationTests(Coordinate position) {
-        super(position, minos, color);
+    public DummyShapeRotationTests() {
+        super(minos, color);
     }
 
 }

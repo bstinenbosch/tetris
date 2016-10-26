@@ -10,17 +10,6 @@ public abstract class AbstractTetromino {
     private Coordinate[] minos;
 
     /**
-     * Rotation index (0 = spawning position). Index increases when rotating
-     * clockwise and vice versa.
-     */
-    private int rotation = 0;
-
-    /**
-     * Coordinate in grid relative to pivot point of Tetromino.
-     */
-    private Coordinate position;
-
-    /**
      * Color ID.
      */
     private int color;
@@ -28,13 +17,10 @@ public abstract class AbstractTetromino {
     /**
      * Default constructor to set Tetromino structure and position.
      *
-     * @param position
-     *            Position in grid relative to pivot point
      * @param minos
      *            Coordinates of each Mino
      */
-    public AbstractTetromino(final Coordinate position, final Coordinate[] minos, int color) {
-        this.position = position;
+    public AbstractTetromino(final Coordinate[] minos, int color) {
         this.minos = minos;
         this.color = color;
     }
@@ -59,27 +45,7 @@ public abstract class AbstractTetromino {
                 "you are trying to access a block in a tetromino that doesn't exist.");
         }
 
-        double minoX = minos[index].getX() - .5;
-        double minoY = minos[index].getY() - .5;
-        int positionX = position.getX();
-        int positionY = position.getY();
-
-        switch (Math.floorMod(rotation, 4)) {
-            case 0:
-                return new Coordinate(positionX + (int) (.5 + minoX),
-                    positionY + (int) (.5 + minoY));
-            case 1:
-                return new Coordinate(positionX + (int) (.5 + minoY),
-                    positionY + (int) (.5 - minoX));
-            case 2:
-                return new Coordinate(positionX + (int) (.5 - minoX),
-                    positionY + (int) (.5 - minoY));
-            case 3:
-                return new Coordinate(positionX + (int) (.5 - minoY),
-                    positionY + (int) (.5 + minoX));
-            default:
-                throw new IndexOutOfBoundsException("This exception should be unreachable.");
-        }
+        return new Coordinate(minos[index].getX(), minos[index].getY());
     }
 
     /**
@@ -121,41 +87,8 @@ public abstract class AbstractTetromino {
             Coordinate block = get(i);
             left = Math.min(left, block.getX());
         }
+
         return left;
-    }
-
-    /**
-     * Determines the most left coordinate of a tetromino
-     * 
-     * @return the most left coordinate of a tetromino
-     */
-    public Coordinate leftCoor() {
-        Coordinate left = this.get(0);
-        for (int i = 0; i < 4; i++) {
-            if (this.get(i).getX() < left.getX()) {
-                left = this.get(i);
-            }
-        }
-        return left;
-    }
-
-    /**
-     * Determines the most left coordinate of a tetromino
-     * 
-     * @return the most left coordinate of a tetromino
-     */
-    public Coordinate rightCoor() {
-        Coordinate right = this.get(0);
-        for (int i = 0; i < 4; i++) {
-            if (this.get(i).getX() > right.getX()) {
-                right = this.get(i);
-            }
-        }
-        return right;
-    }
-
-    public Coordinate getleft() {
-        return this.position;
     }
 
     /**
@@ -170,47 +103,5 @@ public abstract class AbstractTetromino {
             right = Math.max(right, block.getX());
         }
         return right;
-    }
-
-    /**
-     * Moves the tetromino down one row in the grid.
-     */
-    public void moveDown() {
-        position.translateY(-1);
-    }
-
-    /**
-     * Moves the tetromino up one row in the grid.
-     */
-    public void moveUp() {
-        position.translateY(1);
-    }
-
-    /**
-     * Moves the tetromino left one column in the grid.
-     */
-    public void moveLeft() {
-        position.translateX(-1);
-    }
-
-    /**
-     * Moves the tetromino right one column in the grid.
-     */
-    public void moveRight() {
-        position.translateX(1);
-    }
-
-    /**
-     * Rotates the tetromino clockwise in the grid.
-     */
-    public void rotateRight() {
-        rotation++;
-    }
-
-    /**
-     * Rotates the tetromino clockwise in the grid.
-     */
-    public void rotateLeft() {
-        rotation--;
     }
 }

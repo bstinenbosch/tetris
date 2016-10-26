@@ -1,6 +1,7 @@
 package tetris;
 
 import org.junit.Test;
+import tetris.tetromino.MovableTetromino;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,7 +12,7 @@ public class ActionTest {
     public void testChecksoftDrop() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeO tetromino = new DummyShapeO(new Coordinate(5, 0));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeO(), new Coordinate(5, 0));
         Action.SOFT_DROP.attempt(tetromino, grid);
         assertEquals(Action.SOFT_DROP.toString(), "Soft drop");
     }
@@ -20,7 +21,7 @@ public class ActionTest {
     public void testMoveLeftTrue() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeO tetromino = new DummyShapeO(new Coordinate(5, 5));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeO(), new Coordinate(5, 5));
         Action.MOVE_LEFT.attempt(tetromino, grid);
         assertTrue(tetromino.left() == 4);
     }
@@ -29,7 +30,7 @@ public class ActionTest {
     public void testMoveLeftFalse() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeO tetromino = new DummyShapeO(new Coordinate(-1, 5));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeO(), new Coordinate(-1, 5));
         Action.MOVE_LEFT.attempt(tetromino, grid);
         assertTrue(tetromino.left() == 0);
     }
@@ -38,7 +39,7 @@ public class ActionTest {
     public void testMoveRightFalse() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeO tetromino = new DummyShapeO(new Coordinate(9, 6));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeO(), new Coordinate(9, 6));
         Action.MOVE_RIGHT.attempt(tetromino, grid);
         assertTrue(tetromino.left() == 8);
     }
@@ -47,7 +48,7 @@ public class ActionTest {
     public void testMoveRightTrue() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeO tetromino = new DummyShapeO(new Coordinate(5, 6));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeO(), new Coordinate(5, 6));
         Action.MOVE_RIGHT.attempt(tetromino, grid);
         assertTrue(tetromino.right() == 7);
     }
@@ -56,7 +57,7 @@ public class ActionTest {
     public void testHardDrop() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeO tetromino = new DummyShapeO(new Coordinate(5, 5));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeO(), new Coordinate(5, 5));
         Action.HARD_DROP.attempt(tetromino, grid);
         assertEquals(Action.HARD_DROP.toString(), "Hard drop");
         assertTrue(tetromino.bottom() == 0);
@@ -66,7 +67,7 @@ public class ActionTest {
     public void testCheckMoveDownTrue() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeO tetromino = new DummyShapeO(new Coordinate(5, 5));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeO(), new Coordinate(5, 5));
         Action.SOFT_DROP.attempt(tetromino, grid);
         assertTrue(tetromino.bottom() == 4);
     }
@@ -75,7 +76,7 @@ public class ActionTest {
     public void testRotateLeft() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeL tetromino = new DummyShapeL(new Coordinate(4, 6));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeL(), new Coordinate(4, 6));
         Action.ROTATE_LEFT.attempt(tetromino, grid);
         assertTrue(tetromino.left() == 4);
     }
@@ -84,7 +85,7 @@ public class ActionTest {
     public void testRotateLeftNoFreeGrid() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeI tetromino = new DummyShapeI(new Coordinate(2, 0));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeI(), new Coordinate(2, 0));
         Action.ROTATE_LEFT.attempt(tetromino, grid);
         assertTrue(tetromino.top() == 0);
     }
@@ -93,7 +94,7 @@ public class ActionTest {
     public void testRotateRight() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeL tetromino = new DummyShapeL(new Coordinate(4, 6));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeL(), new Coordinate(4, 6));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
         assertTrue(tetromino.right() == 5);
     }
@@ -102,7 +103,7 @@ public class ActionTest {
     public void testRotateRightNoFreeGrid() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeI tetromino = new DummyShapeI(new Coordinate(4, 0));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeI(), new Coordinate(4, 0));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
         assertTrue(tetromino.right() == 6);
     }
@@ -111,7 +112,7 @@ public class ActionTest {
     public void testRotateLeftLeft() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeL tetromino = new DummyShapeL(new Coordinate(0, 6));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeL(), new Coordinate(0, 6));
         Action.ROTATE_LEFT.attempt(tetromino, grid);
         assertTrue(tetromino.right() == 2);
     }
@@ -120,7 +121,7 @@ public class ActionTest {
     public void testRotateLeftRight() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeJ tetromino = new DummyShapeJ(new Coordinate(9, 6));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeJ(), new Coordinate(9, 6));
         Action.ROTATE_LEFT.attempt(tetromino, grid);
         assertTrue(tetromino.left() == 7);
     }
@@ -129,7 +130,7 @@ public class ActionTest {
     public void testRotateRightLeft() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeL tetromino = new DummyShapeL(new Coordinate(0, 0));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeL(), new Coordinate(0, 0));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
         assertTrue(tetromino.right() == 2);
     }
@@ -138,18 +139,17 @@ public class ActionTest {
     public void testRotateRightRight() {
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeJ tetromino = new DummyShapeJ(new Coordinate(9, 5));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeJ(), new Coordinate(9, 5));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
         assertTrue(tetromino.left() == 7);
     }
 
     @Test
     public void testInvalidAction() {
-        Action action = null;
         DummyController controller = new DummyController();
         Grid grid = new Grid(controller, 10, 20);
-        DummyShapeI tetromino = new DummyShapeI(new Coordinate(5, 5));
-        assertTrue(action.testINVALIDACTION(tetromino, grid));
+        MovableTetromino tetromino = new MovableTetromino(new DummyShapeI(), new Coordinate(5, 5));
+        assertTrue(Action.testINVALIDACTION(tetromino, grid));
     }
 
 }

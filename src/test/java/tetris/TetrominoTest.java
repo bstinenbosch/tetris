@@ -17,24 +17,17 @@ import static org.junit.Assert.assertTrue;
 
 public class TetrominoTest {
 
+    private TetrominoFactory factory = new TetrominoFactory();
+
     @Test
     public void tests() {
-        assertTrue(
-            TetrominoFactory.createRandom(new Coordinate(0, 0)) instanceof AbstractTetromino);
-        assertTrue(TetrominoFactory.getLast(new Coordinate(0, 0)) instanceof AbstractTetromino);
-        assertTrue(
-            TetrominoFactory.create(TetrominoType.I, new Coordinate(0, 0)) instanceof TetrominoI);
-        assertTrue(
-            TetrominoFactory.create(TetrominoType.J, new Coordinate(0, 0)) instanceof TetrominoJ);
-        assertTrue(
-            TetrominoFactory.create(TetrominoType.L, new Coordinate(0, 0)) instanceof TetrominoL);
-        assertTrue(
-            TetrominoFactory.create(TetrominoType.O, new Coordinate(0, 0)) instanceof TetrominoO);
-        assertTrue(
-            TetrominoFactory.create(TetrominoType.S, new Coordinate(0, 0)) instanceof TetrominoS);
-        assertTrue(
-            TetrominoFactory.create(TetrominoType.T, new Coordinate(0, 0)) instanceof TetrominoT);
-        assertTrue(
-            TetrominoFactory.create(TetrominoType.Z, new Coordinate(0, 0)) instanceof TetrominoZ);
+        assertTrue(factory.create(TetrominoType.random()) != null);
+        assertTrue(factory.create(TetrominoType.I) instanceof TetrominoI);
+        assertTrue(factory.create(TetrominoType.J) instanceof TetrominoJ);
+        assertTrue(factory.create(TetrominoType.L) instanceof TetrominoL);
+        assertTrue(factory.create(TetrominoType.O) instanceof TetrominoO);
+        assertTrue(factory.create(TetrominoType.S) instanceof TetrominoS);
+        assertTrue(factory.create(TetrominoType.T) instanceof TetrominoT);
+        assertTrue(factory.create(TetrominoType.Z) instanceof TetrominoZ);
     }
 }

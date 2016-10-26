@@ -4,11 +4,11 @@ import java.util.Observable;
 
 import tetris.Action;
 import tetris.Grid;
-import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.MovableTetromino;
 
 public class RandomRobot implements IRobot {
     @Override
-    public void setGameState(Grid grid, AbstractTetromino tetromino) {
+    public void setGameState(Grid grid, MovableTetromino tetromino) {
         // This robot doesnt care about the game state. However, he has ADHD so
         // we regularly put him to sleep.
         try {

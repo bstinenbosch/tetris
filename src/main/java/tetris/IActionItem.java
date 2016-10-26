@@ -1,6 +1,6 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.MovableTetromino;
 
 import javax.activity.InvalidActivityException;
 
@@ -15,5 +15,5 @@ public interface IActionItem {
      *            on this grid
      * @throws InvalidActivityException
      */
-    boolean attempt(AbstractTetromino tetromino, Grid grid);
+    boolean attempt(MovableTetromino tetromino, Grid grid);
 }

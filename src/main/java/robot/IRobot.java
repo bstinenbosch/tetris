@@ -4,7 +4,7 @@ import java.util.Observer;
 
 import tetris.Action;
 import tetris.Grid;
-import tetris.tetromino.AbstractTetromino;
+import tetris.tetromino.MovableTetromino;
 
 public interface IRobot extends Observer {
     /**
@@ -16,7 +16,7 @@ public interface IRobot extends Observer {
      * @param tetromino
      *            the tetromino that is currently dropping.
      */
-    public void setGameState(Grid grid, AbstractTetromino tetromino);
+    public void setGameState(Grid grid, MovableTetromino tetromino);
 
     /**
      * getNextAction determines the next action given the current game state.

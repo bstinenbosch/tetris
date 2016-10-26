@@ -3,12 +3,13 @@ package tetris;
 import tetris.tetromino.AbstractTetromino;
 
 import org.junit.Test;
+import tetris.tetromino.MovableTetromino;
 
 import static org.junit.Assert.assertEquals;
 
 public class AbstractShapeTest {
 
-    private AbstractTetromino shape = new DummyShapeRotationTests(new Coordinate(0, 0));
+    private MovableTetromino shape = new MovableTetromino(new DummyShapeRotationTests(), new Coordinate(0, 0));
 
     @Test
     public void test_topmost_coordinate() {

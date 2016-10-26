@@ -11,11 +11,9 @@ public class TetrominoL extends AbstractTetromino {
 
     /**
      * ShapeL is the figure that is dropped on the gameboard.
-     * 
-     * @param position
-     *            Position of shape in grid
+     *
      */
-    public TetrominoL(Coordinate position) {
-        super(position, minos, color);
+    public TetrominoL() {
+        super(minos, color);
     }
 }
