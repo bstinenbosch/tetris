@@ -29,6 +29,8 @@ public class Controller {
     private int leftOffSet;
     private int bottomOffSet;
     private boolean gameOver = false;
+    public boolean normalTheme = false;
+    public boolean remixTheme = false;
     private Tick timer = new Tick(event -> {
         Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
         Platform.runLater(() -> redraw());
@@ -56,7 +58,6 @@ public class Controller {
     }
 
     private void setSounds() {
-        soundManager.load("theme", getClass().getClassLoader().getResource("sound/theme.mp3"));
         soundManager.load("move", getClass().getClassLoader().getResource("sound/sfx/move.wav"));
     }
 
@@ -72,6 +73,25 @@ public class Controller {
             soundManager.play("move");
         }
         redraw();
+    }
+
+    public void changingMusic() {
+        System.out.println(score.getScore());
+        if (score.getScore() < 100) {
+
+            if (normalTheme == false) {
+                AudioStreaming.playTheme();
+                normalTheme = true;
+            }
+        }
+
+        if (score.getScore() > 100) {
+            if (remixTheme == false) {
+                AudioStreaming.playRemix();
+                remixTheme = true;
+            }
+        }
+
     }
 
     /**
@@ -99,13 +119,13 @@ public class Controller {
      * active tetromino.
      */
     private void redraw() {
-        AudioStreaming.playTheme();
 
         clearBoard();
         clearPreview();
         drawGrid();
         drawTetromino();
         drawTetrominoPreview();
+        changingMusic();
     }
 
     /**
