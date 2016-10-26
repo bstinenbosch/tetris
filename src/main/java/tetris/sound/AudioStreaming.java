@@ -12,7 +12,7 @@ public class AudioStreaming {
 
     public static void playTheme() {
         Media l = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/"
-            + "src/main/resources/sound/Q.mp3");
+            + "src/main/resources/sound/theme.mp3");
         player = new MediaPlayer(l);
         player.setCycleCount(themeLoop);
         player.play();

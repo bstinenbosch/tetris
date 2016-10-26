@@ -28,9 +28,11 @@ public class Controller {
     private AbstractTetromino tetromino2;
     private int leftOffSet;
     private int bottomOffSet;
+    public int changeInMusic = 500;
     private boolean gameOver = false;
     public boolean normalTheme = false;
     public boolean remixTheme = false;
+
     private Tick timer = new Tick(event -> {
         Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
         Platform.runLater(() -> redraw());
@@ -77,7 +79,7 @@ public class Controller {
 
     public void changingMusic() {
         System.out.println(score.getScore());
-        if (score.getScore() < 100) {
+        if (score.getScore() < changeInMusic) {
 
             if (normalTheme == false) {
                 AudioStreaming.playTheme();
@@ -85,7 +87,7 @@ public class Controller {
             }
         }
 
-        if (score.getScore() > 100) {
+        if (score.getScore() > changeInMusic) {
             if (remixTheme == false) {
                 AudioStreaming.playRemix();
                 remixTheme = true;
