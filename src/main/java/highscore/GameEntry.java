@@ -1,6 +1,6 @@
 package highscore;
 
-public class GameEntry {
+public class GameEntry implements Comparable<GameEntry> {
 
     private String name; // name of the player
     private int score; // score of the player
@@ -33,5 +33,10 @@ public class GameEntry {
      */
     public String toString() {
         return ("(" + name + ", " + score + ")");
+    }
+
+    @Override
+    public int compareTo(GameEntry other) {
+        return getScore() - other.getScore();
     }
 }

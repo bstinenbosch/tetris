@@ -3,50 +3,43 @@ package highscore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class ScoreBoardTest {
-
-    @Test
-    public void LoadScoresTest() {
-        ScoreBoard board = new ScoreBoard("src/test/resources/highscores.xml");
-        assertEquals("{(Pascal, 700), (Bas, 500)}", board.toString());
-    }
+public class OnlineScoreBoardTest {
 
     @Test
     public void toStringTest() {
-        ScoreBoard board = new ScoreBoard("");
+        IScoreBoard board = new OnlineScoreBoard(true);
         assertEquals("{}", board.toString());
     }
 
     @Test
     public void addEntryTest() {
-        ScoreBoard board = new ScoreBoard("");
-        GameEntry entry = new GameEntry("Pascal", 500);
-        board.add(entry);
+        IScoreBoard board = new OnlineScoreBoard(true);
+        board.add(new GameEntry("Pascal", 500));
         assertEquals("{(Pascal, 500)}", board.toString());
     }
 
     @Test
     public void addEntryHigherTest() {
-        ScoreBoard board = new ScoreBoard("");
-        GameEntry entry = new GameEntry("Pascal", 500);
-        board.add(entry);
-        entry = new GameEntry("Bas", 700);
-        board.add(entry);
+        IScoreBoard board = new OnlineScoreBoard(true);
+        board.add(new GameEntry("Pascal", 500));
+        board.add(new GameEntry("Bas", 700));
         assertEquals("{(Bas, 700), (Pascal, 500)}", board.toString());
     }
 
+    @Test
     public void addEntryLowerTest() {
-        ScoreBoard board = new ScoreBoard("");
-        GameEntry entry = new GameEntry("Pascal", 500);
-        board.add(entry);
-        entry = new GameEntry("Robbert", 300);
-        board.add(entry);
+        IScoreBoard board = new OnlineScoreBoard(true);
+        board.add(new GameEntry("Pascal", 500));
+        board.add(new GameEntry("Robbert", 300));
         assertEquals("{(Pascal, 500), (Robbert, 300)}", board.toString());
     }
 
+    @Test
     public void addFullLowerTest() {
-        ScoreBoard board = new ScoreBoard("");
+        IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Player1", 1000));
         board.add(new GameEntry("Player2", 900));
         board.add(new GameEntry("Player3", 800));
@@ -64,8 +57,9 @@ public class ScoreBoardTest {
             board.toString());
     }
 
+    @Test
     public void addFullHigherTest() {
-        ScoreBoard board = new ScoreBoard("");
+        IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Player1", 1000));
         board.add(new GameEntry("Player2", 900));
         board.add(new GameEntry("Player3", 800));
@@ -83,8 +77,9 @@ public class ScoreBoardTest {
             board.toString());
     }
 
+    @Test
     public void isHighscoreFullYesTest() {
-        ScoreBoard board = new ScoreBoard("");
+        IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Player1", 1000));
         board.add(new GameEntry("Player2", 900));
         board.add(new GameEntry("Player3", 800));
@@ -96,11 +91,12 @@ public class ScoreBoardTest {
         board.add(new GameEntry("Player9", 200));
         board.add(new GameEntry("Player10", 100));
 
-        assertEquals(true, board.isHighscore(550));
+        assertTrue(board.isHighscore(550));
     }
 
+    @Test
     public void isHighscoreFullNoTest() {
-        ScoreBoard board = new ScoreBoard("");
+        IScoreBoard board = new OnlineScoreBoard(true);
         board.add(new GameEntry("Player1", 1000));
         board.add(new GameEntry("Player2", 900));
         board.add(new GameEntry("Player3", 800));
@@ -112,7 +108,7 @@ public class ScoreBoardTest {
         board.add(new GameEntry("Player9", 200));
         board.add(new GameEntry("Player10", 100));
 
-        assertEquals(false, board.isHighscore(50));
+        assertFalse(board.isHighscore(50));
     }
 
 }
