@@ -3,7 +3,7 @@ package tetris.scenes;
 import tetris.Coordinate;
 import tetris.Grid;
 import tetris.Settings;
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.decorators.MovableShape;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
@@ -12,7 +12,7 @@ public class GridCanvas extends Canvas {
 
     private Settings settings;
     private Grid grid;
-    private AbstractTetromino tetromino;
+    private MovableShape tetromino;
 
     public void redraw() {
         clearBoard();
@@ -87,7 +87,7 @@ public class GridCanvas extends Canvas {
      * 
      * @param tetromino
      */
-    public void setTetromino(AbstractTetromino tetromino) {
+    public void setTetromino(MovableShape tetromino) {
         this.tetromino = tetromino;
     }
 

@@ -29,12 +29,9 @@ public class Controller {
     private Grid grid;
     private TetrominoQueue queue = new TetrominoQueue();
     private MovableShape fallingTetromino;
-    private AbstractShape nextTetromino;
     private TetrominoFactory factory = new TetrominoFactory();
     private GridCanvas gridcanvas;
     private GridCanvasPrev gridcanvasprev;
-    private int leftOffSet;
-    private int bottomOffSet;
     private boolean gameOver = false;
     private Tick timer = new Tick(event -> {
         Platform.runLater(() -> Action.SOFT_DROP.attempt(fallingTetromino, grid));
@@ -105,12 +102,12 @@ public class Controller {
         gridcanvas.setTetromino(fallingTetromino);
 
         TetrominoType next = queue.peek();
-        nextTetromino = factory.create(next);
+        AbstractShape nextTetromino = factory.create(next);
         gridcanvasprev.setTetrominoPrev(nextTetromino);
 
         PreviewAdapter adapter = new PreviewAdapter(nextTetromino);
-        gridcanvasprev.leftOffSet(dapter.getLeftOffSet());
-        gridcanvasprev.bottomOffSet(adapter.getBottomOffSet());
+        gridcanvasprev.setLeftOffSet(adapter.getLeftOffSet());
+        gridcanvasprev.setBottomOffSet(adapter.getBottomOffSet());
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
 
@@ -211,10 +208,6 @@ public class Controller {
         return fallingTetromino;
     }
 
-    public AbstractTetromino getTetrominoPrev() {
-        return tetromino2;
-    }
-
     public Grid getGrid() {
         return grid;
     }
@@ -230,14 +223,6 @@ public class Controller {
         timer.pause();
         gameOver = true;
         button.setOnAction((event) -> unpause(button));
-    }
-
-    public int getLeftOffSet() {
-        return leftOffSet;
-    }
-
-    public int getBottomOffSet() {
-        return bottomOffSet;
     }
 
 }

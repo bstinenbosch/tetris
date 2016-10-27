@@ -2,17 +2,17 @@ package tetris.scenes;
 
 import tetris.Coordinate;
 import tetris.Settings;
-import tetris.tetromino.AbstractTetromino;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
+import tetris.shapes.AbstractShape;
 
 public class GridCanvasPrev extends Canvas {
 
     private Settings settings;
     private int leftOffSet;
     private int bottomOffSet;
-    private AbstractTetromino tetromino2;
+    private AbstractShape tetromino;
 
     public void redraw() {
         clearPreview();
@@ -57,7 +57,7 @@ public class GridCanvasPrev extends Canvas {
 
     private void drawTetrominoPreview() {
         for (int i = 0; i < 4; i++) {
-            drawRectanglePreview(tetromino2.getColor(), tetromino2.get(i));
+            drawRectanglePreview(tetromino.getColor(), tetromino.get(i));
         }
     }
 
@@ -77,8 +77,8 @@ public class GridCanvasPrev extends Canvas {
      * 
      * @param tetromino
      */
-    public void setTetrominoPrev(AbstractTetromino tetromino) {
-        this.tetromino2 = tetromino;
+    public void setTetrominoPrev(AbstractShape tetromino) {
+        this.tetromino = tetromino;
     }
 
     /**
