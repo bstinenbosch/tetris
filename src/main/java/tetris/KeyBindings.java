@@ -21,7 +21,7 @@ public final class KeyBindings implements Iterable<Entry<KeyCode, Action>> {
     public KeyBindings() {
         bindings.put(KeyCode.LEFT, Action.MOVE_LEFT);
         bindings.put(KeyCode.RIGHT, Action.MOVE_RIGHT);
-        bindings.put(KeyCode.UP, Action.ROTATE_LEFT);
+        bindings.put(KeyCode.A, Action.ROTATE_LEFT);
         bindings.put(KeyCode.S, Action.ROTATE_RIGHT);
         bindings.put(KeyCode.DOWN, Action.SOFT_DROP);
         bindings.put(KeyCode.SPACE, Action.HARD_DROP);
