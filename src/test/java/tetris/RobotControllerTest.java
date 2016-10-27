@@ -42,12 +42,12 @@ public class RobotControllerTest {
         DummyController controller = new DummyController(view, settings);
         AbstractShape tetromino = new DummyShapeO();
         RobotController.toggleRobotController(controller);
-        while (controller.getFallingTetromino().get(0).getX() == tetromino.get(0).getX()) {
+        while (controller.getFallingTetromino().getMinos().getCoordinates().get(0).getX() == tetromino.getMinos().getCoordinates().get(0).getX()) {
             Thread.sleep(500);
         }
         RobotController.toggleRobotController(controller);
-        Assert.assertNotEquals(controller.getFallingTetromino().get(0).getX(),
-            tetromino.get(0).getX());
+        Assert.assertNotEquals(controller.getFallingTetromino().getMinos().getCoordinates().get(0).getX(),
+            tetromino.getMinos().getCoordinates().get(0).getX());
 
     }
 

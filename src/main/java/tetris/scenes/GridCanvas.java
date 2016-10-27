@@ -1,6 +1,6 @@
 package tetris.scenes;
 
-import tetris.Coordinate;
+import common.Coordinate;
 import tetris.Grid;
 import tetris.Settings;
 import tetris.shapes.decorators.MovableShape;
@@ -49,8 +49,8 @@ public class GridCanvas extends Canvas {
      * gameboard.
      */
     private void drawTetromino() {
-        for (int i = 0; i < 4; i++) {
-            drawRectangle(tetromino.getColor(), tetromino.get(i));
+        for(Coordinate mino : tetromino.getMinos().getCoordinates()) {
+            drawRectangle(tetromino.getColor(), mino);
         }
     }
 

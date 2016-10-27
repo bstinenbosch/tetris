@@ -18,11 +18,11 @@ public class PreviewAdapter {
      *            shape
      */
     public PreviewAdapter(AbstractShape tetromino) {
-        this.left = tetromino.left();
-        this.top = tetromino.top();
-        this.bottom = tetromino.bottom();
-        this.width = tetromino.right() - left + 1;
-        this.height = tetromino.top() - tetromino.bottom() + 1;
+        this.left = tetromino.left().getX();
+        this.top = tetromino.top().getY();
+        this.bottom = tetromino.bottom().getY();
+        this.width = tetromino.right().getX() - left + 1;
+        this.height = tetromino.top().getY() - tetromino.bottom().getY() + 1;
     }
 
     /**

@@ -20,8 +20,8 @@ public class PreviewAdapterTest {
     public void testGettingRightCoordinates() {
         type = TetrominoType.I;
         Tetromino = factory.create(type);
-        assertTrue(Tetromino.left() == -1);
-        assertTrue(Tetromino.right() == 2);
+        assertTrue(Tetromino.left().getX() == -1);
+        assertTrue(Tetromino.right().getX() == 2);
     }
 
     @Test

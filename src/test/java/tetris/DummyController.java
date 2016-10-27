@@ -1,5 +1,6 @@
 package tetris;
 
+import common.Coordinate;
 import tetris.shapes.decorators.MovableShape;
 
 public class DummyController extends Controller {

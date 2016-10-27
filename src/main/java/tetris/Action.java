@@ -13,14 +13,12 @@ public enum Action implements IActionItem {
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid) {
             tetromino.rotateRight();
-            checkRotate(tetromino, grid);
-            for (int i = 0; i < 4; i++) {
-                if (!grid.isFree(tetromino.get(i))) {
-                    tetromino.rotateLeft();
-                    Logger.log(this, Logger.LogType.INFO,
-                        "tried to rotate shape clockwise but failed");
-                    return false;
-                }
+//            checkRotate(tetromino, grid);
+            if (!grid.isFree(tetromino.getMinos())) {
+                tetromino.rotateLeft();
+                Logger.log(this, Logger.LogType.INFO,
+                    "tried to rotate shape clockwise but failed");
+                return false;
             }
             Logger.log(this, Logger.LogType.INFO, "rotated shape clockwise");
             return true;
@@ -34,17 +32,16 @@ public enum Action implements IActionItem {
 
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid) {
-            if (tetromino.left() > 0) {
+//            if (tetromino.left() > 0) {
                 tetromino.moveLeft();
+//            }
+            if (!grid.isFree(tetromino.getMinos())) {
+                tetromino.moveRight();
+                Logger.log(this, Logger.LogType.INFO,
+                    "tried to move shape left but failed");
+                return false;
             }
-            for (int i = 0; i < 4; i++) {
-                if (!grid.isFree(tetromino.get(i))) {
-                    tetromino.moveRight();
-                    Logger.log(this, Logger.LogType.INFO,
-                        "tried to move shape left but failed");
-                    return false;
-                }
-            }
+
             Logger.log(this, Logger.LogType.INFO, "moved shape left");
             return true;
         }
@@ -57,16 +54,14 @@ public enum Action implements IActionItem {
 
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid) {
-            if (tetromino.right() < grid.width() - 1) {
+            if (tetromino.right().getX() < grid.width() - 1) {
                 tetromino.moveRight();
             }
-            for (int i = 0; i < 4; i++) {
-                if (!grid.isFree(tetromino.get(i))) {
-                    tetromino.moveLeft();
-                    Logger.log(this, Logger.LogType.INFO,
-                        "tried to move shape right but failed");
-                    return false;
-                }
+            if (!grid.isFree(tetromino.getMinos())) {
+                tetromino.moveLeft();
+                Logger.log(this, Logger.LogType.INFO,
+                    "tried to move shape right but failed");
+                return false;
             }
             Logger.log(this, Logger.LogType.INFO, "moved shape right");
             return true;
@@ -81,14 +76,12 @@ public enum Action implements IActionItem {
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid) {
             tetromino.rotateLeft();
-            checkRotate(tetromino, grid);
-            for (int i = 0; i < 4; i++) {
-                if (!grid.isFree(tetromino.get(i))) {
-                    tetromino.rotateRight();
-                    Logger.log(this, Logger.LogType.INFO,
-                        "tried to rotate shape counter clockwise but failed");
-                    return false;
-                }
+//            checkRotate(tetromino, grid);
+            if (!grid.isFree(tetromino.getMinos())) {
+                tetromino.rotateRight();
+                Logger.log(this, Logger.LogType.INFO,
+                    "tried to rotate shape counter clockwise but failed");
+                return false;
             }
             Logger.log(this, Logger.LogType.INFO, "rotated counter shape clockwise");
             return true;
@@ -144,23 +137,20 @@ public enum Action implements IActionItem {
      */
     private static boolean checkMoveDown(MovableShape tetromino, Grid grid) {
         tetromino.moveDown();
-        for (int i = 0; i < 4; i++) {
-            if (!grid.isFree(tetromino.get(i))) {
-                tetromino.moveUp();
-                return false;
-            }
+        if (!grid.isFree(tetromino.getMinos())) {
+            tetromino.moveUp();
+            return false;
         }
         return true;
     }
 
     private static void checkRotate(MovableShape tetromino, Grid grid) {
-        for (int i = 0; i < 4; i++) {
-            if (!grid.isFree(tetromino.leftCoor())) {
-                tetromino.moveRight();
-            } else if (!grid.isFree(tetromino.rightCoor())) {
-                tetromino.moveLeft();
-            }
+        if (!grid.isFree(tetromino.getMinos())) {
+            tetromino.moveRight();
         }
+//        else if (!grid.isFree(tetromino.rightCoor())) {
+//            tetromino.moveLeft();
+//        }
     }
 
     public static boolean testINVALIDACTION(MovableShape tetromino, Grid grid) {

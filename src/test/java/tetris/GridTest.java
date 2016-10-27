@@ -3,6 +3,7 @@ package tetris;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import common.Coordinate;
 import tetris.shapes.decorators.MovableShape;
 
 import javafx.embed.swing.JFXPanel;
@@ -62,7 +63,7 @@ public class GridTest {
         DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         Coordinate coordinate = new Coordinate(5, 5);
-        MovableShape shape = new MovableShape(new DummyShape(), coordinate);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);
 
         assertThat("grid is not empty when a shape is registered", isEmpty(grid), equalTo(false));
@@ -71,28 +72,12 @@ public class GridTest {
     @Test
     public void test_clear_board() {
         Coordinate coordinate = new Coordinate(5, 5);
-        MovableShape shape = new MovableShape(new DummyShape(), coordinate);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);
         grid.clearBoard();
 
         assertThat("grid is empty after clearing", isEmpty(grid), equalTo(true));
     }
-
-    // This should not be possible while playing the game. Better test it by
-    // simple
-    // registering some Tetrominos and let the fall properly.
-    // @Test
-    // public void test_clear_line() {
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    //
-    // assertThat("two lines are cleared when a full row of O-shaped tetrominos
-    // "
-    // + "is placed at the bottom of the grid", grid.clearLines(), equalTo(2));
-    // }
 
     private boolean isEmpty(Grid grid) {
         for (int x = 0; x < grid.width(); x++) {

@@ -27,7 +27,7 @@ public class TetrominoFactory {
             case Z:
                 return new TetrominoZ();
             default:
-                return new TetrominoI();
+                throw new IllegalArgumentException(String.format("Unknown how to create shape: %s.", type.toString()));
         }
     }
 

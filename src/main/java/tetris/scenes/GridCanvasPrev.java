@@ -1,6 +1,6 @@
 package tetris.scenes;
 
-import tetris.Coordinate;
+import common.Coordinate;
 import tetris.Settings;
 import tetris.shapes.AbstractShape;
 
@@ -52,12 +52,12 @@ public class GridCanvasPrev extends Canvas {
 
     /**
      * Draws the preview tetromino
-     * 
+     *
      */
 
     private void drawTetrominoPreview() {
-        for (int i = 0; i < 4; i++) {
-            drawRectanglePreview(tetromino.getColor(), tetromino.get(i));
+        for(Coordinate mino : tetromino.getMinos().getCoordinates()) {
+            drawRectanglePreview(tetromino.getColor(), mino);
         }
     }
 

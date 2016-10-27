@@ -2,6 +2,7 @@ package tetris;
 
 import java.util.Observer;
 
+import common.Coordinate;
 import tetris.scenes.GridCanvas;
 import tetris.scenes.GridCanvasPrev;
 import tetris.shapes.adapters.PreviewAdapter;
