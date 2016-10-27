@@ -102,8 +102,6 @@ public class Controller {
     public void dropNewTetromino() {
         score.add(grid.clearLines());
 
-        grid.clearLines();
-
         Coordinate spawnPosition = new Coordinate(grid.width() / 2, grid.height());
         fallingTetromino = new MovableShape(factory.create(queue.pop()), spawnPosition);
         gridcanvas.setTetromino(fallingTetromino);
@@ -159,7 +157,7 @@ public class Controller {
         ui.gotoGameScreen();
         score.reset();
         gameOver = false;
-        grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
         gridcanvas.setGrid(grid);
         dropNewTetromino();
         timer.unpause();

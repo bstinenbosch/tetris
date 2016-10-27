@@ -6,6 +6,7 @@ import tetris.shapes.decorators.MovableShape;
 
 public class Grid {
 
+    public static final int INVISIBLE_GRID_ROWS = 4;
     private int[][] board;
 
     /**
@@ -16,8 +17,8 @@ public class Grid {
      * @param height
      *            the heigth of the gameboard
      */
-    Grid(Controller controller, int width, int height) {
-        board = new int[width][height + 4];
+    Grid(int width, int height) {
+        board = new int[width][height + INVISIBLE_GRID_ROWS];
     }
 
     /**
@@ -26,7 +27,7 @@ public class Grid {
      * @return int
      */
     public int height() {
-        return board[0].length - 4;
+        return board[0].length - INVISIBLE_GRID_ROWS;
     }
 
     /**
@@ -50,7 +51,7 @@ public class Grid {
                 return false;
             }
 
-            if(x >= width() || y >= height() + 3) {
+            if(x >= width() || y >= height() + INVISIBLE_GRID_ROWS) {
                 return false;
             }
 
@@ -63,12 +64,12 @@ public class Grid {
     }
 
     /**
-     * registerTetromino adds a shape to the static part of the gameboard.
+     * register adds a shape to the static part of the gameboard.
      *
      * @param tetromino
      *            the shape to add
      */
-    public boolean registerTetromino(MovableShape tetromino) {
+    public boolean register(MovableShape tetromino) {
         if(!isFree(tetromino.getMinos())) {
             return false;
         }
@@ -86,7 +87,7 @@ public class Grid {
      *
      * @return the score that has been earned with the removed lines
      */
-    int clearLines() {
+    public int clearLines() {
         int row = 0;
         int rowsCleared = 0;
         boolean skipRow;
@@ -123,7 +124,7 @@ public class Grid {
         return board[x][y];
     }
 
-    void clearBoard() {
+    public void clearBoard() {
         board = new int[board.length][board[0].length];
     }
 }

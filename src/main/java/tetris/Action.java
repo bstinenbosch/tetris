@@ -94,7 +94,7 @@ public enum Action implements IActionItem {
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             if (!checkMoveDown(tetromino, grid)) {
-                if(grid.registerTetromino(tetromino)) {
+                if(grid.register(tetromino)) {
                     controller.dropNewTetromino();
                 } else {
                     controller.gameOver();
@@ -115,7 +115,7 @@ public enum Action implements IActionItem {
                 // checkMoveDown moves the shape down already,
                 // so we don't need to do anything in here
             }
-            if(grid.registerTetromino(tetromino)) {
+            if(grid.register(tetromino)) {
                 controller.dropNewTetromino();
             } else {
                 controller.gameOver();
