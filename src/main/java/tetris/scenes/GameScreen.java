@@ -8,7 +8,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -24,9 +23,6 @@ public class GameScreen extends Group implements IScreen {
     private ObservingLabel scoreLabel;
     private Canvas canvas;
     private Canvas canvasprev;
-    private Pane leftPane;
-    private VBox rightPane;
-    private GridPane rootGameScreen;
     private int boardWidthPixel;
     private int boardHeightPixel;
     private int previewWidth;
@@ -102,22 +98,6 @@ public class GameScreen extends Group implements IScreen {
         Controller controller = new Controller(view, settings);
         this.hookEvents(controller);
         return true;
-    }
-
-    public int getLeftPaneWidth() {
-        return this.boardWidthPixel;
-    }
-
-    public int getLeftPaneHeight() {
-        return this.boardHeightPixel;
-    }
-
-    public int getPreviewHeight() {
-        return previewHeight;
-    }
-
-    public int getPreviewWidth() {
-        return previewWidth;
     }
 
 }

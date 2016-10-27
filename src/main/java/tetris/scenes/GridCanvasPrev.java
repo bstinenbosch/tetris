@@ -2,10 +2,10 @@ package tetris.scenes;
 
 import tetris.Coordinate;
 import tetris.Settings;
+import tetris.shapes.AbstractShape;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
-import tetris.shapes.AbstractShape;
 
 public class GridCanvasPrev extends Canvas {
 
