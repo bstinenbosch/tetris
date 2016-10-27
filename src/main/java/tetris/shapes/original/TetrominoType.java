@@ -1,7 +1,11 @@
-package tetris.tetromino;
+package tetris.shapes.original;
 
 import java.util.Random;
 
+/**
+ * Defines a set of tetromino shapes, all consisting of four tetrominos.
+ * This set can be consired as the original set of pieces from Tetris.
+ */
 public enum TetrominoType {
 
     I, J, L, O, S, T, Z;

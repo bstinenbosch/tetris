@@ -1,6 +1,6 @@
-package tetris.scenes;
+package tetris.shapes.adapters;
 
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.AbstractShape;
 
 public class PreviewAdapter {
 
@@ -15,9 +15,9 @@ public class PreviewAdapter {
      * Creates PreviewTetrominoPaneAdapter object.
      *
      * @param tetromino
-     *            tetromino
+     *            shape
      */
-    public PreviewAdapter(AbstractTetromino tetromino) {
+    public PreviewAdapter(AbstractShape tetromino) {
         this.left = tetromino.left();
         this.top = tetromino.top();
         this.bottom = tetromino.bottom();

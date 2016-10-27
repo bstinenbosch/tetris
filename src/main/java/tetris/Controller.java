@@ -4,35 +4,40 @@ import java.util.Observer;
 
 import tetris.scenes.GridCanvas;
 import tetris.scenes.GridCanvasPrev;
-import tetris.scenes.PreviewAdapter;
+import tetris.shapes.adapters.PreviewAdapter;
+import tetris.shapes.AbstractShape;
+import tetris.shapes.decorators.MovableShape;
+import tetris.shapes.original.TetrominoFactory;
+import tetris.shapes.original.TetrominoType;
 import tetris.sound.SoundManager;
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 
 import highscore.GameEntry;
-import highscore.ScoreBoard;
+import highscore.IScoreBoard;
+import highscore.OnlineScoreBoard;
 import logging.Logger;
 
 public class Controller {
 
     private final SoundManager soundManager;
     private Score score;
-    private ScoreBoard scoreBoard;
+    private IScoreBoard scoreBoard;
     private View ui;
     private Grid grid;
+    private TetrominoQueue queue = new TetrominoQueue();
+    private MovableShape fallingTetromino;
+    private AbstractShape nextTetromino;
+    private TetrominoFactory factory = new TetrominoFactory();
     private GridCanvas gridcanvas;
     private GridCanvasPrev gridcanvasprev;
-    private AbstractTetromino tetromino;
-    private AbstractTetromino tetromino2;
     private int leftOffSet;
     private int bottomOffSet;
     private boolean gameOver = false;
     private Tick timer = new Tick(event -> {
-        Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
+        Platform.runLater(() -> Action.SOFT_DROP.attempt(fallingTetromino, grid));
         Platform.runLater(() -> gridcanvas.redraw());
     });
 
@@ -54,7 +59,7 @@ public class Controller {
         setSounds();
         Logger.setDebugOn();
         score = new Score();
-        scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
+        scoreBoard = new OnlineScoreBoard();// XMLScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
         timer.start();
     }
@@ -72,7 +77,7 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
-        if (action.attempt(tetromino, grid)) {
+        if (action.attempt(fallingTetromino, grid)) {
             soundManager.play("move");
         }
         redraw();
@@ -80,7 +85,7 @@ public class Controller {
 
     /**
      * redraws the GridCanvas and GridCanvasPreview
-     * 
+     *
      */
     public void redraw() {
         gridcanvas.redraw();
@@ -88,25 +93,24 @@ public class Controller {
     }
 
     /**
-     * drops a new tetromino and makes sure that it is drawn on the canvas.
+     * drops a new fallingTetromino and makes sure that it is drawn on the canvas.
      */
     public void dropNewTetromino() {
         score.add(grid.clearLines());
 
         grid.clearLines();
-        Coordinate position = new Coordinate(grid.width() / 2, grid.height());
 
-        Coordinate position2 = new Coordinate(0, 0);
+        Coordinate spawnPosition = new Coordinate(grid.width() / 2, grid.height());
+        fallingTetromino = new MovableShape(factory.create(queue.pop()), spawnPosition);
+        gridcanvas.setTetromino(fallingTetromino);
 
-        tetromino = TetrominoFactory.createRandom(position);
-        tetromino2 = TetrominoFactory.getLast(position2);
+        TetrominoType next = queue.peek();
+        nextTetromino = factory.create(next);
+        gridcanvasprev.setTetrominoPrev(nextTetromino);
 
-        gridcanvas.setTetromino(tetromino);
-        gridcanvasprev.setTetrominoPrev(tetromino2);
-
-        PreviewAdapter adapter = new PreviewAdapter(tetromino2);
-        gridcanvasprev.setLeftOffSet(adapter.getLeftOffSet());
-        gridcanvasprev.setBottomOffSet(adapter.getBottomOffSet());
+        PreviewAdapter adapter = new PreviewAdapter(nextTetromino);
+        gridcanvasprev.leftOffSet(dapter.getLeftOffSet());
+        gridcanvasprev.bottomOffSet(adapter.getBottomOffSet());
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
 
@@ -195,7 +199,7 @@ public class Controller {
         Logger.log(this, Logger.LogType.INFO, "game restarted");
     }
 
-    public ScoreBoard getScoreBoard() {
+    public IScoreBoard getScoreBoard() {
         return scoreBoard;
     }
 
@@ -203,8 +207,8 @@ public class Controller {
         return gameOver;
     }
 
-    public AbstractTetromino getTetromino() {
-        return tetromino;
+    public MovableShape getFallingTetromino() {
+        return fallingTetromino;
     }
 
     public AbstractTetromino getTetrominoPrev() {

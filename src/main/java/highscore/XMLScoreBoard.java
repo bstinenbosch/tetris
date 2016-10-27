@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 
 import logging.Logger;
 
-public class ScoreBoard {
+public class XMLScoreBoard implements IScoreBoard {
 
     private GameEntry[] board = new GameEntry[10];
     private int numEntries = 0;
@@ -31,7 +31,7 @@ public class ScoreBoard {
      * @param path
      *            path to highscores xml-file
      */
-    public ScoreBoard(String path) {
+    public XMLScoreBoard(String path) {
         try {
             loadScores(path);
         } catch (ParserConfigurationException | SAXException | IOException e) {
@@ -64,7 +64,7 @@ public class ScoreBoard {
     /**
      * Save scores to xml file.
      */
-    public void saveScores() {
+    private void saveScores() {
         // save scores naar een xml bestand
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -105,16 +105,12 @@ public class ScoreBoard {
         gameEntry.appendChild(score);
     }
 
+    @Override
     public GameEntry[] getScores() {
         return board;
     }
 
-    /**
-     * Add game entry to scoreboard.
-     *
-     * @param entry
-     *            game entry
-     */
+    @Override
     public void add(GameEntry entry) {
         if (isHighscore(entry.getScore())) {
             int newScore = entry.getScore();
@@ -134,15 +130,12 @@ public class ScoreBoard {
         }
     }
 
+    @Override
     public boolean isHighscore(int score) {
         return (numEntries < board.length || score > board[numEntries - 1].getScore());
     }
 
-    /**
-     * Returns an ScoreBoard object as a string.
-     *
-     * @return scoreboard object as single-line string
-     */
+    @Override
     public String toString() {
         String result = "{";
         for (int i = 0; i < numEntries; i++) {
