@@ -1,9 +1,9 @@
 package tetris;
 
-import tetris.scenes.PreviewAdapter;
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
-import tetris.tetromino.TetrominoType;
+import tetris.shapes.adapters.PreviewAdapter;
+import tetris.shapes.AbstractShape;
+import tetris.shapes.original.TetrominoFactory;
+import tetris.shapes.original.TetrominoType;
 
 import org.junit.Test;
 
@@ -13,13 +13,13 @@ import static org.junit.Assert.assertTrue;
 public class PreviewAdapterTest {
 
     private TetrominoType type;
-    private AbstractTetromino Tetromino;
+    private AbstractShape Tetromino;
+    private TetrominoFactory factory = new TetrominoFactory();
 
     @Test
     public void testGettingRightCoordinates() {
         type = TetrominoType.I;
-        Coordinate coordinate = new Coordinate(0, 0);
-        Tetromino = TetrominoFactory.create(type, coordinate);
+        Tetromino = factory.create(type);
         assertTrue(Tetromino.left() == -1);
         assertTrue(Tetromino.right() == 2);
     }
@@ -27,8 +27,7 @@ public class PreviewAdapterTest {
     @Test
     public void testgetLeftOffSetTrue() {
         type = TetrominoType.I;
-        Coordinate coordinate = new Coordinate(0, 0);
-        Tetromino = TetrominoFactory.create(type, coordinate);
+        Tetromino = factory.create(type);
         PreviewAdapter adapter = new PreviewAdapter(Tetromino);
         // this is 40, not 20, because it's first coordinate is -1
         assertTrue(adapter.getLeftOffSet() == 40);
@@ -37,8 +36,7 @@ public class PreviewAdapterTest {
     @Test
     public void testgetLeftOffSetFalse() {
         type = TetrominoType.I;
-        Coordinate coordinate = new Coordinate(0, 0);
-        Tetromino = TetrominoFactory.create(type, coordinate);
+        Tetromino = factory.create(type);
         PreviewAdapter adapter = new PreviewAdapter(Tetromino);
         // this is 40, not 20, because it's first coordinate is -1
         assertFalse(adapter.getLeftOffSet() == 50);
@@ -47,8 +45,7 @@ public class PreviewAdapterTest {
     @Test
     public void testgetBottomOffSetTrue() {
         type = TetrominoType.I;
-        Coordinate coordinate = new Coordinate(0, 0);
-        Tetromino = TetrominoFactory.create(type, coordinate);
+        Tetromino = factory.create(type);
         PreviewAdapter adapter = new PreviewAdapter(Tetromino);
         assertTrue(adapter.getBottomOffSet() == 40);
     }
@@ -56,8 +53,7 @@ public class PreviewAdapterTest {
     @Test
     public void testgetBottomOffSetFalse() {
         type = TetrominoType.I;
-        Coordinate coordinate = new Coordinate(0, 0);
-        Tetromino = TetrominoFactory.create(type, coordinate);
+        Tetromino = factory.create(type);
         PreviewAdapter adapter = new PreviewAdapter(Tetromino);
         assertFalse(adapter.getBottomOffSet() == 50);
     }

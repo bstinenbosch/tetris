@@ -1,6 +1,6 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.decorators.MovableShape;
 
 public class Grid {
 
@@ -52,12 +52,12 @@ public class Grid {
     }
 
     /**
-     * registerTetromino adds a tetromino to the static part of the gameboard.
+     * registerTetromino adds a shape to the static part of the gameboard.
      *
      * @param tetromino
-     *            the tetromino to add
+     *            the shape to add
      */
-    public void registerTetromino(AbstractTetromino tetromino) {
+    public void registerTetromino(MovableShape tetromino) {
         for (int i = 0; i < 4; i++) {
             Coordinate coords = tetromino.get(i);
             board[coords.getX()][coords.getY()] = tetromino.getColor();
