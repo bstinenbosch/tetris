@@ -3,7 +3,7 @@ package tetris;
 import common.Coordinate;
 import common.CoordinateSet;
 import org.junit.Test;
-import tetris.shapes.decorators.MovableShape;
+import tetris.shapes.AbstractShape;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +13,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AbstractShapeTest {
 
-    private MovableShape shape = new MovableShape(new DummyShapeJ(), new Coordinate(5, 20));
+    private AbstractShape shape = new DummyShapeJ();
 
     @Test
     public void test_topmost_mino() {
         assertThat("the coordinate of the topmost is calculated properly",
-                shape.top().getY() == 2,
+                shape.top().getY() == 0,
                 equalTo(true));
     }
 
     @Test
     public void test_bottommost_mino() {
         assertThat("the coordinate of the bottommost is calculated properly",
-                shape.bottom().getY() == 0,
+                shape.bottom().getY() == -1,
                 equalTo(true));
     }
 
@@ -53,10 +53,10 @@ public class AbstractShapeTest {
     @Test
     public void test_get_minos() {
         List<Coordinate> coordinates = new ArrayList<>();
+        coordinates.add(new Coordinate(-1, 0));
         coordinates.add(new Coordinate(0, 0));
-        coordinates.add(new Coordinate(0, 1));
-        coordinates.add(new Coordinate(0, 2));
-        coordinates.add(new Coordinate(1, 1));
+        coordinates.add(new Coordinate(1, 0));
+        coordinates.add(new Coordinate(1, -1));
         CoordinateSet expectedMinos = new CoordinateSet(coordinates);
 
         assertThat("the correct color index is returned",
