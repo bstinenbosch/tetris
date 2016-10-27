@@ -79,22 +79,6 @@ public class GridTest {
         assertThat("grid is empty after clearing", isEmpty(grid), equalTo(true));
     }
 
-    // This should not be possible while playing the game. Better test it by
-    // simple
-    // registering some Tetrominos and let the fall properly.
-    // @Test
-    // public void test_clear_line() {
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    // grid.registerTetromino(new MovableShape(new DummyShape()));
-    //
-    // assertThat("two lines are cleared when a full row of O-shaped tetrominos
-    // "
-    // + "is placed at the bottom of the grid", grid.clearLines(), equalTo(2));
-    // }
-
     private boolean isEmpty(Grid grid) {
         for (int x = 0; x < grid.width(); x++) {
             for (int y = 1; y < grid.height(); y++) {
