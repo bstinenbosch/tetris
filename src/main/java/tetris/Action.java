@@ -11,7 +11,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public boolean attempt(MovableShape tetromino, Grid grid) {
+        public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             tetromino.rotateRight();
 //            checkRotate(tetromino, grid);
             if (!grid.isFree(tetromino.getMinos())) {
@@ -31,7 +31,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public boolean attempt(MovableShape tetromino, Grid grid) {
+        public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
 //            if (tetromino.left() > 0) {
                 tetromino.moveLeft();
 //            }
@@ -53,10 +53,8 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public boolean attempt(MovableShape tetromino, Grid grid) {
-            if (tetromino.right().getX() < grid.width() - 1) {
-                tetromino.moveRight();
-            }
+        public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
+            tetromino.moveRight();
             if (!grid.isFree(tetromino.getMinos())) {
                 tetromino.moveLeft();
                 Logger.log(this, Logger.LogType.INFO,
@@ -74,7 +72,7 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public boolean attempt(MovableShape tetromino, Grid grid) {
+        public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             tetromino.rotateLeft();
 //            checkRotate(tetromino, grid);
             if (!grid.isFree(tetromino.getMinos())) {
@@ -94,9 +92,13 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public boolean attempt(MovableShape tetromino, Grid grid) {
+        public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             if (!checkMoveDown(tetromino, grid)) {
-                grid.registerTetromino(tetromino);
+                if(grid.registerTetromino(tetromino)) {
+                    controller.dropNewTetromino();
+                } else {
+                    controller.gameOver();
+                }
             }
             return true;
         }
@@ -108,19 +110,23 @@ public enum Action implements IActionItem {
         }
 
         @Override
-        public boolean attempt(MovableShape tetromino, Grid grid) {
+        public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             while (checkMoveDown(tetromino, grid)) {
                 // checkMoveDown moves the shape down already,
                 // so we don't need to do anything in here
             }
-            grid.registerTetromino(tetromino);
+            if(grid.registerTetromino(tetromino)) {
+                controller.dropNewTetromino();
+            } else {
+                controller.gameOver();
+            }
             return true;
         }
     },
 
     INVALID_ACTION {
         @Override
-        public boolean attempt(MovableShape tetromino, Grid grid) {
+        public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             // invalid action, do nothing
             return false;
         }
@@ -151,10 +157,5 @@ public enum Action implements IActionItem {
 //        else if (!grid.isFree(tetromino.rightCoor())) {
 //            tetromino.moveLeft();
 //        }
-    }
-
-    public static boolean testINVALIDACTION(MovableShape tetromino, Grid grid) {
-        Action.INVALID_ACTION.attempt(tetromino, grid);
-        return true;
     }
 }

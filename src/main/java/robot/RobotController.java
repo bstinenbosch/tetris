@@ -45,7 +45,7 @@ public class RobotController extends Thread {
                 robot.setGameState(controller.getGrid(), controller.getFallingTetromino());
                 // ask for action and handle it
                 Platform.runLater(() -> robot.getNextAction().attempt(controller.getFallingTetromino(),
-                    controller.getGrid()));
+                    controller.getGrid(), controller));
             }
         }
         // TODO save settings

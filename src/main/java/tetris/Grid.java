@@ -7,7 +7,6 @@ import tetris.shapes.decorators.MovableShape;
 public class Grid {
 
     private int[][] board;
-    private Controller controller;
 
     /**
      * Grid represents the gameboard.
@@ -19,7 +18,6 @@ public class Grid {
      */
     Grid(Controller controller, int width, int height) {
         board = new int[width][height + 4];
-        this.controller = controller;
     }
 
     /**
@@ -70,16 +68,17 @@ public class Grid {
      * @param tetromino
      *            the shape to add
      */
-    public void registerTetromino(MovableShape tetromino) {
+    public boolean registerTetromino(MovableShape tetromino) {
+        if(!isFree(tetromino.getMinos())) {
+            return false;
+        }
+
         CoordinateSet minos = tetromino.getMinos();
         for(Coordinate mino : minos.getCoordinates()) {
             board[mino.getX()][mino.getY()] = tetromino.getColor();
         }
-        if (tetromino.top().getY() >= height() - 1) {
-            controller.gameOver();
-        } else {
-            controller.dropNewTetromino();
-        }
+
+        return true;
     }
 
     /**

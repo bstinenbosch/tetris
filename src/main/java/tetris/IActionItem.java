@@ -15,5 +15,5 @@ public interface IActionItem {
      *            on this grid
      * @throws InvalidActivityException
      */
-    boolean attempt(MovableShape tetromino, Grid grid);
+    boolean attempt(MovableShape tetromino, Grid grid, Controller controller);
 }
