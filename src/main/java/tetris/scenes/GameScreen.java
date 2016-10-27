@@ -8,7 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -22,9 +22,7 @@ public class GameScreen extends Group implements IScreen {
     private Button pauseButton;
     private ObservingLabel scoreLabel;
     private Canvas canvas;
-    private Pane leftPane;
-    private VBox rightPane;
-    private GridPane rootGameScreen;
+    private Canvas canvasprev;
     private int boardWidthPixel;
     private int boardHeightPixel;
     private int previewWidth;
@@ -40,26 +38,20 @@ public class GameScreen extends Group implements IScreen {
         this.settings = settings;
         VBox rightPane = setUpRightPaneGameScreen();
         Pane leftPane = setUpLeftPaneGameScreen();
-        GridPane rootGameScreen = setUpRootPaneGameScreen(leftPane, rightPane);
+        HBox rootGameScreen = setUpRootPaneGameScreen(leftPane, rightPane);
         getChildren().add(rootGameScreen);
         rootGameScreen.setStyle("-fx-background-color: grey");
     }
 
     private Pane setUpLeftPaneGameScreen() {
-        boardWidthPixel = settings.blockSize() * settings.boardWidth();
-        boardHeightPixel = settings.blockSize() * settings.boardHeight();
-        canvas = new Canvas(boardWidthPixel, boardHeightPixel);
-        settings.setBoard(canvas.getGraphicsContext2D());
+        canvas = new GridCanvas(settings);
         Pane leftPane = new Pane();
         leftPane.getChildren().add(canvas);
         return leftPane;
     }
 
-    private GridPane setUpRootPaneGameScreen(Pane leftPane, VBox rightPane) {
-        GridPane rootGameScreen = new GridPane();
-        rootGameScreen.setHgap(10);
-        GridPane.setConstraints(leftPane, 0, 0);
-        GridPane.setConstraints(rightPane, 1, 0);
+    private HBox setUpRootPaneGameScreen(Pane leftPane, VBox rightPane) {
+        HBox rootGameScreen = new HBox(10);
         rootGameScreen.getChildren().addAll(leftPane, rightPane);
         return rootGameScreen;
     }
@@ -83,11 +75,8 @@ public class GameScreen extends Group implements IScreen {
     }
 
     private Canvas setUpPreview() {
-        previewWidth = settings.blockSize() * 6;
-        previewHeight = settings.blockSize() * 5;
-        Canvas canvas = new Canvas(previewWidth, previewHeight);
-        settings.setPreview(canvas.getGraphicsContext2D());
-        return canvas;
+        canvasprev = new GridCanvasPrev(settings);
+        return canvasprev;
     }
 
     @Override
@@ -109,22 +98,6 @@ public class GameScreen extends Group implements IScreen {
         Controller controller = new Controller(view, settings);
         this.hookEvents(controller);
         return true;
-    }
-
-    public int getLeftPaneWidth() {
-        return this.boardWidthPixel;
-    }
-
-    public int getLeftPaneHeight() {
-        return this.boardHeightPixel;
-    }
-
-    public int getPreviewHeight() {
-        return previewHeight;
-    }
-
-    public int getPreviewWidth() {
-        return previewWidth;
     }
 
 }
