@@ -28,7 +28,7 @@ public class Controller {
     private AbstractTetromino tetromino2;
     private int leftOffSet;
     private int bottomOffSet;
-    public int changeInMusic = 100;
+    public int changeInMusic = 1000;
     private boolean gameOver = false;
     public boolean normalTheme = false;
     public boolean remixTheme = false;
