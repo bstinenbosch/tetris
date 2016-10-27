@@ -1,5 +1,6 @@
 package tetris;
 
+import javafx.fxml.Initializable;
 import tetris.scenes.GameScreen;
 import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;

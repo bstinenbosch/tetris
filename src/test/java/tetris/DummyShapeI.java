@@ -1,8 +1,8 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.AbstractShape;
 
-public class DummyShapeI extends AbstractTetromino {
+public class DummyShapeI extends AbstractShape {
 
     private static final Coordinate[] minos = new Coordinate[] { new Coordinate(-1, 0),
             new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(2, 0) };
@@ -11,10 +11,9 @@ public class DummyShapeI extends AbstractTetromino {
 
     /**
      * Creates a DummyShapeO that is similar in shape as the O-shaped Tetromino
-     * @param position coordinate where shape is registered in the grid
      */
-    public DummyShapeI(Coordinate position) {
-        super(position, minos, color);
+    public DummyShapeI() {
+        super(minos, color);
     }
 
 }
