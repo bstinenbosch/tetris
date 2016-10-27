@@ -1,13 +1,14 @@
 package tetris.shapes;
 
-import tetris.Coordinate;
+import common.Coordinate;
+import common.CoordinateSet;
 
 public abstract class AbstractShape {
 
     /**
      * Coordinates of every Mino in a Tetromino.
      */
-    private Coordinate[] minos;
+    private final CoordinateSet minos;
 
     /**
      * Color ID.
@@ -20,7 +21,7 @@ public abstract class AbstractShape {
      * @param minos
      *            Coordinates of each Mino
      */
-    public AbstractShape(final Coordinate[] minos, int color) {
+    public AbstractShape(final CoordinateSet minos, int color) {
         this.minos = minos;
         this.color = color;
     }
@@ -34,18 +35,8 @@ public abstract class AbstractShape {
         return this.color;
     }
 
-    /**
-     * @param index
-     *            mino index (0<=i<=3).
-     * @return array containing x- and y-coordinate of mino
-     */
-    public Coordinate get(int index) {
-        if (index < 0 || index >= minos.length) {
-            throw new IndexOutOfBoundsException(
-                "you are trying to access a block in a shape that doesn't exist.");
-        }
-
-        return new Coordinate(minos[index].getX(), minos[index].getY());
+    public CoordinateSet getMinos() {
+        return this.minos;
     }
 
     /**
@@ -53,13 +44,8 @@ public abstract class AbstractShape {
      *
      * @return the y-position of the highest mino of the shape
      */
-    public int top() {
-        int top = 0;
-        for (int i = 0; i < 4; i++) {
-            Coordinate block = get(i);
-            top = Math.max(top, block.getY());
-        }
-        return top;
+    public Coordinate top() {
+        return this.minos.getTopmost();
     }
 
     /**
@@ -67,13 +53,8 @@ public abstract class AbstractShape {
      *
      * @return the y-position of the lowest mino of the shape
      */
-    public int bottom() {
-        int bottom = Integer.MAX_VALUE;
-        for (int i = 0; i < 4; i++) {
-            Coordinate block = get(i);
-            bottom = Math.min(bottom, block.getY());
-        }
-        return bottom;
+    public Coordinate bottom() {
+        return this.minos.getBottommost();
     }
 
     /**
@@ -81,14 +62,8 @@ public abstract class AbstractShape {
      *
      * @return the x-position of the leftmost mino of the shape
      */
-    public int left() {
-        int left = Integer.MAX_VALUE;
-        for (int i = 0; i < 4; i++) {
-            Coordinate block = get(i);
-            left = Math.min(left, block.getX());
-        }
-
-        return left;
+    public Coordinate left() {
+        return this.minos.getLeftmost();
     }
 
     /**
@@ -96,12 +71,7 @@ public abstract class AbstractShape {
      *
      * @return the x-position of the rightmost mino of the shape
      */
-    public int right() {
-        int right = 0;
-        for (int i = 0; i < 4; i++) {
-            Coordinate block = get(i);
-            right = Math.max(right, block.getX());
-        }
-        return right;
+    public Coordinate right() {
+        return this.minos.getRightmost();
     }
 }

@@ -1,9 +1,13 @@
 package tetris.shapes.decorators;
 
-import tetris.Coordinate;
+import common.Coordinate;
+import common.CoordinateSet;
 import tetris.shapes.AbstractShape;
 import tetris.shapes.IRotatable;
 import tetris.shapes.ITranslatable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovableShape extends ShapeDecorator implements ITranslatable, IRotatable {
 
@@ -53,61 +57,20 @@ public class MovableShape extends ShapeDecorator implements ITranslatable, IRota
         rotation--;
     }
 
-    public Coordinate get(int index) {
-        Coordinate mino = shape.get(index);
-
-        double minoX = mino.getX() - .5;
-        double minoY = mino.getY() - .5;
-        int positionX = position.getX();
-        int positionY = position.getY();
-
-        switch (Math.floorMod(rotation, 4)) {
-            case 0:
-                return new Coordinate(positionX + (int) (.5 + minoX),
-                        positionY + (int) (.5 + minoY));
-            case 1:
-                return new Coordinate(positionX + (int) (.5 + minoY),
-                        positionY + (int) (.5 - minoX));
-            case 2:
-                return new Coordinate(positionX + (int) (.5 - minoX),
-                        positionY + (int) (.5 - minoY));
-            case 3:
-                return new Coordinate(positionX + (int) (.5 - minoY),
-                        positionY + (int) (.5 + minoX));
-            default:
-                throw new IndexOutOfBoundsException("This exception should be unreachable.");
+    @Override
+    public CoordinateSet getMinos() {
+        List<Coordinate> coordinates = new ArrayList<>();
+        for(Coordinate mino : super.getMinos().getCoordinates()) {
+            coordinates.add(new Coordinate(mino.getX(), mino.getY()));
         }
-    }
 
+        CoordinateSet set = new CoordinateSet(coordinates);
 
-    /**
-     * Determines the most left coordinate of a shape
-     *
-     * @return the most left coordinate of a shape
-     */
-    public Coordinate leftCoor() {
-        Coordinate left = this.get(0);
-        for (int i = 0; i < 4; i++) {
-            if (this.get(i).getX() < left.getX()) {
-                left = this.get(i);
-            }
-        }
-        return left;
-    }
+        set.rotateClockwise(rotation);
+        set.translateX(position.getX());
+        set.translateY(position.getY());
 
-    /**
-     * Determines the most left coordinate of a shape
-     *
-     * @return the most left coordinate of a shape
-     */
-    public Coordinate rightCoor() {
-        Coordinate right = this.get(0);
-        for (int i = 0; i < 4; i++) {
-            if (this.get(i).getX() > right.getX()) {
-                right = this.get(i);
-            }
-        }
-        return right;
+        return set;
     }
 
     /**
@@ -115,13 +78,8 @@ public class MovableShape extends ShapeDecorator implements ITranslatable, IRota
      *
      * @return the y-position of the highest mino of the shape
      */
-    public int top() {
-        int top = 0;
-        for (int i = 0; i < 4; i++) {
-            Coordinate block = get(i);
-            top = Math.max(top, block.getY());
-        }
-        return top;
+    public Coordinate top() {
+        return this.getMinos().getTopmost();
     }
 
     /**
@@ -129,13 +87,8 @@ public class MovableShape extends ShapeDecorator implements ITranslatable, IRota
      *
      * @return the y-position of the lowest mino of the shape
      */
-    public int bottom() {
-        int bottom = Integer.MAX_VALUE;
-        for (int i = 0; i < 4; i++) {
-            Coordinate block = get(i);
-            bottom = Math.min(bottom, block.getY());
-        }
-        return bottom;
+    public Coordinate bottom() {
+        return this.getMinos().getBottommost();
     }
 
     /**
@@ -143,14 +96,8 @@ public class MovableShape extends ShapeDecorator implements ITranslatable, IRota
      *
      * @return the x-position of the leftmost mino of the shape
      */
-    public int left() {
-        int left = Integer.MAX_VALUE;
-        for (int i = 0; i < 4; i++) {
-            Coordinate block = get(i);
-            left = Math.min(left, block.getX());
-        }
-
-        return left;
+    public Coordinate left() {
+        return this.getMinos().getLeftmost();
     }
 
     /**
@@ -158,12 +105,7 @@ public class MovableShape extends ShapeDecorator implements ITranslatable, IRota
      *
      * @return the x-position of the rightmost mino of the shape
      */
-    public int right() {
-        int right = 0;
-        for (int i = 0; i < 4; i++) {
-            Coordinate block = get(i);
-            right = Math.max(right, block.getX());
-        }
-        return right;
+    public Coordinate right() {
+        return this.getMinos().getRightmost();
     }
 }

@@ -1,6 +1,7 @@
 package tetris.shapes.decorators;
 
-import tetris.Coordinate;
+import common.Coordinate;
+import common.CoordinateSet;
 import tetris.shapes.AbstractShape;
 
 public abstract class ShapeDecorator {
@@ -11,8 +12,12 @@ public abstract class ShapeDecorator {
         this.shape = shape;
     }
 
-    public Coordinate get(int index) {
-        return shape.get(index);
+//    public Coordinate get(int index) {
+//        return shape.get(index);
+//    }
+
+    public CoordinateSet getMinos() {
+        return shape.getMinos();
     }
 
     public int getColor() {

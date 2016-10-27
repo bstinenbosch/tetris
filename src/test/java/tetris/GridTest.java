@@ -1,5 +1,6 @@
 package tetris;
 
+import common.Coordinate;
 import org.junit.Before;
 import org.junit.Test;
 import tetris.shapes.decorators.MovableShape;
@@ -35,7 +36,7 @@ public class GridTest {
     public void test_register_shape_to_grid() {
         Grid grid = new Grid(new DummyController(), 10, 20);
         Coordinate coordinate = new Coordinate(5, 5);
-        MovableShape shape = new MovableShape(new DummyShape(), coordinate);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);
 
         assertThat("grid is not empty when a shape is registered", isEmpty(grid),
@@ -45,7 +46,7 @@ public class GridTest {
     @Test
     public void test_clear_board() {
         Coordinate coordinate = new Coordinate(5, 5);
-        MovableShape shape = new MovableShape(new DummyShape(), coordinate);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);
         grid.clearBoard();
 

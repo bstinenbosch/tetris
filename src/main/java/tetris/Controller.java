@@ -2,6 +2,8 @@ package tetris;
 
 import java.util.Observer;
 
+import common.Coordinate;
+import common.CoordinateSet;
 import tetris.shapes.adapters.PreviewAdapter;
 import tetris.shapes.AbstractShape;
 import tetris.shapes.decorators.MovableShape;
@@ -210,14 +212,16 @@ public class Controller {
      * gameboard.
      */
     private void drawTetromino() {
-        for (int i = 0; i < 4; i++) {
-            drawRectangle(fallingTetromino.getColor(), fallingTetromino.get(i));
+        CoordinateSet minos = fallingTetromino.getMinos();
+        for(Coordinate mino : minos.getCoordinates()) {
+            drawRectangle(fallingTetromino.getColor(), mino);
         }
     }
 
     private void drawTetrominoPreview() {
-        for (int i = 0; i < 4; i++) {
-            drawRectanglePreview(nextTetromino.getColor(), nextTetromino.get(i));
+        CoordinateSet minos = nextTetromino.getMinos();
+        for(Coordinate mino : minos.getCoordinates()) {
+            drawRectanglePreview(nextTetromino.getColor(), mino);
         }
     }
 

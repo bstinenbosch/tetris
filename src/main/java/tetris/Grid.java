@@ -1,5 +1,7 @@
 package tetris;
 
+import common.Coordinate;
+import common.CoordinateSet;
 import tetris.shapes.decorators.MovableShape;
 
 public class Grid {
@@ -41,14 +43,25 @@ public class Grid {
     /**
      * isFree returns true if the location on the board is free, otherwise
      * false.
-     *
-     * @param coord
-     *            the location on the board to check
-     * @return true if the location on the board is free, otherwise false.
      */
-    boolean isFree(Coordinate coord) {
-        return (coord.getX() >= 0 && coord.getY() >= 0 && coord.getX() < width()
-            && coord.getY() < height() + 3 && board[coord.getX()][coord.getY()] == 0);
+    boolean isFree(CoordinateSet coordinates) {
+        for(Coordinate coordinate : coordinates.getCoordinates()) {
+            int x = coordinate.getX();
+            int y = coordinate.getY();
+            if(x < 0 || y < 0) {
+                return false;
+            }
+
+            if(x >= width() || y >= height() + 3) {
+                return false;
+            }
+
+            if(board[x][y] != 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -58,11 +71,11 @@ public class Grid {
      *            the shape to add
      */
     public void registerTetromino(MovableShape tetromino) {
-        for (int i = 0; i < 4; i++) {
-            Coordinate coords = tetromino.get(i);
-            board[coords.getX()][coords.getY()] = tetromino.getColor();
+        CoordinateSet minos = tetromino.getMinos();
+        for(Coordinate mino : minos.getCoordinates()) {
+            board[mino.getX()][mino.getY()] = tetromino.getColor();
         }
-        if (tetromino.top() >= height() - 1) {
+        if (tetromino.top().getY() >= height() - 1) {
             controller.gameOver();
         } else {
             controller.dropNewTetromino();

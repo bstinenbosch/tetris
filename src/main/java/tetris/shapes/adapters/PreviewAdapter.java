@@ -16,9 +16,9 @@ public class PreviewAdapter {
      *            shape
      */
     public PreviewAdapter(AbstractShape tetromino) {
-        this.left = tetromino.left();
-        this.width = tetromino.right() - left + 1;
-        this.height = tetromino.top() - tetromino.bottom() + 1;
+        this.left = tetromino.left().getX();
+        this.width = tetromino.right().getX() - left + 1;
+        this.height = tetromino.top().getY() - tetromino.bottom().getY() + 1;
     }
 
     /**

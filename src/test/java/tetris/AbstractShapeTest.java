@@ -1,180 +1,51 @@
 package tetris;
 
+import common.Coordinate;
+import common.CoordinateSet;
 import org.junit.Test;
-import tetris.shapes.decorators.MovableShape;
+import tetris.shapes.AbstractShape;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
 public class AbstractShapeTest {
 
-    private MovableShape shape = new MovableShape(new DummyShapeRotationTests(), new Coordinate(0, 0));
+    private AbstractShape shape = new DummyShapeRotationTests();
 
     @Test
     public void test_topmost_coordinate() {
-        assertEquals(shape.top(), 2);
+        assertEquals(shape.top().getY(), 2);
     }
 
     @Test
     public void test_bottommost_coordinate() {
-        assertEquals(shape.bottom(), 0);
+        assertEquals(shape.bottom().getY(), 0);
     }
 
     @Test
     public void test_leftmost_coordinate() {
-        assertEquals(shape.left(), 0);
+        assertEquals(shape.left().getX(), 0);
     }
 
     @Test
     public void test_rightmost_coordinate() {
-        assertEquals(shape.right(), 1);
+        assertEquals(shape.right().getX(), 1);
     }
 
     @Test
-    public void test_if_tetromino_can_be_rotated_90_degrees_clockwise() {
-        shape.rotateRight();
-
-        assertEquals(shape.get(0).getX(), 0);
-        assertEquals(shape.get(0).getY(), 1);
-
-        assertEquals(shape.get(1).getX(), 1);
-        assertEquals(shape.get(1).getY(), 1);
-
-        assertEquals(shape.get(2).getX(), 2);
-        assertEquals(shape.get(2).getY(), 1);
-
-        assertEquals(shape.get(3).getX(), 1);
-        assertEquals(shape.get(3).getY(), 0);
+    public void test_get_color() {
+        assertEquals(shape.getColor(), 1);
     }
 
     @Test
-    public void test_if_tetromino_can_be_rotated_180_degrees_clockwise() {
-        shape.rotateRight();
-        shape.rotateRight();
-
-        assertEquals(shape.get(0).getX(), 1);
-        assertEquals(shape.get(0).getY(), 1);
-
-        assertEquals(shape.get(1).getX(), 1);
-        assertEquals(shape.get(1).getY(), 0);
-
-        assertEquals(shape.get(2).getX(), 1);
-        assertEquals(shape.get(2).getY(), -1);
-
-        assertEquals(shape.get(3).getX(), 0);
-        assertEquals(shape.get(3).getY(), 0);
-    }
-
-    @Test
-    public void test_if_tetromino_can_be_rotated_270_degrees_clockwise() {
-        shape.rotateRight();
-        shape.rotateRight();
-        shape.rotateRight();
-
-        assertEquals(shape.get(0).getX(), 1);
-        assertEquals(shape.get(0).getY(), 0);
-
-        assertEquals(shape.get(1).getX(), 0);
-        assertEquals(shape.get(1).getY(), 0);
-
-        assertEquals(shape.get(2).getX(), -1);
-        assertEquals(shape.get(2).getY(), 0);
-
-        assertEquals(shape.get(3).getX(), 0);
-        assertEquals(shape.get(3).getY(), 1);
-    }
-
-    @Test
-    public void test_if_tetromino_can_be_rotated_360_degrees_clockwise() {
-        shape.rotateRight();
-        shape.rotateRight();
-        shape.rotateRight();
-        shape.rotateRight();
-
-        assertEquals(shape.get(0).getX(), 0);
-        assertEquals(shape.get(0).getY(), 0);
-
-        assertEquals(shape.get(1).getX(), 0);
-        assertEquals(shape.get(1).getY(), 1);
-
-        assertEquals(shape.get(2).getX(), 0);
-        assertEquals(shape.get(2).getY(), 2);
-
-        assertEquals(shape.get(3).getX(), 1);
-        assertEquals(shape.get(3).getY(), 1);
-    }
-
-    @Test
-    public void test_if_tetromino_can_be_rotated_90_degrees_counterclockwise() {
-        shape.rotateLeft();
-
-        assertEquals(shape.get(0).getX(), 1);
-        assertEquals(shape.get(0).getY(), 0);
-
-        assertEquals(shape.get(1).getX(), 0);
-        assertEquals(shape.get(1).getY(), 0);
-
-        assertEquals(shape.get(2).getX(), -1);
-        assertEquals(shape.get(2).getY(), 0);
-
-        assertEquals(shape.get(3).getX(), 0);
-        assertEquals(shape.get(3).getY(), 1);
-    }
-
-    @Test
-    public void test_if_tetromino_can_be_rotated_180_degrees_counterclockwise() {
-        shape.rotateLeft();
-        shape.rotateLeft();
-
-        assertEquals(shape.get(0).getX(), 1);
-        assertEquals(shape.get(0).getY(), 1);
-
-        assertEquals(shape.get(1).getX(), 1);
-        assertEquals(shape.get(1).getY(), 0);
-
-        assertEquals(shape.get(2).getX(), 1);
-        assertEquals(shape.get(2).getY(), -1);
-
-        assertEquals(shape.get(3).getX(), 0);
-        assertEquals(shape.get(3).getY(), 0);
-    }
-
-    @Test
-    public void test_if_tetromino_can_be_rotated_270_degrees_counterclockwise() {
-        shape.rotateLeft();
-        shape.rotateLeft();
-        shape.rotateLeft();
-
-        assertEquals(shape.get(0).getX(), 0);
-        assertEquals(shape.get(0).getY(), 1);
-
-        assertEquals(shape.get(1).getX(), 1);
-        assertEquals(shape.get(1).getY(), 1);
-
-        assertEquals(shape.get(2).getX(), 2);
-        assertEquals(shape.get(2).getY(), 1);
-
-        assertEquals(shape.get(3).getX(), 1);
-        assertEquals(shape.get(3).getY(), 0);
-    }
-
-    @Test
-    public void test_if_tetromino_can_be_rotated_360_degrees_counterclockwise() {
-        shape.rotateLeft();
-        shape.rotateLeft();
-        shape.rotateLeft();
-        shape.rotateLeft();
-
-        assertEquals(shape.get(0).getX(), 0);
-        assertEquals(shape.get(0).getY(), 0);
-
-        assertEquals(shape.get(1).getX(), 0);
-        assertEquals(shape.get(1).getY(), 1);
-
-        assertEquals(shape.get(2).getX(), 0);
-        assertEquals(shape.get(2).getY(), 2);
-
-        assertEquals(shape.get(3).getX(), 1);
-        assertEquals(shape.get(3).getY(), 1);
+    public void test_get_minos() {
+        assertEquals(shape.getMinos().equals(new CoordinateSet(new ArrayList<Coordinate>() {{
+            add(new Coordinate(0, 0));
+            add(new Coordinate(0, 1));
+            add(new Coordinate(0, 2));
+            add(new Coordinate(1, 1));
+        }})), true);
     }
 
 }
