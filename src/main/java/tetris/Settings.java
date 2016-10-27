@@ -27,6 +27,9 @@ public class Settings {
     private static final int BLOCK_SIZE = 20;
     private static final int BOARD_WIDTH = 10;
     private static final int BOARD_HEIGHT = 20;
+    private static final int BOARD_WIDTH_PREV = 6;
+    private static final int BOARD_HEIGHT_PREV = 5;
+
     private static final int CORNER = 3;
     private KeyBindings keybindings = new KeyBindings();
     private Color[] colors = new Color[7];
@@ -171,6 +174,14 @@ public class Settings {
 
     public int boardHeight() {
         return BOARD_HEIGHT;
+    }
+
+    public int boardWidthPrev() {
+        return BOARD_WIDTH_PREV;
+    }
+
+    public int boardHeightPrev() {
+        return BOARD_HEIGHT_PREV;
     }
 
     public int blockSize() {

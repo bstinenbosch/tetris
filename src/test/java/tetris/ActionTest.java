@@ -1,16 +1,40 @@
 package tetris;
 
-import org.junit.Test;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import tetris.shapes.decorators.MovableShape;
+
+import javafx.embed.swing.JFXPanel;
+
+import javax.swing.SwingUtilities;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("deprecation")
 public class ActionTest {
+
+    @BeforeClass
+    public static void initToolkit() throws InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+        SwingUtilities.invokeLater(() -> {
+            new JFXPanel();
+            latch.countDown();
+        });
+
+        if (!latch.await(5L, TimeUnit.SECONDS))
+            throw new ExceptionInInitializerError();
+    }
+
     @Test
     public void testChecksoftDrop() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeO(), new Coordinate(5, 0));
         Action.SOFT_DROP.attempt(tetromino, grid);
@@ -19,7 +43,9 @@ public class ActionTest {
 
     @Test
     public void testMoveLeftTrue() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeO(), new Coordinate(5, 5));
         Action.MOVE_LEFT.attempt(tetromino, grid);
@@ -28,7 +54,9 @@ public class ActionTest {
 
     @Test
     public void testMoveLeftFalse() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeO(), new Coordinate(-1, 5));
         Action.MOVE_LEFT.attempt(tetromino, grid);
@@ -37,7 +65,9 @@ public class ActionTest {
 
     @Test
     public void testMoveRightFalse() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeO(), new Coordinate(9, 6));
         Action.MOVE_RIGHT.attempt(tetromino, grid);
@@ -46,7 +76,9 @@ public class ActionTest {
 
     @Test
     public void testMoveRightTrue() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeO(), new Coordinate(5, 6));
         Action.MOVE_RIGHT.attempt(tetromino, grid);
@@ -55,7 +87,9 @@ public class ActionTest {
 
     @Test
     public void testHardDrop() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeO(), new Coordinate(5, 5));
         Action.HARD_DROP.attempt(tetromino, grid);
@@ -65,7 +99,9 @@ public class ActionTest {
 
     @Test
     public void testCheckMoveDownTrue() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeO(), new Coordinate(5, 5));
         Action.SOFT_DROP.attempt(tetromino, grid);
@@ -74,7 +110,9 @@ public class ActionTest {
 
     @Test
     public void testRotateLeft() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeL(), new Coordinate(4, 6));
         Action.ROTATE_LEFT.attempt(tetromino, grid);
@@ -83,7 +121,9 @@ public class ActionTest {
 
     @Test
     public void testRotateLeftNoFreeGrid() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeI(), new Coordinate(2, 0));
         Action.ROTATE_LEFT.attempt(tetromino, grid);
@@ -92,7 +132,9 @@ public class ActionTest {
 
     @Test
     public void testRotateRight() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeL(), new Coordinate(4, 6));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
@@ -101,7 +143,9 @@ public class ActionTest {
 
     @Test
     public void testRotateRightNoFreeGrid() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeI(), new Coordinate(4, 0));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
@@ -110,7 +154,9 @@ public class ActionTest {
 
     @Test
     public void testRotateLeftLeft() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeL(), new Coordinate(0, 6));
         Action.ROTATE_LEFT.attempt(tetromino, grid);
@@ -119,7 +165,9 @@ public class ActionTest {
 
     @Test
     public void testRotateLeftRight() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeJ(), new Coordinate(9, 6));
         Action.ROTATE_LEFT.attempt(tetromino, grid);
@@ -128,7 +176,9 @@ public class ActionTest {
 
     @Test
     public void testRotateRightLeft() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeL(), new Coordinate(0, 0));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
@@ -137,7 +187,9 @@ public class ActionTest {
 
     @Test
     public void testRotateRightRight() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeJ(), new Coordinate(9, 5));
         Action.ROTATE_RIGHT.attempt(tetromino, grid);
@@ -146,7 +198,9 @@ public class ActionTest {
 
     @Test
     public void testInvalidAction() {
-        DummyController controller = new DummyController();
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         MovableShape tetromino = new MovableShape(new DummyShapeI(), new Coordinate(5, 5));
         assertTrue(Action.testINVALIDACTION(tetromino, grid));
