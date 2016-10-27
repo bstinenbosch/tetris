@@ -28,7 +28,7 @@ public class Controller {
     private AbstractTetromino tetromino2;
     private int leftOffSet;
     private int bottomOffSet;
-    public int changeInMusic = 500;
+    public int changeInMusic = 100;
     private boolean gameOver = false;
     public boolean normalTheme = false;
     public boolean remixTheme = false;
@@ -75,25 +75,6 @@ public class Controller {
             soundManager.play("move");
         }
         redraw();
-    }
-
-    public void changingMusic() {
-        System.out.println(score.getScore());
-        if (score.getScore() < changeInMusic) {
-
-            if (normalTheme == false) {
-                AudioStreaming.playTheme();
-                normalTheme = true;
-            }
-        }
-
-        if (score.getScore() > changeInMusic) {
-            if (remixTheme == false) {
-                AudioStreaming.playRemix();
-                remixTheme = true;
-            }
-        }
-
     }
 
     /**
@@ -319,5 +300,23 @@ public class Controller {
         timer.pause();
         gameOver = true;
         button.setOnAction((event) -> unpause(button));
+    }
+
+    public void changingMusic() {
+        if (score.getScore() < changeInMusic) {
+
+            if (normalTheme == false) {
+                AudioStreaming.playTheme();
+                normalTheme = true;
+            }
+        }
+
+        if (score.getScore() > changeInMusic) {
+            if (remixTheme == false) {
+                AudioStreaming.playRemix();
+                remixTheme = true;
+            }
+        }
+
     }
 }

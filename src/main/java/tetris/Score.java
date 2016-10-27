@@ -27,7 +27,6 @@ public class Score extends Observable {
     public void add(int rowsCleared) {
         score += rowsCleared * pointsPerRow[rowsCleared];
         level += rowsCleared;
-        score4music += rowsCleared * pointsPerRow[rowsCleared];
         setChanged();
         notifyObservers(score);
     }
