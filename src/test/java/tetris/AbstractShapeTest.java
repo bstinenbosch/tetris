@@ -1,14 +1,13 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
-
 import org.junit.Test;
+import tetris.shapes.decorators.MovableShape;
 
 import static org.junit.Assert.assertEquals;
 
 public class AbstractShapeTest {
 
-    private AbstractTetromino shape = new DummyShapeRotationTests(new Coordinate(0, 0));
+    private MovableShape shape = new MovableShape(new DummyShapeRotationTests(), new Coordinate(0, 0));
 
     @Test
     public void test_topmost_coordinate() {

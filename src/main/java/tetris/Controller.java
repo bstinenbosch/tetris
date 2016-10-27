@@ -2,38 +2,57 @@ package tetris;
 
 import java.util.Observer;
 
+<<<<<<< HEAD
 import tetris.scenes.GridCanvas;
 import tetris.scenes.GridCanvasPrev;
 import tetris.scenes.PreviewAdapter;
+=======
+import tetris.shapes.adapters.PreviewAdapter;
+import tetris.shapes.AbstractShape;
+import tetris.shapes.decorators.MovableShape;
+import tetris.shapes.original.TetrominoFactory;
+import tetris.shapes.original.TetrominoType;
+>>>>>>> master
 import tetris.sound.SoundManager;
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 
 import highscore.GameEntry;
-import highscore.ScoreBoard;
+import highscore.IScoreBoard;
+import highscore.OnlineScoreBoard;
 import logging.Logger;
 
 public class Controller {
 
     private final SoundManager soundManager;
     private Score score;
-    private ScoreBoard scoreBoard;
+    private IScoreBoard scoreBoard;
     private View ui;
     private Grid grid;
+<<<<<<< HEAD
     private GridCanvas gridcanvas;
     private GridCanvasPrev gridcanvasprev;
     private AbstractTetromino tetromino;
     private AbstractTetromino tetromino2;
+=======
+    private TetrominoQueue queue = new TetrominoQueue();
+    private MovableShape fallingTetromino;
+    private AbstractShape nextTetromino;
+    private TetrominoFactory factory = new TetrominoFactory();
+>>>>>>> master
     private int leftOffSet;
     private int bottomOffSet;
     private boolean gameOver = false;
     private Tick timer = new Tick(event -> {
+<<<<<<< HEAD
         Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
         Platform.runLater(() -> gridcanvas.redraw());
+=======
+        Platform.runLater(() -> Action.SOFT_DROP.attempt(fallingTetromino, grid));
+        Platform.runLater(() -> redraw());
+>>>>>>> master
     });
 
     private Settings settings;
@@ -54,7 +73,7 @@ public class Controller {
         setSounds();
         Logger.setDebugOn();
         score = new Score();
-        scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
+        scoreBoard = new OnlineScoreBoard();// XMLScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
         timer.start();
     }
@@ -72,13 +91,14 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
-        if (action.attempt(tetromino, grid)) {
+        if (action.attempt(fallingTetromino, grid)) {
             soundManager.play("move");
         }
         redraw();
     }
 
     /**
+<<<<<<< HEAD
      * redraws the GridCanvas and GridCanvasPreview
      * 
      */
@@ -89,15 +109,19 @@ public class Controller {
 
     /**
      * drops a new tetromino and makes sure that it is drawn on the canvas.
+=======
+     * drops a new fallingTetromino and makes sure that it is drawn on the canvas.
+>>>>>>> master
      */
     public void dropNewTetromino() {
         score.add(grid.clearLines());
 
         grid.clearLines();
-        Coordinate position = new Coordinate(grid.width() / 2, grid.height());
 
-        Coordinate position2 = new Coordinate(0, 0);
+        Coordinate spawnPosition = new Coordinate(grid.width() / 2, grid.height());
+        fallingTetromino = new MovableShape(factory.create(queue.pop()), spawnPosition);
 
+<<<<<<< HEAD
         tetromino = TetrominoFactory.createRandom(position);
         tetromino2 = TetrominoFactory.getLast(position2);
 
@@ -111,6 +135,29 @@ public class Controller {
     }
 
     /**
+=======
+        TetrominoType next = queue.peek();
+        nextTetromino = factory.create(next);
+        PreviewAdapter adapter = new PreviewAdapter(nextTetromino);
+        this.leftOffSet = adapter.getLeftOffSet();
+        this.bottomOffSet = adapter.getBottomOffSet();
+        Logger.log(this, Logger.LogType.INFO, "dropped a new fallingTetromino");
+    }
+
+    /**
+     * redraw empties the canvas and redraws the gameboard and the current
+     * active fallingTetromino.
+     */
+    private void redraw() {
+        clearBoard();
+        clearPreview();
+        drawGrid();
+        drawTetromino();
+        drawTetrominoPreview();
+    }
+
+    /**
+>>>>>>> master
      * gameOver handles the end of the game.
      */
     public void gameOver() {
@@ -195,7 +242,90 @@ public class Controller {
         Logger.log(this, Logger.LogType.INFO, "game restarted");
     }
 
+<<<<<<< HEAD
     public ScoreBoard getScoreBoard() {
+=======
+    /**
+     * drawGrid draws the entire gameboard. As tetrominos reach their final
+     * place, they are registered on the grid to be drawn by this function.
+     */
+    private void drawGrid() {
+        for (int x = 0; x < settings.boardWidth(); x++) {
+            for (int y = 0; y < settings.boardHeight(); y++) {
+                drawRectangle(grid.get(x, y), new Coordinate(x, y));
+            }
+        }
+    }
+
+    /**
+     * drawTetromino employs the structure of a fallingTetromino to draw it on a
+     * gameboard.
+     */
+    private void drawTetromino() {
+        for (int i = 0; i < 4; i++) {
+            drawRectangle(fallingTetromino.getColor(), fallingTetromino.get(i));
+        }
+    }
+
+    private void drawTetrominoPreview() {
+        for (int i = 0; i < 4; i++) {
+            drawRectanglePreview(nextTetromino.getColor(), nextTetromino.get(i));
+        }
+    }
+
+    /**
+     * drawRectangle draws one cube on the game grid.
+     * 
+     * @param color
+     *            specifies the color pair to draw in (color pairs provided by
+     *            setColor)
+     * @param coordinate
+     *            the cube in the grid that is to be drawn.
+     */
+    private void drawRectangle(int color, Coordinate coordinate) {
+        if (color > 0) {
+            settings.getBoard().setFill(settings.getColor(color));
+            settings.getBoard().fillRoundRect(coordinate.getX() * settings.blockSize(),
+                (settings.boardHeight() - 1 - coordinate.getY()) * settings.blockSize(),
+                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
+        }
+    }
+
+    /**
+     * drawRectanglePreview draws one cube on the preview grid.
+     *
+     * @param color
+     *            specifies the color pair to draw in (color pairs provided by
+     *            setColor)
+     * @param coordinate
+     *            the cube in the grid that is to be drawn.
+     */
+    private void drawRectanglePreview(int color, Coordinate coordinate) {
+        if (color > 0) {
+            settings.getPreview().setFill(settings.getColor(color));
+            settings.getPreview().fillRoundRect(
+                coordinate.getX() * settings.blockSize() + this.leftOffSet,
+                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.bottomOffSet,
+                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
+        }
+    }
+
+    /**
+     * clearBoard erases the current board so it can be redrawn.
+     */
+    private void clearBoard() {
+        settings.getBoard().setFill(Color.BLACK);
+        settings.getBoard().fillRect(0, 0, settings.boardWidth() * settings.blockSize(),
+            settings.boardHeight() * settings.blockSize());
+    }
+
+    private void clearPreview() {
+        settings.getPreview().setFill(Color.BLACK);
+        settings.getPreview().fillRect(0, 0, 6 * settings.blockSize(), 5 * settings.blockSize());
+    }
+
+    public IScoreBoard getScoreBoard() {
+>>>>>>> master
         return scoreBoard;
     }
 
@@ -203,8 +333,8 @@ public class Controller {
         return gameOver;
     }
 
-    public AbstractTetromino getTetromino() {
-        return tetromino;
+    public MovableShape getFallingTetromino() {
+        return fallingTetromino;
     }
 
     public AbstractTetromino getTetrominoPrev() {
