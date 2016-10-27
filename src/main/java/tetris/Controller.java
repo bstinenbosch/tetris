@@ -40,7 +40,7 @@ public class Controller {
     public boolean remixTheme = false;
 
     private Tick timer = new Tick(event -> {
-        Platform.runLater(() -> Action.SOFT_DROP.attempt(fallingTetromino, grid));
+        Platform.runLater(() -> Action.SOFT_DROP.attempt(fallingTetromino, grid, this));
         Platform.runLater(() -> gridcanvas.redraw());
     });
 
@@ -79,7 +79,7 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
-        if (action.attempt(fallingTetromino, grid)) {
+        if (action.attempt(fallingTetromino, grid, this)) {
             soundManager.play("move");
         }
         redraw();
