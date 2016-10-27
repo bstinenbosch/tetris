@@ -8,6 +8,8 @@ public class PreviewAdapter {
     private final int width;
     private final int height;
     private final int left;
+    private final int top;
+    private final int bottom;
 
     /**
      * Creates PreviewTetrominoPaneAdapter object.
@@ -17,6 +19,8 @@ public class PreviewAdapter {
      */
     public PreviewAdapter(AbstractShape tetromino) {
         this.left = tetromino.left().getX();
+        this.top = tetromino.top().getY();
+        this.bottom = tetromino.bottom().getY();
         this.width = tetromino.right().getX() - left + 1;
         this.height = tetromino.top().getY() - tetromino.bottom().getY() + 1;
     }
@@ -42,6 +46,9 @@ public class PreviewAdapter {
      */
     public int getBottomOffSet() {
         int topPane = 6;
+        if (bottom <= -1) {
+            return (topPane * blockSize - height * blockSize - blockSize - (blockSize / 2));
+        }
         return ((topPane * blockSize - height * blockSize - blockSize) / 2);
     }
 

@@ -120,7 +120,7 @@ public class Grid {
      *            vertical gridcell index
      * @return the color ID at location (x,y) on the board
      */
-    int get(int x, int y) {
+    public int get(int x, int y) {
         return board[x][y];
     }
 
