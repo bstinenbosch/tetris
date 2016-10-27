@@ -3,6 +3,7 @@ package tetris;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import common.Coordinate;
 import tetris.shapes.decorators.MovableShape;
 
 import javafx.embed.swing.JFXPanel;
@@ -62,7 +63,7 @@ public class GridTest {
         DummyController controller = new DummyController(view, settings);
         Grid grid = new Grid(controller, 10, 20);
         Coordinate coordinate = new Coordinate(5, 5);
-        MovableShape shape = new MovableShape(new DummyShape(), coordinate);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);
 
         assertThat("grid is not empty when a shape is registered", isEmpty(grid), equalTo(false));
@@ -71,7 +72,7 @@ public class GridTest {
     @Test
     public void test_clear_board() {
         Coordinate coordinate = new Coordinate(5, 5);
-        MovableShape shape = new MovableShape(new DummyShape(), coordinate);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);
         grid.clearBoard();
 
