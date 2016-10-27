@@ -6,7 +6,6 @@ public class Score extends Observable {
     private int score = 0;
     private int level = 0;
     private int[] pointsPerRow = { 0, 40, 50, 100, 300 };
-    public static int score4music;
 
     /**
      * resets the score to 0.
@@ -33,10 +32,6 @@ public class Score extends Observable {
 
     public int getScore() {
         return this.score;
-    }
-
-    public static int getScore4Music() {
-        return score4music;
     }
 
     public int getLevel() {
