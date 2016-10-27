@@ -2,11 +2,12 @@ package tetris;
 
 import java.util.Observer;
 
-import tetris.shapes.adapters.PreviewAdapter;
 import tetris.shapes.AbstractShape;
+import tetris.shapes.adapters.PreviewAdapter;
 import tetris.shapes.decorators.MovableShape;
 import tetris.shapes.original.TetrominoFactory;
 import tetris.shapes.original.TetrominoType;
+import tetris.sound.AudioStreaming;
 import tetris.sound.SoundManager;
 
 import javafx.application.Platform;
@@ -32,7 +33,11 @@ public class Controller {
     private TetrominoFactory factory = new TetrominoFactory();
     private int leftOffSet;
     private int bottomOffSet;
+    public int changeInMusic = 1000;
     private boolean gameOver = false;
+    public boolean normalTheme = false;
+    public boolean remixTheme = false;
+
     private Tick timer = new Tick(event -> {
         Platform.runLater(() -> Action.SOFT_DROP.attempt(fallingTetromino, grid));
         Platform.runLater(() -> redraw());
@@ -60,7 +65,6 @@ public class Controller {
     }
 
     private void setSounds() {
-        soundManager.load("theme", getClass().getClassLoader().getResource("sound/theme.mp3"));
         soundManager.load("move", getClass().getClassLoader().getResource("sound/sfx/move.wav"));
     }
 
@@ -79,7 +83,8 @@ public class Controller {
     }
 
     /**
-     * drops a new fallingTetromino and makes sure that it is drawn on the canvas.
+     * drops a new fallingTetromino and makes sure that it is drawn on the
+     * canvas.
      */
     public void dropNewTetromino() {
         score.add(grid.clearLines());
@@ -102,11 +107,13 @@ public class Controller {
      * active fallingTetromino.
      */
     private void redraw() {
+
         clearBoard();
         clearPreview();
         drawGrid();
         drawTetromino();
         drawTetrominoPreview();
+        changingMusic();
     }
 
     /**
@@ -152,7 +159,6 @@ public class Controller {
         gameOver = false;
         grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
         dropNewTetromino();
-        soundManager.play("theme");
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
@@ -299,5 +305,23 @@ public class Controller {
         timer.pause();
         gameOver = true;
         button.setOnAction((event) -> unpause(button));
+    }
+
+    public void changingMusic() {
+        if (score.getScore() < changeInMusic) {
+
+            if (normalTheme == false) {
+                AudioStreaming.playTheme();
+                normalTheme = true;
+            }
+        }
+
+        if (score.getScore() > changeInMusic) {
+            if (remixTheme == false) {
+                AudioStreaming.playRemix();
+                remixTheme = true;
+            }
+        }
+
     }
 }
