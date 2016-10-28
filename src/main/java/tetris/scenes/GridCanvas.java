@@ -20,8 +20,8 @@ public class GridCanvas extends Canvas {
     public void redraw() {
         clearBoard();
         drawGrid();
-        drawTetromino();
         drawTetrominoShadow();
+        drawTetromino();
     }
 
     private void drawTetrominoShadow() {
