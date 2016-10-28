@@ -2,11 +2,10 @@ package tetris;
 
 import java.util.Observer;
 
-import common.Coordinate;
 import tetris.scenes.GridCanvas;
 import tetris.scenes.GridCanvasPrev;
-import tetris.shapes.adapters.PreviewAdapter;
 import tetris.shapes.AbstractShape;
+import tetris.shapes.adapters.PreviewAdapter;
 import tetris.shapes.decorators.MovableShape;
 import tetris.shapes.original.TetrominoFactory;
 import tetris.shapes.original.TetrominoType;
@@ -17,6 +16,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 
+import common.Coordinate;
 import highscore.GameEntry;
 import highscore.IScoreBoard;
 import highscore.OnlineScoreBoard;
