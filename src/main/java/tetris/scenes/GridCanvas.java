@@ -1,12 +1,15 @@
 package tetris.scenes;
 
 import common.Coordinate;
+import common.CoordinateSet;
 import tetris.Grid;
 import tetris.Settings;
 import tetris.shapes.decorators.MovableShape;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
 
 public class GridCanvas extends Canvas {
 
@@ -18,6 +21,29 @@ public class GridCanvas extends Canvas {
         clearBoard();
         drawGrid();
         drawTetromino();
+        drawTetrominoShadow();
+    }
+
+    private void drawTetrominoShadow() {
+        CoordinateSet minos = tetromino.getMinos();
+
+        ArrayList<Coordinate> shadowCoordinates = new ArrayList<>();
+
+        for (int i = 0; i < minos.getCoordinates().size(); i++) {
+            Coordinate coordinate = minos.getCoordinates().get(i);
+            shadowCoordinates.add(new Coordinate(coordinate.getX(), coordinate.getY()));
+        }
+
+        CoordinateSet tetrominoShadow = new CoordinateSet(shadowCoordinates);
+
+        while(grid.isFree(tetrominoShadow)) {
+            tetrominoShadow.translateY(-1);
+        }
+        tetrominoShadow.translateY(1);
+
+        for (Coordinate mino : tetrominoShadow.getCoordinates()) {
+            drawPlaceholderRectangle(tetromino.getColor(), mino);
+        }
     }
 
     /**
@@ -51,6 +77,19 @@ public class GridCanvas extends Canvas {
     private void drawTetromino() {
         for(Coordinate mino : tetromino.getMinos().getCoordinates()) {
             drawRectangle(tetromino.getColor(), mino);
+        }
+    }
+    private void drawPlaceholderRectangle(int color, Coordinate coordinate) {
+        if (color > 0) {
+            drawRectangle(color, coordinate);
+            settings.getBoard().setFill(Color.BLACK);
+            settings.getBoard().fillRoundRect(
+                    coordinate.getX() * settings.blockSize() + 1,
+                    (settings.boardHeight() - 1 - coordinate.getY()) * settings.blockSize() + 1,
+                    settings.blockSize() - 2,
+                    settings.blockSize() - 2,
+                    settings.corner(),
+                    settings.corner());
         }
     }
 

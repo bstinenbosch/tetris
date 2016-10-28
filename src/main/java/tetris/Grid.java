@@ -42,7 +42,7 @@ public class Grid {
      * isFree returns true if the location on the board is free, otherwise
      * false.
      */
-    boolean isFree(CoordinateSet coordinates) {
+    public boolean isFree(CoordinateSet coordinates) {
         for(Coordinate coordinate : coordinates.getCoordinates()) {
             int x = coordinate.getX();
             int y = coordinate.getY();
