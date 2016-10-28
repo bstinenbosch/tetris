@@ -158,7 +158,7 @@ public class Controller {
      * starts the game.
      */
     public void startGame() {
-        ui.gotoGameScreen();
+        ui.gotoGameScreen(timer);
         score.reset();
         level.reset();
         gameOver = false;

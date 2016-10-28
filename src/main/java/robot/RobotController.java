@@ -1,6 +1,7 @@
 package robot;
 
 import tetris.Controller;
+import tetris.Tick;
 
 import javafx.application.Platform;
 
@@ -13,23 +14,23 @@ public class RobotController extends Thread {
     private static volatile boolean playing = true;
     private static volatile RobotController robotController;
 
-    private RobotController(Controller controller) {
+    private RobotController(Controller controller, Tick tick) {
         this.controller = controller;
-        controller.getTick().setBaseTime(30);
-        controller.getTick().setTime(30);
+        tick.setBaseTime(30);
+        tick.setTime(30);
         // robot = new RandomRobot();
         robot = new ANNRobot(controller.getGrid().width(), 5, EvaluationFunction.SIGMOID);
         this.controller.addScoreObserver(robot);
     }
 
-    public static synchronized void toggleRobotController(Controller controller) {
+    public static synchronized void toggleRobotController(Controller controller, Tick tick) {
         if (robotController == null) {
-            robotController = new RobotController(controller);
+            robotController = new RobotController(controller, tick);
             robotController.start();
         } else {
             playing = false;
             robotController = null;
-            controller.getTick().unpause();
+            tick.unpause();
         }
     }
 
@@ -51,8 +52,8 @@ public class RobotController extends Thread {
                 // give grid and shape to ANN
                 robot.setGameState(controller.getGrid(), controller.getFallingTetromino());
                 // ask for action and handle it
-                Platform.runLater(() -> robot.getNextAction().attempt(controller.getFallingTetromino(),
-                    controller.getGrid(), controller));
+                Platform.runLater(() -> robot.getNextAction()
+                    .attempt(controller.getFallingTetromino(), controller.getGrid(), controller));
             }
             try {
                 sleep(20);

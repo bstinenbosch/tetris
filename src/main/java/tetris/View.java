@@ -1,6 +1,5 @@
 package tetris;
 
-import javafx.fxml.Initializable;
 import tetris.scenes.GameScreen;
 import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;
@@ -45,10 +44,10 @@ public class View extends Application {
      * gotoGameScreen inits and shows the game screen, hooks the key events and
      * fires up the game controller.
      */
-    public void gotoGameScreen() {
+    public void gotoGameScreen(Tick tick) {
         GameScreen gameview = new GameScreen(settings);
         primaryStage.setScene(new Scene(gameview));
-        gameview.hookEvents(controller);
+        gameview.hookEvents(controller, tick);
         gameview.requestFocus();
     }
 

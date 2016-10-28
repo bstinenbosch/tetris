@@ -47,7 +47,7 @@ public class MainScreen extends Group implements IScreen {
         getChildren().add(root);
     }
 
-    @Override
+    // @Override
     public void hookEvents(Controller controller) {
         startNewGameButton.setOnAction(event -> controller.startGame());
         settingsButton.setOnAction(event -> controller.openSettings());

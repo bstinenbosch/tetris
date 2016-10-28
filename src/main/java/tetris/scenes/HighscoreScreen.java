@@ -1,11 +1,12 @@
 package tetris.scenes;
 
-import highscore.GameEntry;
+import tetris.Controller;
+
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -13,7 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import tetris.Controller;
+
+import highscore.GameEntry;
 
 public class HighscoreScreen extends Group implements IScreen {
 
@@ -30,7 +32,6 @@ public class HighscoreScreen extends Group implements IScreen {
 
         backButton = new Button("Back to main menu");
 
-
         BorderPane root = new BorderPane();
         BorderPane.setAlignment(titleLabel, Pos.CENTER);
         root.setTop(titleLabel);
@@ -39,7 +40,7 @@ public class HighscoreScreen extends Group implements IScreen {
         root.setBottom(backButton);
 
         Pane highScoreTable = getHighScoreTable();
-        BorderPane.setMargin(highScoreTable, new Insets(12,12,12,12));
+        BorderPane.setMargin(highScoreTable, new Insets(12, 12, 12, 12));
         BorderPane.setAlignment(highScoreTable, Pos.CENTER);
         root.setCenter(highScoreTable);
 
@@ -77,7 +78,7 @@ public class HighscoreScreen extends Group implements IScreen {
         return vbox;
     }
 
-    @Override
+    // @Override
     public void hookEvents(Controller controller) {
         backButton.setOnAction(event -> controller.openMainScreen());
     }

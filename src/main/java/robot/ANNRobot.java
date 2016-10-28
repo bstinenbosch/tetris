@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 import tetris.Action;
 import tetris.Grid;
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.decorators.MovableShape;
 
 import robot.ANN.Neuron.IOutput;
 import robot.ANN.Neuron.Inputter;
@@ -77,10 +77,10 @@ public class ANNRobot implements IRobot {
     }
 
     @Override
-    public void setGameState(Grid grid, AbstractTetromino tetromino) {
-        input[0].setInput(tetromino.getRotation());
-        input[1].setInput(tetromino.getleft().getX());
-        input[2].setInput(tetromino.getleft().getY());
+    public void setGameState(Grid grid, MovableShape tetromino) {
+        input[0].setInput(tetromino.rotation());
+        input[1].setInput(tetromino.left().getX());
+        input[2].setInput(tetromino.left().getY());
         input[3].setInput(tetromino.getColor());
         for (int x = 0; x < grid.width(); x++) {
             input[4 + x].setInput(grid.getHighestOccupied(x));
