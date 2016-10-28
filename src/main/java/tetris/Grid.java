@@ -1,11 +1,12 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import common.Coordinate;
+import common.CoordinateSet;
+import tetris.shapes.decorators.MovableShape;
 
 public class Grid {
 
     private int[][] board;
-    private Controller controller;
 
     /**
      * Grid represents the gameboard.
@@ -15,9 +16,8 @@ public class Grid {
      * @param height
      *            the heigth of the gameboard
      */
-    Grid(Controller controller, int width, int height) {
+    Grid(int width, int height) {
         board = new int[width][height + 4];
-        this.controller = controller;
     }
 
     /**
@@ -41,32 +41,44 @@ public class Grid {
     /**
      * isFree returns true if the location on the board is free, otherwise
      * false.
-     *
-     * @param coord
-     *            the location on the board to check
-     * @return true if the location on the board is free, otherwise false.
      */
-    boolean isFree(Coordinate coord) {
-        return (coord.getX() >= 0 && coord.getY() >= 0 && coord.getX() < width()
-            && coord.getY() < height() + 3 && board[coord.getX()][coord.getY()] == 0);
+    public boolean isFree(CoordinateSet coordinates) {
+        for(Coordinate coordinate : coordinates.getCoordinates()) {
+            int x = coordinate.getX();
+            int y = coordinate.getY();
+            if(x < 0 || y < 0) {
+                return false;
+            }
+
+            if(x >= width() || y >= height() + 3) {
+                return false;
+            }
+
+            if(board[x][y] != 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
-     * registerTetromino adds a tetromino to the static part of the gameboard.
+     * registerTetromino adds a shape to the static part of the gameboard.
      *
      * @param tetromino
-     *            the tetromino to add
+     *            the shape to add
      */
-    public void registerTetromino(AbstractTetromino tetromino) {
-        for (int i = 0; i < 4; i++) {
-            Coordinate coords = tetromino.get(i);
-            board[coords.getX()][coords.getY()] = tetromino.getColor();
+    public boolean registerTetromino(MovableShape tetromino) {
+        if(!isFree(tetromino.getMinos())) {
+            return false;
         }
-        if (tetromino.top() >= height() - 1) {
-            controller.gameOver();
-        } else {
-            controller.dropNewTetromino();
+
+        CoordinateSet minos = tetromino.getMinos();
+        for(Coordinate mino : minos.getCoordinates()) {
+            board[mino.getX()][mino.getY()] = tetromino.getColor();
         }
+
+        return true;
     }
 
     /**
@@ -107,7 +119,7 @@ public class Grid {
      *            vertical gridcell index
      * @return the color ID at location (x,y) on the board
      */
-    int get(int x, int y) {
+    public int get(int x, int y) {
         return board[x][y];
     }
 

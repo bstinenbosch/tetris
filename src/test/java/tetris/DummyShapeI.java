@@ -1,20 +1,30 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import common.Coordinate;
+import common.CoordinateSet;
+import tetris.shapes.AbstractShape;
 
-public class DummyShapeI extends AbstractTetromino {
+import java.util.ArrayList;
 
-    private static final Coordinate[] minos = new Coordinate[] { new Coordinate(-1, 0),
-            new Coordinate(0, 0), new Coordinate(1, 0), new Coordinate(2, 0) };
+public class DummyShapeI extends AbstractShape {
+
+    private static final CoordinateSet MINOS = new CoordinateSet(
+            new ArrayList<Coordinate>() {
+                {
+                    add(new Coordinate(-1, 0));
+                    add(new Coordinate(0, 0));
+                    add(new Coordinate(1, 0));
+                    add(new Coordinate(2, 0));
+                }
+            });
 
     private static int color = 1;
 
     /**
      * Creates a DummyShapeO that is similar in shape as the O-shaped Tetromino
-     * @param position coordinate where shape is registered in the grid
      */
-    public DummyShapeI(Coordinate position) {
-        super(position, minos, color);
+    public DummyShapeI() {
+        super(MINOS, color);
     }
 
 }

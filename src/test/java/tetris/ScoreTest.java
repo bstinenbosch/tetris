@@ -1,40 +1,66 @@
 package tetris;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class ScoreTest {
 
-    private int observedscore;
+    private Score score;
 
-    @Test
-    public void testScore() {
-        Score score = new Score();
-        observedscore = 0;
-        score.addObserver((arg0, arg1) -> increaseScore((int) arg1));
-        score.add(1);
-        assertEquals(observedscore, 40);
-        score.reset();
-        score.add(2);
-        assertEquals(observedscore, 50 * 2);
-        score.reset();
-        score.add(3);
-        assertEquals(observedscore, 100 * 3);
-        score.reset();
-        score.add(4);
-        assertEquals(observedscore, 300 * 4);
-        score.reset();
-        int level = 0;
-        for (int i = 1; i < 10; i++) {
-            level += i % 5;
-            score.add(i % 5);
-            assertEquals(score.getLevel(), level / 10);
-        }
+    @Before
+    public void set_up() {
+        score = new Score();
     }
 
-    private void increaseScore(int score) {
-        observedscore = score;
+    @Test
+    public void test_score_one_line() {
+        score.add(1);
+        assertEquals(score.getScore(), 40);
+    }
+
+    @Test
+    public void test_score_two_lines() {
+        score.add(2);
+        assertEquals(score.getScore(), 50 * 2);
+    }
+
+    @Test
+    public void test_score_three_lines() {
+        score.add(3);
+        assertEquals(score.getScore(), 100 * 3);
+    }
+
+    @Test
+    public void test_score_four_lines() {
+        score.add(4);
+        assertEquals(score.getScore(), 300 * 4);
+    }
+
+    @Test
+    public void test_reset_score() {
+        score.add(4);
+        score.reset();
+        assertEquals(score.getScore(), 0);
+    }
+
+    @Test
+    public void test_increment_level_one_line() {
+        score.addLevel(1);
+        assertEquals(score.getLevel(), 0);
+    }
+
+    @Test
+    public void test_increment_level_ten_lines() {
+        score.addLevel(10);
+        assertEquals(score.getLevel(), 1);
+    }
+
+    @Test
+    public void test_increment_level_fourty_lines() {
+        score.addLevel(40);
+        assertEquals(score.getLevel(), 4);
     }
 
 }

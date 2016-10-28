@@ -2,35 +2,45 @@ package tetris;
 
 import java.util.Observer;
 
-import tetris.scenes.PreviewAdapter;
+import tetris.scenes.GridCanvas;
+import tetris.scenes.GridCanvasPrev;
+import tetris.shapes.AbstractShape;
+import tetris.shapes.adapters.PreviewAdapter;
+import tetris.shapes.decorators.MovableShape;
+import tetris.shapes.original.TetrominoFactory;
+import tetris.sound.AudioStreaming;
 import tetris.sound.SoundManager;
-import tetris.tetromino.AbstractTetromino;
-import tetris.tetromino.TetrominoFactory;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 
+import common.Coordinate;
 import highscore.GameEntry;
-import highscore.ScoreBoard;
+import highscore.IScoreBoard;
+import highscore.OnlineScoreBoard;
 import logging.Logger;
 
 public class Controller {
 
     private final SoundManager soundManager;
     private Score score;
-    private ScoreBoard scoreBoard;
+    private Score level;
+    private IScoreBoard scoreBoard;
     private View ui;
     private Grid grid;
-    private AbstractTetromino tetromino;
-    private AbstractTetromino tetromino2;
-    private int leftOffSet;
-    private int bottomOffSet;
+    private TetrominoQueue queue = new TetrominoQueue(new TetrominoFactory());
+    private MovableShape fallingTetromino;
+    private GridCanvas gridcanvas;
+    private GridCanvasPrev gridcanvasprev;
+    public int changeInMusic = 1000;
     private boolean gameOver = false;
+    public boolean normalTheme = false;
+    public boolean remixTheme = false;
+
     private Tick timer = new Tick(event -> {
-        Platform.runLater(() -> Action.SOFT_DROP.attempt(tetromino, grid));
-        Platform.runLater(() -> redraw());
+        Platform.runLater(() -> Action.SOFT_DROP.attempt(fallingTetromino, grid, this));
+        Platform.runLater(() -> gridcanvas.redraw());
     });
 
     private Settings settings;
@@ -44,18 +54,21 @@ public class Controller {
      */
     public Controller(View ui, Settings settings) {
         this.settings = settings;
+        this.gridcanvas = new GridCanvas(settings);
+        this.gridcanvasprev = new GridCanvasPrev(settings);
         this.ui = ui;
         this.soundManager = new SoundManager(2);
         setSounds();
         Logger.setDebugOn();
         score = new Score();
-        scoreBoard = new ScoreBoard("src/main/resources/highscores.xml");
+        level = new Score();
+        scoreBoard = new OnlineScoreBoard();// XMLScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
+        level.addObserver(timer);
         timer.start();
     }
 
     private void setSounds() {
-        soundManager.load("theme", getClass().getClassLoader().getResource("sound/theme.mp3"));
         soundManager.load("move", getClass().getClassLoader().getResource("sound/sfx/move.wav"));
     }
 
@@ -67,41 +80,44 @@ public class Controller {
      */
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
-        action.attempt(tetromino, grid);
-        soundManager.play("move");
+        if (action.attempt(fallingTetromino, grid, this)) {
+            soundManager.play("move");
+        }
         redraw();
     }
 
     /**
-     * drops a new tetromino and makes sure that it is drawn on the canvas.
+     * redraws the GridCanvas and GridCanvasPreview
+     *
      */
-    public void dropNewTetromino() {
-        score.add(grid.clearLines());
-
-        grid.clearLines();
-        Coordinate position = new Coordinate(grid.width() / 2, grid.height());
-
-        Coordinate position2 = new Coordinate(0, 0);
-
-        tetromino = TetrominoFactory.createRandom(position);
-        tetromino2 = TetrominoFactory.getLast(position2);
-
-        PreviewAdapter adapter = new PreviewAdapter(tetromino2);
-        this.leftOffSet = adapter.getLeftOffSet();
-        this.bottomOffSet = adapter.getBottomOffSet();
-        Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
+    public void redraw() {
+        gridcanvas.redraw();
+        gridcanvasprev.redraw();
+        changingMusic();
     }
 
     /**
-     * redraw empties the canvas and redraws the gameboard and the current
-     * active tetromino.
+     * drops a new fallingTetromino and makes sure that it is drawn on the
+     * canvas.
      */
-    private void redraw() {
-        clearBoard();
-        clearPreview();
-        drawGrid();
-        drawTetromino();
-        drawTetrominoPreview();
+    public void dropNewTetromino() {
+        int scorelines = grid.clearLines();
+        score.add(scorelines);
+        level.addLevel(scorelines);
+
+        grid.clearLines();
+
+        Coordinate spawnPosition = new Coordinate(grid.width() / 2, grid.height());
+        fallingTetromino = new MovableShape(queue.pop(), spawnPosition);
+        gridcanvas.setTetromino(fallingTetromino);
+
+        AbstractShape next = queue.peek();
+        gridcanvasprev.setTetrominoPrev(next);
+
+        PreviewAdapter adapter = new PreviewAdapter(next);
+        gridcanvasprev.setLeftOffSet(adapter.getLeftOffSet());
+        gridcanvasprev.setBottomOffSet(adapter.getBottomOffSet());
+        Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
 
     /**
@@ -144,10 +160,11 @@ public class Controller {
     public void startGame() {
         ui.gotoGameScreen();
         score.reset();
+        level.reset();
         gameOver = false;
-        grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
+        gridcanvas.setGrid(grid);
         dropNewTetromino();
-        soundManager.play("theme");
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
@@ -175,8 +192,8 @@ public class Controller {
         score.addObserver(observer);
     }
 
-    public Tick getTick() {
-        return timer;
+    public void addLevelObserver(Observer observer) {
+        level.addObserver(observer);
     }
 
     /**
@@ -186,92 +203,14 @@ public class Controller {
         gameOver = false;
         grid.clearBoard();
         score.reset();
+        level.reset();
         dropNewTetromino();
         timer.unpause();
         ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game restarted");
     }
 
-    /**
-     * drawGrid draws the entire gameboard. As tetrominos reach their final
-     * place, they are registered on the grid to be drawn by this function.
-     */
-    private void drawGrid() {
-        for (int x = 0; x < settings.boardWidth(); x++) {
-            for (int y = 0; y < settings.boardHeight(); y++) {
-                drawRectangle(grid.get(x, y), new Coordinate(x, y));
-            }
-        }
-    }
-
-    /**
-     * drawTetromino employs the structure of a tetromino to draw it on a
-     * gameboard.
-     */
-    private void drawTetromino() {
-        for (int i = 0; i < 4; i++) {
-            drawRectangle(tetromino.getColor(), tetromino.get(i));
-        }
-    }
-
-    private void drawTetrominoPreview() {
-        for (int i = 0; i < 4; i++) {
-            drawRectanglePreview(tetromino2.getColor(), tetromino2.get(i));
-        }
-    }
-
-    /**
-     * drawRectangle draws one cube on the game grid.
-     * 
-     * @param color
-     *            specifies the color pair to draw in (color pairs provided by
-     *            setColor)
-     * @param coordinate
-     *            the cube in the grid that is to be drawn.
-     */
-    private void drawRectangle(int color, Coordinate coordinate) {
-        if (color > 0) {
-            settings.getBoard().setFill(settings.getColor(color));
-            settings.getBoard().fillRoundRect(coordinate.getX() * settings.blockSize(),
-                (settings.boardHeight() - 1 - coordinate.getY()) * settings.blockSize(),
-                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
-        }
-    }
-
-    /**
-     * drawRectanglePreview draws one cube on the preview grid.
-     *
-     * @param color
-     *            specifies the color pair to draw in (color pairs provided by
-     *            setColor)
-     * @param coordinate
-     *            the cube in the grid that is to be drawn.
-     */
-    private void drawRectanglePreview(int color, Coordinate coordinate) {
-        if (color > 0) {
-            settings.getPreview().setFill(settings.getColor(color));
-            settings.getPreview().fillRoundRect(
-                coordinate.getX() * settings.blockSize() + this.leftOffSet,
-                (5 - 1 - coordinate.getY()) * settings.blockSize() - this.bottomOffSet,
-                settings.blockSize(), settings.blockSize(), settings.corner(), settings.corner());
-        }
-    }
-
-    /**
-     * clearBoard erases the current board so it can be redrawn.
-     */
-    private void clearBoard() {
-        settings.getBoard().setFill(Color.BLACK);
-        settings.getBoard().fillRect(0, 0, settings.boardWidth() * settings.blockSize(),
-            settings.boardHeight() * settings.blockSize());
-    }
-
-    private void clearPreview() {
-        settings.getPreview().setFill(Color.BLACK);
-        settings.getPreview().fillRect(0, 0, 6 * settings.blockSize(), 5 * settings.blockSize());
-    }
-
-    public ScoreBoard getScoreBoard() {
+    public IScoreBoard getScoreBoard() {
         return scoreBoard;
     }
 
@@ -279,8 +218,8 @@ public class Controller {
         return gameOver;
     }
 
-    public AbstractTetromino getTetromino() {
-        return tetromino;
+    public MovableShape getFallingTetromino() {
+        return fallingTetromino;
     }
 
     public Grid getGrid() {
@@ -299,4 +238,23 @@ public class Controller {
         gameOver = true;
         button.setOnAction((event) -> unpause(button));
     }
+
+    public void changingMusic() {
+        if (score.getScore() < changeInMusic) {
+
+            if (normalTheme == false) {
+                AudioStreaming.playTheme();
+                normalTheme = true;
+            }
+        }
+
+        if (score.getScore() > changeInMusic) {
+            if (remixTheme == false) {
+                AudioStreaming.playRemix();
+                remixTheme = true;
+            }
+        }
+
+    }
+
 }

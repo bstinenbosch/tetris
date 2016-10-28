@@ -1,6 +1,17 @@
 package tetris;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import common.Coordinate;
+import tetris.shapes.decorators.MovableShape;
+
+import javafx.embed.swing.JFXPanel;
+
+import javax.swing.SwingUtilities;
+
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -10,9 +21,24 @@ public class GridTest {
 
     private Grid grid;
 
+    @BeforeClass
+    public static void initToolkit() throws InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+        SwingUtilities.invokeLater(() -> {
+            new JFXPanel();
+            latch.countDown();
+        });
+
+        if (!latch.await(5L, TimeUnit.SECONDS))
+            throw new ExceptionInInitializerError();
+    }
+
     @Before
     public void set_up_grid() {
-        this.grid = new Grid(new DummyController(), 10, 20);
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
+        this.grid = new Grid(10, 20);
     }
 
     @Test
@@ -32,35 +58,25 @@ public class GridTest {
 
     @Test
     public void test_register_shape_to_grid() {
-        Grid grid = new Grid(new DummyController(), 10, 20);
+        View view = new View();
+        Settings settings = new Settings();
+        DummyController controller = new DummyController(view, settings);
+        Grid grid = new Grid(10, 20);
         Coordinate coordinate = new Coordinate(5, 5);
-        DummyShape shape = new DummyShape(coordinate);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);
 
-        assertThat("grid is not empty when a tetromino is registered", isEmpty(grid),
-            equalTo(false));
+        assertThat("grid is not empty when a shape is registered", isEmpty(grid), equalTo(false));
     }
 
     @Test
     public void test_clear_board() {
         Coordinate coordinate = new Coordinate(5, 5);
-        DummyShape shape = new DummyShape(coordinate);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);
         grid.clearBoard();
 
         assertThat("grid is empty after clearing", isEmpty(grid), equalTo(true));
-    }
-
-    @Test
-    public void test_clear_line() {
-        grid.registerTetromino(new DummyShape(new Coordinate(0, 0)));
-        grid.registerTetromino(new DummyShape(new Coordinate(2, 0)));
-        grid.registerTetromino(new DummyShape(new Coordinate(4, 0)));
-        grid.registerTetromino(new DummyShape(new Coordinate(6, 0)));
-        grid.registerTetromino(new DummyShape(new Coordinate(8, 0)));
-
-        assertThat("two lines are cleared when a full row of O-shaped tetrominos "
-            + "is placed at the bottom of the grid", grid.clearLines(), equalTo(2));
     }
 
     private boolean isEmpty(Grid grid) {

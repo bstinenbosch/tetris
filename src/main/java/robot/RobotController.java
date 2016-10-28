@@ -48,11 +48,11 @@ public class RobotController extends Thread {
                 // TODO highscore invullen in leaderboards
                 Platform.runLater(() -> controller.startGame());
             } else {
-                // give grid and tetromino to ANN
-                robot.setGameState(controller.getGrid(), controller.getTetromino());
+                // give grid and shape to ANN
+                robot.setGameState(controller.getGrid(), controller.getFallingTetromino());
                 // ask for action and handle it
-                Platform.runLater(() -> robot.getNextAction().attempt(controller.getTetromino(),
-                    controller.getGrid()));
+                Platform.runLater(() -> robot.getNextAction().attempt(controller.getFallingTetromino(),
+                    controller.getGrid(), controller));
             }
             try {
                 sleep(20);

@@ -1,6 +1,6 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import tetris.shapes.decorators.MovableShape;
 
 import javax.activity.InvalidActivityException;
 
@@ -10,10 +10,10 @@ public interface IActionItem {
      * the attempt method attempts to perform the specified action..
      * 
      * @param tetromino
-     *            with this tetromino
+     *            with this shape
      * @param grid
      *            on this grid
      * @throws InvalidActivityException
      */
-    public void attempt(AbstractTetromino tetromino, Grid grid);
+    boolean attempt(MovableShape tetromino, Grid grid, Controller controller);
 }

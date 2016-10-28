@@ -1,12 +1,13 @@
 package tetris;
 
-import tetris.tetromino.AbstractTetromino;
+import common.Coordinate;
+import tetris.shapes.decorators.MovableShape;
 
 public class DummyController extends Controller {
     public boolean newTetrominoDropped = false;
     public boolean isGameOverBoolean = false;
-    private AbstractTetromino tetromino = new DummyShapeO(new Coordinate(100, 100));
-    private Grid grid = new Grid(this, 200, 200);
+    private MovableShape tetromino = new MovableShape(new DummyShapeO(), new Coordinate(100, 100));
+    private Grid grid = new Grid(200, 200);
 
     public DummyController(View ui, Settings settings) {
         super(ui, settings);
@@ -42,7 +43,7 @@ public class DummyController extends Controller {
     }
 
     @Override
-    public AbstractTetromino getTetromino() {
+    public MovableShape getFallingTetromino() {
         return tetromino;
     }
 }
