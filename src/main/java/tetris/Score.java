@@ -15,6 +15,7 @@ public class Score extends Observable {
         level = 0;
         setChanged();
         notifyObservers(score);
+
     }
 
     /**
@@ -25,9 +26,15 @@ public class Score extends Observable {
      */
     public void add(int rowsCleared) {
         score += rowsCleared * pointsPerRow[rowsCleared];
-        level += rowsCleared;
-        setChanged();
         notifyObservers(score);
+        setChanged();
+
+    }
+
+    public void addLevel(int rowsCleared) {
+        level += rowsCleared;
+        notifyObservers(level);
+        setChanged();
     }
 
     public int getScore() {

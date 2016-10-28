@@ -95,6 +95,7 @@ public class GameScreen extends Group implements IScreen {
             controller.openMainScreen();
         });
         controller.addScoreObserver(scoreLabel);
+        controller.addLevelObserver(levelLabel);
         canvas.setOnMouseClicked(event -> requestFocus());
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }

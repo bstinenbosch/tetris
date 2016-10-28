@@ -26,6 +26,7 @@ public class Controller {
 
     private final SoundManager soundManager;
     private Score score;
+    private Score level;
     private IScoreBoard scoreBoard;
     private View ui;
     private Grid grid;
@@ -62,8 +63,10 @@ public class Controller {
         setSounds();
         Logger.setDebugOn();
         score = new Score();
+        level = new Score();
         scoreBoard = new OnlineScoreBoard();// XMLScoreBoard("src/main/resources/highscores.xml");
         score.addObserver(timer);
+        level.addObserver(timer);
         timer.start();
     }
 
@@ -100,7 +103,9 @@ public class Controller {
      * canvas.
      */
     public void dropNewTetromino() {
-        score.add(grid.clearLines());
+        int scorelines = grid.clearLines();
+        score.add(scorelines);
+        level.addLevel(scorelines);
 
         grid.clearLines();
 
@@ -158,6 +163,7 @@ public class Controller {
     public void startGame() {
         ui.gotoGameScreen();
         score.reset();
+        level.reset();
         gameOver = false;
         grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
         gridcanvas.setGrid(grid);
@@ -189,6 +195,10 @@ public class Controller {
         score.addObserver(observer);
     }
 
+    public void addLevelObserver(Observer observer) {
+        level.addObserver(observer);
+    }
+
     /**
      * restartGame should only be called after startgame has been called once.
      */
@@ -196,6 +206,7 @@ public class Controller {
         gameOver = false;
         grid.clearBoard();
         score.reset();
+        level.reset();
         dropNewTetromino();
         timer.unpause();
         ui.resetFocus();
