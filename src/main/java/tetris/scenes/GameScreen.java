@@ -21,6 +21,7 @@ public class GameScreen extends Group implements IScreen {
     private Button backButton;
     private Button pauseButton;
     private ObservingLabel scoreLabel;
+    private ObservingLabel levelLabel;
     private Canvas canvas;
     private Canvas canvasprev;
     private int boardWidthPixel;
@@ -61,16 +62,21 @@ public class GameScreen extends Group implements IScreen {
         restartButton = new Button("restart");
         backButton = new Button("back");
         scoreLabel = new ObservingLabel("0");
+        levelLabel = new ObservingLabel("0");
         pauseButton = new Button("pause");
         scoreLabel
             .setStyle("-fx-background-color:red;-fx-text-fill:black;-fx-text-alignment:center;"
                 + "-fx-alignment:center;-fx-font-weight:bold;-fx-font-size:250%");
         scoreLabel.setMinSize(100, 50);
+        levelLabel
+            .setStyle("-fx-background-color:pink;-fx-text-fill:black;-fx-text-alignment:center;"
+                + "-fx-alignment:center;-fx-font-weight:bold;-fx-font-size:250%");
+        levelLabel.setMinSize(100, 50);
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(pauseButton, botButton, restartButton, scoreLabel, backButton,
-            setUpPreview());
+        box.getChildren().addAll(pauseButton, botButton, restartButton, scoreLabel, levelLabel,
+            backButton, setUpPreview());
         return box;
     }
 
@@ -89,6 +95,7 @@ public class GameScreen extends Group implements IScreen {
             controller.openMainScreen();
         });
         controller.addScoreObserver(scoreLabel);
+        controller.addLevelObserver(levelLabel);
         canvas.setOnMouseClicked(event -> requestFocus());
         setOnKeyPressed(event -> controller.handleKeyEvent(event));
     }
