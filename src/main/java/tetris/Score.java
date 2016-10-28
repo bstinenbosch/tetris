@@ -15,7 +15,6 @@ public class Score extends Observable {
         level = 0;
         setChanged();
         notifyObservers(score);
-
     }
 
     /**
@@ -42,6 +41,6 @@ public class Score extends Observable {
     }
 
     public int getLevel() {
-        return level / 10;
+        return (int) Math.floor(level / 10);
     }
 }
