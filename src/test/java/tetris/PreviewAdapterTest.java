@@ -1,5 +1,6 @@
 package tetris;
 
+import tetris.shapes.IFactory;
 import tetris.shapes.adapters.PreviewAdapter;
 import tetris.shapes.AbstractShape;
 import tetris.shapes.original.TetrominoFactory;
@@ -14,7 +15,7 @@ public class PreviewAdapterTest {
 
     private TetrominoType type;
     private AbstractShape Tetromino;
-    private TetrominoFactory factory = new TetrominoFactory();
+    private IFactory factory = new TetrominoFactory();
 
     @Test
     public void testGettingRightCoordinates() {

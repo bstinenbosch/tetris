@@ -8,7 +8,6 @@ import tetris.shapes.AbstractShape;
 import tetris.shapes.adapters.PreviewAdapter;
 import tetris.shapes.decorators.MovableShape;
 import tetris.shapes.original.TetrominoFactory;
-import tetris.shapes.original.TetrominoType;
 import tetris.sound.AudioStreaming;
 import tetris.sound.SoundManager;
 
@@ -30,9 +29,8 @@ public class Controller {
     private IScoreBoard scoreBoard;
     private View ui;
     private Grid grid;
-    private TetrominoQueue queue = new TetrominoQueue();
+    private TetrominoQueue queue = new TetrominoQueue(new TetrominoFactory());
     private MovableShape fallingTetromino;
-    private TetrominoFactory factory = new TetrominoFactory();
     private GridCanvas gridcanvas;
     private GridCanvasPrev gridcanvasprev;
     public int changeInMusic = 1000;
@@ -110,14 +108,13 @@ public class Controller {
         grid.clearLines();
 
         Coordinate spawnPosition = new Coordinate(grid.width() / 2, grid.height());
-        fallingTetromino = new MovableShape(factory.create(queue.pop()), spawnPosition);
+        fallingTetromino = new MovableShape(queue.pop(), spawnPosition);
         gridcanvas.setTetromino(fallingTetromino);
 
-        TetrominoType next = queue.peek();
-        AbstractShape nextTetromino = factory.create(next);
-        gridcanvasprev.setTetrominoPrev(nextTetromino);
+        AbstractShape next = queue.peek();
+        gridcanvasprev.setTetrominoPrev(next);
 
-        PreviewAdapter adapter = new PreviewAdapter(nextTetromino);
+        PreviewAdapter adapter = new PreviewAdapter(next);
         gridcanvasprev.setLeftOffSet(adapter.getLeftOffSet());
         gridcanvasprev.setBottomOffSet(adapter.getBottomOffSet());
         Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
@@ -165,7 +162,7 @@ public class Controller {
         score.reset();
         level.reset();
         gameOver = false;
-        grid = new Grid(this, settings.boardWidth(), settings.boardHeight());
+        grid = new Grid(settings.boardWidth(), settings.boardHeight());
         gridcanvas.setGrid(grid);
         dropNewTetromino();
         timer.unpause();

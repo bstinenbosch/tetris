@@ -1,15 +1,8 @@
 package tetris;
 
-import tetris.shapes.AbstractShape;
-import tetris.shapes.original.TetrominoFactory;
-import tetris.shapes.original.TetrominoI;
-import tetris.shapes.original.TetrominoJ;
-import tetris.shapes.original.TetrominoL;
-import tetris.shapes.original.TetrominoO;
-import tetris.shapes.original.TetrominoS;
-import tetris.shapes.original.TetrominoT;
+import tetris.shapes.IFactory;
+import tetris.shapes.original.*;
 import tetris.shapes.original.TetrominoType;
-import tetris.shapes.original.TetrominoZ;
 
 import org.junit.Test;
 
@@ -17,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class TetrominoFactoryTest {
 
-    private TetrominoFactory factory = new TetrominoFactory();
+    private IFactory factory = new TetrominoFactory();
 
     @Test
     public void test_creation_of_random_tetromino() {
