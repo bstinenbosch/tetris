@@ -38,7 +38,7 @@ public class GridTest {
         View view = new View();
         Settings settings = new Settings();
         DummyController controller = new DummyController(view, settings);
-        this.grid = new Grid(controller, 10, 20);
+        this.grid = new Grid(10, 20);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class GridTest {
         View view = new View();
         Settings settings = new Settings();
         DummyController controller = new DummyController(view, settings);
-        Grid grid = new Grid(controller, 10, 20);
+        Grid grid = new Grid(10, 20);
         Coordinate coordinate = new Coordinate(5, 5);
         MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
         grid.registerTetromino(shape);

@@ -16,7 +16,7 @@ public class Grid {
      * @param height
      *            the heigth of the gameboard
      */
-    Grid(Controller controller, int width, int height) {
+    Grid(int width, int height) {
         board = new int[width][height + 4];
     }
 
