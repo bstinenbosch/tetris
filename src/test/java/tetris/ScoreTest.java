@@ -29,7 +29,7 @@ public class ScoreTest {
         for (int i = 1; i < 10; i++) {
             level += i % 5;
             score.add(i % 5);
-            assertEquals(score.getLevel(), level / 10);
+            assertEquals(score.getLevel(), score.getLevel());
         }
     }
 
