@@ -10,16 +10,15 @@
 
 ## Exercise 2
 
-### 2.1 - 0/3 pts.
-- Not uploading equals no points
+### 2.1 - 3/3 pts.
 
 ### 2.2.1 - 10/14 pts.
 - You didn't completely fix the problem of course, but at least you slightly improved the situation.
 
 ### 2.2.2 - 12/14 pts.
 
-### 2.2.3 - 5/14 pts.
-- These points were extra for the other tasks, such as the database. Unfortunately that features doesn't seem to work for me. Should it?
+### 2.2.3 - 10/14 pts.
+- These points were extra for the other tasks, such as the database.
 
 ## Exercise 3
 
@@ -34,13 +33,13 @@
 
 ##### Responsibility 10% - 9
 
-##### Estimation 15% - 1
-- No retrospective
+##### Estimation 15% - 5
+- Good, but late
 
 ##### Proritization 15% - 10
 
-##### Reflection 25% - 1
-- No retrospective
+##### Reflection 25% - 3
+- Little poor (also too late)
 
 ## Code Evolution Quality 
 
@@ -72,12 +71,12 @@
 
 ## Concluding
 
-### Assignment 40% - 52/90 pts. -- 6.2
+### Assignment 40% - 52/90 pts. -- 7.0
 
-### Sprint management 20% - 6.2
+### Sprint management 20% - 7.3
 
 ### Code Evolution Quality 40% - 7.3
 
-# Final Grade: 6.6
+# Final Grade: 7.2
 
 
