@@ -7,6 +7,7 @@ import tetris.Action;
 import tetris.Grid;
 import tetris.shapes.decorators.MovableShape;
 
+import logging.Logger;
 import robot.ANN.Neuron.IOutput;
 import robot.ANN.Neuron.Inputter;
 import robot.ANN.functions.EvaluationFunction;
@@ -98,6 +99,7 @@ public class ANNRobot implements IRobot {
     public void resetSession() {
         bot.setFitness(score);
         bot = geneticAlgorithm.getNextRobot();
+        Logger.info(bot, "I got returned on resetSession");
     }
 
     /**

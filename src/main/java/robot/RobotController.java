@@ -5,6 +5,7 @@ import tetris.Tick;
 
 import javafx.application.Platform;
 
+import logging.Logger;
 import robot.ANN.functions.EvaluationFunction;
 
 public class RobotController extends Thread {
@@ -19,12 +20,13 @@ public class RobotController extends Thread {
         tick.setBaseTime(30);
         tick.setTime(30);
         // robot = new RandomRobot();
-        robot = new ANNRobot(controller.getGrid().width(), 5, EvaluationFunction.SIGMOID);
+        robot = new ANNRobot(controller.getGrid().width(), 10, EvaluationFunction.SIGMOID);
         this.controller.addScoreObserver(robot);
         setName("Robot thread");
     }
 
     public static synchronized void toggleRobotController(Controller controller, Tick tick) {
+        Logger.info(controller, "robot toggled");
         if (robotController == null) {
             robotController = new RobotController(controller, tick);
             robotController.start();

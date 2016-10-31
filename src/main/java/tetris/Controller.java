@@ -165,7 +165,7 @@ public class Controller {
         gridcanvas.setGrid(grid);
         dropNewTetromino();
         timer.unpause();
-        ui.resetFocus();
+        // ui.resetFocus();
         Logger.log(this, Logger.LogType.INFO, "game started");
         redraw();
     }

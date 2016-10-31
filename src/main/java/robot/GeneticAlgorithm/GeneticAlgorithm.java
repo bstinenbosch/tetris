@@ -55,7 +55,6 @@ public class GeneticAlgorithm {
         }
         population.push(newborns.pop());
         return population.getFirst();
-
     }
 
     /**
@@ -69,6 +68,8 @@ public class GeneticAlgorithm {
         cullUnfit();
         procreate();
         mutatePopulation();
+        Logger.info(this, "population size: " + String.valueOf(population.size()));
+        Logger.info(this, "newborns   size: " + String.valueOf(newborns.size()));
     }
 
     private void saveState() {
@@ -123,6 +124,9 @@ public class GeneticAlgorithm {
             father = population.get(random.nextInt(population.size()));
             // yes, possibly mother==father. Keep an open mind!
             newborns.push(mother.procreate(father));
+            if (newborns.getFirst() == null) {
+                Logger.error(this, "shite, procreation failed");
+            }
         }
     }
 
@@ -136,7 +140,7 @@ public class GeneticAlgorithm {
             .removeIf((chromosome) -> chromosome.getFitness() < totalFitness / generationSize);
         // If there are not enough removed (because there is little spread in
         // the fitness), start randomly killing
-        while (population.size() > generationSize / 2) {
+        while (population.size() > generationSize / 2 && population.size() > 2) {
             population.remove(random.nextInt(population.size()));
         }
     }

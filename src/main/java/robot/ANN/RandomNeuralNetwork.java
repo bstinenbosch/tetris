@@ -81,13 +81,14 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
         HashMap<AbstractNeuron, Neuron> oldNewTable = new HashMap<>(neurons.size());
         PathNode node;
         Neuron neuron;
-        AbstractNeuron previousNeuron;
-        double previousWeight;
+        AbstractNeuron predecessor;
+        double weight;
         for (Path path : parent) {
             if (random.nextDouble() < PROBABILITY_INHERIT) {
+                // init
                 node = path.pop();
-                previousNeuron = node.getNeuron();
-                previousWeight = node.getWeight();
+                predecessor = node.getNeuron();
+                weight = node.getWeight();
                 // TODO implement equals() for input and output that equates
                 // their IInput and IOutput interface implementations, not their
                 // memory address. SOLVED create iinput and ioutput only once.
@@ -104,9 +105,9 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
                     } else {
                         neuron = oldNewTable.get(node.getNeuron());
                     }
-                    neuron.add(previousNeuron, previousWeight);
-                    previousNeuron = neuron;
-                    previousWeight = node.getWeight();
+                    neuron.add(predecessor, weight);
+                    predecessor = neuron;
+                    weight = node.getWeight();
                 }
             }
         }
@@ -120,7 +121,7 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
         for (OutputNeuron oNeuron : output) {
             child.addOutputToNetwork(oNeuron.getOutput());
         }
-        return null;
+        return child;
     }
 
 }

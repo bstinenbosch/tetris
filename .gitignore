@@ -40,3 +40,4 @@ build/
 # log files
 *.log
 ant/build.xml
+src/main/resources/gen_algo_*
