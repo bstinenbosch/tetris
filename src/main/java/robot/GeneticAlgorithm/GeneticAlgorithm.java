@@ -28,7 +28,7 @@ import robot.ANN.functions.EvaluationFunction;
 
 public class GeneticAlgorithm {
 
-    private static final double MUTATION_PROBABILITY = 0.05;
+    private static final double MUTATION_PROBABILITY = 0.1;
     private LinkedList<IChromosome> population = new LinkedList<>();
     private LinkedList<IChromosome> newborns = new LinkedList<>();
     private ArrayList<Double> generationFitness = new ArrayList<>();
@@ -41,6 +41,9 @@ public class GeneticAlgorithm {
         generationSize = populationStart;
         while (newborns.size() < generationSize) {
             newborns.push(new RandomNeuralNetwork(function, inputs, outputs));
+            for (int i = 0; i < 5; i++) {
+                newborns.getFirst().mutate();
+            }
         }
     }
 

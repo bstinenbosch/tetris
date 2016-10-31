@@ -20,7 +20,46 @@ import robot.ANN.functions.EvaluationFunction;
 public class ANNTest {
 
     @Test
-    public void testPathGeneration() throws Exception {
+    public void testPathGeneration() {
+        RandomNeuralNetwork network = getNewNetwork();
+        saveNetwork(network, "path.xml");
+    }
+
+    @Test
+    public void testProcreation() {
+        RandomNeuralNetwork mom = getNewNetwork();
+        RandomNeuralNetwork dad = getNewNetwork();
+        RandomNeuralNetwork child = (RandomNeuralNetwork) mom.procreate(dad);
+        saveNetwork(child, "child.xml");
+        saveNetwork(mom, "mom.xml");
+        saveNetwork(dad, "dad.xml");
+    }
+
+    private void saveNetwork(RandomNeuralNetwork network, String fname) {
+
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+            // build file
+            Document doc = docBuilder.newDocument();
+            Element root = doc.createElement("Root");
+            doc.appendChild(root);
+            network.saveState(doc, root);
+
+            // Save file
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(fname));
+            transformer.transform(source, result); // Save
+        } catch (Exception exception) {
+            System.out.println("U fucked up the test");
+            exception.printStackTrace();
+        }
+    }
+
+    private RandomNeuralNetwork getNewNetwork() {
         RandomNeuralNetwork network = new RandomNeuralNetwork(EvaluationFunction.SIGMOID);
         network.addInputToNetwork(() -> .5);
         network.addInputToNetwork(() -> .2);
@@ -29,22 +68,6 @@ public class ANNTest {
         for (int i = 0; i < 40; i++) {
             network.mutate();
         }
-
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
-        // build file
-        Document doc = docBuilder.newDocument();
-        Element root = doc.createElement("Root");
-        doc.appendChild(root);
-        network.saveState(doc, root);
-
-        // Save file
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(new File("path.xml"));
-        transformer.transform(source, result); // Save
-
+        return network;
     }
 }

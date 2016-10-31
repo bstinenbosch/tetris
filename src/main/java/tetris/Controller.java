@@ -58,7 +58,7 @@ public class Controller {
         this.ui = ui;
         this.soundManager = new SoundManager(2);
         setSounds();
-        Logger.setDebugOn();
+        // Logger.setDebugOn();
         score = new Score();
         level = new Score();
         scoreBoard = new OnlineScoreBoard();// XMLScoreBoard("src/main/resources/highscores.xml");

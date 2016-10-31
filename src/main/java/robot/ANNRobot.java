@@ -65,11 +65,11 @@ public class ANNRobot implements IRobot {
      */
     private void setOutput() {
         output = new IOutput[] {
+            charge -> outputActions.add(new ActionOutput(Action.HARD_DROP, charge)),
             charge -> outputActions.add(new ActionOutput(Action.ROTATE_LEFT, charge)),
             charge -> outputActions.add(new ActionOutput(Action.ROTATE_RIGHT, charge)),
             charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)),
-            charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)),
-            charge -> outputActions.add(new ActionOutput(Action.HARD_DROP, charge)) };
+            charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)), };
         new ActionOutput(Action.INVALID_ACTION, .5);
     }
 

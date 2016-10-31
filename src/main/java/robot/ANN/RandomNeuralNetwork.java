@@ -14,12 +14,15 @@ import robot.GeneticAlgorithm.IChromosome;
 
 public class RandomNeuralNetwork extends AbstractNeuralNetwork {
 
-    private static final double PROBABILITY_NEWNODE = 0.05;
+    private static final double PROBABILITY_NEWNODE = 0.1;
     private static final double PROBABILITY_INHERIT = 0.5;
     Random random = new Random();
 
     public RandomNeuralNetwork(EvaluationFunction function, IInput[] inputs, IOutput[] outputs) {
         super(function, inputs, outputs);
+        addRandomConnection();
+        addRandomNode();
+        addRandomConnection();
     }
 
     public RandomNeuralNetwork(EvaluationFunction function) {
@@ -79,6 +82,9 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
 
     private void inherit(RandomNeuralNetwork parent, RandomNeuralNetwork child) {
         HashMap<AbstractNeuron, Neuron> oldNewTable = new HashMap<>(neurons.size());
+        for (int i = 0; i < child.output.size(); i++) {
+            oldNewTable.put(parent.output.get(i), child.output.get(i));
+        }
         PathNode node;
         Neuron neuron;
         AbstractNeuron predecessor;
@@ -102,6 +108,7 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
                     if (!oldNewTable.containsKey(node.getNeuron())) {
                         neuron = new Neuron(function);
                         oldNewTable.put(node.getNeuron(), neuron);
+                        child.neurons.add(neuron);
                     } else {
                         neuron = oldNewTable.get(node.getNeuron());
                     }
