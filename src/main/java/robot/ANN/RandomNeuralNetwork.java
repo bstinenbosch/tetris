@@ -14,7 +14,7 @@ import robot.GeneticAlgorithm.IChromosome;
 
 public class RandomNeuralNetwork extends AbstractNeuralNetwork {
 
-    private static final double PROBABILITY_NEWNODE = 0.1;
+    private static final double PROBABILITY_NEWNODE = 0.5;
     private static final double PROBABILITY_INHERIT = 0.5;
     Random random = new Random();
 
@@ -91,18 +91,9 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
         double weight;
         for (Path path : parent) {
             if (random.nextDouble() < PROBABILITY_INHERIT) {
-                // init
                 node = path.pop();
                 predecessor = node.getNeuron();
                 weight = node.getWeight();
-                // TODO implement equals() for input and output that equates
-                // their IInput and IOutput interface implementations, not their
-                // memory address. SOLVED create iinput and ioutput only once.
-                // TODO treat the last element in the list different? (is
-                // output)
-                // traverse path: check all neurons against oldnewtable. if not
-                // present add, else use corresponding new. add the weights and
-                // the predecessors according to the path.
                 while (!path.isEmpty()) {
                     node = path.pop();
                     if (!oldNewTable.containsKey(node.getNeuron())) {

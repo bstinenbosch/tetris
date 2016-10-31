@@ -35,16 +35,17 @@ public class GeneticAlgorithm {
     private final double generationSize;
     private double totalFitness;
     Random random = new Random();
+    private IInput[] inputs;
+    private IOutput[] outputs;
+    private EvaluationFunction function;
 
     public GeneticAlgorithm(int populationStart, EvaluationFunction function, IInput[] inputs,
         IOutput[] outputs) {
+        this.inputs = inputs;
+        this.outputs = outputs;
+        this.function = function;
         generationSize = populationStart;
-        while (newborns.size() < generationSize) {
-            newborns.push(new RandomNeuralNetwork(function, inputs, outputs));
-            for (int i = 0; i < 5; i++) {
-                newborns.getFirst().mutate();
-            }
-        }
+        engineerNewborns();
     }
 
     /**
@@ -64,15 +65,19 @@ public class GeneticAlgorithm {
      * perform the three evolutionary steps: kill, procreate, mutate.
      */
     private void cycle() {
-        Logger.info(this, "Cycling the generation");
         recountTotalFitness();
         generationFitness.add(totalFitness / generationSize);
         saveState();
         cullUnfit();
         procreate();
+        engineerNewborns();
         mutatePopulation();
-        Logger.info(this, "population size: " + String.valueOf(population.size()));
-        Logger.info(this, "newborns   size: " + String.valueOf(newborns.size()));
+    }
+
+    private void engineerNewborns() {
+        while (newborns.size() + population.size() < generationSize) {
+            newborns.push(new RandomNeuralNetwork(function, inputs, outputs));
+        }
     }
 
     private void saveState() {
@@ -121,7 +126,7 @@ public class GeneticAlgorithm {
      * @throws InstantiationException
      */
     private void procreate() {
-        while (population.size() + newborns.size() < generationSize) {
+        while (population.size() > 1 && population.size() + newborns.size() < generationSize) {
             IChromosome mother, father;
             mother = population.get(random.nextInt(population.size()));
             father = population.get(random.nextInt(population.size()));
@@ -135,17 +140,12 @@ public class GeneticAlgorithm {
 
     /**
      * Be that eugenicist and mark everyone for culling who performs below
-     * average.
+     * average or didn't perform at all (to speed up the start).
      * 
      */
     private void cullUnfit() {
-        population
-            .removeIf((chromosome) -> chromosome.getFitness() < totalFitness / generationSize);
-        // If there are not enough removed (because there is little spread in
-        // the fitness), start randomly killing
-        while (population.size() > generationSize / 2 && population.size() > 2) {
-            population.remove(random.nextInt(population.size()));
-        }
+        population.removeIf((chromosome) -> chromosome.getFitness() < totalFitness / generationSize
+            || chromosome.getFitness() == 0);
     }
 
     /**

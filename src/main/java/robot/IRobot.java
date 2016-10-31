@@ -2,7 +2,7 @@ package robot;
 
 import java.util.Observer;
 
-import tetris.Action;
+import tetris.Controller;
 import tetris.Grid;
 import tetris.shapes.decorators.MovableShape;
 
@@ -16,18 +16,12 @@ public interface IRobot extends Observer {
      * @param tetromino
      *            the shape that is currently dropping.
      */
-    public void setGameState(Grid grid, MovableShape tetromino);
-
-    /**
-     * getNextAction determines the next action given the current game state.
-     * 
-     * @return the next action to execute
-     */
-    public Action getNextAction();
+    public String setGameState(Grid grid, MovableShape tetromino, Controller controller);
 
     /**
      * resetSession tells the robot that the game was over and a new one is
      * about to commence.
      */
     public void resetSession();
+
 }

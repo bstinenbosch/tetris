@@ -13,7 +13,9 @@ public class OutputNeuron extends Neuron {
     @Override
     public double getCharge() {
         double charge = super.getCharge();
-        output.interpret(charge);
+        if (charge > .5) {
+            output.interpret();
+        }
         return charge;
     }
 

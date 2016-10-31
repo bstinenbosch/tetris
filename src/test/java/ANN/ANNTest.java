@@ -35,6 +35,11 @@ public class ANNTest {
         saveNetwork(dad, "dad.xml");
     }
 
+    @Test
+    public void bla() {
+        System.out.println(1. / 5);
+    }
+
     private void saveNetwork(RandomNeuralNetwork network, String fname) {
 
         try {
@@ -63,7 +68,7 @@ public class ANNTest {
         RandomNeuralNetwork network = new RandomNeuralNetwork(EvaluationFunction.SIGMOID);
         network.addInputToNetwork(() -> .5);
         network.addInputToNetwork(() -> .2);
-        network.addOutputToNetwork((charge) -> {
+        network.addOutputToNetwork(() -> {
         });
         for (int i = 0; i < 40; i++) {
             network.mutate();

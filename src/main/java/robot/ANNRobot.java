@@ -1,15 +1,20 @@
 package robot;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Observable;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import tetris.Action;
+import tetris.Controller;
 import tetris.Grid;
 import tetris.shapes.decorators.MovableShape;
 
+import javafx.application.Platform;
+
 import logging.Logger;
+import robot.ANN.Neuron.IInput;
 import robot.ANN.Neuron.IOutput;
-import robot.ANN.Neuron.Inputter;
 import robot.ANN.functions.EvaluationFunction;
 import robot.GeneticAlgorithm.GeneticAlgorithm;
 import robot.GeneticAlgorithm.IChromosome;
@@ -17,43 +22,15 @@ import robot.GeneticAlgorithm.IChromosome;
 public class ANNRobot implements IRobot {
     private GeneticAlgorithm geneticAlgorithm;
     private IChromosome bot;
-    private Inputter[] input;
+    private IInput[] input;
     private IOutput[] output;
     private volatile int score;
-    private TreeSet<ActionOutput> outputActions = new TreeSet<>();
-
-    /**
-     * class used to sort outputs on their charge, so we can easily select the
-     * output with the highest charge.
-     */
-    private class ActionOutput implements Comparable<ActionOutput> {
-        private Action action;
-        private double charge;
-
-        ActionOutput(Action action, double charge) {
-            this.action = action;
-            this.charge = charge;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (!(other instanceof ActionOutput)) {
-                return false;
-            }
-            return ((ActionOutput) other).action.equals(this.action);
-        }
-
-        @Override
-        public int compareTo(ActionOutput o) {
-            if (equals(o)) {
-                return 0;
-            }
-            return (int) Math.signum(this.charge - o.charge);
-        }
-    }
+    private Grid grid;
+    private MovableShape tetromino;
+    private Controller controller;
+    DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
     public ANNRobot(int boardSize, int populationSize, EvaluationFunction evaluationFunction) {
-        input = new Inputter[4 + boardSize];
         setInput();
         setOutput();
         geneticAlgorithm = new GeneticAlgorithm(populationSize, evaluationFunction, input, output);
@@ -65,12 +42,11 @@ public class ANNRobot implements IRobot {
      */
     private void setOutput() {
         output = new IOutput[] {
-            charge -> outputActions.add(new ActionOutput(Action.HARD_DROP, charge)),
-            charge -> outputActions.add(new ActionOutput(Action.ROTATE_LEFT, charge)),
-            charge -> outputActions.add(new ActionOutput(Action.ROTATE_RIGHT, charge)),
-            charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)),
-            charge -> outputActions.add(new ActionOutput(Action.MOVE_LEFT, charge)), };
-        new ActionOutput(Action.INVALID_ACTION, .5);
+            () -> Platform.runLater(() -> Action.HARD_DROP.attempt(tetromino, grid, controller)),
+            () -> Platform.runLater(() -> Action.ROTATE_LEFT.attempt(tetromino, grid, controller)),
+            () -> Platform.runLater(() -> Action.ROTATE_RIGHT.attempt(tetromino, grid, controller)),
+            () -> Platform.runLater(() -> Action.MOVE_LEFT.attempt(tetromino, grid, controller)),
+            () -> Platform.runLater(() -> Action.MOVE_LEFT.attempt(tetromino, grid, controller)), };
     }
 
     @Override
@@ -79,20 +55,13 @@ public class ANNRobot implements IRobot {
     }
 
     @Override
-    public void setGameState(Grid grid, MovableShape tetromino) {
-        input[0].setInput(tetromino.rotation());
-        input[1].setInput(tetromino.left().getX());
-        input[2].setInput(tetromino.left().getY());
-        input[3].setInput(tetromino.getColor());
-        for (int x = 0; x < grid.width(); x++) {
-            input[4 + x].setInput(grid.getHighestOccupied(x));
-        }
+    public String setGameState(Grid grid, MovableShape tetromino, Controller controller) {
+        this.grid = grid;
+        this.tetromino = tetromino;
+        this.controller = controller;
         bot.evaluate();
-    }
-
-    @Override
-    public Action getNextAction() {
-        return outputActions.last().action;
+        return Arrays.stream(input).map((iinput) -> decimalFormat.format(iinput.processInput()))
+            .collect(Collectors.joining(", "));
     }
 
     @Override
@@ -107,8 +76,17 @@ public class ANNRobot implements IRobot {
      * state.
      */
     private void setInput() {
-        for (int i = 0; i < input.length; i++) {
-            input[i] = new Inputter();
-        }
+        input = new IInput[] { () -> 1. / (1 + tetromino.rotation()),
+            () -> 1. / (1 + tetromino.left().getX()), () -> 1. / (1 + tetromino.left().getY()),
+            () -> 1. / (1 + tetromino.getColor()), () -> 1. / (1 + grid.getHighestOccupied(0)),
+            () -> 1. / (1 + grid.getHighestOccupied(1)),
+            () -> 1. / (1 + grid.getHighestOccupied(2)),
+            () -> 1. / (1 + grid.getHighestOccupied(3)),
+            () -> 1. / (1 + grid.getHighestOccupied(4)),
+            () -> 1. / (1 + grid.getHighestOccupied(5)),
+            () -> 1. / (1 + grid.getHighestOccupied(6)),
+            () -> 1. / (1 + grid.getHighestOccupied(7)),
+            () -> 1. / (1 + grid.getHighestOccupied(8)),
+            () -> 1. / (1 + grid.getHighestOccupied(9)), };
     }
 }
