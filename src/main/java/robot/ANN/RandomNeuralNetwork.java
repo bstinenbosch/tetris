@@ -1,7 +1,6 @@
 package robot.ANN;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Random;
 
 import robot.ANN.Neuron.AbstractNeuron;
@@ -79,13 +78,12 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
     }
 
     private void inherit(RandomNeuralNetwork parent, RandomNeuralNetwork child) {
-        HashMap<AbstractNeuron, Neuron> oldNewTable = new HashMap<AbstractNeuron, Neuron>(
-            neurons.size());
-        NeuralPathNode node;
+        HashMap<AbstractNeuron, Neuron> oldNewTable = new HashMap<>(neurons.size());
+        PathNode node;
         Neuron neuron;
         AbstractNeuron previousNeuron;
         double previousWeight;
-        for (LinkedList<NeuralPathNode> path : parent.getIterable()) {
+        for (Path path : parent) {
             if (random.nextDouble() < PROBABILITY_INHERIT) {
                 node = path.pop();
                 previousNeuron = node.getNeuron();
@@ -120,7 +118,7 @@ public class RandomNeuralNetwork extends AbstractNeuralNetwork {
             child.addInputToNetwork(iNeuron.getInput());
         }
         for (OutputNeuron oNeuron : output) {
-            child.addOutputToNetwork(oNeuron.getOutput(), function);
+            child.addOutputToNetwork(oNeuron.getOutput());
         }
         return null;
     }

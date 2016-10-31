@@ -1,7 +1,6 @@
 package robot.GeneticAlgorithm;
 
 import java.io.File;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -10,6 +9,7 @@ import java.util.Random;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -17,8 +17,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import logging.Logger;
 import robot.ANN.RandomNeuralNetwork;
@@ -62,6 +62,7 @@ public class GeneticAlgorithm {
      * perform the three evolutionary steps: kill, procreate, mutate.
      */
     private void cycle() {
+        Logger.info(this, "Cycling the generation");
         recountTotalFitness();
         generationFitness.add(totalFitness / generationSize);
         saveState();
@@ -71,16 +72,14 @@ public class GeneticAlgorithm {
     }
 
     private void saveState() {
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder;
         try {
-            docBuilder = docFactory.newDocumentBuilder();
+            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = docBuilder.newDocument();
-            Attr attr = doc.createAttribute("fitness");
-            attr.setNodeValue(Double.toString(totalFitness / generationSize));
-            doc.appendChild(attr);
+            Element root = doc.createElement("Generation");
+            doc.appendChild(root);
+            root.setAttribute("fitness", String.valueOf(totalFitness / generationSize));
             for (IChromosome chromosome : population) {
-                chromosome.saveState(doc);
+                chromosome.saveState(doc, root);
             }
             saveStateToFile(doc);
         } catch (ParserConfigurationException exception) {
@@ -94,9 +93,10 @@ public class GeneticAlgorithm {
         Transformer transformer;
         try {
             transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("src/main/resources/gen_algo"
-                + new Timestamp(new Date().getTime()).toString() + ".xml"));
+            StreamResult result = new StreamResult(new File(
+                "src/main/resources/gen_algo_" + String.valueOf(new Date().getTime()) + ".xml"));
             try {
                 transformer.transform(source, result);
             } catch (TransformerException exception) {
@@ -134,6 +134,11 @@ public class GeneticAlgorithm {
     private void cullUnfit() {
         population
             .removeIf((chromosome) -> chromosome.getFitness() < totalFitness / generationSize);
+        // If there are not enough removed (because there is little spread in
+        // the fitness), start randomly killing
+        while (population.size() > generationSize / 2) {
+            population.remove(random.nextInt(population.size()));
+        }
     }
 
     /**

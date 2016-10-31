@@ -1,18 +1,21 @@
 package robot.ANN.functions;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import robot.ANN.Neuron.AbstractNeuron;
 
-public class LinearEvaluationFunction extends AbstractEvaluationFunction {
+public class LinearEvaluationFunction implements IEvaluationFunction {
 
     @Override
-    public double evaluate(ArrayList<AbstractNeuron> neurons) {
+    public double evaluate(HashMap<AbstractNeuron, Double> predecessors) {
         double value = 0;
-        for (AbstractNeuron neuron : neurons) {
-            value += weights.get(neuron) * neuron.getCharge();
+        double sum = 0;
+        for (Entry<AbstractNeuron, Double> entry : predecessors.entrySet()) {
+            value += entry.getValue() * entry.getKey().getCharge();
+            sum += entry.getValue();
         }
-        return value / neurons.size();
+        return value / sum;
     }
 
 }

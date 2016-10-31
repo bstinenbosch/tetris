@@ -1,6 +1,5 @@
 package tetris;
 
-import logging.Logger;
 import tetris.shapes.decorators.MovableShape;
 
 public enum Action implements IActionItem {
@@ -13,14 +12,14 @@ public enum Action implements IActionItem {
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             tetromino.rotateRight();
-//            checkRotate(tetromino, grid);
+            // checkRotate(tetromino, grid);
             if (!grid.isFree(tetromino.getMinos())) {
                 tetromino.rotateLeft();
-                Logger.log(this, Logger.LogType.INFO,
-                    "tried to rotate shape clockwise but failed");
+                // Logger.log(this, Logger.LogType.INFO,
+                // "tried to rotate shape clockwise but failed");
                 return false;
             }
-            Logger.log(this, Logger.LogType.INFO, "rotated shape clockwise");
+            // Logger.log(this, Logger.LogType.INFO, "rotated shape clockwise");
             return true;
         }
     },
@@ -32,17 +31,17 @@ public enum Action implements IActionItem {
 
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
-//            if (tetromino.left() > 0) {
-                tetromino.moveLeft();
-//            }
+            // if (tetromino.left() > 0) {
+            tetromino.moveLeft();
+            // }
             if (!grid.isFree(tetromino.getMinos())) {
                 tetromino.moveRight();
-                Logger.log(this, Logger.LogType.INFO,
-                    "tried to move shape left but failed");
+                // Logger.log(this, Logger.LogType.INFO,
+                // "tried to move shape left but failed");
                 return false;
             }
 
-            Logger.log(this, Logger.LogType.INFO, "moved shape left");
+            // Logger.log(this, Logger.LogType.INFO, "moved shape left");
             return true;
         }
     },
@@ -57,11 +56,11 @@ public enum Action implements IActionItem {
             tetromino.moveRight();
             if (!grid.isFree(tetromino.getMinos())) {
                 tetromino.moveLeft();
-                Logger.log(this, Logger.LogType.INFO,
-                    "tried to move shape right but failed");
+                // Logger.log(this, Logger.LogType.INFO,
+                // "tried to move shape right but failed");
                 return false;
             }
-            Logger.log(this, Logger.LogType.INFO, "moved shape right");
+            // Logger.log(this, Logger.LogType.INFO, "moved shape right");
             return true;
         }
     },
@@ -74,14 +73,15 @@ public enum Action implements IActionItem {
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             tetromino.rotateLeft();
-//            checkRotate(tetromino, grid);
+            // checkRotate(tetromino, grid);
             if (!grid.isFree(tetromino.getMinos())) {
                 tetromino.rotateRight();
-                Logger.log(this, Logger.LogType.INFO,
-                    "tried to rotate shape counter clockwise but failed");
+                // Logger.log(this, Logger.LogType.INFO,
+                // "tried to rotate shape counter clockwise but failed");
                 return false;
             }
-            Logger.log(this, Logger.LogType.INFO, "rotated counter shape clockwise");
+            // Logger.log(this, Logger.LogType.INFO, "rotated counter shape
+            // clockwise");
             return true;
         }
     },
@@ -94,7 +94,7 @@ public enum Action implements IActionItem {
         @Override
         public boolean attempt(MovableShape tetromino, Grid grid, Controller controller) {
             if (!checkMoveDown(tetromino, grid)) {
-                if(grid.registerTetromino(tetromino)) {
+                if (grid.registerTetromino(tetromino)) {
                     controller.dropNewTetromino();
                 } else {
                     controller.gameOver();
@@ -115,7 +115,7 @@ public enum Action implements IActionItem {
                 // checkMoveDown moves the shape down already,
                 // so we don't need to do anything in here
             }
-            if(grid.registerTetromino(tetromino)) {
+            if (grid.registerTetromino(tetromino)) {
                 controller.dropNewTetromino();
             } else {
                 controller.gameOver();
@@ -154,8 +154,8 @@ public enum Action implements IActionItem {
         if (!grid.isFree(tetromino.getMinos())) {
             tetromino.moveRight();
         }
-//        else if (!grid.isFree(tetromino.rightCoor())) {
-//            tetromino.moveLeft();
-//        }
+        // else if (!grid.isFree(tetromino.rightCoor())) {
+        // tetromino.moveLeft();
+        // }
     }
 }

@@ -1,7 +1,7 @@
 package robot.ANN;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Iterator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,7 +15,7 @@ import robot.ANN.Neuron.OutputNeuron;
 import robot.ANN.functions.EvaluationFunction;
 import robot.GeneticAlgorithm.IChromosome;
 
-public abstract class AbstractNeuralNetwork implements IChromosome {
+public abstract class AbstractNeuralNetwork implements IChromosome, Iterable<Path> {
     protected ArrayList<InputNeuron> input = new ArrayList<InputNeuron>();
     protected ArrayList<OutputNeuron> output = new ArrayList<OutputNeuron>();
     protected ArrayList<Neuron> neurons = new ArrayList<Neuron>();
@@ -29,7 +29,7 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
             addInputToNetwork(input);
         }
         for (IOutput output : outputs) {
-            addOutputToNetwork(output, function);
+            addOutputToNetwork(output);
         }
     }
 
@@ -38,16 +38,12 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
         this.function = function;
     }
 
-    public PathIterable getIterable() {
-        return new PathIterable(output.iterator());
-    }
-
     @Override
-    public void saveState(Document doc) {
+    public void saveState(Document doc, Element generation) {
         Element network = doc.createElement("Network");
-        doc.appendChild(network);
-        for (LinkedList<NeuralPathNode> path : getIterable()) {
-            // TODO add paths to doc
+        generation.appendChild(network);
+        for (Path path : this) {
+            path.saveState(doc, network);
         }
     }
 
@@ -79,7 +75,7 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
      * 
      * @param output
      */
-    public final OutputNeuron addOutputToNetwork(IOutput output, EvaluationFunction function) {
+    public final OutputNeuron addOutputToNetwork(IOutput output) {
         OutputNeuron oNeuron = new OutputNeuron(function, output);
         this.output.add(oNeuron);
         return oNeuron;
@@ -128,5 +124,10 @@ public abstract class AbstractNeuralNetwork implements IChromosome {
     @Override
     public void setFitness(double fitness) {
         this.fitness = fitness;
+    }
+
+    @Override
+    public Iterator<Path> iterator() {
+        return new PathIterator(output.iterator());
     }
 }

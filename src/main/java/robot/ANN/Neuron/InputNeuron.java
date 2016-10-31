@@ -1,15 +1,14 @@
 package robot.ANN.Neuron;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
-import robot.ANN.NeuralPathNode;
+import robot.ANN.Path;
 
 public class InputNeuron extends AbstractNeuron {
     private IInput input;
 
     @Override
-    public Iterator<LinkedList<NeuralPathNode>> iterator(LinkedList<NeuralPathNode> path) {
+    public Iterator<Path> iterator(Path path) {
         return new InputIterator(path);
     }
 

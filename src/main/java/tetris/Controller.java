@@ -8,7 +8,6 @@ import tetris.shapes.AbstractShape;
 import tetris.shapes.adapters.PreviewAdapter;
 import tetris.shapes.decorators.MovableShape;
 import tetris.shapes.original.TetrominoFactory;
-import tetris.sound.AudioStreaming;
 import tetris.sound.SoundManager;
 
 import javafx.application.Platform;
@@ -34,7 +33,7 @@ public class Controller {
     private GridCanvas gridcanvas;
     private GridCanvasPrev gridcanvasprev;
     public int changeInMusic = 1000;
-    private boolean gameOver = false;
+    private volatile boolean gameOver = false;
     public boolean normalTheme = false;
     public boolean remixTheme = false;
 
@@ -81,7 +80,7 @@ public class Controller {
     public void handleKeyEvent(KeyEvent event) {
         Action action = settings.getKeyBindings().getAction(event.getCode());
         if (action.attempt(fallingTetromino, grid, this)) {
-            soundManager.play("move");
+            // soundManager.play("move");
         }
         redraw();
     }
@@ -117,7 +116,7 @@ public class Controller {
         PreviewAdapter adapter = new PreviewAdapter(next);
         gridcanvasprev.setLeftOffSet(adapter.getLeftOffSet());
         gridcanvasprev.setBottomOffSet(adapter.getBottomOffSet());
-        Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
+        // Logger.log(this, Logger.LogType.INFO, "dropped a new tetromino");
     }
 
     /**
@@ -243,14 +242,14 @@ public class Controller {
         if (score.getScore() < changeInMusic) {
 
             if (normalTheme == false) {
-                AudioStreaming.playTheme();
+                // AudioStreaming.playTheme();
                 normalTheme = true;
             }
         }
 
         if (score.getScore() > changeInMusic) {
             if (remixTheme == false) {
-                AudioStreaming.playRemix();
+                // AudioStreaming.playRemix();
                 remixTheme = true;
             }
         }

@@ -1,8 +1,9 @@
 package tetris;
 
+import tetris.shapes.decorators.MovableShape;
+
 import common.Coordinate;
 import common.CoordinateSet;
-import tetris.shapes.decorators.MovableShape;
 
 public class Grid {
 
@@ -43,18 +44,18 @@ public class Grid {
      * false.
      */
     public boolean isFree(CoordinateSet coordinates) {
-        for(Coordinate coordinate : coordinates.getCoordinates()) {
+        for (Coordinate coordinate : coordinates.getCoordinates()) {
             int x = coordinate.getX();
             int y = coordinate.getY();
-            if(x < 0 || y < 0) {
+            if (x < 0 || y < 0) {
                 return false;
             }
 
-            if(x >= width() || y >= height() + 3) {
+            if (x >= width() || y >= height() + 3) {
                 return false;
             }
 
-            if(board[x][y] != 0) {
+            if (board[x][y] != 0) {
                 return false;
             }
         }
@@ -69,12 +70,12 @@ public class Grid {
      *            the shape to add
      */
     public boolean registerTetromino(MovableShape tetromino) {
-        if(!isFree(tetromino.getMinos())) {
+        if (!isFree(tetromino.getMinos())) {
             return false;
         }
 
         CoordinateSet minos = tetromino.getMinos();
-        for(Coordinate mino : minos.getCoordinates()) {
+        for (Coordinate mino : minos.getCoordinates()) {
             board[mino.getX()][mino.getY()] = tetromino.getColor();
         }
 

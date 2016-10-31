@@ -1,28 +1,23 @@
 package robot.ANN.Neuron;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 
-import robot.ANN.NeuralPathNode;
-import robot.ANN.functions.AbstractEvaluationFunction;
+import robot.ANN.Path;
 import robot.ANN.functions.EvaluationFunction;
+import robot.ANN.functions.IEvaluationFunction;
 
 public class Neuron extends AbstractNeuron {
-    private ArrayList<AbstractNeuron> predecessors;
-    private AbstractEvaluationFunction function;
+    private HashMap<AbstractNeuron, Double> predecessors;
+    private IEvaluationFunction function;
 
-    public Iterator<LinkedList<NeuralPathNode>> iterator(LinkedList<NeuralPathNode> path) {
-        return new NeuronIterator(path, predecessors.iterator(), function);
-    }
-
-    public Neuron(ArrayList<AbstractNeuron> input, EvaluationFunction function) {
-        this.function = function.newInstance();
-        this.predecessors = input;
+    public Iterator<Path> iterator(Path path) {
+        return new NeuronIterator(path, predecessors.entrySet().iterator());
     }
 
     public Neuron(EvaluationFunction function) {
-        this(new ArrayList<AbstractNeuron>(), function);
+        this.predecessors = new HashMap<AbstractNeuron, Double>();
+        this.function = function.newInstance();
     }
 
     @Override
@@ -35,32 +30,26 @@ public class Neuron extends AbstractNeuron {
 
     @Override
     public void uncharge() {
-        for (AbstractNeuron neuron : predecessors) {
+        for (AbstractNeuron neuron : predecessors.keySet()) {
             neuron.uncharge();
         }
         charge = -1;
     }
 
     public void add(AbstractNeuron neuron, double weight) {
-        this.predecessors.add(neuron);
-        this.function.update(neuron, weight);
+        this.predecessors.put(neuron, weight);
     }
 
     @Override
     public boolean hasAsPredecessor(AbstractNeuron neuron) {
-        for (AbstractNeuron predecessor : predecessors) {
-            if (predecessor.equals(neuron) || predecessor.hasAsPredecessor(neuron)) {
+        if (this.equals(neuron)) {
+            return true;
+        }
+        for (AbstractNeuron predecessor : predecessors.keySet()) {
+            if (predecessor.hasAsPredecessor(neuron)) {
                 return true;
             }
         }
         return false;
-    }
-
-    public ArrayList<AbstractNeuron> getPredecessors() {
-        return predecessors;
-    }
-
-    public AbstractEvaluationFunction getFunction() {
-        return function;
     }
 }

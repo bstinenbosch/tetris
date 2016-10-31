@@ -6,5 +6,5 @@ public interface IEvaluationFunctionFactory {
      * 
      * @return the new instance.
      */
-    public AbstractEvaluationFunction newInstance();
+    public IEvaluationFunction newInstance();
 }

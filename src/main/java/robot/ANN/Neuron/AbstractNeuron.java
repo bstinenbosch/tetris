@@ -1,9 +1,8 @@
 package robot.ANN.Neuron;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
-import robot.ANN.NeuralPathNode;
+import robot.ANN.Path;
 
 /**
  * AbstractNeuron is the abstract class from which all nodes in the neural
@@ -39,5 +38,5 @@ public abstract class AbstractNeuron {
      */
     public abstract boolean hasAsPredecessor(AbstractNeuron neuron);
 
-    public abstract Iterator<LinkedList<NeuralPathNode>> iterator(LinkedList<NeuralPathNode> path);
+    public abstract Iterator<Path> iterator(Path path);
 }

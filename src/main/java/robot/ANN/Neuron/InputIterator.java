@@ -1,16 +1,15 @@
 package robot.ANN.Neuron;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
-import robot.ANN.NeuralPathNode;
+import robot.ANN.Path;
 
-public class InputIterator implements Iterator<LinkedList<NeuralPathNode>> {
+public class InputIterator implements Iterator<Path> {
 
-    private LinkedList<NeuralPathNode> path;
+    private Path path;
     private boolean hasIterated = false;
 
-    public InputIterator(LinkedList<NeuralPathNode> path) {
+    public InputIterator(Path path) {
         this.path = path;
     }
 
@@ -19,10 +18,9 @@ public class InputIterator implements Iterator<LinkedList<NeuralPathNode>> {
         return (!hasIterated);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public LinkedList<NeuralPathNode> next() {
+    public Path next() {
         hasIterated = true;
-        return (LinkedList<NeuralPathNode>) path.clone();
+        return (Path) path.clone();
     }
 }

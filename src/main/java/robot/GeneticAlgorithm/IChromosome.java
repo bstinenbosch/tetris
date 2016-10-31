@@ -1,6 +1,7 @@
 package robot.GeneticAlgorithm;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public interface IChromosome {
 
@@ -35,6 +36,8 @@ public interface IChromosome {
 
     /**
      * save the state in an XML file.
+     * 
+     * @param root
      */
-    public void saveState(Document doc);
+    public void saveState(Document doc, Element root);
 }

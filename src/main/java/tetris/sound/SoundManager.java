@@ -1,15 +1,15 @@
 package tetris.sound;
 
-import javafx.scene.media.AudioClip;
-
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.scene.media.AudioClip;
+
 public class SoundManager implements IPlayable, ILoadable {
-    private static final double DEFAULT_VOLUME = 1.0; // max volume
+    private static final double DEFAULT_VOLUME = 0; // max volume
     private static final int MAX_NUMBER_OF_THREADS = 2;
 
     private double volume;
@@ -18,30 +18,33 @@ public class SoundManager implements IPlayable, ILoadable {
     private Map<String, AudioClip> sounds = new HashMap<>();
 
     /**
-     * Creates a SoundManager running on a given number of Threads.
-     * The number of thread can not be smaller than 0 or larger than
+     * Creates a SoundManager running on a given number of Threads. The number
+     * of thread can not be smaller than 0 or larger than
      * {@value package.class#MAX_NUMBER_OF_THREADS}
      *
-     * @param numberOfThreads number of threads to run on
+     * @param numberOfThreads
+     *            number of threads to run on
      */
     public SoundManager(int numberOfThreads) {
-        if(numberOfThreads > 0 && numberOfThreads <= MAX_NUMBER_OF_THREADS) {
+        if (numberOfThreads > 0 && numberOfThreads <= MAX_NUMBER_OF_THREADS) {
             this.soundService = Executors.newFixedThreadPool(numberOfThreads);
             this.volume = DEFAULT_VOLUME;
         }
     }
 
     /**
-     * Load a sound into the sound manager to play whenever wanted.
-     * Whenever a sound is loaded with an identifier that already exists
-     * the loaded sound will be replaced with the new sound.
+     * Load a sound into the sound manager to play whenever wanted. Whenever a
+     * sound is loaded with an identifier that already exists the loaded sound
+     * will be replaced with the new sound.
      *
-     * @param id identifier of sound clip.
-     * @param url url of sound clip to load.
+     * @param id
+     *            identifier of sound clip.
+     * @param url
+     *            url of sound clip to load.
      */
     @Override
     public void load(String id, URL url) {
-        if(url == null) {
+        if (url == null) {
             throw new IllegalArgumentException("URL does not point to a audio clip");
         }
 
@@ -49,12 +52,14 @@ public class SoundManager implements IPlayable, ILoadable {
     }
 
     /**
-     * Load a sound into the sound manager to play whenever wanted.
-     * Whenever a sound is loaded with an identifier that already exists
-     * the loaded sound will be replaced with the new sound.
+     * Load a sound into the sound manager to play whenever wanted. Whenever a
+     * sound is loaded with an identifier that already exists the loaded sound
+     * will be replaced with the new sound.
      *
-     * @param id identifier of sound clip.
-     * @param clip sound clip to load.
+     * @param id
+     *            identifier of sound clip.
+     * @param clip
+     *            sound clip to load.
      */
     @Override
     public void load(String id, AudioClip clip) {
@@ -64,7 +69,8 @@ public class SoundManager implements IPlayable, ILoadable {
     /**
      * Plays a sound loaded into the sound manager without looping.
      *
-     * @param id identifier of sound clip used to load into sound manager.
+     * @param id
+     *            identifier of sound clip used to load into sound manager.
      */
     @Override
     public void play(final String id) {
@@ -72,11 +78,13 @@ public class SoundManager implements IPlayable, ILoadable {
     }
 
     /**
-     * Play a sound loaded into the sound manager
-     * with option to loop the sound until stopped.
+     * Play a sound loaded into the sound manager with option to loop the sound
+     * until stopped.
      *
-     * @param id identifier of sound clip.
-     * @param loop whether the sound clip should be looped until stopped.
+     * @param id
+     *            identifier of sound clip.
+     * @param loop
+     *            whether the sound clip should be looped until stopped.
      */
     @Override
     public void play(final String id, boolean loop) {
@@ -84,7 +92,7 @@ public class SoundManager implements IPlayable, ILoadable {
 
         // enqueue clip to play
         Runnable soundPlay = () -> {
-            if(loop) {
+            if (loop) {
                 clip.setCycleCount(AudioClip.INDEFINITE);
             }
             clip.setVolume(volume);
@@ -94,16 +102,17 @@ public class SoundManager implements IPlayable, ILoadable {
     }
 
     /**
-     * Returns the sound clip corresponding to the given identifier
-     * that was loaded into SoundManager.
+     * Returns the sound clip corresponding to the given identifier that was
+     * loaded into SoundManager.
      *
-     * @param id identifier of the sound clip.
+     * @param id
+     *            identifier of the sound clip.
      * @return AudioClip corresponding to given identifier.
      */
     private AudioClip getAudioClip(String id) {
         AudioClip clip = sounds.get(id);
 
-        if(clip == null) {
+        if (clip == null) {
             throw new IllegalArgumentException("Clip identifier does not point to a loaded sound.");
         }
 
@@ -118,8 +127,8 @@ public class SoundManager implements IPlayable, ILoadable {
     }
 
     /**
-     * Stop the sound that was loaded and is playing
-     * corresponding to the given identifier.
+     * Stop the sound that was loaded and is playing corresponding to the given
+     * identifier.
      */
     @Override
     public void stop(String id) {
@@ -129,11 +138,12 @@ public class SoundManager implements IPlayable, ILoadable {
     /**
      * Set the volume for all loaded sound clips.
      *
-     * @param intensity volume intensity from 0.0 (muted) to 1.0 (full volume)
+     * @param intensity
+     *            volume intensity from 0.0 (muted) to 1.0 (full volume)
      */
     @Override
     public void setVolume(double intensity) {
-        if(intensity < 0.0 || intensity > 1.0) {
+        if (intensity < 0.0 || intensity > 1.0) {
             throw new IllegalArgumentException("Volume intensity must be between 0.0 and 1.0.");
         }
 
@@ -141,8 +151,8 @@ public class SoundManager implements IPlayable, ILoadable {
     }
 
     /**
-     * Shutdown all threads used by sound manager.
-     * This will automatically stop all playing sounds.
+     * Shutdown all threads used by sound manager. This will automatically stop
+     * all playing sounds.
      */
     public void shutdown() {
         soundService.shutdown();

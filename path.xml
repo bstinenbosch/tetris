@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Root>
+<Network>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@5ce81285" weight="-0.34399830105142376"/>
+<node neuron="robot.ANN.Neuron.Neuron@5ec0a365" weight="1.9007035866498292"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@52a86356" weight="-0.22349863873820688"/>
+<node neuron="robot.ANN.Neuron.Neuron@5ec0a365" weight="1.9007035866498292"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@5ce81285" weight="-0.34399830105142376"/>
+<node neuron="robot.ANN.Neuron.Neuron@5ec0a365" weight="0.6195371219038597"/>
+<node neuron="robot.ANN.Neuron.Neuron@5383967b" weight="-2.2598686579481613"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@52a86356" weight="-0.22349863873820688"/>
+<node neuron="robot.ANN.Neuron.Neuron@5ec0a365" weight="0.6195371219038597"/>
+<node neuron="robot.ANN.Neuron.Neuron@5383967b" weight="-2.2598686579481613"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@5ce81285" weight="0.23644865666163262"/>
+<node neuron="robot.ANN.Neuron.Neuron@5383967b" weight="-2.2598686579481613"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@52a86356" weight="0.023803015682324687"/>
+<node neuron="robot.ANN.Neuron.Neuron@5383967b" weight="-2.2598686579481613"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@5ce81285" weight="-0.34399830105142376"/>
+<node neuron="robot.ANN.Neuron.Neuron@5ec0a365" weight="-0.16870931507539044"/>
+<node neuron="robot.ANN.Neuron.Neuron@4fe3c938" weight="-2.511448337116406"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@52a86356" weight="-0.22349863873820688"/>
+<node neuron="robot.ANN.Neuron.Neuron@5ec0a365" weight="-0.16870931507539044"/>
+<node neuron="robot.ANN.Neuron.Neuron@4fe3c938" weight="-2.511448337116406"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@5ce81285" weight="-0.06790635352125149"/>
+<node neuron="robot.ANN.Neuron.Neuron@4fe3c938" weight="-2.511448337116406"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@52a86356" weight="-0.38319773546128383"/>
+<node neuron="robot.ANN.Neuron.Neuron@4fe3c938" weight="-2.511448337116406"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@5ce81285" weight="-0.01934059427124934"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+<path>
+<node neuron="robot.ANN.Neuron.InputNeuron@52a86356" weight="0.44056744886097926"/>
+<node neuron="robot.ANN.Neuron.OutputNeuron@27a8c74e" weight="0.0"/>
+</path>
+</Network>
+</Root>

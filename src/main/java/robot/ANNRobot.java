@@ -22,7 +22,8 @@ public class ANNRobot implements IRobot {
     private TreeSet<ActionOutput> outputActions = new TreeSet<>();
 
     /**
-     * class used to sort outputs on their charge.
+     * class used to sort outputs on their charge, so we can easily select the
+     * output with the highest charge.
      */
     private class ActionOutput implements Comparable<ActionOutput> {
         private Action action;
@@ -108,5 +109,4 @@ public class ANNRobot implements IRobot {
             input[i] = new Inputter();
         }
     }
-
 }

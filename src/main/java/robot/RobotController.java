@@ -21,6 +21,7 @@ public class RobotController extends Thread {
         // robot = new RandomRobot();
         robot = new ANNRobot(controller.getGrid().width(), 5, EvaluationFunction.SIGMOID);
         this.controller.addScoreObserver(robot);
+        setName("Robot thread");
     }
 
     public static synchronized void toggleRobotController(Controller controller, Tick tick) {
@@ -41,17 +42,11 @@ public class RobotController extends Thread {
         while (playing) {
             if (controller.isGameOver()) {
                 robot.resetSession();
-                try {
-                    sleep(50);
-                } catch (InterruptedException exception) {
-                    exception.printStackTrace();
-                }
                 // TODO highscore invullen in leaderboards
                 Platform.runLater(() -> controller.startGame());
+                waitForRestart();
             } else {
-                // give grid and shape to ANN
                 robot.setGameState(controller.getGrid(), controller.getFallingTetromino());
-                // ask for action and handle it
                 Platform.runLater(() -> robot.getNextAction()
                     .attempt(controller.getFallingTetromino(), controller.getGrid(), controller));
             }
@@ -62,5 +57,15 @@ public class RobotController extends Thread {
             }
         }
         // TODO save settings
+    }
+
+    private void waitForRestart() {
+        while (controller.isGameOver()) {
+            try {
+                sleep(50);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 }

@@ -2,11 +2,11 @@ package robot.ANN;
 
 import robot.ANN.Neuron.AbstractNeuron;
 
-public class NeuralPathNode {
+public class PathNode {
     private double weight;
     private AbstractNeuron neuron;
 
-    public NeuralPathNode(double weight, AbstractNeuron neuron) {
+    public PathNode(double weight, AbstractNeuron neuron) {
         this.neuron = neuron;
         this.weight = weight;
     }

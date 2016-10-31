@@ -1,27 +1,24 @@
 package robot.ANN.Neuron;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.Map.Entry;
 
-import robot.ANN.NeuralPathNode;
-import robot.ANN.functions.AbstractEvaluationFunction;
+import robot.ANN.PathNode;
+import robot.ANN.Path;
 
-public class NeuronIterator implements Iterator<LinkedList<NeuralPathNode>> {
-    private Iterator<AbstractNeuron> predecessorIterator;
-    private Iterator<LinkedList<NeuralPathNode>> currentPredecessorPathIterator;
-    private LinkedList<NeuralPathNode> path;
-    private AbstractEvaluationFunction function;
+public class NeuronIterator implements Iterator<Path> {
+    private Iterator<Entry<AbstractNeuron, Double>> predecessorIterator;
+    private Iterator<Path> currentPredecessorPathIterator;
+    private Path path;
 
-    public NeuronIterator(LinkedList<NeuralPathNode> path,
-        Iterator<AbstractNeuron> predecessorIterator, AbstractEvaluationFunction function) {
+    public NeuronIterator(Path path, Iterator<Entry<AbstractNeuron, Double>> iterator) {
         this.path = path;
-        this.predecessorIterator = predecessorIterator;
-        this.function = function;
-        if (predecessorIterator.hasNext()) {
-            AbstractNeuron currentPredecessor = (AbstractNeuron) predecessorIterator.next();
+        this.predecessorIterator = iterator;
+        if (iterator.hasNext()) {
+            Entry<AbstractNeuron, Double> currentPredecessor = iterator.next();
             this.path.push(
-                new NeuralPathNode(function.getWeight(currentPredecessor), currentPredecessor));
-            currentPredecessorPathIterator = currentPredecessor.iterator(this.path);
+                new PathNode(currentPredecessor.getValue(), currentPredecessor.getKey()));
+            currentPredecessorPathIterator = currentPredecessor.getKey().iterator(this.path);
         }
     }
 
@@ -33,11 +30,11 @@ public class NeuronIterator implements Iterator<LinkedList<NeuralPathNode>> {
           // children
         while (!currentPredecessorPathIterator.hasNext()) {
             if (predecessorIterator.hasNext()) {
-                AbstractNeuron currentPredecessor = (AbstractNeuron) predecessorIterator.next();
+                Entry<AbstractNeuron, Double> currentPredecessor = predecessorIterator.next();
                 path.pop();
                 path.push(
-                    new NeuralPathNode(function.getWeight(currentPredecessor), currentPredecessor));
-                currentPredecessorPathIterator = currentPredecessor.iterator(path);
+                    new PathNode(currentPredecessor.getValue(), currentPredecessor.getKey()));
+                currentPredecessorPathIterator = currentPredecessor.getKey().iterator(path);
             } else {
                 path.pop();
                 return false;
@@ -47,7 +44,7 @@ public class NeuronIterator implements Iterator<LinkedList<NeuralPathNode>> {
     }
 
     @Override
-    public LinkedList<NeuralPathNode> next() {
+    public Path next() {
         // by virtue of hasNext, the currentPredecessorIterator is loaded
         // with an iterator which 'hasNext'.
         return currentPredecessorPathIterator.next();
