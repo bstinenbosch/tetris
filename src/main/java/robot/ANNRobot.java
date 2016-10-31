@@ -46,7 +46,8 @@ public class ANNRobot implements IRobot {
             () -> Platform.runLater(() -> Action.ROTATE_LEFT.attempt(tetromino, grid, controller)),
             () -> Platform.runLater(() -> Action.ROTATE_RIGHT.attempt(tetromino, grid, controller)),
             () -> Platform.runLater(() -> Action.MOVE_LEFT.attempt(tetromino, grid, controller)),
-            () -> Platform.runLater(() -> Action.MOVE_LEFT.attempt(tetromino, grid, controller)), };
+            () -> Platform
+                .runLater(() -> Action.MOVE_RIGHT.attempt(tetromino, grid, controller)), };
     }
 
     @Override
