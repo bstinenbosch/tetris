@@ -1,7 +1,5 @@
 package tetris.scenes;
 
-import tetris.Controller;
-
 public interface IScreen {
 
     /**
@@ -12,5 +10,5 @@ public interface IScreen {
      *            The controller object that contains all the methods that must
      *            be handled by the events.
      */
-    void hookEvents(Controller controller);
+    // void hookEvents(Controller controller);
 }

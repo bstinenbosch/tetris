@@ -3,7 +3,6 @@ package tetris;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import common.Coordinate;
 import tetris.shapes.decorators.MovableShape;
 
 import javafx.embed.swing.JFXPanel;
@@ -16,6 +15,9 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+
+import common.Coordinate;
 
 public class GridTest {
 
@@ -77,6 +79,19 @@ public class GridTest {
         grid.clearBoard();
 
         assertThat("grid is empty after clearing", isEmpty(grid), equalTo(true));
+    }
+
+    @Test
+    public void testHighestOccupied() {
+        Grid grid = new Grid(10, 20);
+        Coordinate coordinate = new Coordinate(5, 5);
+        MovableShape shape = new MovableShape(new DummyShapeO(), coordinate);
+        grid.registerTetromino(shape);
+        int[] bla = new int[] { 0, 0, 0, 0, 0, 7, 7, 0, 0, 0 };
+        for (int x = 0; x < 10; x++) {
+            assertEquals(grid.getHighestOccupied(x), bla[x]);
+        }
+
     }
 
     private boolean isEmpty(Grid grid) {

@@ -2,6 +2,7 @@ package tetris.scenes;
 
 import tetris.Controller;
 import tetris.Settings;
+import tetris.Tick;
 import tetris.View;
 
 import javafx.geometry.Pos;
@@ -24,10 +25,6 @@ public class GameScreen extends Group implements IScreen {
     private ObservingLabel levelLabel;
     private Canvas canvas;
     private Canvas canvasprev;
-    private int boardWidthPixel;
-    private int boardHeightPixel;
-    private int previewWidth;
-    private int previewHeight;
 
     /**
      * the gamescreen is the screen where game is actually played.
@@ -85,9 +82,8 @@ public class GameScreen extends Group implements IScreen {
         return canvasprev;
     }
 
-    @Override
-    public void hookEvents(Controller controller) {
-        botButton.setOnAction(event -> RobotController.toggleRobotController(controller));
+    public void hookEvents(Controller controller, Tick tick) {
+        botButton.setOnAction(event -> RobotController.toggleRobotController(controller, tick));
         pauseButton.setOnAction(event -> controller.pause(pauseButton));
         restartButton.setOnAction(event -> controller.restartGame());
         backButton.setOnAction(event -> {
@@ -103,7 +99,9 @@ public class GameScreen extends Group implements IScreen {
     public boolean testHookEvents() {
         View view = new View();
         Controller controller = new Controller(view, settings);
-        this.hookEvents(controller);
+        this.hookEvents(controller, new Tick((event) -> {
+            ;
+        }));
         return true;
     }
 

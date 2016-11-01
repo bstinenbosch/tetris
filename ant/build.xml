@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project Tetris">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="C:/Users/ms/tetris_workspace"/>
+    <property name="dir.jarfile" value="C:/Users/ms/Desktop"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/Tetris.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="tetris.View"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="E:/Git/tetris/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/ms/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.7/2b8019b6249bb05d81d3a3094e468753e2b21311/slf4j-api-1.7.7.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/ms/.gradle/caches/modules-2/files-2.1/junit/junit/4.11/4e031bb61df09069aeb2bffb4019e7a5034a4ee0/junit-4.11.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/ms/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="E:/Git/tetris/jdbc/mysql-connector-java-5.1.40-bin.jar"/>
+        </jar>
+    </target>
+</project>

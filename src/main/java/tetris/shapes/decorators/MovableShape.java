@@ -1,13 +1,14 @@
 package tetris.shapes.decorators;
 
-import common.Coordinate;
-import common.CoordinateSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import tetris.shapes.AbstractShape;
 import tetris.shapes.IRotatable;
 import tetris.shapes.ITranslatable;
 
-import java.util.ArrayList;
-import java.util.List;
+import common.Coordinate;
+import common.CoordinateSet;
 
 public class MovableShape extends ShapeDecorator implements ITranslatable, IRotatable {
 
@@ -60,7 +61,7 @@ public class MovableShape extends ShapeDecorator implements ITranslatable, IRota
     @Override
     public CoordinateSet getMinos() {
         List<Coordinate> coordinates = new ArrayList<>();
-        for(Coordinate mino : super.getMinos().getCoordinates()) {
+        for (Coordinate mino : super.getMinos().getCoordinates()) {
             coordinates.add(new Coordinate(mino.getX(), mino.getY()));
         }
 
@@ -107,5 +108,14 @@ public class MovableShape extends ShapeDecorator implements ITranslatable, IRota
      */
     public Coordinate right() {
         return this.getMinos().getRightmost();
+    }
+
+    /**
+     * Get the rotation.
+     * 
+     * @return the rotation: 0,1,2 or 3.
+     */
+    public int rotation() {
+        return Math.floorMod(rotation, 4);
     }
 }

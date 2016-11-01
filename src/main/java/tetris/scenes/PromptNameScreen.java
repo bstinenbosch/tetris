@@ -1,12 +1,13 @@
 package tetris.scenes;
 
+import tetris.Controller;
+
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import tetris.Controller;
 
 public class PromptNameScreen extends Group implements IScreen {
 
@@ -41,7 +42,7 @@ public class PromptNameScreen extends Group implements IScreen {
         getChildren().add(grid);
     }
 
-    @Override
+    // @Override
     public void hookEvents(Controller controller) {
         submit.setOnAction(event -> controller.registerHighScore(playerName.getCharacters()));
     }

@@ -96,7 +96,7 @@ public class SettingsScreen extends Group implements IScreen {
         return this.colorPickers;
     }
 
-    @Override
+    // @Override
     public void hookEvents(Controller controller) {
         backButton.setOnAction(event -> goBack(controller));
         colorPickers[0].setOnAction(event -> settings.setColor(1, colorPickers[0].getValue()));

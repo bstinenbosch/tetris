@@ -1,6 +1,5 @@
 package tetris;
 
-import javafx.fxml.Initializable;
 import tetris.scenes.GameScreen;
 import tetris.scenes.HighscoreScreen;
 import tetris.scenes.MainScreen;
@@ -10,6 +9,7 @@ import tetris.scenes.SettingsScreen;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -24,6 +24,8 @@ public class View extends Application {
     protected Settings settings;
     private Controller controller;
     private Stage primaryStage;
+    private double initialX;
+    private double initialY;
 
     /**
      * start inits the application and displays a loading screen
@@ -45,10 +47,11 @@ public class View extends Application {
      * gotoGameScreen inits and shows the game screen, hooks the key events and
      * fires up the game controller.
      */
-    public void gotoGameScreen() {
+    public void gotoGameScreen(Tick tick) {
         GameScreen gameview = new GameScreen(settings);
+        makeDraggable(gameview);
         primaryStage.setScene(new Scene(gameview));
-        gameview.hookEvents(controller);
+        gameview.hookEvents(controller, tick);
         gameview.requestFocus();
     }
 
@@ -58,6 +61,7 @@ public class View extends Application {
      */
     public void gotoSettingsScreen() {
         SettingsScreen settingsview = new SettingsScreen(settings);
+        makeDraggable(settingsview);
         settingsview.hookEvents(controller);
         primaryStage.setScene(new Scene(settingsview));
     }
@@ -68,6 +72,7 @@ public class View extends Application {
      */
     public void gotoMainScreen() {
         MainScreen mainview = new MainScreen();
+        makeDraggable(mainview);
         mainview.hookEvents(controller);
         primaryStage.setScene(new Scene(mainview));
     }
@@ -86,6 +91,7 @@ public class View extends Application {
      */
     public void gotoHighscoreScreen() {
         HighscoreScreen highscoreView = new HighscoreScreen();
+        makeDraggable(highscoreView);
         highscoreView.hookEvents(controller);
         ObservableList<GameEntry> gameEntryObservableList = FXCollections
             .observableArrayList(controller.getScoreBoard().getScores());
@@ -107,5 +113,22 @@ public class View extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    /**
+     * courtesy of http://stackoverflow.com/a/12961943
+     * 
+     * @param group
+     *            the group you want draggable
+     */
+    private void makeDraggable(Group group) {
+        group.setOnMousePressed((mouseEvent) -> {
+            initialX = mouseEvent.getSceneX();
+            initialY = mouseEvent.getSceneY();
+        });
+        group.setOnMouseDragged((mouseEvent) -> {
+            group.getScene().getWindow().setX(mouseEvent.getScreenX() - initialX);
+            group.getScene().getWindow().setY(mouseEvent.getScreenY() - initialY);
+        });
     }
 }

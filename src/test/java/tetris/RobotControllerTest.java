@@ -38,15 +38,18 @@ public class RobotControllerTest {
     @Test
     public void testRobotController() throws InterruptedException {
         View view = new View();
+        Tick tick = new Tick(null);
         Settings settings = new Settings();
         DummyController controller = new DummyController(view, settings);
         AbstractShape tetromino = new DummyShapeO();
-        RobotController.toggleRobotController(controller);
-        while (controller.getFallingTetromino().getMinos().getCoordinates().get(0).getX() == tetromino.getMinos().getCoordinates().get(0).getX()) {
+        RobotController.toggleRobotController(controller, tick);
+        while (controller.getFallingTetromino().getMinos().getCoordinates().get(0)
+            .getX() == tetromino.getMinos().getCoordinates().get(0).getX()) {
             Thread.sleep(500);
         }
-        RobotController.toggleRobotController(controller);
-        Assert.assertNotEquals(controller.getFallingTetromino().getMinos().getCoordinates().get(0).getX(),
+        RobotController.toggleRobotController(controller, tick);
+        Assert.assertNotEquals(
+            controller.getFallingTetromino().getMinos().getCoordinates().get(0).getX(),
             tetromino.getMinos().getCoordinates().get(0).getX());
 
     }
